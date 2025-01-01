@@ -17,11 +17,11 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->calculateUserTotalBalance();
+        $this->shareUserTotalBalance();
         $this->shareMarketDataPrices();
     }
 
-    private function calculateUserTotalBalance()
+    private function shareUserTotalBalance()
     {
         if (Auth::check()) {
             $user = Auth::user();
@@ -37,6 +37,26 @@ abstract class Controller
 
             View::share('userTotalBalance', $this->userTotalBalance);
             View::share('userTotalLockedBalance', $this->userTotalLockedBalance);
+        }
+    }
+
+    public function calculateUserTotalBalance()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $userBalances = UserBalances::where('user_id', $userId)->get();
+            $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
+            $totalBalance = 0.0;
+            $totalLockedBalance = 0.0;
+
+            foreach ($userBalances as $wallet) {
+                $price = $marketDataPrices[$wallet['wallet']] ?? 0;
+                $totalBalance += $wallet['balance'] * $price;
+                $totalLockedBalance += $wallet['locked_balance'] * $price;
+            }
+
+            return [$totalBalance, $totalLockedBalance];
         }
     }
 

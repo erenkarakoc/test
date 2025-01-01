@@ -389,8 +389,6 @@
         if (assetEl) {
           const wrapperEl = document.querySelector('.wallet-item-' + asset.title);
           wrapperEl.querySelector('.price-hidden').classList.remove('price-hidden');
-          wrapperEl.querySelector('.wallet-item-current-price span').innerHTML =
-            `<small class="text-light">Price</small> ${new Intl.NumberFormat('en-US').format(asset.data[19].close)}$`;
 
           const walletAssetChart = new ApexCharts(assetEl, walletAssetChartConfig);
           walletAssetChart.render();

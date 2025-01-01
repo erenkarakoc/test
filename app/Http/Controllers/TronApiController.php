@@ -19,6 +19,7 @@ class TronApiController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->fullNode = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
         $this->solidityNode = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
     }
@@ -32,6 +33,8 @@ class TronApiController extends Controller
             'amount_in_usd' => 'required|numeric',
         ]);
 
+        [$totalBalance, $totalLockedBalance] = $this->calculateUserTotalBalance();
+
         $transaction = [
             'type' => 'deposit',
             'amount_in_asset' => $request->amount_in_asset,
@@ -40,8 +43,8 @@ class TronApiController extends Controller
             'asset_price' => $request->asset_price,
             'asset_balance_after' => UserBalances::where('wallet', $request->asset)->value('balance'),
             'asset_locked_balance_after' => UserBalances::where('wallet', $request->asset)->value('locked_balance'),
-            'total_balance_after' => UserBalances::where('wallet', 'Total')->value('balance'),
-            'total_locked_balance_after' => UserBalances::where('wallet', 'Total')->value('locked_balance'),
+            'total_balance_after' => $totalBalance,
+            'total_locked_balance_after' => $totalLockedBalance,
             'status' => 'pending',
         ];
 

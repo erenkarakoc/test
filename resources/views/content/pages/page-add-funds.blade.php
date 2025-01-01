@@ -30,11 +30,11 @@
 @section('title', 'Add Funds')
 
 @section('vendor-style')
-  @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss', 'resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss'])
+  @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss', 'resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
 @endsection
 
 @section('vendor-script')
-  @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.js', 'resources/assets/vendor/libs/select2/select2.js', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js'])
+  @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.js', 'resources/assets/vendor/libs/select2/select2.js', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js', 'resources/assets/vendor/libs/toastr/toastr.js'])
 @endsection
 
 @section('page-style')
@@ -53,9 +53,9 @@
         Fund your account with to start the adventure
       </small>
 
-      <div class="card bg-light mt-7">
+      <div class="card mt-7">
         <div class="card-body">
-          <div id="addFunds" class="bs-stepper mt-2">
+          <div id="addFunds" class="bs-stepper bg-light mt-2">
             <div class="bs-stepper-header justify-content-center">
               <div class="step" data-target="#chooseAssetStep">
                 <button type="button" class="step-trigger">
@@ -111,11 +111,14 @@
                   </span>
                 </button>
               </div>
-              <div class="line">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1.5" d="m9 5l6 7l-6 7" />
-                </svg>
+              <div class="step d-none" data-target="#completedStep">
+                <button type="button" class="step-trigger">
+                  <span class="bs-stepper-circle">5</span>
+                  <span class="bs-stepper-label">
+                    <span class="bs-stepper-title">Completed!</span>
+                    <span class="bs-stepper-subtitle">Funds added</span>
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -123,7 +126,7 @@
               <form id="addFundsForm" onSubmit="return false" novalidate>
                 @csrf
 
-                <!-- Choose Wallet Step -->
+                <!-- Choose Asset Step -->
                 <div id="chooseAssetStep" class="content">
                   <div class="content-header mb-4 col-8 mx-auto">
                     <h6 class="mb-0">Choose an asset</h6>
@@ -416,9 +419,9 @@
                                   <span class="fw-light text-light" id="payment-progress-timer">20:00</span>
                                 </div>
                               </div>
-                              <a href="javascript:;" class="btn btn-sm btn-label-dark"data-bs-toggle="popover"
+                              <a href="javascript:;" class="btn btn-sm btn-label-dark tnxId" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="Transaction ID" id="tnxId" target="_blank">#TNX</a>
+                                data-bs-content="Transaction ID" target="_blank">#TNX</a>
                             </div>
                           </div>
 
@@ -431,7 +434,8 @@
                               <div
                                 class="h5 mb-0 mx-auto d-flex justify-content-center align-items-center gap-2 chosen-asset-amount-wrapper"
                                 data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
-                                data-bs-custom-class="popover-dark" data-bs-content="Click to copy">
+                                data-bs-custom-class="popover-dark chosen-asset-amount-popover"
+                                data-bs-content="Click to copy">
                                 <span class="chosen-asset-amount" id="chosenAssetAmount"></span>
                                 <span class="chosen-asset-text"></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -453,7 +457,7 @@
                             </label>
 
                             <div class="wallet-address-wrapper" data-bs-toggle="popover" data-bs-trigger="hover"
-                              data-bs-placement="top" data-bs-custom-class="popover-dark"
+                              data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
                               data-bs-content="Click to copy">
                               <span class="wallet-address-icon">
                                 <span class="chosen-asset-icon-sm"></span>
@@ -489,7 +493,7 @@
                             <span>Make sure you are sending the correct amount of <span
                                 class="chosen-asset-text"></span>.</span>
                           </small>
-                          <small class="d-flex align-items-center text-danger gap-2">
+                          <small class="d-flex align-items-start text-danger gap-2">
                             <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20"
                               height="20" viewBox="0 0 24 24">
                               <path fill="currentColor"
@@ -510,6 +514,45 @@
                     <button class="btn btn-label-danger" id="cancelPaymentButton">
                       <span class="align-middle d-sm-inline-block d-none fw-normal">Cancel Payment</span>
                     </button>
+                  </div>
+                </div>
+
+                <!-- Completed Step -->
+                <div id="completedStep" class="content">
+                  <div class="row g-6 mt-0">
+                    <div class="col-6 mx-auto mt-0">
+                      <div class="row g-2">
+                        <div class="card bg-light p-0">
+                          <div class="card-body">
+                            <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                              <span class="text-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                  viewBox="0 0 24 24">
+                                  <path fill="currentColor"
+                                    d="M7.245 2h9.51c1.159 0 1.738 0 2.206.163a3.05 3.05 0 0 1 1.881 1.936C21 4.581 21 5.177 21 6.37v14.004c0 .858-.985 1.314-1.608.744a.946.946 0 0 0-1.284 0l-.483.442a1.657 1.657 0 0 1-2.25 0a1.657 1.657 0 0 0-2.25 0a1.657 1.657 0 0 1-2.25 0a1.657 1.657 0 0 0-2.25 0a1.657 1.657 0 0 1-2.25 0l-.483-.442a.946.946 0 0 0-1.284 0c-.623.57-1.608.114-1.608-.744V6.37c0-1.193 0-1.79.158-2.27c.3-.913.995-1.629 1.881-1.937C5.507 2 6.086 2 7.245 2"
+                                    opacity=".5" />
+                                  <path fill="currentColor"
+                                    d="M15.06 8.5a.75.75 0 0 0-1.12-1l-3.011 3.374l-.87-.974a.75.75 0 0 0-1.118 1l1.428 1.6a.75.75 0 0 0 1.119 0zM7.5 14.75a.75.75 0 0 0 0 1.5h9a.75.75 0 0 0 0-1.5z" />
+                                </svg>
+                              </span>
+                              <h5 class="mt-4 mb-0">Transaction Completed</h5>
+                              <p class="mt-4 mb-0" style="max-width: 300px;">
+                                We've received the funds and you will be able to see them in your wallet shortly. Please
+                                wait a few minutes.
+                              </p>
+
+                              <div class="border border-bottom-0 border-light my-6 w-100"></div>
+
+                              <small class="mb-0">View transaction details</small>
+                              <a href="javascript:;" class="btn btn-sm btn-label-dark tnxId mt-2"
+                                data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark" data-bs-content="Transaction ID"
+                                target="_blank">#TNX21442334</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </form>

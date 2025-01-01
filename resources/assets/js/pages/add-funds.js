@@ -5,6 +5,13 @@
 ('use strict');
 
 (function () {
+  toastr.options = {
+    positionClass: 'toast-top-center',
+    timeOut: '1000',
+    showDuration: '30',
+    hideDuration: '30'
+  };
+
   const addFunds = document.querySelector('#addFunds');
 
   if (typeof addFunds !== undefined && addFunds !== null) {
@@ -24,6 +31,7 @@
     let chosenAssetPrice = 1;
     let amountInChosenAsset = 1;
     let amountInUsd = null;
+    let tnxId = '';
 
     chooseAssetRadios.forEach(radio => {
       radio.addEventListener('change', async e => {
@@ -56,7 +64,7 @@
 
       amountInChosenAsset = amount;
       amountInUsd = chosenAsset === 'USDT' ? amountInChosenAsset : amountInChosenAsset * chosenAssetPrice;
-      usdAmountInput.value = Number(amountInUsd > 0 ? amountInUsd : '').toFixed(4);
+      usdAmountInput.value = Number(amountInUsd > 0 ? amountInUsd : '').toFixed(2);
       updateChosenAssetInfo();
     });
 
@@ -65,7 +73,7 @@
 
       amountInUsd = amount;
       amountInChosenAsset = chosenAsset === 'USDT' ? amountInUsd : amountInUsd / chosenAssetPrice;
-      assetAmountInput.value = Number(amountInChosenAsset > 0 ? amountInChosenAsset : '').toFixed(4);
+      assetAmountInput.value = Number(amountInChosenAsset > 0 ? amountInChosenAsset : '').toFixed(2);
       updateChosenAssetInfo();
     });
 
@@ -76,12 +84,12 @@
       chosenAssetTextEl.forEach(text => (text.textContent = chosenAsset));
       chosenAssetNetworkEl.forEach(network => (network.textContent = chosenAssetNetwork));
       chosenAssetPriceEl.textContent = chosenAssetPrice;
-      chosenAssetAmountEl.forEach(amount => (amount.textContent = Number(amountInChosenAsset)));
+      chosenAssetAmountEl.forEach(amount => (amount.textContent = Number(amountInChosenAsset).toFixed(2)));
       chosenAssetIconEl.forEach(icon => (icon.innerHTML = assetData.iconLg));
       chosenAssetIconSmEl.forEach(icon => (icon.innerHTML = assetData.iconSm));
 
       if (amountInUsd) {
-        chosenAssetPriceInUsdEl.forEach(price => (price.textContent = Number(amountInUsd)));
+        chosenAssetPriceInUsdEl.forEach(price => (price.textContent = Number(amountInUsd).toFixed(2)));
       }
     };
 
@@ -100,7 +108,7 @@
     };
 
     // Start Progress
-    const startProgress = addressHex => {
+    const startTronProgress = addressHex => {
       const progressTimer = document.querySelector('#payment-progress-timer');
 
       const totalDuration = 20 * 60;
@@ -114,14 +122,10 @@
 
         // check wallet
         const checkedWallet = await postRequest('check-tron-wallet-balance', { address_hex: addressHex });
-        console.log('checking');
-        console.log(checkedWallet.usdt_balance_received);
-        console.log(checkedWallet.trx_balance_received);
 
-        if (checkedWallet.usdt_balance_received) {
-        }
-
-        if (checkedWallet.trx_balance_received) {
+        if (Number(checkedWallet.usdt_balance_received) || Number(checkedWallet.trx_balance_received)) {
+          clearInterval(runProgressBarInterval);
+          validationStepper.next();
         }
 
         if (elapsedTime >= totalDuration) {
@@ -145,16 +149,60 @@
       });
 
       const qrCode = document.querySelector('.qr-code-wrapper img');
-      const tnxId = document.querySelector('#tnxId');
+      const tnxIdEls = document.querySelectorAll('.tnxId');
       const walletAddress = document.querySelector('#walletAddress');
+      tnxId = transaction.data.tnx_id;
 
-      tnxId.innerHTML = `#TNX${transaction.data.tnx_id}`;
-      tnxId.setAttribute('href', `/transactions/${transaction.data.tnx_id}`);
+      tnxIdEls.forEach(tnxIdEl => {
+        tnxIdEl.innerHTML = `#TNX${tnxId}`;
+        tnxIdEl.setAttribute('href', `/transactions/${tnxId}`);
+      });
       qrCode.setAttribute('src', `data:image/png;base64,${tronWallet.qr_code}`);
       walletAddress.value = tronWallet.wallet_address;
 
-      startProgress(tronWallet.wallet_address);
+      startTronProgress(tronWallet.wallet_address);
     };
+
+    const cancelPayment = async () => {
+      const cancelledTransaction = await postRequest('/cancel-transaction', {
+        tnx_id: tnxId.toString()
+      });
+
+      window.location.reload();
+    };
+    const cancelPaymentButton = document.querySelector('#cancelPaymentButton');
+    cancelPaymentButton.addEventListener('click', () => {
+      toastr.error(
+        `<div class="d-flex flex-column" id="cancelTransactionToast">
+              <span>Are you sure you want to cancel this transaction?</span>
+              <div class="d-flex justify-content-end mt-4">
+              <button type="button" class="btn btn-label-success btn-sm" id="cancelTransactionButtonToastContinue">Continue</button>
+              <button type="button" class="btn btn-danger btn-sm ms-2" id="cancelTransactionButtonToastCancel">Cancel</button>
+              </div>
+          </div>`,
+        'Cancel Transaction',
+        {
+          timeOut: 0,
+          extendedTimeOut: 0,
+          onShown: function () {
+            const cancelTransactionToast = document.querySelector('#cancelTransactionToast');
+            const cancelTransactionButtonToastContinue = cancelTransactionToast.querySelector(
+              '#cancelTransactionButtonToastContinue'
+            );
+            const cancelTransactionButtonToastCancel = cancelTransactionToast.querySelector(
+              '#cancelTransactionButtonToastCancel'
+            );
+
+            cancelTransactionButtonToastCancel.addEventListener('click', () => {
+              cancelPayment();
+            });
+            cancelTransactionButtonToastContinue.addEventListener('click', () => {
+              toastr.clear();
+            });
+          }
+        }
+      );
+    });
 
     const addFundsForm = addFunds.querySelector('#addFundsForm');
     const chooseAssetStep = addFundsForm.querySelector('#chooseAssetStep');
@@ -323,14 +371,25 @@
     const walletAddressWrapper = document.querySelector('.wallet-address-wrapper');
     const walletAddress = walletAddressWrapper.querySelector('#walletAddress');
     walletAddressWrapper.addEventListener('click', () => {
+      const walletAddressPopover = document.querySelector('.wallet-address-popover');
       navigator.clipboard.writeText(walletAddress.value.trim());
+
+      walletAddressPopover.style.left = '12px';
+      walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
+      walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
+
       walletAddress.select();
     });
 
+    const chosenAssetAmountWrapper = document.querySelector('.chosen-asset-amount-wrapper');
     const chosenAssetAmount = document.querySelector('#chosenAssetAmount');
-    chosenAssetAmount.addEventListener('click', () => {
-      navigator.clipboard.writeText(chosenAssetAmount.value);
-      chosenAssetAmount.select();
+    chosenAssetAmountWrapper.addEventListener('click', () => {
+      const chosenAssetAmountPopover = document.querySelector('.chosen-asset-amount-popover');
+
+      navigator.clipboard.writeText(chosenAssetAmount.textContent);
+      chosenAssetAmountPopover.style.left = '12px';
+      chosenAssetAmountPopover.querySelector('.popover-body').textContent = 'Copied';
+      chosenAssetAmountPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
     });
   }
 })();

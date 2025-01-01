@@ -361,7 +361,10 @@
                     <div class="wallet-asset-chart wallet-asset-chart-{{ $wallet['wallet'] }}"></div>
                     <div class="wallet-item-current-price price-hidden">
                       <div class="d-flex flex-column align-items-end text-right">
-                        <span class="d-flex flex-column align-items-end text-heading"></span>
+                        <span class="d-flex flex-column align-items-end text-heading">
+                          <small class="text-light">Price</small>
+                          {{ number_format($marketDataPrices[$wallet['wallet']], 2) }}$
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -46,8 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/update-wallet', [WalletController::class, 'update'])->name('update-wallet');
     Route::post('/remove-wallet', [WalletController::class, 'destroy'])->name('remove-wallet');
 
-    // Make Transactions
-    Route::post('/create-deposit', [TransactionController::class, 'createTransaction']);
+    // Transactions
+    Route::post('/create-transaction', [TransactionController::class, 'createTransaction']);
+    Route::post('/cancel-transaction', [TransactionController::class, 'cancelTransaction']);
 
     // Tron API
     Route::post('/create-transaction-for-tron', [TronApiController::class, 'createTransactionForTron'])->name('create-transaction-for-tron');
