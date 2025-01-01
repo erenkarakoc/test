@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
+
+class TransactionController extends Controller
+{
+    /**
+     * Create a new transaction.
+     *
+     * @param  array  $newTransaction
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createTransaction($newTransaction)
+    {
+        $transaction = Transaction::create([
+            'tnx_id' => mt_rand(10000000, 99999999),
+            'user_id' => Auth::user()->id,
+            'ref_user_id' => Auth::user()->ref_id,
+            'type' => $newTransaction['type'],
+            'amount_in_asset' => $newTransaction['amount_in_asset'],
+            'amount_in_usd' => $newTransaction['amount_in_usd'],
+            'asset' => $newTransaction['asset'],
+            'asset_price' => $newTransaction['asset_price'],
+            'asset_balance_after' => $newTransaction['asset_balance_after'],
+            'asset_locked_balance_after' => $newTransaction['asset_locked_balance_after'],
+            'total_balance_after' => $newTransaction['total_balance_after'],
+            'total_locked_balance_after' => $newTransaction['total_locked_balance_after'],
+            'strategy_id' => $newTransaction['strategy_id'] ?? null,
+            'status' => $newTransaction['status'],
+            'hash_id' => $newTransaction['hash_id'] ?? null,
+        ]);
+
+        return $transaction;
+    }
+}

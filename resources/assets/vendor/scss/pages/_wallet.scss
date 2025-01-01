@@ -1,0 +1,111 @@
+// * Wallet
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+.page-wallet {
+  .nav-tabs {
+    min-width: 250px;
+  }
+
+  .wallet-item {
+    position: relative;
+    overflow: hidden;
+
+    .wallet-item-title {
+      white-space: nowrap;
+    }
+
+    & > div:not(.wallet-item-current-price):not(#walletAssetChart) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .wallet-asset-chart {
+      min-height: 60px;
+    }
+
+    .wallet-item-current-price {
+      pointer-events: none;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+
+      div {
+        position: relative;
+        z-index: 1;
+      }
+
+      span {
+        small {
+          font-size: 10px;
+        }
+
+        transition: all 0.15s ease-out;
+      }
+
+      &.price-hidden span {
+        transform: translateY(100px);
+      }
+
+      &:not(.price-hidden)::before {
+        content: '';
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        height: 60px;
+        width: 200px;
+        background: linear-gradient(to left, #121212, #12121270, #12121200);
+        z-index: 1;
+        transition: all 0.2s ease-out;
+      }
+    }
+  }
+
+  .wallet-address-item-disabled {
+    user-select: none;
+    filter: saturate(0);
+    box-shadow: none;
+  }
+
+  #wallet-form {
+    .input-group {
+      svg {
+        border-radius: 50%;
+      }
+
+      &:focus-within {
+        .input-group-text {
+          svg {
+            border-radius: 50%;
+            box-shadow: 0 0 7px 1px #7367f050;
+
+            path:first-of-type {
+              opacity: 1 !important;
+              fill-opacity: 1 !important;
+              fill: #7367f0;
+            }
+
+            path:not(:first-of-type) {
+              opacity: 0.9;
+              fill: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .nav {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+    padding: 10px 0;
+    border: 1px solid var(--bs-nav-tabs-border-color);
+  }
+
+  .btn-primary {
+    box-shadow: none !important;
+  }
+}

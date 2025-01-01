@@ -1,0 +1,174 @@
+// * Dashboard
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+.gdz-dasboard-total-profit {
+  border: 1px solid transparent;
+
+  .apexcharts-canvas > svg {
+    border-radius: var(--bs-card-border-radius);
+  }
+}
+
+.gdz-dashboard-transactions {
+  border: 1px solid transparent;
+
+  .content-right {
+    text-align: left;
+
+    span {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    small {
+      font-size: 10px;
+    }
+  }
+
+  .content-hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 14px;
+    transform: translate(-50%, -50%) scale(0);
+    transition: all 0.15s ease-out;
+  }
+
+  .btn {
+    width: 33.33%;
+  }
+
+  .btn > *:not(.content-hover) {
+    transition: all 0.15s ease-out;
+  }
+
+  .btn:hover > *:not(.content-hover),
+  .btn:focus > *:not(.content-hover),
+  .btn:active > *:not(.content-hover) {
+    opacity: 0;
+  }
+
+  .btn:hover .content-hover,
+  .btn:focus .content-hover,
+  .btn:active .content-hover {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.gdz-token-chart {
+  .badge {
+    height: fit-content;
+
+    span {
+      margin-left: 6px;
+    }
+  }
+
+  .gdz-token-chart-content {
+    .dropdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  .gdz-token-introduction {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .gdz-token-3d-bg {
+      flex-shrink: 0;
+      margin-left: auto;
+      height: 150px;
+      width: 150px;
+      margin-bottom: auto;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 130px;
+      transition: all 10s ease-out;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// Strategies Card Slider
+.swiper-container {
+  border: 1px solid #ffffff30;
+
+  // card bg color
+  &.swiper-card-advance-bg {
+    background-color: $primary;
+    border-radius: $border-radius;
+    box-shadow: $card-box-shadow;
+  }
+  .swiper-wrapper {
+    .swiper-slide {
+      padding: 1.5rem;
+      white-space: nowrap;
+
+      .strategy-pack-text-bg {
+        background-color: rgba-to-hex(rgba($primary, 0.85), $rgba-to-hex-bg-inverted);
+        padding: 0.293rem 0.5rem;
+        border-radius: $border-radius;
+        min-width: 48px;
+        font-size: 12px;
+        text-align: center;
+
+        & + p {
+          font-size: 13px;
+        }
+      }
+
+      .strategy-pack-img {
+        filter: drop-shadow(rgba(0, 0, 0, 0.5) 0px 4px 60px);
+        transition: all 7s ease-out;
+      }
+
+      &:hover .strategy-pack-img {
+        transform: scale(1.1) rotate(5deg);
+      }
+    }
+  }
+  &.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: auto;
+    top: 1rem;
+    @include app-ltr() {
+      right: 1rem;
+      text-align: right;
+      left: unset;
+    }
+    @include app-rtl() {
+      left: 1rem;
+      text-align: left;
+      right: unset;
+    }
+
+    .swiper-pagination-bullet {
+      opacity: unset;
+      background: rgba($white, 0.4) !important;
+
+      &.swiper-pagination-bullet-active {
+        background: $white !important;
+      }
+    }
+  }
+}
