@@ -1,19 +1,22 @@
 @php
   use Illuminate\Support\Facades\Auth;
   use App\Models\UserBalances;
+  use App\Models\MarketData;
 
   $configData = Helper::appClasses();
 
+  // Determine active/inactive wallets
   $activeWallets = collect($wallet)->where('active', true);
   $inactiveWallets = collect($wallet)->where('active', false);
 
+  // Determine existing wallet labels
   $existingLabels = [];
   if ($activeWallets->isNotEmpty()) {
       $existingLabels = $activeWallets->pluck('label')->filter()->values()->toArray();
   }
 
+  // Determine missing assets in wallet
   $missingAssetsInWallet = [];
-
   foreach ($assets as $asset) {
       $found = false;
 
@@ -28,15 +31,11 @@
       }
   }
 
+  // Get user balances
   $user = Auth::user();
   $userId = $user->id;
-  $userBalance = UserBalances::where('user_id', $userId)->get();
-  $userUsdBalanceInEur = number_format(
-      convertUsdToEur($userBalance->where('wallet', 'Total')->value('balance')),
-      2,
-      '.',
-      '',
-  );
+  $userBalances = UserBalances::where('user_id', $userId)->get();
+  $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
 
   $walletIcons = [
       'USD' =>
@@ -129,16 +128,13 @@
 
     <div class="row row-gap-4 mb-7">
       <div class="col col-3">
-        <div
-          class="card bg-primary wallet-item wallet-item-{{ $userBalances->where('wallet', 'Total')->value('wallet') }}">
+        <div class="card bg-primary wallet-item wallet-item-Total">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-start">
-              <h5 class="mb-0 text-white wallet-item-title">{{ $userBalances->where('wallet', 'Total')->value('title') }}
-              </h5>
+              <h5 class="mb-0 text-white wallet-item-title">Total Balance</h5>
               <div class="d-flex flex-column align-items-end text-right">
-                <h5 class="mb-0 text-white">{{ $userBalances->where('wallet', 'Total')->value('balance') }}$
-                </h5>
-                <small class="text-heading">{{ $userUsdBalanceInEur }}€</small>
+                <h5 class="mb-0 text-white">{{ $userTotalBalance }}$</h5>
+                <small class="text-heading">{{ number_format(convertUsdToEur($userTotalBalance, 2)) }}€</small>
               </div>
             </div>
           </div>
@@ -154,7 +150,9 @@
                 </h6>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
-                <h5 class="mb-0 text-white">{{ $userBalances->where('wallet', 'GDZ')->value('balance') }}$</h5>
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
+                </h5>
                 <small class="text-dark">{{ $userBalances->where('wallet', 'GDZ')->value('balance') }}
                   {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
               </div>
@@ -191,7 +189,9 @@
                   {{ $userBalances->where('wallet', 'USDT')->value('title') }}</h6>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
-                <h5 class="mb-0 text-white">{{ $userBalances->where('wallet', 'USDT')->value('balance') }}$</h5>
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userBalances->where('wallet', 'USDT')->value('balance') * $marketDataPrices['USDT'], 2) }}$
+                </h5>
                 <small class="text-dark">{{ $userBalances->where('wallet', 'USDT')->value('balance') }}
                   {{ $userBalances->where('wallet', 'USDT')->value('wallet') }}</small>
               </div>
@@ -262,14 +262,16 @@
                     <div class="p-4 pb-0">
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-2">
-                          {!! $walletIcons[$wallet['wallet']] ?? '' !!}
+                          <span class="wallet-item-icon">{!! $walletIcons[$wallet['wallet']] ?? '' !!}</span>
                           <div class="d-flex flex-column">
-                            <h6 class="mb-1 wallet-item-title">{{ $wallet['title'] }}</h6>
+                            <h6 class="mb-1 lh-1 wallet-item-title">{{ $wallet['title'] }}</h6>
                             <small class="text-light">{{ $wallet['wallet'] }}</small>
                           </div>
                         </div>
                         <div class="d-flex flex-column align-items-end text-right">
-                          <h5 class="mb-0 text-white">{{ $wallet['balance'] }}$</h5>
+                          <h5 class="mb-1 lh-1 text-white">
+                            {{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$
+                          </h5>
                           <small class="text-light">{{ $wallet['balance'] }} {{ $wallet['wallet'] }}</small>
                         </div>
                       </div>
@@ -292,7 +294,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span class="d-flex flex-column align-items-end text-heading">
                             <small class="text-light">Price</small>
-                            24.23$
+                            {{ $marketDataPrices['GDZ'] }}$
                           </span>
                         </div>
                       </div>
@@ -311,11 +313,6 @@
                         </a>
                       </div>
                     @endif
-                    <div class="wallet-item-current-price price-hidden">
-                      <div class="d-flex flex-column align-items-end text-right">
-                        <span class="d-flex flex-column align-items-end text-heading"></span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               @endif
@@ -332,15 +329,17 @@
                     <div class="p-4 pb-0">
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-2">
-                          {!! $walletIcons[$wallet['wallet']] ?? '' !!}
+                          <span class="wallet-item-icon">{!! $walletIcons[$wallet['wallet']] ?? '' !!}</span>
                           <div class="d-flex flex-column">
-                            <h6 class="mb-1 wallet-item-title">{{ $wallet['title'] }}</h6>
+                            <h6 class="mb-1 lh-1 wallet-item-title">{{ $wallet['title'] }}</h6>
                             <small class="text-light">{{ $wallet['wallet'] }}</small>
                           </div>
                         </div>
                         <div class="d-flex flex-column align-items-end text-right">
-                          <h5 class="mb-1" data-asset="{{ $wallet['wallet'] }}"
-                            data-asset-balance={{ $wallet['balance'] }}></h5>
+                          <h5 class="mb-1 lh-1" data-asset="{{ $wallet['wallet'] }}"
+                            data-asset-balance={{ $wallet['balance'] }}>
+                            {{ $wallet['balance'] * $marketDataPrices[$wallet['wallet']] }}$
+                          </h5>
                           <small class="text-light">{{ $wallet['balance'] }} {{ $wallet['wallet'] }}</small>
                         </div>
                       </div>

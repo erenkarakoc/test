@@ -13,7 +13,18 @@
     position: relative;
     overflow: hidden;
 
+    .wallet-item-icon {
+      height: 24px;
+      width: 24px;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
     .wallet-item-title {
+      font-size: 14px;
       white-space: nowrap;
     }
 
@@ -38,6 +49,8 @@
       }
 
       span {
+        font-size: 12px;
+
         small {
           font-size: 10px;
         }

@@ -79,7 +79,7 @@
                         {{ $userBalance->where('wallet', 'Total')->value('balance') }}$
                       </h3>
                       <h5 class="text-primary-subtle mb-0 lh-1">
-                        {{ number_format(convertUsdToEur($userBalance->where('wallet', 'Total')->value('balance')), 2, '.', '') }}€
+                        {{ number_format(convertUsdToEur($userBalance->where('wallet', 'Total')->value('balance')), 2) }}€
                       </h5>
                     </div>
                   </div>

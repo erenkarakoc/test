@@ -43,15 +43,6 @@ class UserBalancesController extends Controller
                 ]
             );
         }
-        UserBalances::create(
-            [
-                'user_id' => $user_id,
-                'title' => 'Total Balance',
-                'wallet' => 'Total',
-                'balance' => 0,
-                'locked_balance' => 0,
-            ]
-        );
     }
 
     /**

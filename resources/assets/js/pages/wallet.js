@@ -392,10 +392,6 @@
           wrapperEl.querySelector('.wallet-item-current-price span').innerHTML =
             `<small class="text-light">Price</small> ${new Intl.NumberFormat('en-US').format(asset.data[19].close)}$`;
 
-          const assetAmountEl = wrapperEl.querySelector('[data-asset]');
-          const assetAmount = assetAmountEl.getAttribute('data-asset-amount');
-          assetAmountEl.innerHTML = Number(assetAmount * asset.data[19].close).toFixed(2) + '$';
-
           const walletAssetChart = new ApexCharts(assetEl, walletAssetChartConfig);
           walletAssetChart.render();
         }
