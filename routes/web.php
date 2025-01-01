@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/create-transaction-for-tron', [TronApiController::class, 'createTransactionForTron'])->name('create-transaction-for-tron');
     Route::post('/generate-tron-wallet', [TronApiController::class, 'generateTronWallet'])->name('generate-new-wallet');
     Route::post('/check-tron-wallet-balance', [TronApiController::class, 'checkTronWalletBalance'])->name('check-tron-wallet-balance');
-    // Route::get('/test-tron-api', [TronApiController::class, 'updateTransactionForTron'])->name('test-tron-api');
+    Route::get('/test-tron-api', [TestController::class, 'swapTRXForUSDT'])->name('test-tron-api');
 });
 
 // Admin Pages

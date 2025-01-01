@@ -522,7 +522,7 @@
                   <div class="row g-6 mt-0">
                     <div class="col-6 mx-auto mt-0">
                       <div class="row g-2">
-                        <div class="card bg-light p-0">
+                        <div class="card bg-light border border-1 p-0" style="background-color: #0e0d0e !important;">
                           <div class="card-body">
                             <div class="d-flex flex-column justify-content-center align-items-center text-center">
                               <span class="text-success">
@@ -547,7 +547,7 @@
                               <a href="javascript:;" class="btn btn-sm btn-label-dark tnxId mt-2"
                                 data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
                                 data-bs-custom-class="popover-dark" data-bs-content="Transaction ID"
-                                target="_blank">#TNX21442334</a>
+                                target="_blank">#TNX00000000</a>
                             </div>
                           </div>
                         </div>

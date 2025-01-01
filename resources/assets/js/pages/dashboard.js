@@ -284,4 +284,18 @@
     const gdzTokenChart = new ApexCharts(gdzTokenChartEl, gdzTokenChartConfig);
     gdzTokenChart.render();
   }
+
+  const inviteFriendsButton = document.querySelector('#inviteFriendsButton');
+  const dashboardReferFriends = document.querySelector('.gdz-dashboard-refer-friends');
+  let inviteFriendsButtonLocked = false;
+  inviteFriendsButton.addEventListener('click', () => {
+    inviteFriendsButtonLocked = true;
+    dashboardReferFriends.classList.add('animate');
+
+    dashboardReferFriends.scrollIntoView({ behaviour: 'smooth', block: 'center', inline: 'nearest' });
+    setTimeout(() => {
+      dashboardReferFriends.classList.remove('animate');
+      inviteFriendsButtonLocked = false;
+    }, 3000);
+  });
 })();

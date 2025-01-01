@@ -12,6 +12,16 @@
   }
 }
 
+.gdz-dashboard-refer-friends {
+  .card {
+    box-shadow: 0 0 0 0 #7e3eff;
+    transition: box-shadow 0.3s ease;
+  }
+  &.animate .card {
+    box-shadow: 0 0 0 2px #7e3eff;
+  }
+}
+
 .gdz-dashboard-transactions {
   border: 1px solid transparent;
 
