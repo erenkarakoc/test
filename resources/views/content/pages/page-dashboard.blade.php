@@ -52,7 +52,7 @@
             data-bs-content="Total profit you've earned throughout your Gedzen journey.">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
               <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                opacity=".5" />
+                opacity=".3" />
               <path fill="currentColor"
                 d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
             </svg>
@@ -153,7 +153,7 @@
                     data-bs-content="Focused on strategies that capitalize on market momentum, offering moderate returns with higher risk exposure.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                       <path fill="currentColor"
-                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".5" />
+                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
                       <path fill="currentColor"
                         d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
                     </svg>
@@ -293,6 +293,70 @@
     </div>
 
     <div class="col col-12 mt-7">
+      <div class="card text-white bg-light">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <span class="text-primary">
+                <svg width="28" height="28" viewBox="0 0 100 100" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14.4335 85.5673C20.5418 91.6673 30.3585 91.6673 50.0002 91.6673C69.6418 91.6673 79.4627 91.6673 85.5627 85.5631C91.6668 79.4673 91.6668 69.6423 91.6668 50.0006C91.6668 30.359 91.6668 20.5382 85.5627 14.434C79.4668 8.33398 69.6418 8.33398 50.0002 8.33398C30.3585 8.33398 20.5377 8.33398 14.4335 14.434C8.3335 20.5423 8.3335 30.359 8.3335 50.0006C8.3335 69.6423 8.3335 79.4673 14.4335 85.5673Z"
+                    fill="currentColor" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M53.6211 34.0721C53.6211 29.6159 57.2057 26 61.6219 26C62.6704 25.9972 63.7093 26.2037 64.6791 26.6079C65.6488 27.0121 66.5305 27.6059 67.2737 28.3555C68.0169 29.1052 68.6071 29.9959 69.0106 30.9767C69.414 31.9576 69.6228 33.0095 69.625 34.0721C69.625 38.5308 66.0404 42.1467 61.6219 42.1467C60.5623 42.1474 59.5132 41.9351 58.5352 41.5218C57.5573 41.1086 56.67 40.5027 55.9248 39.7393L44.8485 47.3827C45.1564 48.94 45.0052 50.5547 44.4136 52.0255L56.5581 60.1145C57.9889 58.9329 59.7786 58.2887 61.6243 58.2909C62.6728 58.2883 63.7116 58.4952 64.6813 58.8996C65.6509 59.3041 66.5324 59.8982 67.2754 60.6481C68.0184 61.3979 68.6083 62.2888 69.0115 63.2698C69.4146 64.2508 69.6231 65.3027 69.625 66.3654C69.625 70.8216 66.0404 74.4375 61.6219 74.4375C60.5735 74.44 59.5349 74.2332 58.5654 73.8289C57.5959 73.4246 56.7145 72.8307 55.9716 72.0811C55.2286 71.3315 54.6386 70.4409 54.2353 69.4602C53.832 68.4795 53.6233 67.4278 53.6211 66.3654C53.6193 65.2335 53.8547 64.1141 54.3118 63.0813L42.2629 55.0625C40.8033 56.3475 38.9341 57.0538 37.0007 57.0509C35.9522 57.0534 34.9134 56.8465 33.9437 56.4421C32.9741 56.0376 32.0926 55.4435 31.3496 54.6936C30.6066 53.9438 30.0167 53.0529 29.6135 52.0719C29.2104 51.0909 29.0019 50.039 29 48.9763C29.0022 47.9139 29.2109 46.8622 29.6142 45.8815C30.0175 44.9008 30.6075 44.0102 31.3504 43.2606C32.0934 42.511 32.9748 41.9171 33.9443 41.5128C34.9138 41.1085 35.9524 40.9017 37.0007 40.9042C39.5434 40.9042 41.804 42.0982 43.2689 43.9582L54.0059 36.5497C53.7498 35.7495 53.6199 34.9134 53.6211 34.0721Z"
+                    fill="#fff"opacity=".7" />
+                </svg>
+              </span>
+              <h5 class="d-flex align-items-center ms-2 mb-0">
+                Refer your friends & earn
+                <div class="popover-trigger text-light cursor-pointer ms-1" data-bs-toggle="popover"
+                  data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                  data-bs-content="Share your referral link with your friends and invite them to Gedzen. You will be able to earn bonuses from your referrals' investments when they sign-up with your referral code.">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                      opacity=".3" />
+                    <path fill="currentColor"
+                      d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                  </svg>
+                </div>
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="refer-wrapper">
+            <div class="input-group">
+              <span class="input-group-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5">
+                    <path d="M14 12a6 6 0 1 1-6-6" />
+                    <path d="M10 12a6 6 0 1 1 6 6" opacity=".5" />
+                  </g>
+                </svg>
+              </span>
+              <input type="text" class="form-control" value="https://app.gedzen.com/invite?ref=cde36ec1" readonly
+                disabled id='ref-copy-input' />
+              <span class="input-group-text cursor-pointer"
+                onclick="navigator.clipboard.writeText('https://app.gedzen.com/invite?ref=cde36ec1');document.querySelector('#ref-copy-link-text').textContent = 'Copied';">
+                <div class="d-flex align-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                    <path fill="currentColor"
+                      d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                      opacity=".5" />
+                  </svg>
+                  <small class="ms-1 text-heading" id="ref-copy-link-text">Copy</small>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 mt-7">
       <div class="gdz-token-chart card text-white bg-light">
         <div class="row">
           <div class="col-lg-6">
@@ -326,7 +390,8 @@
                   <h5 class="text-heading ms-3 mb-0">Gedzen Token</h5>
                 </div>
                 <span class="badge rounded-pill bg-label-primary bg-glow">
-                  Current Price:<span class="text-dark fw-semibold">22.25$</span>
+                  Current Price: <span
+                    class="text-dark fw-semibold">{{ number_format($marketDataPrices['GDZ'], 2) }}$</span>
                 </span>
               </div>
             </div>
@@ -347,7 +412,7 @@
 
                       <div class="d-flex">
                         <div class="h4 fw-semibold text-white lh-1 mb-3">
-                          {{ $userBalances->where('wallet', 'GDZ')->value('balance') }}
+                          {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
                         </div>
                         <div class="h5 ms-1 text-white">GDZ</div>
                       </div>
@@ -366,7 +431,7 @@
                       class="d-flex flex-column justify-content-center align-items-start bg-label-primary p-4 rounded">
                       <div class="d-flex">
                         <div class="h4 fw-semibold text-dark lh-1 mb-3">
-                          {{ $userBalances->where('wallet', 'GDZ')->value('locked_balance') }}
+                          {{ number_format($userBalances->where('wallet', 'GDZ')->value('locked_balance'), 2) }}
                         </div>
                         <div class="h5 ms-1 text-dark">GDZ</div>
                       </div>
@@ -392,8 +457,8 @@
                       style="background-image: url('{{ asset('assets/img/illustrations/gdz_3d.png') }}')">
                     </div>
                     <p class="text-light">
-                      Use Gedzen Token to invest in strategy packs for higher profits. Benefit from promising price growth
-                      and more.
+                      Use Gedzen Token to invest in strategy packs with higher profits. Benefit from promising price
+                      growth and more.
                     </p>
                   </div>
                 </div>
@@ -404,11 +469,245 @@
       </div>
     </div>
 
-    <div class="col col-12 mt-7">
+    <div class="col col-7 mt-7">
       <div class="card text-white bg-light">
-        <div class="card-body py-10">
-          <div class="card-header">
-            <h5 class="text-white d-flex align-items-center mb-0"></h5>
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <span class="text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535" />
+                  <path fill="#fff"
+                    d="M13.25 7a.75.75 0 0 1 1.315-.493l3 3.437a.75.75 0 0 1-1.13.987L14.75 9v8a.75.75 0 0 1-1.5 0zm-5.685 6.07a.75.75 0 1 0-1.13.986l3 3.437A.75.75 0 0 0 10.75 17V7a.75.75 0 0 0-1.5 0v8z"
+                    opacity=".7" />
+                </svg>
+              </span>
+              <h5 class="d-flex align-items-center ms-2 mb-0">
+                Transactions
+              </h5>
+            </div>
+            <a href="#" class="btn btn-sm btn-primary">View All</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="transaction-items">
+            <a href="#" class="transaction-item transaction-item-in">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Received via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-completed">Completed</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">+10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+            <a href="#" class="transaction-item transaction-item-out">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Sending via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-pending">Pending</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">-10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+            <a href="#" class="transaction-item transaction-item-bonus">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Earned via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-rejected">Rejected</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">+10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-5 mt-7">
+      <div class="card text-white bg-light">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <span class="text-primary">
+
+                <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.0415 23.9593C5.75183 25.6673 8.5005 25.6673 14.0002 25.6673C19.4998 25.6673 22.2497 25.6673 23.9577 23.9582C25.6668 22.2513 25.6668 19.5003 25.6668 14.0007C25.6668 8.50098 25.6668 5.75115 23.9577 4.04198C22.2508 2.33398 19.4998 2.33398 14.0002 2.33398C8.5005 2.33398 5.75066 2.33398 4.0415 4.04198C2.3335 5.75232 2.3335 8.50098 2.3335 14.0007C2.3335 19.5003 2.3335 22.2513 4.0415 23.9593Z"
+                    fill="currentColor" />
+                  <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M14 6.125C14.2321 6.125 14.4546 6.21719 14.6187 6.38128C14.7828 6.54538 14.875 6.76794 14.875 7V7.36983C16.7767 7.7105 18.375 9.13967 18.375 11.0833C18.375 11.3154 18.2828 11.538 18.1187 11.7021C17.9546 11.8661 17.7321 11.9583 17.5 11.9583C17.2679 11.9583 17.0454 11.8661 16.8813 11.7021C16.7172 11.538 16.625 11.3154 16.625 11.0833C16.625 10.2923 15.967 9.4535 14.875 9.15483V13.2032C16.7767 13.5438 18.375 14.973 18.375 16.9167C18.375 18.8603 16.7767 20.2895 14.875 20.6302V21C14.875 21.2321 14.7828 21.4546 14.6187 21.6187C14.4546 21.7828 14.2321 21.875 14 21.875C13.7679 21.875 13.5454 21.7828 13.3813 21.6187C13.2172 21.4546 13.125 21.2321 13.125 21V20.6302C11.2233 20.2895 9.625 18.8603 9.625 16.9167C9.625 16.6846 9.71719 16.462 9.88128 16.2979C10.0454 16.1339 10.2679 16.0417 10.5 16.0417C10.7321 16.0417 10.9546 16.1339 11.1187 16.2979C11.2828 16.462 11.375 16.6846 11.375 16.9167C11.375 17.7077 12.033 18.5465 13.125 18.844V14.7968C11.2233 14.4562 9.625 13.027 9.625 11.0833C9.625 9.13967 11.2233 7.7105 13.125 7.36983V7C13.125 6.76794 13.2172 6.54538 13.3813 6.38128C13.5454 6.21719 13.7679 6.125 14 6.125ZM13.125 9.15483C12.033 9.4535 11.375 10.2923 11.375 11.0833C11.375 11.8743 12.033 12.7132 13.125 13.0107V9.15483ZM16.625 16.9167C16.625 16.1257 15.967 15.2868 14.875 14.9893V18.844C15.967 18.5465 16.625 17.7077 16.625 16.9167Z"
+                    fill="#fff" />
+                </svg>
+              </span>
+              <h5 class="d-flex align-items-center ms-2 mb-0">
+                Profits
+              </h5>
+            </div>
+            <a href="#" class="btn btn-sm btn-primary">View All</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="transaction-items">
+            <a href="#" class="transaction-item transaction-item-in">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Received via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-completed">Completed</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">+10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+            <a href="#" class="transaction-item transaction-item-out">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Sending via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-pending">Pending</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">-10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+            <a href="#" class="transaction-item transaction-item-bonus">
+              <div class="d-flex align-items-start">
+                <div class="transaction-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10" opacity=".5" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-0">Earned via USDT</h6>
+                  <div class="d-flex align-items-center">
+                    <small class="text-light">24 Dec, 2024</small>
+                    <small class="transaction-status transaction-status-rejected">Rejected</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-end text-right">
+                  <span class="transaction-usd-amount">+10$</span>
+                  <span class="transaction-asset-amount text-light">10 BTC</span>
+                </div>
+                <span class="transaction-item-view">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                  </svg>
+                </span>
+              </div>
+            </a>
           </div>
         </div>
       </div>

@@ -74,6 +74,14 @@
         transition: all 0.2s ease-out;
       }
     }
+
+    &.wallet-item-Total {
+      .wallet-item-title {
+        line-height: 1.25;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
   }
 
   .wallet-address-item-disabled {

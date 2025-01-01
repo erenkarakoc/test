@@ -35,7 +35,6 @@
   $user = Auth::user();
   $userId = $user->id;
   $userBalances = UserBalances::where('user_id', $userId)->get();
-  $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
 
   $walletIcons = [
       'USD' =>
@@ -55,7 +54,7 @@
       'LTC' =>
           '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.2" d="M25.9293 12.9998C25.9293 20.1417 20.1397 25.9314 12.9979 25.9314C5.856 25.9314 0.0664062 20.1417 0.0664062 12.9998C0.0664062 5.85795 5.856 0.0683594 12.9979 0.0683594C20.1397 0.0683594 25.9293 5.85795 25.9293 12.9998" fill="#4291DB"/><path d="M12.5459 15.1759L13.126 12.9914L14.4995 12.4896L14.8411 11.2059L14.8295 11.174L13.4775 11.6679L14.4516 8H11.689L10.4151 12.7867L9.35145 13.1753L9 14.4988L10.0628 14.1105L9.31201 16.9316H16.6644L17.1357 15.1759H12.5459Z" fill="#E4E4E4"/></svg>',
       'GDZ' =>
-          '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.25" d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="#FFFFFF"/><mask id="mask0_0_1" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26"><path d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="white"/></mask><g mask="url(#mask0_0_1)"><path d="M7 11.5C8.19347 11.5 9.33807 11.0259 10.182 10.182C11.0259 9.33807 11.5 8.19347 11.5 7L14.5 7V11.5H19V14.5C17.8065 14.5 16.6619 14.9741 15.818 15.818C14.9741 16.6619 14.5 17.8065 14.5 19L11.5 19V14.5H7L7 11.5Z" fill="white"/></g></svg>',
+          '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="#7e3eff"/><mask id="mask0_0_1" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26"><path d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="white"/></mask><g mask="url(#mask0_0_1)"><path d="M7 11.5C8.19347 11.5 9.33807 11.0259 10.182 10.182C11.0259 9.33807 11.5 8.19347 11.5 7L14.5 7V11.5H19V14.5C17.8065 14.5 16.6619 14.9741 15.818 15.818C14.9741 16.6619 14.5 17.8065 14.5 19L11.5 19V14.5H7L7 11.5Z" fill="white"/></g></svg>',
   ];
 
   $walletIconSymbols = [
@@ -130,11 +129,15 @@
       <div class="col col-3">
         <div class="card bg-primary wallet-item wallet-item-Total">
           <div class="p-4">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="mb-0 text-white wallet-item-title">Total Balance</h5>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="mb-0 text-white wallet-item-title">Total<br />Balance</h6>
               <div class="d-flex flex-column align-items-end text-right">
-                <h5 class="mb-0 text-white">{{ $userTotalBalance }}$</h5>
-                <small class="text-heading">{{ number_format(convertUsdToEur($userTotalBalance, 2)) }}€</small>
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userTotalBalance, 2) }}$
+                </h5>
+                <small class="text-dark">
+                  {{ number_format(convertUsdToEur($userTotalBalance), 2) }}$
+                </small>
               </div>
             </div>
           </div>
@@ -153,7 +156,8 @@
                 <h5 class="mb-0 text-white">
                   {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
                 </h5>
-                <small class="text-dark">{{ $userBalances->where('wallet', 'GDZ')->value('balance') }}
+                <small class="text-dark">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
                   {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
               </div>
             </div>
@@ -166,12 +170,14 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
                 {!! $walletIconSymbols[$userBalances->where('wallet', 'USD')->value('wallet')] ?? '' !!}
-                <h6 class="mb-0 text-white wallet-item-title">{{ $userBalances->where('wallet', 'USD')->value('title') }}
+                <h6 class="mb-0 text-white wallet-item-title">
+                  {{ $userBalances->where('wallet', 'USD')->value('title') }}
                 </h6>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">{{ $userBalances->where('wallet', 'USD')->value('balance') }}$</h5>
-                <small class="text-dark">{{ $userBalances->where('wallet', 'USD')->value('balance') }}
+                <small class="text-dark">
+                  {{ number_format($userBalances->where('wallet', 'USD')->value('balance'), 2) }}
                   {{ $userBalances->where('wallet', 'USD')->value('wallet') }}</small>
               </div>
             </div>
@@ -192,8 +198,10 @@
                 <h5 class="mb-0 text-white">
                   {{ number_format($userBalances->where('wallet', 'USDT')->value('balance') * $marketDataPrices['USDT'], 2) }}$
                 </h5>
-                <small class="text-dark">{{ $userBalances->where('wallet', 'USDT')->value('balance') }}
-                  {{ $userBalances->where('wallet', 'USDT')->value('wallet') }}</small>
+                <small class="text-dark">
+                  {{ number_format($userBalances->where('wallet', 'USDT')->value('balance'), 2) }}
+                  {{ $userBalances->where('wallet', 'USDT')->value('wallet') }}
+                </small>
               </div>
             </div>
           </div>
@@ -249,7 +257,7 @@
 
       <div class="tab-content pt-0 ps-0">
         <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="manage" tabindex="0">
-          <h5 class="mb-3 lh-1">Assets</h5>
+          <h5 class="mb-2 lh-1">Assets</h5>
           <small class="lh-1 mb-7">
             Available assets in your wallet
           </small>
@@ -272,7 +280,10 @@
                           <h5 class="mb-1 lh-1 text-white">
                             {{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$
                           </h5>
-                          <small class="text-light">{{ $wallet['balance'] }} {{ $wallet['wallet'] }}</small>
+                          <small class="text-light">
+                            {{ number_format($wallet['balance'], 2) }}
+                            {{ $wallet['wallet'] }}
+                          </small>
                         </div>
                       </div>
                     </div>
@@ -294,7 +305,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span class="d-flex flex-column align-items-end text-heading">
                             <small class="text-light">Price</small>
-                            {{ $marketDataPrices['GDZ'] }}$
+                            {{ number_format($marketDataPrices['GDZ'], 2) }}$
                           </span>
                         </div>
                       </div>
@@ -338,9 +349,12 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <h5 class="mb-1 lh-1" data-asset="{{ $wallet['wallet'] }}"
                             data-asset-balance={{ $wallet['balance'] }}>
-                            {{ $wallet['balance'] * $marketDataPrices[$wallet['wallet']] }}$
+                            {{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$
                           </h5>
-                          <small class="text-light">{{ $wallet['balance'] }} {{ $wallet['wallet'] }}</small>
+                          <small class="text-light">
+                            {{ number_format($wallet['balance'], 2) }}
+                            {{ $wallet['wallet'] }}
+                          </small>
                         </div>
                       </div>
                     </div>
@@ -368,7 +382,7 @@
                 </svg>
                 <p class="mb-0">
                   You can send funds to different asset types by adding them on <a
-                    href="{{ route('wallet') }}?tab=manage">Manage Wallet</a> section
+                    href="{{ route('wallet') }}?tab=manage">Manage Wallet</a> section.
                 </p>
               </div>
             </div>
@@ -376,7 +390,7 @@
         </div>
 
         <div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage" tabindex="0">
-          <h5 class="mb-3 lh-1">Manage Wallet</h5>
+          <h5 class="mb-2 lh-1">Manage Wallet</h5>
           <small class="lh-1">
             Add, remove, edit your wallet addresses
           </small>

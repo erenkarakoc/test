@@ -93,6 +93,8 @@
 }
 
 .gdz-navbar .dropdown-wallet .card {
+  border-top: none !important;
+  overflow: hidden;
   border-radius: var(--bs-card-border-radius);
 }
 
@@ -211,4 +213,127 @@
     -webkit-transform: rotate3d(0, 0, 1, 360deg);
     transform: rotate3d(0, 0, 1, 360deg);
   }
+}
+
+.refer-wrapper * {
+  border-width: 1px !important;
+}
+
+.refer-wrapper input {
+  color: #cfcde4 !important;
+  background-color: #0e0e0e !important;
+}
+
+.refer-wrapper * {
+  transition: all 0.1s ease-out;
+}
+
+.refer-wrapper .input-group-text * {
+  font-size: 11px;
+  line-height: 2;
+  transition: all 0.1s ease-out;
+}
+
+.transaction-items {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 80px;
+  padding: 0 20px;
+  background-color: #0e0e0e;
+  border-radius: 8px;
+  transition: all 0.15s ease-out;
+}
+
+.transaction-item:hover {
+  background-color: #101010;
+}
+
+.transaction-item .transaction-item-icon {
+  margin-right: 10px;
+}
+
+.transaction-item-in .transaction-item-icon {
+  color: var(--bs-success);
+}
+.transaction-item-out .transaction-item-icon {
+  transform: rotate(180deg);
+  color: var(--bs-danger);
+}
+.transaction-item-bonus .transaction-item-icon {
+  color: var(--bs-primary);
+}
+
+.transaction-item .transaction-status {
+  position: relative;
+  margin-left: 16px;
+  font-size: 10px;
+  color: var(--bs-gray);
+}
+
+.transaction-item .transaction-status::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color: #2c2d32;
+}
+
+.transaction-item .transaction-status-completed {
+  color: var(--bs-success);
+}
+.transaction-item .transaction-status-rejected,
+.transaction-item .transaction-status-cancelled {
+  color: var(--bs-danger);
+}
+.transaction-item .transaction-status-pending {
+  color: #e77823;
+}
+
+.transaction-item .transaction-usd-amount {
+  font-size: 16px;
+  font-weight: 600;
+  transform: translateX(20px);
+  transition: all 0.1s ease-out;
+}
+
+.transaction-item .transaction-asset-amount {
+  font-size: 14px;
+  transform: translateX(20px);
+  transition: all 0.1s ease-out;
+}
+
+.transaction-item-in .transaction-usd-amount,
+.transaction-item-bonus .transaction-usd-amount {
+  color: var(--bs-success);
+}
+.transaction-item-out .transaction-usd-amount {
+  color: var(--bs-danger);
+}
+
+.transaction-item .transaction-item-view {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.15s ease-out;
+}
+
+.transaction-item:hover .transaction-item-view {
+  color: #5c5d6a;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.transaction-item:hover .transaction-usd-amount,
+.transaction-item:hover .transaction-asset-amount {
+  transform: translateX(-8px);
 }

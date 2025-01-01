@@ -7,8 +7,10 @@ use App\Models\UserBalances;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
-class Controller
+abstract class Controller
 {
+    protected $marketDataPrices = [];
+
     protected $userTotalBalance = 0.0;
 
     protected $userTotalLockedBalance = 0.0;
@@ -16,6 +18,7 @@ class Controller
     public function __construct()
     {
         $this->calculateUserTotalBalance();
+        $this->shareMarketDataPrices();
     }
 
     private function calculateUserTotalBalance()
@@ -35,5 +38,11 @@ class Controller
             View::share('userTotalBalance', $this->userTotalBalance);
             View::share('userTotalLockedBalance', $this->userTotalLockedBalance);
         }
+    }
+
+    private function shareMarketDataPrices()
+    {
+        $this->marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
+        View::share('marketDataPrices', $this->marketDataPrices);
     }
 }

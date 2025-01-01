@@ -76,10 +76,10 @@
                     <span class="gdz-sidebar-title text-primary-subtle">Main Balance</span>
                     <div class="gdz-main-balance">
                       <h3 class="text-primary fw-bold mb-0">
-                        {{ $userBalance->where('wallet', 'Total')->value('balance') }}$
+                        {{ number_format($userTotalBalance, 2) }}$
                       </h3>
                       <h5 class="text-primary-subtle mb-0 lh-1">
-                        {{ number_format(convertUsdToEur($userBalance->where('wallet', 'Total')->value('balance')), 2) }}€
+                        {{ number_format(convertUsdToEur($userTotalBalance), 2) }}€
                       </h5>
                     </div>
                   </div>
