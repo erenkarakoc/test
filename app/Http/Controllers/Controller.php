@@ -11,12 +11,14 @@ class Controller
 {
     protected $userTotalBalance = 0.0;
 
+    protected $userTotalLockedBalance = 0.0;
+
     public function __construct()
     {
-        $this->calculateUserBalance();
+        $this->calculateUserTotalBalance();
     }
 
-    private function calculateUserBalance()
+    private function calculateUserTotalBalance()
     {
         if (Auth::check()) {
             $user = Auth::user();
@@ -27,9 +29,11 @@ class Controller
             foreach ($userBalances as $wallet) {
                 $price = $marketDataPrices[$wallet['wallet']] ?? 0;
                 $this->userTotalBalance += $wallet['balance'] * $price;
+                $this->userTotalLockedBalance += $wallet['locked_balance'] * $price;
             }
 
             View::share('userTotalBalance', $this->userTotalBalance);
+            View::share('userTotalLockedBalance', $this->userTotalLockedBalance);
         }
     }
 }

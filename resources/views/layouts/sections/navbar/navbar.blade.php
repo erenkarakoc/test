@@ -109,7 +109,7 @@
             d="M10.101 2.572L8 3.992l-1.733 1.16C7.405 5 8.859 5 10.694 5h2.112c1.838 0 3.294 0 4.433.153q.344.045.662.114L16 4l-2.113-1.428a3.42 3.42 0 0 0-3.786 0" />
         </svg>
         <span class="ms-2 lh-1">
-          {{ $userBalance->where('wallet', 'Total')->value('balance') }}$
+          {{ $userTotalBalance }}$
         </span>
       </button>
 
@@ -136,41 +136,34 @@
                 </thead>
                 <tbody>
                   @foreach ($userBalance as $wallet)
-                    @if ($wallet['wallet'] !== 'Total')
-                      <tr>
-                        <td>
-                          <span class="d-flex align-items-center">
-                            {!! $walletSmallIcons[$wallet['wallet']] ?? '' !!}
-                            {{ $wallet['title'] }}
-                          </span>
-                        </td>
-                        <td>
-                          <span class="text-light">{{ $wallet['locked_balance'] }}$</span>
-                        </td>
-                        <td>
-                          <span>{{ $wallet['balance'] * $marketDataPrices[$wallet['wallet']] }}$</span>
-                        </td>
-                      </tr>
-                    @endif
+                    <tr>
+                      <td>
+                        <span class="d-flex align-items-center">
+                          {!! $walletSmallIcons[$wallet['wallet']] ?? '' !!}
+                          {{ $wallet['title'] }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="text-light">{{ $wallet['locked_balance'] }}$</span>
+                      </td>
+                      <td>
+                        <span>{{ $wallet['balance'] * $marketDataPrices[$wallet['wallet']] }}$</span>
+                      </td>
+                    </tr>
                   @endforeach
-                  @foreach ($userBalance as $wallet)
-                    @if ($wallet['wallet'] === 'Total')
-                      <tr>
-                        <td>
-                          <span class="d-flex align-items-center">
-                            {!! $walletSmallIcons[$wallet['wallet']] ?? '' !!}
-                            {{ $wallet['title'] }}
-                          </span>
-                        </td>
-                        <td>
-                          <span class="text-light">{{ $wallet['locked_balance'] }}$</span>
-                        </td>
-                        <td>
-                          <span>{{ $wallet['balance'] }}$</span>
-                        </td>
-                      </tr>
-                    @endif
-                  @endforeach
+                  <tr>
+                    <td>
+                      <span class="d-flex align-items-center">
+                        Total Balance
+                      </span>
+                    </td>
+                    <td>
+                      <span class="text-light">{{ $userTotalLockedBalance }}$</span>
+                    </td>
+                    <td>
+                      <span>{{ $userTotalBalance }}$</span>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
