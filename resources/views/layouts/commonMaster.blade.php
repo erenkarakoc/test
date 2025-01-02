@@ -53,7 +53,25 @@
     @include('layouts/sections/scriptsIncludes' . $isFront)
   </head>
 
-  <body>
+  <body class="gdz-body-loading-content">
+
+    <!-- Loader -->
+    <div id="gdzLoadingContent">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <g fill="none" fill-rule="evenodd">
+          <path fill="currentColor"
+            d="M12 4.5a7.5 7.5 0 1 0 0 15a7.5 7.5 0 0 0 0-15M1.5 12C1.5 6.201 6.201 1.5 12 1.5S22.5 6.201 22.5 12S17.799 22.5 12 22.5S1.5 17.799 1.5 12"
+            opacity=".1"></path>
+          <path fill="currentColor"
+            d="M12 4.5a7.46 7.46 0 0 0-5.187 2.083a1.5 1.5 0 0 1-2.075-2.166A10.46 10.46 0 0 1 12 1.5a1.5 1.5 0 0 1 0 3"
+            opacity=".7">
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="-360 12 12"
+              to="0 12 12" dur="1.5s" additive="sum" repeatCount="indefinite"></animateTransform>
+          </path>
+        </g>
+      </svg>
+    </div>
+    <!--/ Loader -->
 
     <!-- Layout Content -->
     @yield('layoutContent')

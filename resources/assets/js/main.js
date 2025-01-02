@@ -14,6 +14,11 @@ if (document.getElementById('layout-menu')) {
   isHorizontalLayout = document.getElementById('layout-menu').classList.contains('menu-horizontal');
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.remove('gdz-body-loading-content');
+  document.querySelector('#gdzLoadingContent').style.display = 'none';
+});
+
 (function () {
   setTimeout(function () {
     window.Helpers.initCustomOptionCheck();
