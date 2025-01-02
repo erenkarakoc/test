@@ -35,6 +35,12 @@
   font-weight: 800;
 }
 
+.popover-trigger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .popover-body {
   font-size: 12px;
   padding: 0.5rem !important;
@@ -284,6 +290,13 @@
 
 .transaction-item:hover {
   background-color: #101010;
+}
+
+.page-team .transaction-item {
+  background-color: var(--bs-light);
+}
+.page-team .transaction-item:hover {
+  background-color: #141414;
 }
 
 .transaction-item .transaction-item-icon {

@@ -5,6 +5,7 @@ use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageDashboard;
 use App\Http\Controllers\pages\PageTeam;
+use App\Http\Controllers\pages\PageTransactions;
 use App\Http\Controllers\pages\PageUserProfile;
 use App\Http\Controllers\pages\PageWallet;
 use App\Http\Controllers\TestController;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
     // Pages -  Add Funds
     Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('page-add-funds');
+    // Pages -  Team
+    Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
     // Pages -  Team
     Route::get('/team', [PageTeam::class, 'index'])->name('page-team');
 

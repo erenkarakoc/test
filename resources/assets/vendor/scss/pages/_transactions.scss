@@ -1,0 +1,23 @@
+// * Transactions
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+.page-transactions {
+  .nav {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+    padding: 10px 0;
+    border: 1px solid var(--bs-nav-tabs-border-color);
+  }
+
+  .nav-tabs {
+    min-width: 250px;
+  }
+
+  .btn-primary {
+    box-shadow: none !important;
+  }
+}

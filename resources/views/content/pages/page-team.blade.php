@@ -88,127 +88,152 @@
         </div>
       </div>
 
-      <div class="col col-12 gdz-referred-friends mt-7">
-        <div class="card">
-          <h6 class="card-header p-0 mb-3">Invited Users</h6>
-          @if (!$invitedUsers->isEmpty())
-            <div class="table-responsive">
-              <table class="table card-table rounded bg-light">
-                <thead>
-                  <tr>
-                    <th class="w-25">Username</th>
-                    <th class="w-25">Join Date</th>
-                    <th class="w-25"></th>
-                    <th class="w-25">
-                      <div class="d-flex justify-content-end text-right">
-                        Earned
+      <div class="row mt-7">
+        <div class="col-7">
+          <div class="col col-12 gdz-referred-friends">
+            <div class="card">
+              <h6 class="card-header p-0 mb-3">Invited Users</h6>
+              @if (!$invitedUsers->isEmpty())
+                <div class="table-responsive">
+                  <table class="table card-table rounded bg-light">
+                    <thead>
+                      <tr>
+                        <th class="w-25">Username</th>
+                        <th class="w-25">Join Date</th>
+                        <th class="w-25"></th>
+                        <th class="w-25">
+                          <div class="d-flex justify-content-end text-right">
+                            Earned
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      @foreach ($invitedUsers as $user)
+                        @php
+                          $earnedFromUserAmount = $transactions->sum('amount_in_usd');
+                        @endphp
+                        <tr>
+                          <td class="w-25">{{ $user->username }}</td>
+                          <td class="w-25">{{ \Carbon\Carbon::parse($user->created_at)->format('d M, Y') }}</td>
+                          <td class="w-25"></td>
+                          <td class="w-25">
+                            <div class="d-flex justify-content-end text-right">
+                              <span @class(['h6', 'mb-0', 'text-success' => $earnedFromUserAmount > 0])>
+                                {{ $earnedFromUserAmount > 0 ? '+' . number_format($earnedFromUserAmount, 2) : '0.00' }}$
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              @else
+                <div class="table-responsive">
+                  <div class="table card-table rounded bg-light">
+                    <div class="card-body">
+                      <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                        <h6 class="mb-2 pb-0 px-0 fw-bolder">
+                          You haven't invited anyone yet.
+                        </h6>
+                        <p class="p-0">Invite your friends using your link in order to earn extra cash.</p>
                       </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                  @foreach ($invitedUsers as $user)
-                    @php
-                      $earnedFromUserAmount = $transactions->where('ref_user_id', $user->id)->sum('amount_in_usd');
-                    @endphp
-                    <tr>
-                      <td class="w-25">{{ $user->username }}</td>
-                      <td class="w-25">{{ \Carbon\Carbon::parse($user->created_at)->format('d M, Y') }}</td>
-                      <td class="w-25"></td>
-                      <td class="w-25">
-                        <div class="d-flex justify-content-end text-right">
-                          <span
-                            @class(['h6', 'mb-0', 'text-success' => $earnedFromUserAmount > 0])>{{ $earnedFromUserAmount > 0 ? '+' : '' . number_format($earnedFromUserAmount, 2) }}$</span>
-                        </div>
-                      </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
+                    </div>
+                  </div>
+                </div>
+              @endif
             </div>
-          @else
-            <div class="table-responsive">
-              <div class="table card-table rounded bg-light">
-                <div class="card-body">
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
-                    <h6 class="mb-2 pb-0 px-0 fw-bolder">
-                      You haven't invited anyone yet.
-                    </h6>
-                    <p class="p-0">Invite your friends using your link in order to earn extra cash.</p>
+          </div>
+
+          @if (!$transactions->isEmpty())
+            <div class="col col-12 gdz-referred-friends mt-7">
+              <div class="card">
+                <h6 class="card-header p-0 mb-3">Bonuses</h6>
+                <div class="card-body p-0">
+                  <div class="transaction-items">
+                    @foreach ($transactions as $transaction)
+                      <a href="#" class="transaction-item transaction-item-bonus">
+                        <div class="d-flex align-items-start">
+                          <div class="transaction-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10" opacity=".5" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="d-flex flex-column">
+                            <h6 class="mb-0">Earned via {{ $transaction->asset }}</h6>
+                            <div class="d-flex align-items-center">
+                              <small
+                                class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
+                              <small @class([
+                                  'transaction-status',
+                                  'transaction-status-completed' => $transaction->status === 'completed',
+                                  'transaction-status-pending' => $transaction->status === 'pending',
+                                  'transaction-status-rejected' => $transaction->status === 'rejected',
+                                  'transaction-status-cancelled' => $transaction->status === 'cancelled',
+                              ])>
+                                {{ $transaction->status === 'completed'
+                                    ? 'Completed'
+                                    : ($transaction->status === 'pending'
+                                        ? 'Pending'
+                                        : ($transaction->status === 'rejected'
+                                            ? 'Rejected'
+                                            : ($transaction->status === 'cancelled'
+                                                ? 'Cancelled'
+                                                : ''))) }}
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="d-flex flex-column align-items-end text-right">
+                            <div class="d-flex flex-column align-items-end text-right">
+                              <span class="transaction-usd-amount">+{{ $transaction->amount_in_usd }}$</span>
+                              <span class="transaction-asset-amount text-light">
+                                {{ $transaction->amount_in_asset }}
+                                {{ $transaction->asset }}
+                              </span>
+                            </div>
+                          </div>
+                          <span class="transaction-item-view">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                              <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                            </svg>
+                          </span>
+                        </div>
+                      </a>
+                    @endforeach
                   </div>
                 </div>
               </div>
             </div>
           @endif
         </div>
-      </div>
 
-      @if (!$transactions->isEmpty())
-        <div class="col col-12 gdz-referred-friends mt-7">
-          <div class="card">
-            <h6 class="card-header p-0 mb-3">Bonuses</h6>
-            <div class="card-body p-0">
-              <div class="transaction-items">
-                @foreach ($transactions as $transaction)
-                  <a href="#" class="transaction-item transaction-item-bonus">
-                    <div class="d-flex align-items-start">
-                      <div class="transaction-item-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                          <g fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10" opacity=".5" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-0">Earned via {{ $transaction->asset }}</h6>
-                        <div class="d-flex align-items-center">
-                          <small
-                            class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
-                          <small @class([
-                              'transaction-status',
-                              'transaction-status-completed' => $transaction->status === 'completed',
-                              'transaction-status-pending' => $transaction->status === 'pending',
-                              'transaction-status-rejected' => $transaction->status === 'rejected',
-                              'transaction-status-cancelled' => $transaction->status === 'cancelled',
-                          ])>
-                            {{ $transaction->status === 'completed'
-                                ? 'Completed'
-                                : ($transaction->status === 'pending'
-                                    ? 'Pending'
-                                    : ($transaction->status === 'rejected'
-                                        ? 'Rejected'
-                                        : ($transaction->status === 'cancelled'
-                                            ? 'Cancelled'
-                                            : ''))) }}
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column align-items-end text-right">
-                        <div class="d-flex flex-column align-items-end text-right">
-                          <span class="transaction-usd-amount">+{{ $transaction->amount_in_usd }}$</span>
-                          <span class="transaction-asset-amount text-light">
-                            {{ $transaction->amount_in_asset }}
-                            {{ $transaction->asset }}
-                          </span>
-                        </div>
-                      </div>
-                      <span class="transaction-item-view">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2.5" d="m9 5l6 7l-6 7" />
-                        </svg>
-                      </span>
-                    </div>
-                  </a>
-                @endforeach
+        <div class="col-5 mt-8">
+          <div class="card bg-light">
+            <div class="card-header">
+              <div class="text-center">
+                <h5 class="fw-bold mb-0">Earn Together!</h5>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex justify-content-center">
+                <small class="text-center">
+                  Now benefit the generous bonuses we offer by building-up
+                  <br />
+                  a team with your friends and earn with them.
+                </small>
               </div>
             </div>
           </div>
         </div>
-      @endif
+      </div>
     </div>
   </div>
 @endsection

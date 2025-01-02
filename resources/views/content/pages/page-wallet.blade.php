@@ -127,7 +127,7 @@
 
     <div class="row row-gap-4 mb-7">
       <div class="col col-3">
-        <div class="card bg-primary wallet-item wallet-item-Total">
+        <div class="card bg-primary bg-glow wallet-item wallet-item-Total">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
               <h6 class="mb-0 text-white wallet-item-title">Total<br />Balance</h6>
@@ -144,7 +144,8 @@
         </div>
       </div>
       <div class="col col-3">
-        <div class="card bg-primary wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
+        <div
+          class="card bg-primary bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
@@ -165,7 +166,8 @@
         </div>
       </div>
       <div class="col col-3">
-        <div class="card bg-primary wallet-item wallet-item-{{ $userBalances->where('wallet', 'USD')->value('wallet') }}">
+        <div
+          class="card bg-primary bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'USD')->value('wallet') }}">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
@@ -186,7 +188,7 @@
       </div>
       <div class="col col-3">
         <div
-          class="card bg-primary wallet-item wallet-item-{{ $userBalances->where('wallet', 'USDT')->value('wallet') }}">
+          class="card bg-primary bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'USDT')->value('wallet') }}">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
@@ -245,7 +247,7 @@
         </li>
         <li class="nav-item px-4 mt-6">
           <div class="d-flex gap-2">
-            <a href="{{ route('page-add-funds') }}" class="btn btn-sm mx-auto w-50 btn-primary">
+            <a href="{{ route('page-add-funds') }}" class="btn btn-sm btn-primary bg-glow mx-auto w-50">
               Add Funds
             </a>
             <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
@@ -256,7 +258,7 @@
       </ul>
 
       <div class="tab-content pt-0 ps-0">
-        <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="manage" tabindex="0">
+        <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets" tabindex="0">
           <h5 class="mb-2 lh-1">Assets</h5>
           <small class="lh-1 mb-7">
             Available assets in your wallet
