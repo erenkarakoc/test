@@ -337,10 +337,11 @@
                       </g>
                     </svg>
                   </span>
-                  <input type="text" class="form-control" value="https://app.gedzen.com/invite?ref=cde36ec1"
-                    readonly disabled id='ref-copy-input' />
+                  <input type="text" class="form-control"
+                    value="{{ route('register') }}?invite={{ Auth::user()->ref_code }}" readonly disabled
+                    id='ref-copy-input' />
                   <span class="input-group-text cursor-pointer"
-                    onclick="navigator.clipboard.writeText('https://app.gedzen.com/invite?ref=cde36ec1');document.querySelector('#ref-copy-link-text').textContent = 'Copied';">
+                    onclick="navigator.clipboard.writeText('{{ route('register') }}?invite={{ Auth::user()->ref_code }}');document.querySelector('#ref-copy-link-text').textContent = 'Copied';">
                     <div class="d-flex align-items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="currentColor"

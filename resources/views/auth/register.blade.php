@@ -1,7 +1,10 @@
 @php
+  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Route;
+
   $customizerHidden = 'customizer-hide';
   $configData = Helper::appClasses();
+  $inviteCode = $request->query('invite');
 @endphp
 
 @extends('layouts/blankLayout')
@@ -21,14 +24,13 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/auth.js'])
+  @vite(['resources/assets/js/pages/auth.js', 'resources/assets/js/ui-popover.js'])
 @endsection
 
 @section('content')
   <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
       <div class="authentication-inner py-6">
-
         <!-- Register -->
         <div class="card">
           <div class="card-body">
@@ -45,6 +47,10 @@
 
             <form id="formAuthentication" class="mb-6" action="{{ route('register') }}" method="POST">
               @csrf
+              @if ($inviteCode)
+                <input type="hidden" value="{{ $inviteCode }}" name="invite_code">
+              @endif
+
               <div class="mb-6">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
@@ -55,7 +61,6 @@
                   </span>
                 @enderror
               </div>
-
 
               <div class="mb-6">
                 <label for="email" class="form-label">E-mail</label>
@@ -119,12 +124,33 @@
               <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
             </form>
 
-            <p class="text-center">
+            <p class="text-center {{ $inviteCode ? 'mb-12' : 'mb-0' }}">
               <span>Already have an account?</span>
               <a href="{{ route('login') }}">
                 <span>Sign in instead</span>
               </a>
             </p>
+
+            @if ($inviteCode)
+              <div class="card bg-light">
+                <div class="card-body p-3">
+                  <div class="d-inline">
+                    <span>Invite code: <span class="h6 mb-0 fw-medium">{{ $inviteCode }}</span></span>
+                    <span class="popover-trigger text-light cursor-pointer ms-1 lh-1" data-bs-toggle="popover"
+                      data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                      data-bs-content="The invitation code you've obtained from your friend.">
+                      <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
+                        <path fill="currentColor"
+                          d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            @endif
           </div>
         </div>
         <!-- /Register -->
