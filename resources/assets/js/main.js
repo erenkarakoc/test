@@ -15,8 +15,10 @@ if (document.getElementById('layout-menu')) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.classList.remove('gdz-body-loading-content');
-  document.querySelector('#gdzLoadingContent').style.display = 'none';
+  setTimeout(() => {
+    document.body.classList.remove('gdz-body-loading-content');
+    document.querySelector('#gdzLoadingContent').style.display = 'none';
+  }, 500);
 });
 
 (function () {

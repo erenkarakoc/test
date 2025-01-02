@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravel\Jetstream\Http\Controllers\Livewire;
+namespace App\Http\Controllers\pages;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
-class UserProfileController extends Controller
+class PageUserProfile extends Controller
 {
     /**
      * Show the user profile screen.

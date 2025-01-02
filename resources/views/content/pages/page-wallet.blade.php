@@ -245,7 +245,7 @@
         </li>
         <li class="nav-item px-4 mt-6">
           <div class="d-flex gap-2">
-            <a href="{{ route('add-funds') }}" class="btn btn-sm mx-auto w-50 btn-primary">
+            <a href="{{ route('page-add-funds') }}" class="btn btn-sm mx-auto w-50 btn-primary">
               Add Funds
             </a>
             <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
@@ -385,7 +385,7 @@
                 </svg>
                 <p class="mb-0">
                   You can send funds to different asset types by adding them on <a
-                    href="{{ route('wallet') }}?tab=manage">Manage Wallet</a> section.
+                    href="{{ route('page-wallet') }}?tab=manage">Manage Wallet</a> section.
                 </p>
               </div>
             </div>

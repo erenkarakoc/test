@@ -4,6 +4,8 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageDashboard;
+use App\Http\Controllers\pages\PageTeam;
+use App\Http\Controllers\pages\PageUserProfile;
 use App\Http\Controllers\pages\PageWallet;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TransactionController;
@@ -33,9 +35,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Pages - Strategies
     Route::get('/strategies', [PageDashboard::class, 'index'])->name('page-strategies');
     // Pages -  Balance Pages
-    Route::get('/wallet', [PageWallet::class, 'index'])->name('wallet');
+    Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
     // Pages -  Add Funds
-    Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('add-funds');
+    Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('page-add-funds');
+    // Pages -  Team
+    Route::get('/team', [PageTeam::class, 'index'])->name('page-team');
+
+    // Pages - User - Profile
+    Route::get('/user/profile', [PageUserProfile::class, 'show'])->name('profile.show');
 
     // /////////////////
     // / POST Routes ///

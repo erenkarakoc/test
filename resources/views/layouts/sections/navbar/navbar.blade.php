@@ -126,7 +126,7 @@
       <ul class="dropdown-menu dropdown-menu-end dropdown-wallet">
         <li>
           <div class="d-flex gap-2">
-            <a href="{{ route('add-funds') }}" class="btn btn-primary btn-sm w-50">Add Funds</a>
+            <a href="{{ route('page-add-funds') }}" class="btn btn-primary btn-sm w-50">Add Funds</a>
             <a href="/send" class="btn btn-outline-primary btn-sm w-50">Send</a>
           </div>
         </li>
@@ -183,7 +183,7 @@
           <div class="dropdown-divider my-4 mx-n2"></div>
         </li>
         <li class="mt-4">
-          <a class="btn btn-primary btn-sm" href="{{ route('wallet') }}">
+          <a class="btn btn-primary btn-sm" href="{{ route('page-wallet') }}">
             <svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor"
                 d="M4.892 9.614c0-.402.323-.728.722-.728H9.47c.4 0 .723.326.723.728a.726.726 0 0 1-.723.729H5.614a.726.726 0 0 1-.722-.729" />

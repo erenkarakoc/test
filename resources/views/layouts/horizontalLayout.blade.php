@@ -96,7 +96,7 @@
                   </div>
 
                   <div class="px-5 mt-10 d-flex gap-2">
-                    <a href="{{ route('add-funds') }}" class="btn btn-primary btn-sm w-50">Add Funds</a>
+                    <a href="{{ route('page-add-funds') }}" class="btn btn-primary btn-sm w-50">Add Funds</a>
                     <a href="/send" class="btn btn-outline-primary btn-sm w-50">Send</a>
                   </div>
 
@@ -139,8 +139,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                      data-bs-target="#navs-left-align-messages">
+                    <button type="button" class="nav-link">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
                           <path d="M2 12h7.5M22 12h-7.5" opacity=".5" />
@@ -152,8 +151,10 @@
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                      data-bs-target="#navs-left-align-messages">
+                    <a href="{{ route('page-team') }}" @class([
+                        'nav-link',
+                        'active' => Route::currentRouteName() === 'page-team',
+                    ])>
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <circle cx="15" cy="6" r="3" fill="currentColor" opacity=".4" />
                         <ellipse cx="16" cy="17" fill="currentColor" opacity=".4" rx="5"
@@ -162,11 +163,10 @@
                         <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
                       </svg>
                       <span class="ms-2">Team</span>
-                    </button>
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                      data-bs-target="#navs-left-align-profile">
+                    <button type="button" class="nav-link">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="currentColor"
                           d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535"
@@ -178,8 +178,7 @@
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                      data-bs-target="#navs-left-align-messages">
+                    <button type="button" class="nav-link">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="currentColor" fill-rule="evenodd"
                           d="M12.428 2c-1.114 0-2.129.6-4.157 1.802l-.686.406C5.555 5.41 4.542 6.011 3.985 7c-.557.99-.557 2.19-.557 4.594v.812c0 2.403 0 3.605.557 4.594s1.57 1.59 3.6 2.791l.686.407C10.299 21.399 11.314 22 12.428 22s2.128-.6 4.157-1.802l.686-.407c2.028-1.2 3.043-1.802 3.6-2.791c.557-.99.557-2.19.557-4.594v-.812c0-2.403 0-3.605-.557-4.594s-1.572-1.59-3.6-2.792l-.686-.406C14.555 2.601 13.542 2 12.428 2"
@@ -190,8 +189,7 @@
                     </button>
                   </li>
                   <li class="nav-item mt-10">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                      data-bs-target="#navs-left-align-profile">
+                    <button type="button" class="nav-link">
                       <svg width="22" height="22" viewBox="0 0 500 500" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path

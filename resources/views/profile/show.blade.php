@@ -1,7 +1,11 @@
 @extends('layouts.layoutMaster')
 
 @php
-$breadcrumbs = [['link' => 'home', 'name' => 'Home'], ['link' => 'javascript:void(0)', 'name' => 'User'], ['name' => 'Profile']];
+  $breadcrumbs = [
+      ['link' => 'home', 'name' => 'Home'],
+      ['link' => 'javascript:void(0)', 'name' => 'User'],
+      ['name' => 'Profile'],
+  ];
 @endphp
 
 @section('title', 'Profile')
@@ -10,9 +14,9 @@ $breadcrumbs = [['link' => 'home', 'name' => 'Home'], ['link' => 'javascript:voi
 @section('content')
 
   @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-   <div class="mb-6">
+    <div class="mb-6">
       @livewire('profile.update-profile-information-form')
-   </div>
+    </div>
   @endif
 
   @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
@@ -22,9 +26,9 @@ $breadcrumbs = [['link' => 'home', 'name' => 'Home'], ['link' => 'javascript:voi
   @endif
 
   @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-   <div class="mb-6">
+    <div class="mb-6">
       @livewire('profile.two-factor-authentication-form')
-   </div>
+    </div>
   @endif
 
   <div class="mb-6">
