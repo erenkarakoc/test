@@ -13,6 +13,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized access');
+        abort(404, 'Page Not Found!');
     }
 }

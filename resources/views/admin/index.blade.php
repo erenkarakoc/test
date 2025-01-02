@@ -4,9 +4,9 @@
   $configData = Helper::appClasses();
 @endphp
 
-@extends('layouts/contentNavbarLayout')
+@extends('layouts/adminLayout')
 
-@section('title', 'Title')
+@section('title', 'Admin')
 
 @section('page-style')
   @vite(['resources/assets/vendor/scss/pages/blank.scss'])
@@ -23,7 +23,7 @@
         <div class="card-body py-10">
           <div class="card-header">
             <h5 class="text-white d-flex align-items-center mb-0">
-              Manage Assets
+              Admin Dashboard
             </h5>
           </div>
         </div>

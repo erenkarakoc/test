@@ -37,13 +37,4 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands'); // Load commands from the /Commands directory
         require base_path('routes/console.php');
     }
-
-    /**
-     * Register the commands for the application.
-     *
-     * @return void
-     */
-    protected $routeMiddleware = [
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-    ];
 }

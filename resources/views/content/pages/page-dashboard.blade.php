@@ -492,7 +492,7 @@
                 Transactions
               </h5>
             </div>
-            <a href="#" class="btn btn-sm btn-primary">View All</a>
+            <a href="{{ route('page-transactions') }}" class="btn btn-sm btn-primary">View All</a>
           </div>
         </div>
         <div class="card-body">
