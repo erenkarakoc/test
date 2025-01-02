@@ -40,14 +40,15 @@ class addReceivedTronBalanceToUser extends Command
             if ((float) $wallet->trx_balance) {
                 $userTrxWallet->balance += $wallet->trx_balance;
                 $userTrxWallet->save();
+                $wallet->status = 'paid-user';
             }
 
             if ((float) $wallet->usdt_balance) {
                 $userUsdtWallet->balance += $wallet->usdt_balance;
                 $userUsdtWallet->save();
+                $wallet->status = 'paid-user';
             }
 
-            $wallet->status = 'paid-user';
             $wallet->save();
         }
     }

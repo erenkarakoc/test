@@ -38,9 +38,9 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        $ubc = new UserBalancesController;
-        $ubc->generateAssets();
-        $ubc->generateUserBalances($user->id);
+        $userBalancesController = new UserBalancesController;
+        $userBalancesController->generateAssets();
+        $userBalancesController->generateUserBalances($user->id);
 
         return $user;
     }

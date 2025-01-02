@@ -48,15 +48,16 @@ class checkGeneratedTronWallets extends Command
             $tron->setAddress($wallet->address_hex);
             $trc20 = new \IEXBase\TronAPI\TRC20Contract($tron, 'TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs');
 
+            $wallet->trx_balance = $tron->getBalance(null, true);
+            $wallet->usdt_balance = $trc20->balanceOf($wallet->address_hex);
+
             if ((float) $tron->getBalance(null, true)) {
-                $wallet->trx_balance = $tron->getBalance(null, true);
                 $latestTransaction = $this->getLatestTransaction($wallet->address_hex, 1);
                 $wallet->hash_id = $latestTransaction[0]['txID'];
                 $wallet->status = 'received-balance';
             }
 
             if ((float) $trc20->balanceOf($wallet->address_hex)) {
-                $wallet->usdt_balance = $trc20->balanceOf($wallet->address_hex);
                 $latestTransaction = $this->getLatestUsdtTransaction($wallet->address_hex, 1);
                 $wallet->hash_id = $latestTransaction[0]['txID'];
                 $wallet->status = 'received-balance';

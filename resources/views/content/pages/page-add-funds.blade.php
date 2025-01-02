@@ -225,10 +225,6 @@
                               placeholder="0.00" aria-describedby="assetAmountInputHelp"
                               onKeyPress="if(this.value.length==9) return false;" />
                             <label for="assetAmountInput" class="chosen-asset-text"></label>
-                            <div id="assetAmountInputHelp" class="form-text text-light">
-                              Minimum <span class="asset-minimum-amount">12</span> <span
-                                class="chosen-asset-text"></span>
-                            </div>
                             <span class="amount-error-message"></span>
                           </div>
                         </div>
