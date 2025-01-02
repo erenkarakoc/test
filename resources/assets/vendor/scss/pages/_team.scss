@@ -5,6 +5,20 @@
 @import '../_custom-variables/pages';
 
 .page-team {
+  .earn-together {
+    .card {
+      position: sticky;
+      top: 80px;
+      overflow: hidden;
+    }
+
+    .earn-together-img {
+      user-select: none;
+      width: 50%;
+      object-fit: cover;
+    }
+  }
+
   .table * {
     border-top-width: 0 !important;
   }

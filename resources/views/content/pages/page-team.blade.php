@@ -89,7 +89,7 @@
       </div>
 
       <div class="row mt-7">
-        <div class="col-7">
+        <div class="col-8">
           <div class="col col-12 gdz-referred-friends">
             <div class="card">
               <h6 class="card-header p-0 mb-3">Invited Users</h6>
@@ -137,7 +137,16 @@
                         <h6 class="mb-2 pb-0 px-0 fw-bolder">
                           You haven't invited anyone yet.
                         </h6>
-                        <p class="p-0">Invite your friends using your link in order to earn extra cash.</p>
+                        <small class="p-0">Invite your friends using your link in order to earn extra cash.</small>
+                        <button type="button" class="btn btn-sm btn-primary bg-primary text-white p-2 mt-6 mb-2">
+                          <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M13.803 5.333c0-1.84 1.5-3.333 3.348-3.333A3.34 3.34 0 0 1 20.5 5.333c0 1.841-1.5 3.334-3.349 3.334a3.35 3.35 0 0 1-2.384-.994l-4.635 3.156a3.34 3.34 0 0 1-.182 1.917l5.082 3.34a3.35 3.35 0 0 1 2.12-.753a3.34 3.34 0 0 1 3.348 3.334C20.5 20.507 19 22 17.151 22a3.34 3.34 0 0 1-3.348-3.333a3.3 3.3 0 0 1 .289-1.356L9.05 14a3.35 3.35 0 0 1-2.202.821A3.34 3.34 0 0 1 3.5 11.487a3.34 3.34 0 0 1 3.348-3.333c1.064 0 2.01.493 2.623 1.261l4.493-3.059a3.3 3.3 0 0 1-.161-1.023"
+                              clip-rule="evenodd" opacity='.7' />
+                          </svg>
+                          <span>Start Inviting</span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -145,11 +154,10 @@
               @endif
             </div>
           </div>
-
-          @if (!$transactions->isEmpty())
-            <div class="col col-12 gdz-referred-friends mt-7">
-              <div class="card">
-                <h6 class="card-header p-0 mb-3">Bonuses</h6>
+          <div class="col col-12 gdz-referred-friends mt-7">
+            <div class="card">
+              <h6 class="card-header p-0 mb-3">Bonuses</h6>
+              @if (!$transactions->isEmpty())
                 <div class="card-body p-0">
                   <div class="transaction-items">
                     @foreach ($transactions as $transaction)
@@ -209,28 +217,36 @@
                     @endforeach
                   </div>
                 </div>
-              </div>
+              @else
+                <div class="table-responsive">
+                  <div class="table card-table rounded bg-light">
+                    <div class="card-body">
+                      <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                        <h6 class="mb-2 pb-0 px-0 fw-bolder">
+                          You haven't earned any bonuses yet.
+                        </h6>
+                        <small class="pt-0 px-0">The transactions related earned bonuses will be listed here.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @endif
             </div>
-          @endif
+          </div>
         </div>
 
-        <div class="col-5 mt-8">
+        <div class="col-4 mt-8 earn-together">
           <div class="card bg-light">
-            <div class="card-header">
-              <div class="text-center">
-                <h5 class="fw-bold mb-0">Earn Together!</h5>
-              </div>
+            <div class="card-header pb-3">
+              <h5 class="fw-bold mb-0 text-center">Earn Together!</h5>
             </div>
             <div class="card-body">
-              <img src="{{ asset('assets/img/illustrations/earn-together.png') }}" class="earn-together-img"
-                alt="Earn Together!" />
-
-              <div class="d-flex justify-content-center">
-                <small class="text-center">
-                  Now benefit the generous bonuses we offer by building-up
-                  <br />
-                  a team with your friends and earn with them.
+              <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                <small class="w-75">
+                  Now benefit the generous bonuses we offer by building-up a team with your friends and earn with them.
                 </small>
+                <img src="{{ asset('assets/img/illustrations/earn-together.png') }}" class="earn-together-img mt-12"
+                  alt="Earn Together!" draggable="false" />
               </div>
             </div>
           </div>
