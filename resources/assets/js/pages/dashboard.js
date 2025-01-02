@@ -286,15 +286,15 @@
   }
 
   const inviteFriendsButton = document.querySelector('#inviteFriendsButton');
-  const dashboardReferFriends = document.querySelector('.gdz-dashboard-refer-friends');
+  const gdzReferFriends = document.querySelector('.gdz-refer-friends');
   let inviteFriendsButtonLocked = false;
   inviteFriendsButton.addEventListener('click', () => {
     inviteFriendsButtonLocked = true;
-    dashboardReferFriends.classList.add('animate');
+    gdzReferFriends.classList.add('animate');
 
-    dashboardReferFriends.scrollIntoView({ behaviour: 'smooth', block: 'center', inline: 'nearest' });
+    gdzReferFriends.scrollIntoView({ behaviour: 'smooth', block: 'center', inline: 'nearest' });
     setTimeout(() => {
-      dashboardReferFriends.classList.remove('animate');
+      gdzReferFriends.classList.remove('animate');
       inviteFriendsButtonLocked = false;
     }, 3000);
   });

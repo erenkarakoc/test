@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class PageTeam extends Controller
 {
     public function index()
     {
-        // $user = Auth::user();
+        $invitedUsers = User::where('ref_user_id', Auth::user()->id)->get();
+        $transactions = Transaction::where('user_id', Auth::user()->id)->where('type', 'referral_bonus')->get();
 
-        return view('content.pages.page-team');
+        return view('content.pages.page-team', compact('invitedUsers', 'transactions'));
     }
 }

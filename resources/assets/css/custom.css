@@ -237,6 +237,15 @@
   }
 }
 
+.gdz-refer-friends.animate .card {
+  box-shadow: 0 0 0 2px #7e3eff;
+}
+
+.gdz-refer-friends .card {
+  box-shadow: 0 0 0 0 #7e3eff;
+  transition: box-shadow 0.15s ease;
+}
+
 .refer-wrapper * {
   border-width: 1px !important;
 }

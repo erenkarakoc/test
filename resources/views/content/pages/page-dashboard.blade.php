@@ -294,9 +294,8 @@
       </div>
     </div>
 
-    <div class="col col-12 mt-7 gdz-dashboard-refer-friends">
+    <div class="col col-12 mt-7 gdz-refer-friends">
       <div class="card text-white bg-light">
-
         <div class="card-body">
           <div class="row align-items-center">
             <div class="col-4">
@@ -314,7 +313,7 @@
                 </span>
                 <h5 class="d-flex align-items-center ms-2 mb-0">
                   Invite your friends & earn
-                  <div class="popover-trigger text-light cursor-pointer ms-1" data-bs-toggle="popover"
+                  <div class="popover-trigger text-light cursor-pointer ms-2 mb-1" data-bs-toggle="popover"
                     data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
                     data-bs-content="Share your invitation link with your friends and bring them to Gedzen. You will be able to earn bonuses from your friends' investments when they sign-up with your invitation code.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">

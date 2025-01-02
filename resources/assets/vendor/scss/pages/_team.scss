@@ -5,4 +5,9 @@
 @import '../_custom-variables/pages';
 
 .page-team {
+  .gdz-referred-friends {
+    .table * {
+      border-top-width: 0 !important;
+    }
+  }
 }
