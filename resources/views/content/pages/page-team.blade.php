@@ -221,8 +221,10 @@
                 <h5 class="fw-bold mb-0">Earn Together!</h5>
               </div>
             </div>
-
             <div class="card-body">
+              <img src="{{ asset('assets/img/illustrations/earn-together.png') }}" class="earn-together-img"
+                alt="Earn Together!" />
+
               <div class="d-flex justify-content-center">
                 <small class="text-center">
                   Now benefit the generous bonuses we offer by building-up
