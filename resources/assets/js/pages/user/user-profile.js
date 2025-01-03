@@ -116,10 +116,8 @@
     const button = e.target.closest('.copy-recovery-code');
     if (button) {
       const input = button.closest('.input-group').querySelector('.form-control');
-      const popover = button.closest('.input-group').querySelector('popover-trigger').querySelector('.popover-body');
       navigator.clipboard.writeText(input.value.trim()).then(() => {
         input.select();
-        popover.textContent = 'Copied';
       });
     }
   });
