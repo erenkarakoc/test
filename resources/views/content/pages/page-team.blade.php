@@ -12,7 +12,7 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/blank.js', 'resources/assets/js/ui-popover.js'])
+  @vite(['resources/assets/js/pages/team.js', 'resources/assets/js/ui-popover.js'])
 @endsection
 
 @section('content')
@@ -138,7 +138,8 @@
                           You haven't invited anyone yet.
                         </h6>
                         <small class="p-0">Invite your friends using your link in order to earn extra cash.</small>
-                        <button type="button" class="btn btn-sm btn-primary bg-primary text-white p-2 mt-6 mb-2">
+                        <button type="button" class="btn btn-sm btn-primary bg-primary text-white p-2 mt-6 mb-2"
+                          id="inviteFriendsButton">
                           <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             viewBox="0 0 24 24">
                             <path fill="currentColor" fill-rule="evenodd"
