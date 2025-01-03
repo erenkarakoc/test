@@ -655,6 +655,16 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'W' => 
+        array (
+            'Webpatser\\Countries' => 
+            array (
+                0 => __DIR__ . '/..' . '/webpatser/laravel-countries/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'App\\Actions\\Fortify\\CreateNewUser' => __DIR__ . '/../..' . '/app/Actions/Fortify/CreateNewUser.php',
         'App\\Actions\\Fortify\\PasswordValidationRules' => __DIR__ . '/../..' . '/app/Actions/Fortify/PasswordValidationRules.php',
@@ -673,6 +683,7 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         'App\\Http\\Controllers\\TransactionController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionController.php',
         'App\\Http\\Controllers\\TronApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/TronApiController.php',
         'App\\Http\\Controllers\\UserBalancesController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserBalancesController.php',
+        'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\WalletController' => __DIR__ . '/../..' . '/app/Http/Controllers/WalletController.php',
         'App\\Http\\Controllers\\authentications\\Login' => __DIR__ . '/../..' . '/app/Http/Controllers/authentications/Login.php',
         'App\\Http\\Controllers\\authentications\\Register' => __DIR__ . '/../..' . '/app/Http/Controllers/authentications/Register.php',
@@ -680,7 +691,10 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         'App\\Http\\Controllers\\language\\LanguageController' => __DIR__ . '/../..' . '/app/Http/Controllers/language/LanguageController.php',
         'App\\Http\\Controllers\\pages\\PageAddFunds' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/PageAddFunds.php',
         'App\\Http\\Controllers\\pages\\PageDashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/PageDashboard.php',
+        'App\\Http\\Controllers\\pages\\PageTeam' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/PageTeam.php',
+        'App\\Http\\Controllers\\pages\\PageTransactions' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/PageTransactions.php',
         'App\\Http\\Controllers\\pages\\PageWallet' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/PageWallet.php',
+        'App\\Http\\Controllers\\pages\\user\\PageUserProfile' => __DIR__ . '/../..' . '/app/Http/Controllers/pages/user/PageUserProfile.php',
         'App\\Http\\Middleware\\AdminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminMiddleware.php',
         'App\\Http\\Middleware\\LocaleMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/LocaleMiddleware.php',
         'App\\Models\\Asset' => __DIR__ . '/../..' . '/app/Models/Asset.php',
@@ -7729,6 +7743,10 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Webmozart\\Assert\\InvalidArgumentException' => __DIR__ . '/..' . '/webmozart/assert/src/InvalidArgumentException.php',
         'Webmozart\\Assert\\Mixin' => __DIR__ . '/..' . '/webmozart/assert/src/Mixin.php',
+        'Webpatser\\Countries\\Countries' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/Countries.php',
+        'Webpatser\\Countries\\CountriesFacade' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/CountriesFacade.php',
+        'Webpatser\\Countries\\CountriesServiceProvider' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/CountriesServiceProvider.php',
+        'Webpatser\\Countries\\MigrationCommand' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/commands/MigrationCommand.php',
         'Whoops\\Exception\\ErrorException' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
         'Whoops\\Exception\\Formatter' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Formatter.php',
         'Whoops\\Exception\\Frame' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Frame.php',
@@ -7789,6 +7807,7 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$classMap;
 
         }, null, ClassLoader::class);

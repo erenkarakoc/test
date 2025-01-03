@@ -6,4 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Webpatser\\Countries' => array($vendorDir . '/webpatser/laravel-countries/src'),
 );
