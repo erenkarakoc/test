@@ -6,7 +6,7 @@ use App\Models\Asset;
 use App\Models\MarketData;
 use Illuminate\Console\Command;
 
-class updateMarketData extends Command
+class UpdateMarketData extends Command
 {
     /**
      * The name and signature of the console command.

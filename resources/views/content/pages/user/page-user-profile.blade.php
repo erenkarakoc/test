@@ -34,24 +34,40 @@
           <ul class="nav nav-tabs" id="user-profile-nav-tabs" role="tablist">
             <li class="nav-item">
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                data-bs-target="#1">Profile</button>
+                data-bs-target="#summary">Summary</button>
             </li>
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                data-bs-target="#2">Security</button>
+                data-bs-target="#update-profile">Update Profile</button>
             </li>
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                data-bs-target="#3">Activity</button>
+                data-bs-target="#security">Security</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#activity">Activity</button>
             </li>
           </ul>
 
           <div class="tab-content border">
-            <div class="tab-pane fade show active" id="1">
+            <div class="tab-pane fade show active" id="summary">
               <div class="card">
                 <div class="card-header">
-                  <h5 class="card-title">Profile Information</h5>
-                  <p class="card-subtitle">Update your account's profile information.</p>
+                  <h5 class="card-title">Summary</h5>
+                  <p class="card-subtitle">Here's a summary of your account</p>
+                </div>
+                <div class="card-body">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="update-profile">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Update Profile</h5>
+                  <p class="card-subtitle">Update your account's profile information</p>
                 </div>
                 <div class="card-body">
                   <form id="updateUserProfileForm">
@@ -92,21 +108,24 @@
                         <input class="form-control" id="full_name" type="text" value="{{ $user->full_name }}"
                           name="full_name" placeholder="Your full name">
                       </div>
-
-                      <div class="col col-md-6 update-profile-info-row">
+                      <div class="col col-md-6 update-profile-info-row country-select-wrap">
                         <label class="form-label" for="country">
                           Country
                         </label>
                         <div class="input-group input-group-merge">
-                          <span class="input-group-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                              <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".5" />
-                              <path fill="currentColor"
-                                d="M8.575 9.447C8.388 7.363 6.781 5.421 6 4.711l-.43-.37A9.96 9.96 0 0 1 12 2c2.214 0 4.26.72 5.916 1.936c.234.711-.212 2.196-.68 2.906c-.17.257-.554.577-.976.88c-.95.683-2.15 1.02-2.76 2.278a1.42 1.42 0 0 0-.083 1.016c.06.22.1.459.1.692c.002.755-.762 1.3-1.517 1.292c-1.964-.021-3.25-1.604-3.425-3.553m4.862 8.829c.988-1.862 4.281-1.862 4.281-1.862c3.432-.036 3.896-2.12 4.206-3.173a10.006 10.006 0 0 1-8.535 8.664c-.323-.68-.705-2.21.048-3.629" />
-                            </svg>
-                          </span>
-                          <input class="form-control" id="country" type="text" value="{{ $user->country }}"
-                            name="country" placeholder="Residential country">
+                          <select class="selectpicker form-select w-100" id="country" name="country"
+                            data-live-search="true">
+                            @foreach ($countries as $country)
+                              <option value="{{ $country->name }}" @if ($country->name === $user->country) selected @endif>
+                                {{ $country->name }}
+                              </option>
+                            @endforeach
+                          </select>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".5" />
+                            <path fill="currentColor"
+                              d="M8.575 9.447C8.388 7.363 6.781 5.421 6 4.711l-.43-.37A9.96 9.96 0 0 1 12 2c2.214 0 4.26.72 5.916 1.936c.234.711-.212 2.196-.68 2.906c-.17.257-.554.577-.976.88c-.95.683-2.15 1.02-2.76 2.278a1.42 1.42 0 0 0-.083 1.016c.06.22.1.459.1.692c.002.755-.762 1.3-1.517 1.292c-1.964-.021-3.25-1.604-3.425-3.553m4.862 8.829c.988-1.862 4.281-1.862 4.281-1.862c3.432-.036 3.896-2.12 4.206-3.173a10.006 10.006 0 0 1-8.535 8.664c-.323-.68-.705-2.21.048-3.629" />
+                          </svg>
                         </div>
                       </div>
 
@@ -156,7 +175,7 @@
                             value={{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}
                             name="date_of_birth" pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd">
                         </div>
-                        <small id="clearDateOfBirth">Clear</small>
+                        <small id="clearDateOfBirth" class="mt-1" style="display: none;">Clear</small>
                       </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -171,7 +190,13 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" id="2">
+            <div class="tab-pane fade" id="security">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Security</h5>
+                  <p class="card-subtitle">Secure your account with 2FA or update your password</p>
+                </div>
+              </div>
               <div class="row">
                 <div class="col col-md-6 two-factor-authentication-form">
                   @livewire('profile.two-factor-authentication-form')
@@ -182,7 +207,7 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" id="3">
+            <div class="tab-pane fade" id="activity">
               @livewire('profile.logout-other-browser-sessions-form')
             </div>
           </div>
@@ -201,12 +226,14 @@
 
       $("#phone_number").on('input', function() {
         var val_old = $(this).val();
-        if (!val_old.startsWith('+')) {
+        if (val_old.trim() && !val_old.startsWith('+')) {
           val_old = '+' + val_old;
         }
         var formattedNumber = new libphonenumber.AsYouType('US').input(val_old);
-        $(this).focus().val('').val(formattedNumber);
+        $(this).val(formattedNumber);
       });
+
+      $("#country").selectpicker();
     });
   </script>
 @endsection

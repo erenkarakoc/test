@@ -6,7 +6,7 @@ use App\Models\GeneratedTronWallet;
 use App\Models\UserBalances;
 use Illuminate\Console\Command;
 
-class addReceivedTronBalanceToUser extends Command
+class AddReceivedTronBalanceToUser extends Command
 {
     /**
      * The name and signature of the console command.

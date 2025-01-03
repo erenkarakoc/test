@@ -12,7 +12,12 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [];
+    protected $commands = [
+        Commands\CheckGeneratedTronWallets::class,
+        Commands\AddReceivedTronBalanceToUser::class,
+        Commands\UpdateMarketData::class,
+        Commands\UpdateCountries::class,
+    ];
 
     /**
      * Define the application's command schedule.
@@ -22,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Tron API Commands
-        $schedule->command('check:check-generated-tron-wallets')->everyMinute();
+        $schedule->command('check:generated-tron-wallets')->everyMinute();
         $schedule->command('add:received-tron-balance-to-user')->everyMinute();
         $schedule->command('update:market-data')->everyMinute();
     }

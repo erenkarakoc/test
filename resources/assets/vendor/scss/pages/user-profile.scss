@@ -67,6 +67,52 @@
       text-decoration: underline;
     }
   }
+
+  .country-select-wrap {
+    position: relative;
+
+    &:focus-within {
+      svg {
+        color: var(--bs-primary);
+        left: calc((0.9375rem - var(--bs-border-width) - 1px));
+      }
+    }
+
+    svg {
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      left: calc((0.9375rem - var(--bs-border-width)));
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+
+    .dropdown-toggle {
+      background-color: transparent !important;
+      transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+      padding: calc(0.426rem - var(--bs-border-width)) calc(0.9375rem - var(--bs-border-width)) !important;
+      padding-left: calc(((1px + var(--bs-border-width)) * -1) + 47px) !important;
+      border-width: var(--bs-border-width) !important;
+
+      &:hover:not(.show) {
+        border-color: #9a9ab0 !important;
+      }
+
+      &.show {
+        padding: calc(0.426rem - 2px) calc(0.9375rem - 2px) !important;
+        padding-left: calc(((2px + var(--bs-border-width)) * -1) + 47px) !important;
+        border-width: 2px !important;
+        border-color: var(--bs-primary) !important;
+        box-shadow: none;
+      }
+    }
+
+    .select2-search.select2-search--dropdown {
+      padding: 0;
+    }
+  }
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months,

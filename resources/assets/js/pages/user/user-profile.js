@@ -46,7 +46,12 @@
         validators: {
           callback: {
             message: 'Please enter a valid phone number',
-            callback: input => libphonenumber.isValidNumber(input.value.trim())
+            callback: input => {
+              if (input.value.trim()) {
+                return libphonenumber.isValidNumber(input.value.trim());
+              }
+              return true;
+            }
           }
         }
       },
@@ -126,7 +131,13 @@
     }
   });
 
-  document.querySelector('#clearDateOfBirth').addEventListener('click', () => {
-    document.querySelector('#date_of_birth').value = '';
+  const dateOfBirth = document.querySelector('#date_of_birth');
+  const clearDateOfBirth = document.querySelector('#clearDateOfBirth');
+  dateOfBirth.addEventListener('input', e => {
+    if (e.target.value) clearDateOfBirth.style.display = 'block';
+  });
+  clearDateOfBirth.addEventListener('click', () => {
+    dateOfBirth.value = '';
+    clearDateOfBirth.style.display = 'none';
   });
 })();
