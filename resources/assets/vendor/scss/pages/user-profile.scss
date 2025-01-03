@@ -60,6 +60,13 @@
       width: fit-content !important;
     }
   }
+
+  #clearDateOfBirth {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months,

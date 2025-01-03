@@ -44,9 +44,9 @@
       },
       phone_number: {
         validators: {
-          regexp: {
-            regexp: /^\+?[0-9\s]{7,20}$/,
-            message: 'Please enter a valid phone number'
+          callback: {
+            message: 'Please enter a valid phone number',
+            callback: input => libphonenumber.isValidNumber(input.value.trim())
           }
         }
       },
@@ -99,7 +99,11 @@
       const form = e.target;
       const formData = new FormData(form);
       const data = {
-        username: formData.get('username')
+        username: formData.get('username'),
+        full_name: formData.get('full_name'),
+        country: formData.get('country'),
+        phone_number: formData.get('phone_number'),
+        date_of_birth: document.querySelector('#date_of_birth').value
       };
 
       const response = await postRequest('/user/update-user-profile', data);
@@ -120,5 +124,9 @@
         input.select();
       });
     }
+  });
+
+  document.querySelector('#clearDateOfBirth').addEventListener('click', () => {
+    document.querySelector('#date_of_birth').value = '';
   });
 })();

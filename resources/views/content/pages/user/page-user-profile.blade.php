@@ -8,15 +8,15 @@
 @section('title', 'My Profile')
 
 @section('vendor-style')
-  @vite(['resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss', 'resources/assets/vendor/libs/toastr/toastr.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss'])
+  @vite(['resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss', 'resources/assets/vendor/libs/toastr/toastr.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss', 'resources/assets/vendor/libs/flatpickr/flatpickr.scss'])
 @endsection
 
 @section('vendor-script')
-  @vite(['resources/assets/vendor/libs/select2/select2.js', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js', 'resources/assets/vendor/libs/toastr/toastr.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js'])
+  @vite(['resources/assets/vendor/libs/select2/select2.js', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js', 'resources/assets/vendor/libs/toastr/toastr.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js', 'resources/assets/vendor/libs/flatpickr/flatpickr.js', 'resources/assets/vendor/libs/libphonenumber-js/libphonenumber-js.min.js'])
 @endsection
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/_user-profile.scss'])
+  @vite(['resources/assets/vendor/scss/pages/user-profile.scss'])
 @endsection
 
 @section('page-script')
@@ -130,6 +130,7 @@
                           <input class="form-control" id="phone_number" name="phone_number" type="phone"
                             value="{{ $user->phone_number }}" placeholder="Your phone number">
                         </div>
+                        <small>Please don't forget including country code (eg. "+1" for USA)</small>
                       </div>
 
                       <div class="col col-md-6 update-profile-info-row">
@@ -155,6 +156,7 @@
                             value={{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}
                             name="date_of_birth" pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd">
                         </div>
+                        <small id="clearDateOfBirth">Clear</small>
                       </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -189,23 +191,21 @@
     </div>
   </div>
 
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.4.2/libphonenumber-js.min.js"
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       flatpickr('#date_of_birth', {
         dateFormat: 'Y-m-d',
-        defaultDate: "{{ $user->date_of_birth ? CarbonCarbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}",
+        defaultDate: "{{ $user->date_of_birth ? Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}",
         maxDate: new Date().setFullYear(new Date().getFullYear() - 18)
       });
 
       $("#phone_number").on('input', function() {
         var val_old = $(this).val();
-        var newString = new libphonenumber.AsYouType('US').input(val_old);
-        $(this).focus().val('').val(newString);
+        if (!val_old.startsWith('+')) {
+          val_old = '+' + val_old;
+        }
+        var formattedNumber = new libphonenumber.AsYouType('US').input(val_old);
+        $(this).focus().val('').val(formattedNumber);
       });
     });
   </script>

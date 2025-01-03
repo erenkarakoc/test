@@ -17,10 +17,10 @@ class UserController extends Controller
 
         $request->validate([
             'username' => 'required|string',
-            'full_name' => 'required|string',
-            'country' => 'required|string',
-            'phone_number' => 'required|string',
-            'date_of_birth' => 'required|string',
+            'full_name' => 'nullable|string',
+            'country' => 'nullable|string',
+            'phone_number' => 'nullable|string',
+            'date_of_birth' => 'nullable|string',
         ]);
 
         $user->username = $request->username;
