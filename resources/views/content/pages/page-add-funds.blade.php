@@ -38,7 +38,7 @@
 @endsection
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/_add-funds.scss'])
+  @vite(['resources/assets/vendor/scss/pages/add-funds.scss'])
 @endsection
 
 @section('page-script')

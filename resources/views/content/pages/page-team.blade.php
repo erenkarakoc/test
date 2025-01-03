@@ -8,7 +8,7 @@
 @section('title', 'Team')
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/_team.scss'])
+  @vite(['resources/assets/vendor/scss/pages/team.scss'])
 @endsection
 
 @section('page-script')

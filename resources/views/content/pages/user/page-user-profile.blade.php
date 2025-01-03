@@ -202,7 +202,7 @@
         maxDate: new Date().setFullYear(new Date().getFullYear() - 18)
       });
 
-      $("#phone_number").keyup(function() {
+      $("#phone_number").on('input', function() {
         var val_old = $(this).val();
         var newString = new libphonenumber.AsYouType('US').input(val_old);
         $(this).focus().val('').val(newString);

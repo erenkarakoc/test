@@ -113,7 +113,7 @@
 @endsection
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/_wallet.scss'])
+  @vite(['resources/assets/vendor/scss/pages/wallet.scss'])
 @endsection
 
 @section('page-script')

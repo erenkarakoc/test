@@ -16,10 +16,19 @@ class UserController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'username' => 'required|string|max:255',
+            'username' => 'required|string',
+            'full_name' => 'required|string',
+            'country' => 'required|string',
+            'phone_number' => 'required|string',
+            'date_of_birth' => 'required|string',
         ]);
 
         $user->username = $request->username;
+        $user->full_name = $request->full_name;
+        $user->country = $request->country;
+        $user->phone_number = $request->phone_number;
+        $user->date_of_birth = $request->date_of_birth;
+
         $user->save();
 
         return response()->json([
