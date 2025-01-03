@@ -20,10 +20,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('full_name');
-            $table->string('country');
-            $table->string('phone_number');
-            $table->string('date_of_birth');
+            $table->string('full_name')->nullable();
+            $table->string('country')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->json('wallet')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
