@@ -243,7 +243,7 @@
             <div class="card-body">
               <div class="d-flex flex-column justify-content-center align-items-center text-center">
                 <small class="w-75">
-                  Now benefit the generous bonuses we offer by building-up a team with your friends and earn with them.
+                  Now benefit generous bonuses by building-up a team with your friends and earn with them.
                 </small>
                 <img src="{{ asset('assets/img/illustrations/earn-together.png') }}" class="earn-together-img mt-12"
                   alt="Earn Together!" draggable="false" />
