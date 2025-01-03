@@ -20,7 +20,7 @@
       <div class="mt-6">
         <!-- Other Browser Sessions -->
         @foreach ($this->sessions as $session)
-          <div class="d-flex">
+          <div class="d-flex mt-4">
             <div>
               @if ($session->agent->isDesktop())
                 <svg fill="none" width="32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

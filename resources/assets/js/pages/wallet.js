@@ -120,8 +120,6 @@
       .map(item => item.trim())
       .filter(item => item !== currentLabel);
 
-    console.log(existingLabels);
-
     return FormValidation.formValidation(manageWalletForm, {
       fields: {
         wallet_address: {

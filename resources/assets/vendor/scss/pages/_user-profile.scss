@@ -39,6 +39,34 @@
     display: none;
   }
 
-  input:focus {
+  .input-group:focus-within .input-group-text {
+    color: var(--bs-primary);
   }
+
+  .two-factor-authentication-form {
+    .twofa-qr-code {
+      padding: 8px;
+      width: fit-content;
+      background-color: #fff;
+      border-radius: 10px;
+
+      svg path {
+        fill: #000 !important;
+      }
+    }
+
+    .input-group-text,
+    .btn {
+      width: fit-content !important;
+    }
+  }
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+  font-size: 16px !important;
+}
+
+.modal-backdrop {
+  display: none;
 }

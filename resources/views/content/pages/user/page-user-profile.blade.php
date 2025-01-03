@@ -7,6 +7,14 @@
 
 @section('title', 'My Profile')
 
+@section('vendor-style')
+  @vite(['resources/assets/vendor/libs/select2/select2.scss', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss', 'resources/assets/vendor/libs/toastr/toastr.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss'])
+@endsection
+
+@section('vendor-script')
+  @vite(['resources/assets/vendor/libs/select2/select2.js', 'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js', 'resources/assets/vendor/libs/toastr/toastr.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js'])
+@endsection
+
 @section('page-style')
   @vite(['resources/assets/vendor/scss/pages/_user-profile.scss'])
 @endsection
@@ -15,21 +23,13 @@
   @vite(['resources/assets/js/pages/user/user-profile.js'])
 @endsection
 
-@section('vendor-style')
-  @vite(['resources/assets/vendor/libs/toastr/toastr.scss'])
-@endsection
-
-@section('vendor-script')
-  @vite(['resources/assets/vendor/libs/toastr/toastr.js'])
-@endsection
-
 @section('content')
   <div class="page-user-profile">
     <h5 class="mb-3 lh-1">Profile</h5>
     <p class="lh-1 mb-7">View and manage your profile</p>
 
     <div class="row">
-      <div class="col-12 mt-7">
+      <div class="col-12">
         <div class="nav-tabs-shadow nav-align-top">
           <ul class="nav nav-tabs" id="user-profile-nav-tabs" role="tablist">
             <li class="nav-item">
@@ -54,11 +54,11 @@
                   <p class="card-subtitle">Update your account's profile information.</p>
                 </div>
                 <div class="card-body">
-                  <form id="updateUserProfileForm" action="POST">
+                  <form id="updateUserProfileForm">
                     @csrf
 
                     <div class="row row-gap-4">
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label required" for="username">
                           Username
                         </label>
@@ -66,7 +66,7 @@
                           name="username" required>
                       </div>
 
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label required" for="email">
                           E-mail Address
                         </label>
@@ -85,7 +85,7 @@
                         </div>
                       </div>
 
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label" for="full_name">
                           Full Name
                         </label>
@@ -93,7 +93,7 @@
                           name="full_name">
                       </div>
 
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label" for="country">
                           Country
                         </label>
@@ -110,7 +110,7 @@
                         </div>
                       </div>
 
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label" for="phone_number">
                           Phone Number
                         </label>
@@ -132,7 +132,7 @@
                         </div>
                       </div>
 
-                      <div class="col col-md-6">
+                      <div class="col col-md-6 update-profile-info-row">
                         <label class="form-label" for="date_of_birth">
                           Date of Birth
                         </label>
@@ -151,8 +151,9 @@
                                 d="M11.25 13a.75.75 0 0 0-1.28-.53l-1.5 1.5a.75.75 0 0 0 1.06 1.06l.22-.22V17a.75.75 0 0 0 1.5 0z" />
                             </svg>
                           </span>
-                          <input class="form-control" id="date_of_birth" type="date"
-                            value={{ $user->date_of_birth }} name="date_of_birth">
+                          <input class="form-control flatpickr" id="date_of_birth" type="date"
+                            value={{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}
+                            name="date_of_birth" pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd">
                         </div>
                       </div>
                     </div>
@@ -169,8 +170,14 @@
             </div>
 
             <div class="tab-pane fade" id="2">
-              @livewire('profile.update-password-form')
-              @livewire('profile.two-factor-authentication-form')
+              <div class="row">
+                <div class="col col-md-6 two-factor-authentication-form">
+                  @livewire('profile.two-factor-authentication-form')
+                </div>
+                <div class="col col-md-6 update-password-form">
+                  @livewire('profile.update-password-form')
+                </div>
+              </div>
             </div>
 
             <div class="tab-pane fade" id="3">
@@ -181,4 +188,25 @@
       </div>
     </div>
   </div>
+
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.4.2/libphonenumber-js.min.js"
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      flatpickr('#date_of_birth', {
+        dateFormat: 'Y-m-d',
+        defaultDate: "{{ $user->date_of_birth ? CarbonCarbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}",
+        maxDate: new Date().setFullYear(new Date().getFullYear() - 18)
+      });
+
+      $("#phone_number").keyup(function() {
+        var val_old = $(this).val();
+        var newString = new libphonenumber.AsYouType('US').input(val_old);
+        $(this).focus().val('').val(newString);
+      });
+    });
+  </script>
 @endsection
