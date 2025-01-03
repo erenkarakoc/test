@@ -655,16 +655,6 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'W' => 
-        array (
-            'Webpatser\\Countries' => 
-            array (
-                0 => __DIR__ . '/..' . '/webpatser/laravel-countries/src',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'App\\Actions\\Fortify\\CreateNewUser' => __DIR__ . '/../..' . '/app/Actions/Fortify/CreateNewUser.php',
         'App\\Actions\\Fortify\\PasswordValidationRules' => __DIR__ . '/../..' . '/app/Actions/Fortify/PasswordValidationRules.php',
@@ -7743,10 +7733,6 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Webmozart\\Assert\\InvalidArgumentException' => __DIR__ . '/..' . '/webmozart/assert/src/InvalidArgumentException.php',
         'Webmozart\\Assert\\Mixin' => __DIR__ . '/..' . '/webmozart/assert/src/Mixin.php',
-        'Webpatser\\Countries\\Countries' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/Countries.php',
-        'Webpatser\\Countries\\CountriesFacade' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/CountriesFacade.php',
-        'Webpatser\\Countries\\CountriesServiceProvider' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/Webpatser/Countries/CountriesServiceProvider.php',
-        'Webpatser\\Countries\\MigrationCommand' => __DIR__ . '/..' . '/webpatser/laravel-countries/src/commands/MigrationCommand.php',
         'Whoops\\Exception\\ErrorException' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
         'Whoops\\Exception\\Formatter' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Formatter.php',
         'Whoops\\Exception\\Frame' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Frame.php',
@@ -7807,7 +7793,6 @@ class ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitb4cb83f5843f915b160e0d0cdf93ad38::$classMap;
 
         }, null, ClassLoader::class);

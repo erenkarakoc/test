@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 
-class Password implements DataAwareRule, Rule, ValidatorAwareRule
+class Password implements Rule, DataAwareRule, ValidatorAwareRule
 {
     use Conditionable;
 
