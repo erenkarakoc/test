@@ -111,7 +111,7 @@
   background-color: #ffffff10;
 }
 
-.gdz-navbar .dropdown-menu {
+.gdz-navbar .dropdown-menu:not(.dropdown-user) {
   --bs-dropdown-spacer: 20px;
   min-width: 24rem !important;
 }

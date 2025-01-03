@@ -27,7 +27,7 @@
   <div class="row">
     <div class="col-lg-6">
       <h5 class="mb-3 lh-1">Welcome back, {{ Auth::user()->username }}! 👋🏻</h5>
-      <p class="mb-7 lh-1">Here's a summary of your account.</p>
+      <p class="mb-7 lh-1">Here's a summary of your account</p>
 
       <div class="gdz-dasboard-total-profit card bg-light text-white mb-7">
         <div class="card-body d-flex justify-content-between flex-wrap">

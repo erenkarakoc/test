@@ -215,29 +215,28 @@
         </svg>
       </button>
 
-      <ul class="dropdown-menu dropdown-menu-end">
+      <ul class="dropdown-menu dropdown-menu-end dropdown-user">
         <li class="py-4">
           <span class="px-4">
             {{ Auth::user()->username }}
           </span>
         </li>
         <li>
-          <div class="dropdown-divider my-2 mx-n2"></div>
+          <div class="dropdown-divider mt-0 mb-4 mx-n2"></div>
         </li>
         <li>
-          <a class="dropdown-item"
-            href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0);' }}">
+          <a class="dropdown-item" href="{{ route('page-user-profile') }}">
             <svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
               viewBox="0 0 24 24">
               <circle cx="12" cy="6" r="4" fill="currentColor" />
               <path fill="currentColor" d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"
                 opacity=".5" />
             </svg>
-            <span class="align-middle">Account</span>
+            <span class="align-middle">Profile</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" href="{{ route('profile.show') }}">
+          <a class="dropdown-item" href="{{ route('page-user-profile') }}">
             <svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
               viewBox="0 0 24 24">
               <path fill="currentColor" d="M9.25 14a3 3 0 1 1 0 6a3 3 0 0 1 0-6m5-10a3 3 0 1 0 0 6a3 3 0 0 0 0-6" />
@@ -245,11 +244,11 @@
                 d="M17.166 7.709a3 3 0 0 0-.021-1.5h4.605a.75.75 0 0 1 0 1.5zm-5.81-1.5a3 3 0 0 0-.022 1.5H1.75a.75.75 0 0 1 0-1.5zm-5 10H1.75a.75.75 0 0 0 0 1.5h4.584a3 3 0 0 1 .022-1.5m5.81 1.5h9.584a.75.75 0 0 0 0-1.5h-9.605a3 3 0 0 1 .02 1.5"
                 opacity=".5" />
             </svg>
-            <span class="align-middle">Account Settings</span>
+            <span class="align-middle">Manage Profile</span>
           </a>
         </li>
         <li>
-          <div class="dropdown-divider my-1 mx-n2"></div>
+          <div class="dropdown-divider my-4 mx-n2"></div>
         </li>
         @if (Auth::check())
           <li>

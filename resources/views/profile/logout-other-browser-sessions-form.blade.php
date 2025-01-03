@@ -1,6 +1,6 @@
 <x-action-section>
   <x-slot name="title">
-    {{ __('Browser Sessions') }}
+    {{ __('Activity') }}
   </x-slot>
 
   <x-slot name="description">
@@ -13,7 +13,7 @@
     </x-action-message>
 
     <p class="card-text">
-      {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+      {{ __('If necessary, you may logout of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password and enable 2FA.') }}
     </p>
 
     @if (count($this->sessions) > 0)
@@ -65,14 +65,14 @@
 
     <div class="d-flex mt-6">
       <x-button wire:click="confirmLogout" wire:loading.attr="disabled">
-        {{ __('Log Out Other Browser Sessions') }}
+        {{ __('Logout Other Sessions') }}
       </x-button>
     </div>
 
-    <!-- Log out Other Devices Confirmation Modal -->
+    <!-- Logout Other Devices Confirmation Modal -->
     <x-dialog-modal wire:model.live="confirmingLogout">
       <x-slot name="title">
-        {{ __('Log Out Other Browser Sessions') }}
+        {{ __('Logout Other Browser Sessions') }}
       </x-slot>
 
       <x-slot name="content">
@@ -93,8 +93,7 @@
           {{ __('Cancel') }}
         </x-secondary-button>
 
-        <button class="btn btn-danger ms-1" wire:click="logoutOtherBrowserSessions"
-          wire:loading.attr="disabled">
+        <button class="btn btn-danger ms-1" wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled">
           {{ __('Log out Other Browser Sessions') }}
         </button>
       </x-slot>

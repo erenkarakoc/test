@@ -1,0 +1,44 @@
+// * User Profile
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+.page-user-profile {
+  .nav-tabs#user-profile-nav-tabs {
+    border: 1px solid var(--bs-nav-tabs-border-color);
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    .nav-link {
+      justify-content: center;
+      align-items: center;
+      padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+      border-right: 1px solid var(--bs-nav-tabs-border-color) !important;
+      border-bottom: none !important;
+
+      &:not(.active):hover {
+        box-shadow: 0 -2px 0 0 #201535 inset !important;
+      }
+
+      &.active {
+        box-shadow: 0 -2px 0 0 #7367f0 inset !important;
+        padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+      }
+    }
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  input[type='date']::-moz-clear {
+    display: none;
+  }
+  input[type='date']::-ms-clear {
+    display: none;
+  }
+
+  input:focus {
+  }
+}

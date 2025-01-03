@@ -7,11 +7,12 @@ use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageDashboard;
 use App\Http\Controllers\pages\PageTeam;
 use App\Http\Controllers\pages\PageTransactions;
-use App\Http\Controllers\pages\PageUserProfile;
 use App\Http\Controllers\pages\PageWallet;
+use App\Http\Controllers\pages\user\PageUserProfile;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TronApiController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Pages - Transactions
     Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
     // Pages - User - Profile
-    Route::get('/user/settings', [PageUserProfile::class, 'show'])->name('profile.show');
+    Route::get('/user/profile', [PageUserProfile::class, 'show'])->name('page-user-profile');
 
     // /////////////////
     // / POST Routes ///
@@ -56,6 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add-wallet', [WalletController::class, 'store'])->name('add-wallet');
     Route::post('/update-wallet', [WalletController::class, 'update'])->name('update-wallet');
     Route::post('/remove-wallet', [WalletController::class, 'destroy'])->name('remove-wallet');
+
+    // Manage User
+    Route::post('/user/update-user-profile', [UserController::class, 'update'])->withoutMiddleware('auth');
 
     // Transactions
     Route::post('/create-transaction', [TransactionController::class, 'createTransaction']);
