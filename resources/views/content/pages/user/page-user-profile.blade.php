@@ -69,7 +69,7 @@
                   <h5 class="card-title">Update Profile</h5>
                   <p class="card-subtitle">Update your account's profile information</p>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-4">
                   <form id="updateUserProfileForm">
                     @csrf
 
@@ -208,7 +208,9 @@
             </div>
 
             <div class="tab-pane fade" id="activity">
-              @livewire('profile.logout-other-browser-sessions-form')
+              <div class="mt-4">
+                @livewire('profile.logout-other-browser-sessions-form')
+              </div>
             </div>
           </div>
         </div>
