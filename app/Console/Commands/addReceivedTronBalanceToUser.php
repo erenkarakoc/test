@@ -20,7 +20,17 @@ class AddReceivedTronBalanceToUser extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Adds received Tron balances from GeneratedWallet to UserBalance';
+
+    /**
+     * Constructor.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.

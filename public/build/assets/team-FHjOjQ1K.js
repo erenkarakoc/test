@@ -1,0 +1,1 @@
+(function(){const t=document.querySelector("#inviteFriendsButton"),e=document.querySelector(".gdz-refer-friends");t.addEventListener("click",()=>{e.classList.add("animate"),e.scrollIntoView({behaviour:"smooth",block:"center",inline:"nearest"}),setTimeout(()=>{e.classList.remove("animate")},3e3)})})();

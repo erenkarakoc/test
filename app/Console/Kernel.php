@@ -26,10 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Tron API Commands
-        $schedule->command('check:generated-tron-wallets')->everyMinute();
-        $schedule->command('add:received-tron-balance-to-user')->everyMinute();
-        $schedule->command('update:market-data')->everyMinute();
+        //
     }
 
     /**
@@ -40,6 +37,5 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands'); // Load commands from the /Commands directory
-        require base_path('routes/console.php');
     }
 }

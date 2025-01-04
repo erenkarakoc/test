@@ -23,6 +23,16 @@ class UpdateMarketData extends Command
     protected $description = 'Updates market data periodically using Rest API';
 
     /**
+     * Constructor.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle()

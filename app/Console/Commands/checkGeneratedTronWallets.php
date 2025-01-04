@@ -41,7 +41,7 @@ class CheckGeneratedTronWallets extends Command
      */
     public function handle()
     {
-        $generatedWallets = GeneratedTronWallet::all();
+        $generatedWallets = GeneratedTronWallet::where('status', 'generated');
         $tron = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
 
         foreach ($generatedWallets as $wallet) {
