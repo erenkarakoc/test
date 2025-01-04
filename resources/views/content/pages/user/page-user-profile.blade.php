@@ -55,7 +55,7 @@
               <div class="card">
                 <div class="card-header">
                   <h5 class="card-title">Summary</h5>
-                  <p class="card-subtitle">Here's a summary of your account</p>
+                  <p class="card-subtitle">Here's a summary of your profile</p>
                 </div>
                 <div class="card-body">
 
@@ -149,7 +149,6 @@
                           <input class="form-control" id="phone_number" name="phone_number" type="phone"
                             value="{{ $user->phone_number }}" placeholder="Your phone number">
                         </div>
-                        <small>Please don't forget including country code (eg. "+1" for USA)</small>
                       </div>
 
                       <div class="col col-md-6 update-profile-info-row">
@@ -175,7 +174,8 @@
                             value={{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '' }}
                             name="date_of_birth" pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd">
                         </div>
-                        <small id="clearDateOfBirth" class="mt-1" style="display: none;">Clear</small>
+                        <small id="clearDateOfBirth" class="mt-1"
+                          style="display: none; width: fit-content;">Clear</small>
                       </div>
                     </div>
                     <div class="d-flex justify-content-end">

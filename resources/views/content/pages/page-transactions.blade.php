@@ -12,7 +12,7 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/ui-popover.js'])
+  @vite(['resources/assets/js/ui-popover.js', 'resources/assets/js/pages/transactions.js'])
 @endsection
 
 @section('content')
