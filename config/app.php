@@ -153,6 +153,4 @@ return [
     'aliases' => [
         'Helper' => App\Helpers\Helpers::class,
     ],
-
-    'main_tron_wallet_address' => 'TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG',
 ];

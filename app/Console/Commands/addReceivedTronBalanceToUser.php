@@ -61,5 +61,7 @@ class AddReceivedTronBalanceToUser extends Command
 
             $wallet->save();
         }
+
+        $this->info('Added received Tron balances to users.');
     }
 }

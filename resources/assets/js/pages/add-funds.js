@@ -111,7 +111,7 @@
     const startTronProgress = addressHex => {
       const progressTimer = document.querySelector('#payment-progress-timer');
 
-      const totalDuration = 20 * 60;
+      const totalDuration = 30 * 60;
       let elapsedTime = 0;
 
       const runProgressBarInterval = setInterval(async () => {
