@@ -264,81 +264,90 @@
           <div class="card bg-light mt-7">
             <div class="card-body">
               <div class="transaction-items">
-                @foreach ($transactions as $transaction)
-                  <a href="transaction/{{ $transaction->tnx_id }}" class="transaction-item transaction-item-in">
-                    <div class="d-flex align-items-start">
-                      <div class="transaction-item-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                          <g fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10" opacity=".5" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-0">
-                          @if ($transaction->type === 'deposit')
-                            Received via {{ $transaction->asset }}
-                          @elseif ($transaction->status === 'withdraw')
-                            Sent via {{ $transaction->asset }}
-                          @elseif ($transaction->status === 'invest')
-                            Locked via {{ $transaction->asset }}
-                          @else
-                            Earned via {{ $transaction->asset }}
-                          @endif
-                          @if ($transaction->note)
-                            <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                              data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                              data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                              width="18" height="18" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                                opacity=".3" />
-                              <path fill="currentColor"
-                                d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
-                            </svg>
-                          @endif
-                        </h6>
-                        <div class="d-flex align-items-center">
-                          <small
-                            class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
-                          <small @class([
-                              'transaction-status',
-                              'text-success' => $transaction->status === 'completed',
-                              'text-danger' => $transaction->status === 'rejected',
-                              'text-danger' => $transaction->status === 'cancelled',
-                              'text-warning' => $transaction->status === 'pending',
-                          ])>
-                            @if ($transaction->status === 'completed')
-                              Completed
-                            @elseif ($transaction->status === 'rejected')
-                              Rejected
-                            @elseif ($transaction->status === 'cancelled')
-                              Cancelled
+                @if (!$transactions->isEmpty())
+                  @foreach ($transactions as $transaction)
+                    <a href="transaction/{{ $transaction->tnx_id }}" class="transaction-item transaction-item-in">
+                      <div class="d-flex align-items-start">
+                        <div class="transaction-item-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                              <circle cx="12" cy="12" r="10" opacity=".5" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                            </g>
+                          </svg>
+                        </div>
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-0">
+                            @if ($transaction->type === 'deposit')
+                              Received via {{ $transaction->asset }}
+                            @elseif ($transaction->status === 'withdraw')
+                              Sent via {{ $transaction->asset }}
+                            @elseif ($transaction->status === 'invest')
+                              Locked via {{ $transaction->asset }}
                             @else
-                              Pending
+                              Earned via {{ $transaction->asset }}
                             @endif
-                          </small>
+                            @if ($transaction->note)
+                              <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
+                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
+                                width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                                  opacity=".3" />
+                                <path fill="currentColor"
+                                  d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                              </svg>
+                            @endif
+                          </h6>
+                          <div class="d-flex align-items-center">
+                            <small
+                              class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
+                            <small @class([
+                                'transaction-status',
+                                'text-success' => $transaction->status === 'completed',
+                                'text-danger' => $transaction->status === 'rejected',
+                                'text-danger' => $transaction->status === 'cancelled',
+                                'text-warning' => $transaction->status === 'pending',
+                            ])>
+                              @if ($transaction->status === 'completed')
+                                Completed
+                              @elseif ($transaction->status === 'rejected')
+                                Rejected
+                              @elseif ($transaction->status === 'cancelled')
+                                Cancelled
+                              @else
+                                Pending
+                              @endif
+                            </small>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column align-items-end text-right">
-                        <span
-                          class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                        <span
-                          class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
-                          {{ $transaction->asset }}</span>
+                      <div class="d-flex align-items-center">
+                        <div class="d-flex flex-column align-items-end text-right">
+                          <span
+                            class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                            {{ $transaction->asset }}</span>
+                        </div>
+                        <span class="transaction-item-view">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                          </svg>
+                        </span>
                       </div>
-                      <span class="transaction-item-view">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2.5" d="m9 5l6 7l-6 7" />
-                        </svg>
-                      </span>
-                    </div>
-                  </a>
-                @endforeach
+                    </a>
+                  @endforeach
+                @else
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                    <h6 class="mb-2 pb-0 px-0 fw-bolder">
+                      You don't have any transactions yet.
+                    </h6>
+                    <small class="pt-0 px-0">All transactions made in your account will be listed here.</small>
+                  </div>
+                @endif
               </div>
             </div>
           </div>

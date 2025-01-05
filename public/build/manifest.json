@@ -315,7 +315,7 @@
     "src": "node_modules/leaflet/dist/images/marker-shadow.png"
   },
   "resources/assets/css/custom.css": {
-    "file": "assets/custom-CgJi7xT7.css",
+    "file": "assets/custom-BzHqTXRg.css",
     "src": "resources/assets/css/custom.css",
     "isEntry": true
   },
@@ -338,7 +338,7 @@
     "isEntry": true
   },
   "resources/assets/js/pages/add-funds.js": {
-    "file": "assets/add-funds-DvkSja5x.js",
+    "file": "assets/add-funds-jRPcSOfu.js",
     "name": "add-funds",
     "src": "resources/assets/js/pages/add-funds.js",
     "isEntry": true
@@ -3393,6 +3393,11 @@
   "resources/assets/vendor/scss/pages/dashboard.scss": {
     "file": "assets/dashboard-BxMNlLQE.css",
     "src": "resources/assets/vendor/scss/pages/dashboard.scss",
+    "isEntry": true
+  },
+  "resources/assets/vendor/scss/pages/page-misc.scss": {
+    "file": "assets/page-misc-TG6udcCE.css",
+    "src": "resources/assets/vendor/scss/pages/page-misc.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/pages/team.scss": {
