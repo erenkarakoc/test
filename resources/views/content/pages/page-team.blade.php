@@ -179,20 +179,21 @@
                                 class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
                               <small @class([
                                   'transaction-status',
-                                  'transaction-status-completed' => $transaction->status === 'completed',
-                                  'transaction-status-pending' => $transaction->status === 'pending',
-                                  'transaction-status-rejected' => $transaction->status === 'rejected',
-                                  'transaction-status-cancelled' => $transaction->status === 'cancelled',
+                                  'text-success' => $transaction->status === 'completed',
+                                  'text-success' => $transaction->status === 'completed-with-case',
+                                  'text-danger' => $transaction->status === 'rejected',
+                                  'text-danger' => $transaction->status === 'cancelled',
+                                  'text-warning' => $transaction->status === 'pending',
                               ])>
-                                {{ $transaction->status === 'completed'
-                                    ? 'Completed'
-                                    : ($transaction->status === 'pending'
-                                        ? 'Pending'
-                                        : ($transaction->status === 'rejected'
-                                            ? 'Rejected'
-                                            : ($transaction->status === 'cancelled'
-                                                ? 'Cancelled'
-                                                : ''))) }}
+                                @if ($transaction->status === 'completed' || $transaction->status === 'completed-with-case')
+                                  Completed
+                                @elseif ($transaction->status === 'rejected')
+                                  Rejected
+                                @elseif ($transaction->status === 'cancelled')
+                                  Cancelled
+                                @else
+                                  Pending
+                                @endif
                               </small>
                             </div>
                           </div>

@@ -51,13 +51,13 @@ class CheckGeneratedTronWallets extends Command
             $wallet->trx_balance = $tron->getBalance(null, true);
             $wallet->usdt_balance = $trc20->balanceOf($wallet->address_hex);
 
-            if ((float) $tron->getBalance(null, true)) {
+            if ($wallet->trx_balance > 0) {
                 $latestTransaction = $this->getLatestTransaction($wallet->address_hex, 1);
                 $wallet->hash_id = $latestTransaction[0]['txID'];
                 $wallet->status = 'received-balance';
             }
 
-            if ((float) $trc20->balanceOf($wallet->address_hex)) {
+            if ($wallet->usdt_balance > 0) {
                 $latestTransaction = $this->getLatestUsdtTransaction($wallet->address_hex, 1);
                 $wallet->hash_id = $latestTransaction[0]['txID'];
                 $wallet->status = 'received-balance';

@@ -26,6 +26,7 @@ class Transaction extends Model
         'amount_in_asset',
         'amount_in_usd',
         'asset',
+        'asset_price',
         'asset_balance_after',
         'asset_locked_balance_after',
         'total_balance_after',

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('public_key');
             $table->string('address_hex');
             $table->string('address_base58');
-            $table->enum('status', ['generated', 'received-balance', 'paid-user', 'sent-balance']);
+            $table->enum('status', ['generated', 'received-balance', 'paid-user', 'sent-balance', 'errored']);
             $table->string('hash_id')->nullable();
             $table->timestamps();
         });

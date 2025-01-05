@@ -44,8 +44,7 @@ abstract class Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $userId = $user->id;
-            $userBalances = UserBalances::where('user_id', $userId)->get();
+            $userBalances = UserBalances::where('user_id', $user->id)->get();
             $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
             $totalBalance = 0.0;
             $totalLockedBalance = 0.0;

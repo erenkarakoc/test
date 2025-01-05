@@ -133,6 +133,20 @@
                     <small>Choose the asset you want to debit</small>
                   </div>
 
+                  <div class="col-8 mt-6 mx-auto">
+                    <small class="d-flex align-items-center text-primary gap-2">
+                      <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                          opacity=".4" />
+                        <path fill="currentColor"
+                          d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                      </svg>
+                      Currency rate will be kept fixed for 30 minutes after you proceed.
+                    </small>
+                  </div>
+
                   <div class="row g-2 col-8 mt-5 mx-auto choose-asset-form-row">
                     @foreach ($assets as $asset)
                       @if ($asset['symbol'] !== 'GDZ' && $asset['symbol'] !== 'USD')
@@ -184,6 +198,20 @@
                   <div class="content-header mb-4 col-8 mx-auto">
                     <h6 class="mb-0">Amount</h6>
                     <small>Enter the amount you want to debit</small>
+                  </div>
+
+                  <div class="col-8 mt-6 mx-auto">
+                    <small class="d-flex align-items-center text-primary gap-2">
+                      <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                          opacity=".4" />
+                        <path fill="currentColor"
+                          d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                      </svg>
+                      Currency rate will be kept fixed for 30 minutes after you proceed.
+                    </small>
                   </div>
 
                   <div class="row g-6 mt-6">
@@ -243,6 +271,20 @@
                   <div class="content-header mb-4 col-8 mx-auto">
                     <h6 class="mb-0">Summary</h6>
                     <small>View the summary of your payment before proceeding</small>
+                  </div>
+
+                  <div class="col-8 mt-6 mx-auto">
+                    <small class="d-flex align-items-center text-primary gap-2">
+                      <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                          opacity=".4" />
+                        <path fill="currentColor"
+                          d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                      </svg>
+                      Currency rate will be kept fixed for 30 minutes after you proceed.
+                    </small>
                   </div>
 
                   <div class="row g-6 mt-7">

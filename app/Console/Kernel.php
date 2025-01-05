@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\CheckGeneratedTronWallets::class,
         Commands\AddReceivedTronBalanceToUser::class,
+        Commands\SendReceivedTronBalanceToMainWallet::class,
         Commands\UpdateMarketData::class,
         Commands\UpdateCountries::class,
     ];

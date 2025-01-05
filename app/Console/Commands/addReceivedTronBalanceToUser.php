@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\GeneratedTronWallet;
+use App\Models\MarketData;
+use App\Models\Transaction;
 use App\Models\UserBalances;
 use Illuminate\Console\Command;
 
@@ -40,28 +42,83 @@ class AddReceivedTronBalanceToUser extends Command
         $generatedWallets = GeneratedTronWallet::where('status', 'received-balance')->get();
 
         foreach ($generatedWallets as $wallet) {
-            $userTrxWallet = UserBalances::where('user_id', $wallet->user_id)
-                ->where('wallet', 'TRX')
-                ->first();
-            $userUsdtWallet = UserBalances::where('user_id', $wallet->user_id)
-                ->where('wallet', 'USDT')
-                ->first();
+            $userId = $wallet->user_id;
+            $userTrxWallet = UserBalances::where('user_id', $wallet->user_id)->where('wallet', 'TRX')->first();
+            $userUsdtWallet = UserBalances::where('user_id', $wallet->user_id)->where('wallet', 'USDT')->first();
+            $transaction = Transaction::where('tnx_id', $wallet->tnx_id)->first();
 
             if ((float) $wallet->trx_balance) {
+                // Update User Balance
                 $userTrxWallet->balance += $wallet->trx_balance;
                 $userTrxWallet->save();
+
+                // Update Generated Wallet
                 $wallet->status = 'paid-user';
+                $wallet->save();
+
+                // Update Transaction
+                if ((float) $wallet->trx_balance !== (float) $transaction->amount_in_asset) {
+                    $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
+                    $transaction->status = 'completed-with-case';
+                } else {
+                    $transaction->status = 'completed';
+                }
+                $transaction->amount_in_asset = $wallet->trx_balance;
+                $transaction->amount_in_usd = $wallet->trx_balance * $wallet->asset_price;
+                $transaction->asset = 'TRX';
+                $transaction->asset_price = $wallet->asset_price;
+                $transaction->asset_balance_after = $userTrxWallet->balance;
+                $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
+                $transaction->hash_id = $wallet->hash_id;
+                $transaction->save();
             }
 
             if ((float) $wallet->usdt_balance) {
+                // Update User Balance
                 $userUsdtWallet->balance += $wallet->usdt_balance;
                 $userUsdtWallet->save();
-                $wallet->status = 'paid-user';
-            }
 
-            $wallet->save();
+                // Update Generated Wallet
+                $wallet->status = 'paid-user';
+                $wallet->save();
+
+                // Update Transaction
+                if ((float) $wallet->usdt_balance !== (float) $transaction->amount_in_asset) {
+                    $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
+                    $transaction->status = 'completed-with-case';
+                } else {
+                    $transaction->status = 'completed';
+                }
+                $transaction->amount_in_asset = $wallet->usdt_balance;
+                $transaction->amount_in_usd = $wallet->usdt_balance * $wallet->asset_price;
+                $transaction->asset = 'USDT';
+                $transaction->asset_price = $wallet->asset_price;
+                $transaction->asset_balance_after = $userTrxWallet->balance;
+                $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
+                $transaction->hash_id = $wallet->hash_id;
+                $transaction->save();
+            }
         }
 
         $this->info('Added received Tron balances to users.');
+    }
+
+    /**
+     * Helper to calculate user's total balance.
+     */
+    private function calculateUserTotalBalance($userId)
+    {
+        $userBalances = UserBalances::where('user_id', $userId)->get();
+        $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
+        $totalBalance = 0.0;
+
+        foreach ($userBalances as $wallet) {
+            $price = $marketDataPrices[$wallet['wallet']] ?? 0;
+            $totalBalance += $wallet['balance'] * $price;
+        }
+
+        log($totalBalance);
+
+        return $totalBalance;
     }
 }
