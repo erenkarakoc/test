@@ -12,7 +12,7 @@
       {{ __('Done.') }}
     </x-action-message>
 
-    <p class="card-text">
+    <p class="card-text mt-6">
       {{ __('If necessary, you may logout of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password and enable 2FA.') }}
     </p>
 
