@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import html from '@rollup/plugin-html';
 import { glob } from 'glob';
+import fs from 'fs';
 
 /**
  * Get Files from a directory
@@ -52,6 +53,7 @@ function libsWindowAssignment() {
 }
 
 export default defineConfig({
+  base: '',
   plugins: [
     laravel({
       input: [
@@ -71,5 +73,8 @@ export default defineConfig({
     }),
     html(),
     libsWindowAssignment()
-  ]
+  ],
+  server: {
+    hmr: process.env.NODE_ENV !== 'production' ? { protocol: 'wss', host: 'localhost' } : false
+  }
 });
