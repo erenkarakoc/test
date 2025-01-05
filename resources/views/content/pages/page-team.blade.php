@@ -40,7 +40,7 @@
                   </span>
                   <h5 class="d-flex align-items-center ms-2 mb-0">
                     Your invitation link
-                    <div class="popover-trigger text-light cursor-pointer ms-2 mb-1" data-bs-toggle="popover"
+                    <div class="popover-trigger text-light cursor-pointer ms-2" data-bs-toggle="popover"
                       data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
                       data-bs-content="Share your invitation link with your friends and bring them to Gedzen. You will be able to earn bonuses from your friends' investments when they sign-up with your invitation code.">
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -180,12 +180,11 @@
                               <small @class([
                                   'transaction-status',
                                   'text-success' => $transaction->status === 'completed',
-                                  'text-success' => $transaction->status === 'completed-with-case',
                                   'text-danger' => $transaction->status === 'rejected',
                                   'text-danger' => $transaction->status === 'cancelled',
                                   'text-warning' => $transaction->status === 'pending',
                               ])>
-                                @if ($transaction->status === 'completed' || $transaction->status === 'completed-with-case')
+                                @if ($transaction->status === 'completed')
                                   Completed
                                 @elseif ($transaction->status === 'rejected')
                                   Rejected
@@ -201,9 +200,10 @@
                         <div class="d-flex align-items-center">
                           <div class="d-flex flex-column align-items-end text-right">
                             <div class="d-flex flex-column align-items-end text-right">
-                              <span class="transaction-usd-amount">+{{ $transaction->amount_in_usd }}$</span>
+                              <span
+                                class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
                               <span class="transaction-asset-amount text-light">
-                                {{ $transaction->amount_in_asset }}
+                                {{ number_format($transaction->amount_in_asset, 2) }}
                                 {{ $transaction->asset }}
                               </span>
                             </div>

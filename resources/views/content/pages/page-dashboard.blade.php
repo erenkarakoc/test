@@ -47,8 +47,8 @@
             </div>
           </div>
 
-          <div class="popover-trigger text-light cursor-pointer" data-bs-toggle="popover" data-bs-trigger="hover"
-            data-bs-placement="top" data-bs-custom-class="popover-dark"
+          <div class="popover-trigger text-light cursor-pointer d-flex align-items-start" data-bs-toggle="popover"
+            data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
             data-bs-content="Total profit you've earned throughout your Gedzen journey.">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
               <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
@@ -313,7 +313,7 @@
                 </span>
                 <h5 class="d-flex align-items-center ms-2 mb-0">
                   Invite your friends & earn
-                  <div class="popover-trigger text-light cursor-pointer ms-2 mb-1" data-bs-toggle="popover"
+                  <div class="popover-trigger text-light cursor-pointer ms-2" data-bs-toggle="popover"
                     data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
                     data-bs-content="Share your invitation link with your friends and bring them to Gedzen. You will be able to earn bonuses from your friends' investments when they sign-up with your invitation code.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">

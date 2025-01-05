@@ -5,6 +5,7 @@
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Route;
   use App\Models\UserBalances;
+  use App\Models\MarketData;
 
   $configData = Helper::appClasses();
 
@@ -79,7 +80,7 @@
                         {{ number_format($userTotalBalance, 2) }}$
                       </h3>
                       <h5 class="text-primary-subtle mb-0 lh-1">
-                        {{ number_format(convertUsdToEur($userTotalBalance), 2) }}€
+                        {{ number_format($userTotalBalance * MarketData::where('asset', 'EUR')->value('price'), 2) }}€
                       </h5>
                     </div>
                   </div>

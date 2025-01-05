@@ -57,5 +57,9 @@ class UpdateMarketData extends Command
             ['asset' => 'USD'],
             ['price' => 1]
         );
+        MarketData::updateOrCreate(
+            ['asset' => 'EUR'],
+            ['price' => convertUsdToEur(1)]
+        );
     }
 }

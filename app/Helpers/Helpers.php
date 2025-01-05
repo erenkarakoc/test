@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class Helpers
@@ -209,27 +208,5 @@ class Helpers
                 }
             }
         }
-    }
-
-    /**
-     * Convert a USD amount to EUR using the Frankfurter API.
-     *
-     * @param  float  $amount
-     * @return float|null
-     */
-    public static function convertUsdToEur($amount)
-    {
-        $response = Http::get('https://api.frankfurter.app/latest', [
-            'from' => 'USD',
-            'to' => 'EUR',
-        ]);
-
-        if ($response->successful()) {
-            $data = $response->json();
-
-            return $amount * $data['rates']['EUR'];
-        }
-
-        return null;
     }
 }

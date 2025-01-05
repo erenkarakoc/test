@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tnx_id')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ref_user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->enum('type', ['deposit', 'withdraw', 'invest', 'referral_bonus']);
+            $table->enum('type', ['deposit', 'withdraw', 'invest', 'earned', 'referral_bonus']);
             $table->decimal('amount_in_asset')->nullable();
             $table->decimal('amount_in_usd');
             $table->string('asset')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('total_balance_after')->nullable();
             $table->decimal('total_locked_balance_after')->nullable();
             $table->foreignId('strategy_id')->nullable()->constrained()->onDelete('cascade');
-            $table->enum('status', ['completed', 'pending', 'cancelled', 'rejected', 'completed-with-case']);
+            $table->enum('status', ['completed', 'pending', 'cancelled', 'rejected']);
             $table->string('note')->nullable();
             $table->string('hash_id')->nullable();
             $table->timestamps();

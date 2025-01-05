@@ -59,7 +59,6 @@ class AddReceivedTronBalanceToUser extends Command
                 // Update Transaction
                 if ((float) $wallet->trx_balance !== (float) $transaction->amount_in_asset) {
                     $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
-                    $transaction->status = 'completed-with-case';
                 } else {
                     $transaction->status = 'completed';
                 }
@@ -85,7 +84,6 @@ class AddReceivedTronBalanceToUser extends Command
                 // Update Transaction
                 if ((float) $wallet->usdt_balance !== (float) $transaction->amount_in_asset) {
                     $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
-                    $transaction->status = 'completed-with-case';
                 } else {
                     $transaction->status = 'completed';
                 }

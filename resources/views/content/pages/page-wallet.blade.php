@@ -136,7 +136,7 @@
                   {{ number_format($userTotalBalance, 2) }}$
                 </h5>
                 <small class="text-dark">
-                  {{ number_format(convertUsdToEur($userTotalBalance), 2) }}$
+                  {{ number_format($userTotalBalance * MarketData::where('asset', 'EUR')->value('price'), 2) }}$
                 </small>
               </div>
             </div>
