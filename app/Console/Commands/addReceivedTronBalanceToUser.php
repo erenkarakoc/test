@@ -59,8 +59,6 @@ class AddReceivedTronBalanceToUser extends Command
                 // Update Transaction
                 if ((float) $wallet->trx_balance !== (float) $transaction->amount_in_asset) {
                     $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
-                } else {
-                    $transaction->status = 'completed';
                 }
                 $transaction->amount_in_asset = $wallet->trx_balance;
                 $transaction->amount_in_usd = $wallet->trx_balance * $wallet->asset_price;
@@ -68,6 +66,7 @@ class AddReceivedTronBalanceToUser extends Command
                 $transaction->asset_price = $wallet->asset_price;
                 $transaction->asset_balance_after = $userTrxWallet->balance;
                 $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
+                $transaction->status = 'completed';
                 $transaction->hash_id = $wallet->hash_id;
                 $transaction->save();
             }
@@ -84,8 +83,6 @@ class AddReceivedTronBalanceToUser extends Command
                 // Update Transaction
                 if ((float) $wallet->usdt_balance !== (float) $transaction->amount_in_asset) {
                     $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
-                } else {
-                    $transaction->status = 'completed';
                 }
                 $transaction->amount_in_asset = $wallet->usdt_balance;
                 $transaction->amount_in_usd = $wallet->usdt_balance * $wallet->asset_price;
@@ -93,6 +90,7 @@ class AddReceivedTronBalanceToUser extends Command
                 $transaction->asset_price = $wallet->asset_price;
                 $transaction->asset_balance_after = $userTrxWallet->balance;
                 $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
+                $transaction->status = 'completed';
                 $transaction->hash_id = $wallet->hash_id;
                 $transaction->save();
             }
