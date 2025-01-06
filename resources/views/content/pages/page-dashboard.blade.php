@@ -458,9 +458,8 @@
 
                 <div class="col-lg-8">
                   <div class="gdz-token-introduction">
-                    <div class="gdz-token-3d-bg"
-                      style="background-image: url('{{ asset('assets/img/illustrations/gdz_3d.png') }}')">
-                    </div>
+                    <img src="{{ asset('assets/img/illustrations/gdz_3d.png') }}" alt="Gedzen Token"
+                      class="gdz-token-3d-bg">
                     <p class="text-light">
                       Use Gedzen Token to invest in strategy packs with higher profits. Benefit from promising price
                       growth and more.
