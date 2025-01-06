@@ -477,7 +477,7 @@
       <div class="card text-white bg-light">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-start">
               <span class="text-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -487,9 +487,12 @@
                     opacity=".7" />
                 </svg>
               </span>
-              <h5 class="d-flex align-items-center ms-2 mb-0">
-                Transactions
-              </h5>
+              <div class="d-flex flex-column">
+                <h5 class="d-flex align-items-center ms-2 mb-0">
+                  Transactions
+                </h5>
+                <small class="text-light ms-2">Latest transactions made in your account</small>
+              </div>
             </div>
             <a href="{{ route('page-transactions') }}" class="btn btn-sm btn-primary">View All</a>
           </div>
@@ -598,9 +601,8 @@
       <div class="card text-white bg-light">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-start">
               <span class="text-primary">
-
                 <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.0415 23.9593C5.75183 25.6673 8.5005 25.6673 14.0002 25.6673C19.4998 25.6673 22.2497 25.6673 23.9577 23.9582C25.6668 22.2513 25.6668 19.5003 25.6668 14.0007C25.6668 8.50098 25.6668 5.75115 23.9577 4.04198C22.2508 2.33398 19.4998 2.33398 14.0002 2.33398C8.5005 2.33398 5.75066 2.33398 4.0415 4.04198C2.3335 5.75232 2.3335 8.50098 2.3335 14.0007C2.3335 19.5003 2.3335 22.2513 4.0415 23.9593Z"
@@ -610,9 +612,12 @@
                     fill="#fff" />
                 </svg>
               </span>
-              <h5 class="d-flex align-items-center ms-2 mb-0">
-                Profits
-              </h5>
+              <div class="d-flex flex-column">
+                <h5 class="d-flex align-items-center ms-2 mb-0">
+                  Profits
+                </h5>
+                <small class="text-light ms-2">Latest profits you've earned</small>
+              </div>
             </div>
             <a href="#" class="btn btn-sm btn-primary">View All</a>
           </div>

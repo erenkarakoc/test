@@ -119,14 +119,9 @@
                 </h6>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
-                    d="M6.26 21.388H6c-.943 0-1.414 0-1.707-.293C4 20.804 4 20.332 4 19.389v-1.112c0-.518 0-.777.133-1.009s.334-.348.736-.582c2.646-1.539 6.403-2.405 8.91-.91q.253.151.45.368a1.49 1.49 0 0 1-.126 2.134a1 1 0 0 1-.427.24q.18-.021.345-.047c.911-.145 1.676-.633 2.376-1.162l1.808-1.365a1.89 1.89 0 0 1 2.22 0c.573.433.749 1.146.386 1.728c-.423.678-1.019 1.545-1.591 2.075s-1.426 1.004-2.122 1.34c-.772.373-1.624.587-2.491.728c-1.758.284-3.59.24-5.33-.118a15 15 0 0 0-3.017-.308"
-                    opacity=".5"></path>
-                  <path fill="currentColor"
-                    d="M6.586 2.586c-.367.367-.504.873-.555 1.664A2.25 2.25 0 0 0 8.25 2.03c-.79.052-1.297.189-1.664.556m10.828 0c-.367-.367-.873-.504-1.664-.555a2.25 2.25 0 0 0 2.22 2.219c-.052-.79-.189-1.297-.556-1.664m0 6.828c-.367.367-.873.504-1.664.555a2.25 2.25 0 0 1 2.22-2.219c-.052.79-.189 1.297-.556 1.664m-10.828 0c.367.367.873.504 1.664.555A2.25 2.25 0 0 0 6.03 7.75c.052.79.189 1.297.556 1.664">
-                  </path>
-                  <path fill="currentColor" fill-rule="evenodd"
-                    d="M6 5.75A3.75 3.75 0 0 0 9.75 2h4.5A3.75 3.75 0 0 0 18 5.75v.5A3.75 3.75 0 0 0 14.25 10h-4.5A3.75 3.75 0 0 0 6 6.25zM12 7a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
-                    clip-rule="evenodd"></path>
+                    d="M14.25 19h1.5c2.317-.005 3.558-.062 4.472-.674a4 4 0 0 0 1.104-1.103C22 16.213 22 14.809 22 12s0-4.213-.674-5.222a4 4 0 0 0-1.104-1.103c-.915-.612-2.155-.669-4.472-.674h-1.5V9H15a3 3 0 1 1 0 6h-.75zm-4.5 0v-4H9a3 3 0 1 1 0-6h.75V5.001h-1.5c-2.317.005-3.557.062-4.472.674a4 4 0 0 0-1.104 1.103C2 7.787 2 9.192 2 12c0 2.81 0 4.214.674 5.223a4 4 0 0 0 1.104 1.103c.915.612 2.155.669 4.472.674z"
+                    opacity=".5" />
+                  <path fill="currentColor" d="M9.75 19h4.5V5h-4.5z" opacity=".8" />
                 </svg>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
@@ -227,13 +222,9 @@
             aria-controls="earned" aria-selected="false">
             <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor"
-                d="M6.26 21.388H6c-.943 0-1.414 0-1.707-.293C4 20.804 4 20.332 4 19.389v-1.112c0-.518 0-.777.133-1.009s.334-.348.736-.582c2.646-1.539 6.403-2.405 8.91-.91q.253.151.45.368a1.49 1.49 0 0 1-.126 2.134a1 1 0 0 1-.427.24q.18-.021.345-.047c.911-.145 1.676-.633 2.376-1.162l1.808-1.365a1.89 1.89 0 0 1 2.22 0c.573.433.749 1.146.386 1.728c-.423.678-1.019 1.545-1.591 2.075s-1.426 1.004-2.122 1.34c-.772.373-1.624.587-2.491.728c-1.758.284-3.59.24-5.33-.118a15 15 0 0 0-3.017-.308"
+                d="M14.25 19h1.5c2.317-.005 3.558-.062 4.472-.674a4 4 0 0 0 1.104-1.103C22 16.213 22 14.809 22 12s0-4.213-.674-5.222a4 4 0 0 0-1.104-1.103c-.915-.612-2.155-.669-4.472-.674h-1.5V9H15a3 3 0 1 1 0 6h-.75zm-4.5 0v-4H9a3 3 0 1 1 0-6h.75V5.001h-1.5c-2.317.005-3.557.062-4.472.674a4 4 0 0 0-1.104 1.103C2 7.787 2 9.192 2 12c0 2.81 0 4.214.674 5.223a4 4 0 0 0 1.104 1.103c.915.612 2.155.669 4.472.674z"
                 opacity=".5" />
-              <path fill="currentColor"
-                d="M6.586 2.586c-.367.367-.504.873-.555 1.664A2.25 2.25 0 0 0 8.25 2.03c-.79.052-1.297.189-1.664.556m10.828 0c-.367-.367-.873-.504-1.664-.555a2.25 2.25 0 0 0 2.22 2.219c-.052-.79-.189-1.297-.556-1.664m0 6.828c-.367.367-.873.504-1.664.555a2.25 2.25 0 0 1 2.22-2.219c-.052.79-.189 1.297-.556 1.664m-10.828 0c.367.367.873.504 1.664.555A2.25 2.25 0 0 0 6.03 7.75c.052.79.189 1.297.556 1.664" />
-              <path fill="currentColor" fill-rule="evenodd"
-                d="M6 5.75A3.75 3.75 0 0 0 9.75 2h4.5A3.75 3.75 0 0 0 18 5.75v.5A3.75 3.75 0 0 0 14.25 10h-4.5A3.75 3.75 0 0 0 6 6.25zM12 7a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
-                clip-rule="evenodd" />
+              <path fill="currentColor" d="M9.75 19h4.5V5h-4.5z" opacity=".8" />
             </svg>
             Earned
           </button>
@@ -341,7 +332,22 @@
                     </a>
                   @endforeach
                 @else
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid0">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid0)" />
+                    </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You don't have any transactions yet.
                     </h6>
@@ -431,7 +437,22 @@
                     </a>
                   @endforeach
                 @else
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid1">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid1)" />
+                    </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't received any funds yet.
                     </h6>
@@ -534,7 +555,22 @@
                     </a>
                   @endforeach
                 @else
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid2">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid2)" />
+                    </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't sent any funds yet.
                     </h6>
@@ -645,7 +681,22 @@
                     </a>
                   @endforeach
                 @else
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid3">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid3)" />
+                    </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't earned anything yet.
                     </h6>
@@ -762,7 +813,22 @@
                     </a>
                   @endforeach
                 @else
-                  <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid4">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid4)" />
+                    </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't earned anything yet.
                     </h6>

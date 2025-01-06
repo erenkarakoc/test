@@ -28,16 +28,89 @@
     <h5 class="mb-3 lh-1">Profile</h5>
     <p class="lh-1 mb-7">View and manage your profile</p>
 
-    <div class="row">
+    <div class="row row-gap-4">
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50">Username</small>
+          <span class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">{{ $user->username }}</span>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50">Email</small>
+          <div class="mb-0 w-50">
+            <span>{{ $user->email }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50">Full Name</small>
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+            @if ($user->full_name)
+              <span>{{ $user->full_name }}</span>
+            @else
+              <small><i class="fw-light text-light">Not set yet</i></small>
+            @endif
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50">Country</small>
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+            @if ($user->country)
+              <span>{{ $user->country }}</span>
+            @else
+              <small><i class="fw-light text-light">Not set yet</i></small>
+            @endif
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50">Phone Number</small>
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+            @if ($user->phone_number)
+              <span>{{ $user->phone_number }}</span>
+            @else
+              <small><i class="fw-light text-light">Not set yet</i></small>
+            @endif
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50 m-w-100 overflow-hidden text-truncate">Date of Birth</small>
+          <div class="mb-0 w-50">
+            @if ($user->date_of_birth)
+              <span>{{ $user->date_of_birth }}</span>
+            @else
+              <small><i class="fw-light text-light">Not set yet</i></small>
+            @endif
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-lg-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+          <small class="w-50 m-w-100 overflow-hidden text-truncate">2FA Authentication</small>
+          <div class="mb-0 w-50">
+            @if ($user->two_factor_confirmed_at)
+              <small class="text-success">Active</small>
+            @else
+              <small><i class="fw-light text-light">Not set yet</i></small>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-7">
       <div class="col-12">
         <div class="nav-tabs-shadow nav-align-top">
           <ul class="nav nav-tabs" id="user-profile-nav-tabs" role="tablist">
             <li class="nav-item">
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                data-bs-target="#summary">Summary</button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                 data-bs-target="#update-profile">Update Profile</button>
             </li>
             <li class="nav-item">
@@ -51,19 +124,7 @@
           </ul>
 
           <div class="tab-content border">
-            <div class="tab-pane fade show active" id="summary">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Summary</h5>
-                  <p class="card-subtitle">Here's a summary of your profile</p>
-                </div>
-                <div class="card-body">
-
-                </div>
-              </div>
-            </div>
-
-            <div class="tab-pane fade" id="update-profile">
+            <div class="tab-pane fade show active" id="update-profile">
               <div class="card">
                 <div class="card-header">
                   <h5 class="card-title">Update Profile</h5>
@@ -115,6 +176,7 @@
                         <div class="input-group input-group-merge">
                           <select class="selectpicker form-select w-100" id="country" name="country"
                             data-live-search="true">
+                            <option value="">Select your country (optional)</option>
                             @foreach ($countries as $country)
                               <option value="{{ $country->name }}" @if ($country->name === $user->country) selected @endif>
                                 {{ $country->name }}
@@ -175,13 +237,31 @@
                             name="date_of_birth" pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd">
                         </div>
                         <small id="clearDateOfBirth" class="mt-1"
-                          style="display: none; width: fit-content;">Clear</small>
+                          style="{{ $user->date_of_birth ? '' : 'display: none;' }} width: fit-content;">Clear</small>
                       </div>
                     </div>
                     <div class="d-flex justify-content-end">
                       <div class="d-flex align-items-baseline mt-6">
-                        <button type="submit" class="btn btn-sm btn-primary waves-effect waves-light">
-                          Save
+                        <button type="submit" class="btn btn-sm btn-primary waves-effect waves-light"
+                          id="profileSaveButton" data-text='Save' data-loading-text='Saving...'>
+                          <svg class="loading-hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="4">
+                              <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
+                                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s"
+                                  values="16;0" />
+                                <animateTransform attributeName="transform" dur="1s" repeatCount="indefinite"
+                                  type="rotate" values="0 12 12;360 12 12" />
+                              </path>
+                              <path stroke-dasharray="64" stroke-dashoffset="64" stroke-opacity=".3"
+                                d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
+                                <animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s"
+                                  values="64;0" />
+                              </path>
+                            </g>
+                          </svg>
+                          <span>Save</span>
                         </button>
                       </div>
                     </div>
@@ -208,9 +288,7 @@
             </div>
 
             <div class="tab-pane fade" id="activity">
-              <div class="mt-4">
-                @livewire('profile.logout-other-browser-sessions-form')
-              </div>
+              @livewire('profile.logout-other-browser-sessions-form')
             </div>
           </div>
         </div>

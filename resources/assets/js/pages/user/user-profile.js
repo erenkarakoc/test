@@ -22,7 +22,8 @@
           },
           stringLength: {
             min: 8,
-            message: 'Username must be more than 8 characters'
+            max: 50,
+            message: 'Username must be between 8 and 50 characters'
           }
         }
       },
@@ -95,12 +96,17 @@
     return response.json();
   };
 
+  const profileSaveButton = document.querySelector('#profileSaveButton');
   updateUserProfileForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const validationStatus = await fv.validate();
 
     if (validationStatus === 'Valid') {
+      profileSaveButton.setAttribute('disabled', true);
+      profileSaveButton.querySelector('span').innerHTML = profileSaveButton.getAttribute('data-loading-text');
+      profileSaveButton.querySelector('svg').classList.remove('loading-hidden');
+
       const form = e.target;
       const formData = new FormData(form);
       const data = {
@@ -114,7 +120,12 @@
       const response = await postRequest('/user/update-user-profile', data);
 
       if (response.success) {
-        toastr.success('Profile updated.');
+        setTimeout(() => {
+          profileSaveButton.querySelector('span').innerHTML = profileSaveButton.getAttribute('data-text');
+          profileSaveButton.querySelector('svg').classList.add('loading-hidden');
+          profileSaveButton.removeAttribute('disabled');
+          toastr.success('Profile updated.');
+        }, 500);
       }
     } else {
       toastr.error('Please correct the errors before submitting.');
