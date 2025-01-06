@@ -53,6 +53,7 @@ function libsWindowAssignment() {
 }
 
 export default defineConfig({
+  base: '/',
   plugins: [
     laravel({
       input: [
