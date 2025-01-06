@@ -169,4 +169,14 @@
       manageTab.show();
     }
   });
+
+  const summaryItems = document.querySelectorAll('[data-summary-item-target]');
+
+  summaryItems.forEach(summaryItem => {
+    summaryItem.addEventListener('click', () => {
+      const target = summaryItem.getAttribute('data-summary-item-target');
+
+      target.focus();
+    });
+  });
 })();

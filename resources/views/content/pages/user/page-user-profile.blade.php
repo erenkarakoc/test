@@ -30,7 +30,8 @@
 
     <div class="row row-gap-4">
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50">Username</small>
           <span class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">{{ $user->username }}</span>
         </div>
@@ -44,7 +45,8 @@
         </div>
       </div>
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50">Full Name</small>
           <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
             @if ($user->full_name)
@@ -56,7 +58,8 @@
         </div>
       </div>
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50">Country</small>
           <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
             @if ($user->country)
@@ -68,7 +71,8 @@
         </div>
       </div>
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50">Phone Number</small>
           <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
             @if ($user->phone_number)
@@ -80,7 +84,8 @@
         </div>
       </div>
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50 m-w-100 overflow-hidden text-truncate">Date of Birth</small>
           <div class="mb-0 w-50">
             @if ($user->date_of_birth)
@@ -92,7 +97,8 @@
         </div>
       </div>
       <div class="col col-12 col-lg-6">
-        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6">
+        <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
+          data-summary-item-target='username'>
           <small class="w-50 m-w-100 overflow-hidden text-truncate">2FA Authentication</small>
           <div class="mb-0 w-50">
             @if ($user->two_factor_confirmed_at)
