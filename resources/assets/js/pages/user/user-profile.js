@@ -181,10 +181,10 @@
         const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#security']"));
         tab.show();
         url.searchParams.set('tab', 'security');
-        document.querySelector('.two-factor-authentication-form > div').filter = 'brightness';
+        document.querySelector('.two-factor-authentication-form > div').style.background = '#151515';
         setTimeout(() => {
           document.querySelector('.two-factor-authentication-form > div').style.background = '';
-        }, 1000);
+        }, 1500);
       } else {
         const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#update-profile']"));
         tab.show();
