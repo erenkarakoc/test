@@ -1,0 +1,13 @@
+// * Strategy Packs
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+.page-strategy-packs {
+  .strategy-packs-table {
+    tbody td {
+      box-shadow: none;
+    }
+  }
+}

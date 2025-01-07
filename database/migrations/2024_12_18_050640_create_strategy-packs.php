@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('strategies', function (Blueprint $table) {
+        Schema::create('strategy_packs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->decimal('min_invest', 10, 2);
-            $table->decimal('max_invest', 10, 2);
-            $table->decimal('profit_percentage_min', 5, 2);
-            $table->decimal('profit_percentage_max', 5, 2);
             $table->integer('period');
             $table->integer('repeat_time');
             $table->timestamp('start_at')->useCurrent();
             $table->timestamp('end_at')->nullable();
-            $table->json('ref_bonuses')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('strategies');
+        Schema::dropIfExists('strategy_packs');
     }
 };

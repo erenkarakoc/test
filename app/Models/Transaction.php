@@ -31,7 +31,7 @@ class Transaction extends Model
         'asset_locked_balance_after',
         'total_balance_after',
         'total_locked_balance_after',
-        'strategy_id',
+        'strategy_pack_id',
         'status',
         'hash_id',
     ];

@@ -224,10 +224,26 @@
                   <div class="table card-table rounded bg-light">
                     <div class="card-body">
                       <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                        <svg class="my-4  p-0" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                          viewBox="0 0 48 48">
+                          <defs>
+                            <mask id="ipTForbid5">
+                              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="4">
+                                <path fill="currentColor" fill-rule="evenodd"
+                                  d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                                  clip-rule="evenodd" opacity="0.5" />
+                                <path d="m15 15l18 18" />
+                              </g>
+                            </mask>
+                          </defs>
+                          <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid5)" />
+                        </svg>
                         <h6 class="mb-2 pb-0 px-0 fw-bolder">
                           You haven't earned any bonuses yet.
                         </h6>
-                        <small class="pt-0 px-0">The transactions related earned bonuses will be listed here.</small>
+                        <small class="pt-0 px-0">The transactions related to the bonuses you've earned from your
+                          invitations will be listed here.</small>
                       </div>
                     </div>
                   </div>

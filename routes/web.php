@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Assets\AssetsController;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageDashboard;
+use App\Http\Controllers\pages\PageStrategyPacks;
 use App\Http\Controllers\pages\PageTeam;
 use App\Http\Controllers\pages\PageTransactions;
 use App\Http\Controllers\pages\PageWallet;
@@ -36,8 +37,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PageDashboard::class, 'index'])->name('page-home');
     Route::get('/dashboard', [PageDashboard::class, 'index'])->name('page-dashboard');
 
-    // Pages - Strategies
-    Route::get('/strategies', [PageDashboard::class, 'index'])->name('page-strategies');
+    // Pages - Strategy Packs
+    Route::get('/strategies', [PageStrategyPacks::class, 'index'])->name('page-strategy-packs');
     // Pages - Wallet
     Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
     // Pages - Add Funds

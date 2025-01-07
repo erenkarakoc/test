@@ -29,7 +29,7 @@ class TransactionController extends Controller
             'asset_locked_balance_after' => $newTransaction['asset_locked_balance_after'],
             'total_balance_after' => $newTransaction['total_balance_after'],
             'total_locked_balance_after' => $newTransaction['total_locked_balance_after'],
-            'strategy_id' => $newTransaction['strategy_id'] ?? null,
+            'strategy_pack_id' => $newTransaction['strategy_pack_id'] ?? null,
             'status' => $newTransaction['status'],
             'hash_id' => $newTransaction['hash_id'] ?? null,
         ]);

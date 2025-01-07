@@ -10,12 +10,12 @@ class Referral extends Model
     use HasFactory;
 
     protected $fillable = [
-        'referrer_id', 'referred_id', 'strategy_id', 'bonus_amount', 'bonus_level',
+        'referrer_id', 'referred_id', 'strategy_pack_id', 'bonus_amount', 'bonus_level',
     ];
 
-    public function strategy()
+    public function strategyPack()
     {
-        return $this->belongsTo(Strategy::class);
+        return $this->belongsTo(StrategyPack::class);
     }
 
     public function referrer()

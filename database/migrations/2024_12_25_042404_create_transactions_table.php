@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('asset_locked_balance_after')->nullable();
             $table->decimal('total_balance_after')->nullable();
             $table->decimal('total_locked_balance_after')->nullable();
-            $table->foreignId('strategy_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('strategy_pack_id')->nullable()->constrained()->onDelete('cascade');
             $table->enum('status', ['completed', 'pending', 'cancelled', 'rejected']);
             $table->string('note')->nullable();
             $table->string('hash_id')->nullable();
