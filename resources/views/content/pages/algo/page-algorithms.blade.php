@@ -18,7 +18,7 @@
 @section('content')
   <div class="page-algorithms">
     <h5 class="mb-3 lh-1">Algorithms</h5>
-    <p class="lh-1 mb-7">See our pre-defined strategy packs for optimized algo-trading.</p>
+    <p class="lh-1 mb-7">Explore a wide range of trading algorithms</p>
 
     <div class="row">
 

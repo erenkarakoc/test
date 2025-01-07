@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\pages;
 
+use App\Http\Controllers\Controller;
 use App\Models\Algorithm;
 
 class PageAlgorithms extends Controller

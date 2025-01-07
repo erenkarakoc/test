@@ -3,8 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Assets\AssetsController;
 use App\Http\Controllers\language\LanguageController;
-use App\Http\Controllers\PageAlgorithms;
 use App\Http\Controllers\pages\PageAddFunds;
+use App\Http\Controllers\pages\PageAlgorithms;
 use App\Http\Controllers\pages\PageDashboard;
 use App\Http\Controllers\pages\PageStrategyPacks;
 use App\Http\Controllers\pages\PageTeam;

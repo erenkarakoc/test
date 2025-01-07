@@ -18,7 +18,7 @@
 @section('content')
   <div class="page-strategy-packs">
     <h5 class="mb-3 lh-1">Strategy Packs</h5>
-    <p class="lh-1 mb-7">See our pre-defined strategy packs for optimized algo-trading.</p>
+    <p class="lh-1 mb-7">See our pre-defined strategy packs for optimized algo-trading</p>
 
     <div class="row">
       <div class="col col-md-6">
