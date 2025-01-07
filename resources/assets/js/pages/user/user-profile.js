@@ -174,9 +174,23 @@
 
   summaryItems.forEach(summaryItem => {
     summaryItem.addEventListener('click', () => {
+      const url = new URL(window.location);
       const target = summaryItem.getAttribute('data-summary-item-target');
 
-      target.focus();
+      if (target === '2fa') {
+        const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#security']"));
+        tab.show();
+        url.searchParams.set('tab', 'security');
+        document.querySelector('.two-factor-authentication-form > div').filter = 'brightness';
+        setTimeout(() => {
+          document.querySelector('.two-factor-authentication-form > div').style.background = '';
+        }, 1000);
+      } else {
+        const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#update-profile']"));
+        tab.show();
+        url.searchParams.set('tab', 'update-profile');
+        document.querySelector('#' + target).focus();
+      }
     });
   });
 })();
