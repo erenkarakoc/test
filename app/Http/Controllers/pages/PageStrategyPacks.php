@@ -11,6 +11,6 @@ class PageStrategyPacks extends Controller
     {
         $strategy_packs = StrategyPack::all();
 
-        return view('content.pages.strategy-packs.page-strategy-packs', compact('strategy_packs'));
+        return view('content.pages.algo.page-strategy-packs', compact('strategy_packs'));
     }
 }

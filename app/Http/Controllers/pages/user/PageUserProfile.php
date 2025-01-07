@@ -8,12 +8,7 @@ use Illuminate\Http\Request;
 
 class PageUserProfile extends Controller
 {
-    /**
-     * Show the user profile screen.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show(Request $request)
+    public function index(Request $request)
     {
         $countries = Country::select('id', 'name', 'translations')->get();
 

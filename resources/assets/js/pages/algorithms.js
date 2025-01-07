@@ -1,0 +1,9 @@
+/**
+ * Algorithms
+ */
+
+('use strict');
+
+(function () {
+  //
+})();

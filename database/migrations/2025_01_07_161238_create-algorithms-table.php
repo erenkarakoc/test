@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('strategy_packs', function (Blueprint $table) {
+        Schema::create('algorithms', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
-            $table->integer('period');
-            $table->integer('repeat_hours');
-            $table->timestamp('start_at')->useCurrent();
-            $table->timestamp('end_at')->nullable();
+            $table->string('profit_contribution');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('strategy_packs');
+        Schema::dropIfExists('algorithms');
     }
 };

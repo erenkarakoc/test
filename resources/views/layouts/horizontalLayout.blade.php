@@ -143,7 +143,10 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="nav-link">
+                    <a href="{{ route('page-algorithms') }}" @class([
+                        'nav-link',
+                        'active' => Route::currentRouteName() === 'page-algorithms',
+                    ])>
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
                           <path d="M2 12h7.5M22 12h-7.5" opacity=".5" />
@@ -152,7 +155,7 @@
                         </g>
                       </svg>
                       <span class="ms-2">Algorithms</span>
-                    </button>
+                    </a>
                   </li>
                   <li class="nav-item">
                     <a href="{{ route('page-team') }}" @class([

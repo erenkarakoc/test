@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Assets\AssetsController;
 use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\PageAlgorithms;
 use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageDashboard;
 use App\Http\Controllers\pages\PageStrategyPacks;
@@ -38,7 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageDashboard::class, 'index'])->name('page-dashboard');
 
     // Pages - Strategy Packs
-    Route::get('/strategies', [PageStrategyPacks::class, 'index'])->name('page-strategy-packs');
+    Route::get('/strategy-packs', [PageStrategyPacks::class, 'index'])->name('page-strategy-packs');
+    // Pages - Algorithms
+    Route::get('/algorithms', [PageAlgorithms::class, 'index'])->name('page-algorithms');
     // Pages - Wallet
     Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
     // Pages - Add Funds
@@ -48,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Pages - Transactions
     Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
     // Pages - User - Profile
-    Route::get('/user/profile', [PageUserProfile::class, 'show'])->name('page-user-profile');
+    Route::get('/user/profile', [PageUserProfile::class, 'index'])->name('page-user-profile');
 
     // /////////////////
     // / POST Routes ///
