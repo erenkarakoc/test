@@ -278,11 +278,19 @@
                             @else
                               Earned via {{ $transaction->asset }}
                             @endif
-                            @if ($transaction->note)
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
                               <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                                width="18" height="18" viewBox="0 0 24 24">
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />
@@ -383,11 +391,19 @@
                         <div class="d-flex flex-column">
                           <h6 class="mb-0">
                             Received via {{ $transaction->asset }}
-                            @if ($transaction->note)
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
                               <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                                width="18" height="18" viewBox="0 0 24 24">
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />
@@ -501,11 +517,19 @@
                         <div class="d-flex flex-column">
                           <h6 class="mb-0">
                             Sent via {{ $transaction->asset }}
-                            @if ($transaction->note)
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
                               <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                                width="18" height="18" viewBox="0 0 24 24">
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />
@@ -618,20 +642,20 @@
                         </div>
                         <div class="d-flex flex-column">
                           <h6 class="mb-0">
-                            @if ($transaction->type === 'deposit')
-                              Received via {{ $transaction->asset }}
-                            @elseif ($transaction->status === 'withdraw')
-                              Sent via {{ $transaction->asset }}
-                            @elseif ($transaction->status === 'invest')
-                              Locked via {{ $transaction->asset }}
-                            @else
-                              Earned via {{ $transaction->asset }}
-                            @endif
-                            @if ($transaction->note)
+                            Earned via {{ $transaction->asset }}
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
                               <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                                width="18" height="18" viewBox="0 0 24 24">
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />
@@ -749,20 +773,20 @@
                         </div>
                         <div class="d-flex flex-column">
                           <h6 class="mb-0">
-                            @if ($transaction->type === 'deposit')
-                              Received via {{ $transaction->asset }}
-                            @elseif ($transaction->status === 'withdraw')
-                              Sent via {{ $transaction->asset }}
-                            @elseif ($transaction->status === 'invest')
-                              Locked via {{ $transaction->asset }}
-                            @else
-                              Earned via {{ $transaction->asset }}
-                            @endif
-                            @if ($transaction->note)
+                            Bonus via {{ $transaction->asset }}
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
                               <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                                data-bs-content="{{ $transaction->note }}" xmlns="http://www.w3.org/2000/svg"
-                                width="18" height="18" viewBox="0 0 24 24">
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />

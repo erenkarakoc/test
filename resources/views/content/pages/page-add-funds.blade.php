@@ -443,7 +443,7 @@
                                     opacity=".5" />
                                 </svg>
                               </div>
-                              <small><span class="chosen-asset-price-in-usd"></span> USD</small>
+                              <small><span class="chosen-asset-price-in-usd">1.00</span> USD</small>
                             </div>
 
                             <label for="walletAddress" class="wallet-address-label mt-8 mb-2">

@@ -46,6 +46,8 @@ class AddReceivedTronBalanceToUser extends Command
             $userTrxWallet = UserBalances::where('user_id', $wallet->user_id)->where('wallet', 'TRX')->first();
             $userUsdtWallet = UserBalances::where('user_id', $wallet->user_id)->where('wallet', 'USDT')->first();
             $transaction = Transaction::where('tnx_id', $wallet->tnx_id)->first();
+            $trxPrice = MarketData::where('asset', 'TRX')->value('price');
+            $usdtPrice = MarketData::where('asset', 'USDT')->value('price');
 
             if ((float) $wallet->trx_balance) {
                 // Update User Balance
@@ -58,12 +60,22 @@ class AddReceivedTronBalanceToUser extends Command
 
                 // Update Transaction
                 if ((float) $wallet->trx_balance !== (float) $transaction->amount_in_asset) {
-                    $transaction->note = 'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.';
+                    $transaction->notes = array_merge($transaction->notes ?? '[]' ?? [], [
+                        'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.',
+                    ]);
+                }
+                if ($transaction->asset === 'USDT') {
+                    $transaction->notes = array_merge($transaction->notes ?? [], [
+                        'We\'ve received TRX instead of USDT. Received amount of TRX has been added to your wallet.',
+                    ]);
+                    $transaction->asset_price = $trxPrice;
+                    $transaction->amount_in_usd = $wallet->trx_balance * $trxPrice;
+                } else {
+                    $transaction->asset_price = $wallet->asset_price;
+                    $transaction->amount_in_usd = $wallet->trx_balance * $wallet->asset_price;
                 }
                 $transaction->amount_in_asset = $wallet->trx_balance;
-                $transaction->amount_in_usd = $wallet->trx_balance * $wallet->asset_price;
                 $transaction->asset = 'TRX';
-                $transaction->asset_price = $wallet->asset_price;
                 $transaction->asset_balance_after = $userTrxWallet->balance;
                 $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
                 $transaction->status = 'completed';
@@ -82,12 +94,22 @@ class AddReceivedTronBalanceToUser extends Command
 
                 // Update Transaction
                 if ((float) $wallet->usdt_balance !== (float) $transaction->amount_in_asset) {
-                    $transaction->note = 'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.';
+                    $transaction->notes = array_merge($transaction->notes ?? '[]' ?? [], [
+                        'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.',
+                    ]);
+                }
+                if ($transaction->asset === 'TRX') {
+                    $transaction->notes = array_merge($transaction->notes ?? '[]' ?? [], [
+                        'We\'ve received USDT instead of TRX. Received amount of USDT has been added to your wallet.',
+                    ]);
+                    $transaction->asset_price = $usdtPrice;
+                    $transaction->amount_in_usd = $wallet->trx_balance * $usdtPrice;
+                } else {
+                    $transaction->asset_price = $wallet->asset_price;
                 }
                 $transaction->amount_in_asset = $wallet->usdt_balance;
                 $transaction->amount_in_usd = $wallet->usdt_balance * $wallet->asset_price;
                 $transaction->asset = 'USDT';
-                $transaction->asset_price = $wallet->asset_price;
                 $transaction->asset_balance_after = $userTrxWallet->balance;
                 $transaction->total_balance_after = $this->calculateUserTotalBalance($userId);
                 $transaction->status = 'completed';
