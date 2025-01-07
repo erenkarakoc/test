@@ -574,7 +574,7 @@
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't sent any funds yet.
                     </h6>
-                    <small class="pt-0 px-0">The transactions related received funds will be listed here.</small>
+                    <small class="pt-0 px-0">The transactions related sent funds will be listed here.</small>
                     <a href="{{ route('page-add-funds') }}"
                       class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">
                       <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -598,7 +598,7 @@
         <div class="tab-pane fade" id="earned" role="tabpanel" aria-labelledby="all" tabindex="0">
           <h5 class="mb-2 lh-1">Earned</h5>
           <small class="lh-1 mb-7">
-            View all transactions related to the funds you've earned from strategies
+            View all transactions related to your incomes from strategies
           </small>
 
           <div class="card bg-light mt-7">
@@ -698,7 +698,7 @@
                       <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid3)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
-                      You haven't earned anything yet.
+                      You haven't earned any profits yet.
                     </h6>
                     <small class="pt-0 px-0">
                       The transactions related to your incomes from strategies will be listed here.
@@ -830,10 +830,10 @@
                       <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid4)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
-                      You haven't earned anything yet.
+                      You haven't earned any bonuses yet.
                     </h6>
                     <small class="pt-0 px-0">
-                      The transactions related to your incomes from strategies will be listed here.
+                      The transactions related to the bonuses you've earned from your invitations will be listed here.
                     </small>
                     <a href="{{ route('page-team') }}"
                       class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">

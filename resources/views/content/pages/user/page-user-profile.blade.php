@@ -174,7 +174,8 @@
                         <div class="input-group input-group-merge">
                           <select class="selectpicker form-select w-100" id="country" name="country"
                             data-live-search="true">
-                            <option value="">Select your country (optional)</option>
+                            <option value="" @if (!$user->country) selected @endif>Select your country
+                            </option>
                             @foreach ($countries as $country)
                               <option value="{{ $country->name }}" @if ($country->name === $user->country) selected @endif>
                                 {{ $country->name }}

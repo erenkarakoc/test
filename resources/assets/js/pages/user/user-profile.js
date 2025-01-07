@@ -165,13 +165,18 @@
   document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('tab')) {
-      const manageTab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
-      manageTab.show();
+      const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
+      tab.show();
     }
   });
 
-  const summaryItems = document.querySelectorAll('[data-summary-item-target]');
+  window.addEventListener('popstate', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
+    tab.show();
+  });
 
+  const summaryItems = document.querySelectorAll('[data-summary-item-target]');
   summaryItems.forEach(summaryItem => {
     summaryItem.addEventListener('click', () => {
       const url = new URL(window.location);
@@ -181,6 +186,7 @@
         const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#security']"));
         tab.show();
         url.searchParams.set('tab', 'security');
+        window.history.pushState({}, '', url);
         document.querySelector('.two-factor-authentication-form > div').style.background = '#151515';
         setTimeout(() => {
           document.querySelector('.two-factor-authentication-form > div').style.background = '';
@@ -189,6 +195,7 @@
         const tab = new bootstrap.Tab(document.querySelector("[data-bs-target='#update-profile']"));
         tab.show();
         url.searchParams.set('tab', 'update-profile');
+        window.history.pushState({}, '', url);
         document.querySelector('#' + target).focus();
       }
     });
