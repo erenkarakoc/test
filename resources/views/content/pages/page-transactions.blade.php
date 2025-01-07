@@ -422,7 +422,7 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                            class="transaction-usd-amount text-warning-emphasis">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
                           <span
                             class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
                             {{ $transaction->asset }}</span>

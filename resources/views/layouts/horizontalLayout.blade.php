@@ -125,9 +125,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('page-strategies') }}" @class([
+                    <a href="{{ route('page-strategy-packs') }}" @class([
                         'nav-link',
-                        'active' => Route::currentRouteName() === 'page-strategies',
+                        'active' => Route::currentRouteName() === 'page-strategy-packs',
                     ])>
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="currentColor"

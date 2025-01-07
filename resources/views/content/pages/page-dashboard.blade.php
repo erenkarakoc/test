@@ -43,7 +43,8 @@
             </div>
             <div class="content-right">
               <span class="text-heading fw-medium mb-0">Total Profit</span>
-              <h6 class="text-primary mb-0">1.45$<small class="text-success fw-light ms-1">7.64%</small></h6>
+              <h6 class="text-primary mb-0">{{ number_format($totalEarned, 2) }}$<small
+                  class="text-success fw-light ms-1">7.64%</small></h6>
             </div>
           </div>
 
@@ -81,7 +82,7 @@
             </div>
             <div class="content-right">
               <span class="mb-0 fw-medium text-white whitespace-nowrap">Total Received</span>
-              <h6 class="text-white mb-0">19.00$</h6>
+              <h6 class="text-white mb-0">{{ number_format($totalReceived, 2) }}$</h6>
             </div>
             <div class="content-hover">
               Add Funds
@@ -102,7 +103,7 @@
             </div>
             <div class="content-right">
               <span class="mb-0 fw-medium text-white whitespace-nowrap">Total Sent</span>
-              <h6 class="text-white mb-0">0.00$</h6>
+              <h6 class="text-white mb-0">{{ number_format($totalSent, 2) }}$</h6>
             </div>
             <div class="content-hover">
               Send
@@ -122,7 +123,7 @@
             </div>
             <div class="content-right">
               <span class="mb-0 fw-medium text-white">Total Bonus</span>
-              <h6 class="text-white mb-0">0.00$</h6>
+              <h6 class="text-white mb-0">{{ number_format($totalBonus, 2) }}$</h6>
             </div>
             <div class="content-hover">
               Invite Friends
@@ -414,12 +415,11 @@
                 <div class="col-lg-4">
                   <div class="d-flex flex-column justify-content-between h-100">
                     <div class="d-flex flex-column justify-content-center align-items-start bg-primary p-4 rounded">
-
-                      <div class="d-flex">
-                        <div class="h4 fw-semibold text-white lh-1 mb-3">
-                          {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
+                      <div class="d-flex align-items-end mb-3">
+                        <div class="h4 fw-semibold text-white lh-1 mb-0">
+                          {{ number_format($userBalances->where('wallet', 'GDZ')->value('locked_balance'), 2) }}
                         </div>
-                        <div class="h5 ms-1 text-white">GDZ</div>
+                        <small class="ms-1 text-white fw-medium">GDZ</small>
                       </div>
                       <span class="text-white d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -434,11 +434,11 @@
                     </div>
                     <div
                       class="d-flex flex-column justify-content-center align-items-start bg-label-primary p-4 rounded">
-                      <div class="d-flex">
-                        <div class="h4 fw-semibold text-dark lh-1 mb-3">
+                      <div class="d-flex align-items-end mb-3">
+                        <div class="h4 fw-semibold text-dark lh-1 mb-0">
                           {{ number_format($userBalances->where('wallet', 'GDZ')->value('locked_balance'), 2) }}
                         </div>
-                        <div class="h5 ms-1 text-dark">GDZ</div>
+                        <small class="ms-1 text-dark fw-medium">GDZ</small>
                       </div>
                       <span class="text-dark d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

@@ -58,7 +58,7 @@ class AddReceivedTronBalanceToUser extends Command
 
                 // Update Transaction
                 if ((float) $wallet->trx_balance !== (float) $transaction->amount_in_asset) {
-                    $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
+                    $transaction->note = 'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.';
                 }
                 $transaction->amount_in_asset = $wallet->trx_balance;
                 $transaction->amount_in_usd = $wallet->trx_balance * $wallet->asset_price;
@@ -82,7 +82,7 @@ class AddReceivedTronBalanceToUser extends Command
 
                 // Update Transaction
                 if ((float) $wallet->usdt_balance !== (float) $transaction->amount_in_asset) {
-                    $transaction->note = 'We\'ve received a different amount than requested initially. Received amount added to your wallet.';
+                    $transaction->note = 'We\'ve received a different amount of TRX/USDT than requested initially. Received amount has been added to your wallet.';
                 }
                 $transaction->amount_in_asset = $wallet->usdt_balance;
                 $transaction->amount_in_usd = $wallet->usdt_balance * $wallet->asset_price;
