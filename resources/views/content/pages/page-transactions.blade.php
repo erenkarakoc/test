@@ -26,7 +26,7 @@
       <div class="col col-3">
         <div class="card bg-primary bg-glow total-transaction-item">
           <div class="p-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column align-items-start gap-2 text-white">
                 <h6 class="d-flex align-items-center mb-0 text-white total-transaction-item-title">
                   Total Received
@@ -41,13 +41,6 @@
                     </svg>
                   </span>
                 </h6>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"
-                    opacity=".5"></path>
-                  <path fill="currentColor"
-                    d="M13.5 15.75a.75.75 0 0 0 0-1.5h-2.69l4.72-4.72a.75.75 0 0 0-1.06-1.06l-4.72 4.72V10.5a.75.75 0 0 0-1.5 0V15c0 .414.336.75.75.75z">
-                  </path>
-                </svg>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">
@@ -64,7 +57,7 @@
       <div class="col col-3">
         <div class="card bg-primary bg-glow total-transaction-item">
           <div class="p-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column align-items-start gap-2 text-white">
                 <h6 class="d-flex align-items-center mb-0 text-white total-transaction-item-title">
                   Total Sent
@@ -79,13 +72,6 @@
                     </svg>
                   </span>
                 </h6>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"
-                    opacity=".5"></path>
-                  <path fill="currentColor"
-                    d="M10.5 8.25a.75.75 0 0 0 0 1.5h2.69l-4.72 4.72a.75.75 0 1 0 1.06 1.06l4.72-4.72v2.69a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75z">
-                  </path>
-                </svg>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">
@@ -102,7 +88,7 @@
       <div class="col col-3">
         <div class="card bg-primary bg-glow total-transaction-item">
           <div class="p-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column align-items-start gap-2 text-white">
                 <h6 class="d-flex align-items-center mb-0 text-white total-transaction-item-title">
                   Total Earned
@@ -117,12 +103,6 @@
                     </svg>
                   </span>
                 </h6>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="currentColor"
-                    d="M14.25 19h1.5c2.317-.005 3.558-.062 4.472-.674a4 4 0 0 0 1.104-1.103C22 16.213 22 14.809 22 12s0-4.213-.674-5.222a4 4 0 0 0-1.104-1.103c-.915-.612-2.155-.669-4.472-.674h-1.5V9H15a3 3 0 1 1 0 6h-.75zm-4.5 0v-4H9a3 3 0 1 1 0-6h.75V5.001h-1.5c-2.317.005-3.557.062-4.472.674a4 4 0 0 0-1.104 1.103C2 7.787 2 9.192 2 12c0 2.81 0 4.214.674 5.223a4 4 0 0 0 1.104 1.103c.915.612 2.155.669 4.472.674z"
-                    opacity=".5" />
-                  <path fill="currentColor" d="M9.75 19h4.5V5h-4.5z" opacity=".8" />
-                </svg>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">
@@ -139,7 +119,7 @@
       <div class="col col-3">
         <div class="card bg-primary bg-glow total-transaction-item">
           <div class="p-4">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column align-items-start gap-2 text-white">
                 <h6 class="d-flex align-items-center text-white mb-0 total-transaction-item-title">
                   Total Bonus
@@ -154,14 +134,6 @@
                     </svg>
                   </span>
                 </h6>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="currentColor"
-                    d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
-                    opacity=".5"></path>
-                  <path fill="currentColor" fill-rule="evenodd"
-                    d="M6.914 11.25H2v1.5h8.163A3.25 3.25 0 0 1 7 15.25a.75.75 0 0 0 0 1.5a4.75 4.75 0 0 0 4.25-2.626V22h1.5v-7.876A4.75 4.75 0 0 0 17 16.75a.75.75 0 0 0 0-1.5a3.25 3.25 0 0 1-3.163-2.5H22v-1.5h-4.913c.35-.438.613-.955.756-1.527c.538-2.153-1.413-4.103-3.565-3.565a4 4 0 0 0-1.528.756V2h-1.5v4.914a4 4 0 0 0-1.527-.756C7.57 5.62 5.62 7.57 6.158 9.723c.143.572.405 1.089.756 1.527m4.336 0H9.997a2.5 2.5 0 0 1-2.384-1.891A1.44 1.44 0 0 1 9.36 7.613a2.5 2.5 0 0 1 1.891 2.384zm2.753 0H12.75v-1.245a2.5 2.5 0 0 1 1.891-2.392a1.44 1.44 0 0 1 1.746 1.746a2.5 2.5 0 0 1-2.384 1.891"
-                    clip-rule="evenodd"></path>
-                </svg>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">
@@ -178,7 +150,7 @@
     </div>
 
     <div class="nav-tabs-shadow nav-align-right">
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs bg-light" role="tablist">
         <li class="nav-item">
           <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#all"
             aria-controls="all" aria-selected="false">
@@ -246,7 +218,7 @@
 
       <div class="tab-content pt-0 ps-0">
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all" tabindex="0">
-          <h5 class="mb-2 lh-1">All Transactions</h5>
+          <h6 class="mb-2 lh-1">All Transactions</h6>
           <small class="lh-1 mb-7">
             All transactions made throughout your journey
           </small>
@@ -367,7 +339,7 @@
         </div>
 
         <div class="tab-pane fade" id="received" role="tabpanel" aria-labelledby="all" tabindex="0">
-          <h5 class="mb-2 lh-1">Received</h5>
+          <h6 class="mb-2 lh-1">Received</h6>
           <small class="lh-1 mb-7">
             View all transactions related to the funds you've received in your account
           </small>
@@ -493,7 +465,7 @@
         </div>
 
         <div class="tab-pane fade" id="sent" role="tabpanel" aria-labelledby="all" tabindex="0">
-          <h5 class="mb-2 lh-1">Sent</h5>
+          <h6 class="mb-2 lh-1">Sent</h6>
           <small class="lh-1 mb-7">
             View all transactions related to the funds you've sent from your account
           </small>
@@ -619,7 +591,7 @@
         </div>
 
         <div class="tab-pane fade" id="earned" role="tabpanel" aria-labelledby="all" tabindex="0">
-          <h5 class="mb-2 lh-1">Earned</h5>
+          <h6 class="mb-2 lh-1">Earned</h6>
           <small class="lh-1 mb-7">
             View all transactions related to your incomes from strategies
           </small>
@@ -750,7 +722,7 @@
         </div>
 
         <div class="tab-pane fade" id="bonuses" role="tabpanel" aria-labelledby="all" tabindex="0">
-          <h5 class="mb-2 lh-1">Bonuses</h5>
+          <h6 class="mb-2 lh-1">Bonuses</h6>
           <small class="lh-1 mb-7">
             View all transactions related to the bonuses you've earned from your invitations
           </small>

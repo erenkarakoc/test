@@ -106,7 +106,7 @@
     <div class="row mt-7">
       <div class="col-12">
         <div class="nav-tabs-shadow nav-align-top">
-          <ul class="nav nav-tabs" id="user-profile-nav-tabs" role="tablist">
+          <ul class="nav nav-tabs bg-light" id="user-profile-nav-tabs" role="tablist">
             <li class="nav-item">
               <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                 data-bs-target="#update-profile">Update Profile</button>

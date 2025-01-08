@@ -5,72 +5,78 @@
 @import '../_custom-variables/pages';
 
 .page-algorithms {
-  .algorithm-item {
-    position: relative;
-    display: flex;
-    background-color: #121212;
-    border: 1px solid #ffffff10;
+  .nav {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+    padding: 10px 0;
+    border: 1px solid var(--bs-nav-tabs-border-color);
+  }
 
-    .algorithm-item-col:first-of-type {
-      display: flex;
-      flex-shrink: 0;
-      justify-content: center;
-      align-items: center;
-      height: 100px;
-      width: 100px;
-      overflow: hidden;
+  .nav-tabs {
+    min-width: 250px;
+  }
+
+  .current-algorithm-item {
+    .current-algorithm-item-icon {
+      background-color: #fff;
+      padding: 8px;
+      border-radius: 6px;
 
       img {
-        height: 100%;
-        width: 100%;
+        cursor: default;
+        user-select: none;
+        height: 30px;
         object-fit: contain;
       }
     }
+  }
 
-    .algorithm-item-col:last-of-type {
+  .algorithm-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    border: 1px solid #ffffff10;
+
+    .algorithm-description {
+      margin-bottom: 0;
+      font-size: 12px;
+      color: var(--bs-text-light);
+    }
+
+    .algorithm-price {
       display: flex;
-      flex-direction: column;
-      row-gap: 14px;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background-color: #181818;
+      color: #f5f5f5;
+      font-weight: 500;
+      font-size: 12px;
+    }
 
-      .algorithm-description {
-        margin-bottom: 0;
-        font-size: 12px;
-        color: var(--bs-text-light);
-      }
+    .algorithm-contribution {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background-color: #181818;
+      color: #f5f5f5;
+      font-weight: 500;
+      font-size: 12px;
+    }
 
-      .algorithm-price {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        padding: 4px 8px;
-        border-radius: 4px;
-        background-color: #181818;
-        color: #f5f5f5;
-        font-weight: 500;
-        font-size: 12px;
-      }
+    p {
+      color: #f5f5f5;
+      font-size: 13px;
+    }
 
-      .algorithm-contribution {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 4px 8px;
-        border-radius: 4px;
-        background-color: #181818;
-        color: #f5f5f5;
-        font-weight: 500;
-        font-size: 12px;
-      }
-
-      p {
-        color: #f5f5f5;
-        font-size: 13px;
-      }
-
-      button {
-        width: fit-content;
-      }
+    button {
+      width: fit-content;
     }
   }
 }

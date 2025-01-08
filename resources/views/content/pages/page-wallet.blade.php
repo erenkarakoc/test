@@ -212,7 +212,7 @@
     </div>
 
     <div class="nav-tabs-shadow nav-align-right">
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs bg-light" role="tablist">
         <li class="nav-item">
           <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#assets"
             aria-controls="assets" aria-selected="false">
@@ -259,7 +259,7 @@
 
       <div class="tab-content pt-0 ps-0">
         <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets" tabindex="0">
-          <h5 class="mb-2 lh-1">Assets</h5>
+          <h6 class="mb-2 lh-1">Assets</h6>
           <small class="lh-1 mb-7">
             Available assets in your wallet
           </small>
@@ -395,7 +395,7 @@
         </div>
 
         <div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage" tabindex="0">
-          <h5 class="mb-2 lh-1">Manage Wallet</h5>
+          <h6 class="mb-2 lh-1">Manage Wallet</h6>
           <small class="lh-1">
             Add, remove, edit your wallet addresses
           </small>
@@ -590,7 +590,6 @@
       </div>
     </div>
 
-    <!-- Add Wallet Modal -->
     <div class="modal fade modal-lg" id="addWalletModal" tabindex="-1" aria-labelledby="addWalletModalLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -691,7 +690,6 @@
       </div>
     </div>
 
-    <!-- Manage Wallet Modal -->
     <div class="modal fade modal-lg" id="manageWalletModal" tabindex="-1" aria-labelledby="manageWalletModalTitle"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
