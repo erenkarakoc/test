@@ -5,4 +5,40 @@
 @import '../_custom-variables/pages';
 
 .page-algorithms {
+  .algorithm-item {
+    position: relative;
+    display: flex;
+    background-color: #121212;
+    border: 1px solid #ffffff10;
+
+    .algorithm-item-col:first-of-type {
+      display: flex;
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      width: 100px;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .algorithm-item-col:last-of-type {
+      .algo-contribution {
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: #181818;
+        color: #f5f5f5;
+      }
+
+      p {
+        color: #f5f5f5;
+        font-size: 13px;
+      }
+    }
+  }
 }
