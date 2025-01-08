@@ -28,16 +28,48 @@
     }
 
     .algorithm-item-col:last-of-type {
-      .algo-contribution {
+      display: flex;
+      flex-direction: column;
+      row-gap: 14px;
+
+      .algorithm-description {
+        margin-bottom: 0;
+        font-size: 12px;
+        color: var(--bs-text-light);
+      }
+
+      .algorithm-price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
         padding: 4px 8px;
         border-radius: 4px;
         background-color: #181818;
         color: #f5f5f5;
+        font-weight: 500;
+        font-size: 12px;
+      }
+
+      .algorithm-contribution {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: #181818;
+        color: #f5f5f5;
+        font-weight: 500;
+        font-size: 12px;
       }
 
       p {
         color: #f5f5f5;
         font-size: 13px;
+      }
+
+      button {
+        width: fit-content;
       }
     }
   }
