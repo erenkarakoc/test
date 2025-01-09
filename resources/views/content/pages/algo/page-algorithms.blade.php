@@ -421,7 +421,9 @@
               <div id="strategy-content">
                 <div class="bg-light border rounded p-5">
 
-
+                  <div class="d-flex justify-content-center text-center">
+                    <small>Pick some algorithms to get started!</small>
+                  </div>
 
                 </div>
               </div>
@@ -436,15 +438,15 @@
                 <li class="list-group-item">
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-light">Income</small>
-                    <span class="text-white w-20 ms-auto text-end">~4%</span>
-                    <span class="text-white w-20 text-end">~0.00$</span>
+                    <span class="text-white">~4%</span>
+                    <span class="text-white">~0.00$</span>
                   </div>
                 </li>
                 <li class="list-group-item">
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-light">Total Balance After</small>
-                    <span class="text-white w-20 ms-auto text-end">~4%</span>
-                    <span class="text-white w-20 text-end">~23515.00$</span>
+                    <span class="text-white ">~4%</span>
+                    <span class="text-white">~0.00$</span>
                   </div>
                 </li>
               </ol>
