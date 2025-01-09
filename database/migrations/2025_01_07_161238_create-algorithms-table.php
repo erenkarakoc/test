@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('algorithms', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('profit_contribution');
+            $table->string('subtitle');
+            $table->string('description');
+            $table->enum('icon', ['1', '2', '3', '4']);
+            $table->decimal('profit_contribution');
+            $table->string('category');
             $table->timestamps();
         });
     }

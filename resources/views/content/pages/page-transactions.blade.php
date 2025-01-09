@@ -22,7 +22,7 @@
     <h5 class="mb-3 lh-1">Transactions</h5>
     <p class="lh-1 mb-7">See a history of your transactions</p>
 
-    <div class="row row-gap-4 mb-7">
+    <div class="row row-gap-4">
       <div class="col col-3">
         <div class="card bg-primary bg-glow total-transaction-item">
           <div class="p-4">
@@ -149,7 +149,7 @@
       </div>
     </div>
 
-    <div class="nav-tabs-shadow nav-align-right">
+    <div class="nav-tabs-shadow nav-align-right mt-12">
       <ul class="nav nav-tabs bg-light" role="tablist">
         <li class="nav-item">
           <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#all"

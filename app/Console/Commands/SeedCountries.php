@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class UpdateCountries extends Command
+class SeedCountries extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'update:countries';
+    protected $signature = 'seed:countries';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Updates the countries table with data from a JSON file.';
+    protected $description = 'Seeds the countries table with data from a JSON file.';
 
     /**
      * Constructor.

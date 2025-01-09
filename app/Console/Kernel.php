@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\AddReceivedTronBalanceToUser::class,
         Commands\SendReceivedTronBalanceToMainWallet::class,
         Commands\UpdateMarketData::class,
-        Commands\UpdateCountries::class,
+        Commands\SeedCountries::class,
+        Commands\SeedAlgorithms::class,
     ];
 
     /**
