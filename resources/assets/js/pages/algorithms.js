@@ -688,55 +688,61 @@
   };
 
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
-  const algorithmAddButton = document.querySelectorAll('.algorithm-add-button');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
   let algorithmsCount = 0;
   let algorithmIconCount = 0;
 
-  algorithmAddButton.forEach(button => {
-    button.addEventListener('click', () => {
+  // Utility function to toggle empty text visibility
+  function toggleEmptyText() {
+    if (algorithmsCount === 0) {
+      algorithmsEmptyText.classList.remove('d-none');
+    } else {
+      algorithmsEmptyText.classList.add('d-none');
+    }
+  }
+
+  document.addEventListener('click', event => {
+    if (event.target.closest('.algorithm-add-button')) {
+      const button = event.target.closest('.algorithm-add-button');
       const title = button.getAttribute('data-title');
       const subtitle = button.getAttribute('data-subtitle');
       const contribution = button.getAttribute('data-contribution');
       const icon = button.getAttribute('data-icon');
 
-      if (Number(icon) > algorithmIconCount) {
+      if (icon && Number(icon) > algorithmIconCount) {
         algorithmIconCount = Number(icon);
-        calculateGlow(algorithmIconCount);
       }
 
       if (!algorithmSmItems.querySelector(`.algorithm-sm-item[data-title="${title}"]`)) {
-        algorithmsEmptyText.style.display = 'none';
         algorithmsCount++;
+        toggleEmptyText();
 
-        algorithmSmItems.innerHTML += `
-        <div class="algorithm-sm-item" data-title="${title}">
-          <button type="button" class="remove-algorithm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="2" d="m15 5l-6 7l6 7" />
-            </svg>
-          </button>
-          <span>${title}</span>
-          <small>${subtitle}</small>
-          <small class="ms-auto">~${contribution}%</small>
-        </div>`;
+        const algorithmItem = document.createElement('div');
+        algorithmItem.classList.add('algorithm-sm-item');
+        algorithmItem.setAttribute('data-title', title);
+
+        algorithmItem.innerHTML = `
+        <button type="button" class="remove-algorithm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" d="m15 5l-6 7l6 7" />
+          </svg>
+        </button>
+        <span>${title}</span>
+        <small>${subtitle || 'N/A'}</small>
+        <small class="algorithm-sm-item-contribution">~${contribution || 0}%</small>
+      `;
+
+        algorithmSmItems.appendChild(algorithmItem);
       }
-    });
-  });
+    }
 
-  algorithmSmItems.addEventListener('click', event => {
     if (event.target.closest('.remove-algorithm')) {
       const item = event.target.closest('.algorithm-sm-item');
       if (item) {
         item.remove();
         algorithmsCount--;
-
-        console.log(algorithmsCount);
-
-        if (algorithmsCount === 0) {
-          algorithmsEmptyText.style.display = 'flex';
-        }
+        toggleEmptyText();
       }
     }
   });

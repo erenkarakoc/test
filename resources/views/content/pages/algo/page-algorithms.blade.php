@@ -448,7 +448,9 @@
                   </div>
 
                   <div class="d-flex flex-column row-gap-2 mt-4" id="algorithm-sm-items">
-                    <small class="algorithm-sm-item w-100 justify-content-center mt-1" id="algorithms-empty-text">
+                    <small
+                      class="d-flex justify-content-center align-items-center text-center border rounded p-2 mt-1 w-100"
+                      id="algorithms-empty-text">
                       Pick some algorithms to get started!
                     </small>
                   </div>
