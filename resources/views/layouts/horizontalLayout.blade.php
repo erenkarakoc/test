@@ -147,12 +147,20 @@
                         'nav-link',
                         'active' => Route::currentRouteName() === 'page-algorithms',
                     ])>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
-                          <path d="M2 12h7.5M22 12h-7.5" opacity=".5" />
-                          <path
-                            d="M20 15.684C20 19 17.735 22 16 22c-2.268 0-3.928-3.158-3.928-10S10.412 2 8.144 2c-1.734 0-4 3-4 6.316" />
-                        </g>
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.7"
+                          d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
+                          fill="currentColor" />
+                        <path opacity="0.5"
+                          d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
+                          fill="currentColor" />
+                        <path opacity="0.7"
+                          d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
+                          fill="currentColor" />
+                        <path
+                          d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
+                          fill="currentColor" />
                       </svg>
                       <span class="ms-2">Algorithms</span>
                     </a>

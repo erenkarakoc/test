@@ -126,10 +126,12 @@
             <div class="row row-gap-4 mt-7">
               @foreach ($algorithms->where('category', 'BASIC') as $algorithm)
                 <div class="col col-12">
-                  <div class="algorithm-item p-4 rounded" data-title="{{ $algorithm->title }}">
+                  <div class="algorithm-item p-4 rounded" data-title="{{ $algorithm->title }}"
+                    data-subtitle="{{ $algorithm->subtitle }}" data-contribution="{{ $algorithm->profit_contribution }}"
+                    data-icon="{{ $algorithm->icon }}">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -157,7 +159,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -176,7 +180,7 @@
                   <div class="algorithm-item p-4 rounded">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -204,7 +208,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -223,7 +229,7 @@
                   <div class="algorithm-item p-4 rounded">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -251,7 +257,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -270,7 +278,7 @@
                   <div class="algorithm-item p-4 rounded">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -298,7 +306,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -317,7 +327,7 @@
                   <div class="algorithm-item p-4 rounded">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -345,7 +355,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -364,7 +376,7 @@
                   <div class="algorithm-item p-4 rounded">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
-                        <img class="algorithm-item-icon"
+                        <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
                           src="{{ asset('assets/img/illustrations/algorithms/algorithm-' . $algorithm->icon . '.svg') }}"
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
@@ -392,7 +404,9 @@
                       </div>
                     </div>
                     <p class="algorithm-description text-light mt-3">{{ $algorithm->description }}</p>
-                    <button class="algorithm-add-button">
+                    <button class="algorithm-add-button" data-title="{{ $algorithm->title }}"
+                      data-subtitle="{{ $algorithm->subtitle }}"
+                      data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="2" d="m9 5l6 7l-6 7" />
@@ -405,6 +419,7 @@
           </div>
         </div>
       </div>
+
       <div class="col col-md-5">
         <div class="d-flex flex-column" id="build-algorithm">
           <h6 class="mb-2 lh-1">Build Strategy</h6>
@@ -420,36 +435,47 @@
             <div class="card-body">
               <div id="strategy-content">
                 <div class="bg-light border rounded p-5">
-
-                  <div class="d-flex justify-content-center text-center">
-                    <small>Pick some algorithms to get started!</small>
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                      <label class="text-nowrap mb-2" for="lock_amount">Amount to Lock</label>
+                      <div class="input-group flex-nowrap">
+                        <small class="input-group-text text-white">$</small>
+                        <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount">
+                        <button class="input-group-text">Max.</button>
+                      </div>
+                    </div>
+                    <div class="algorithm-glow"></div>
                   </div>
 
+                  <div class="d-flex flex-column row-gap-2 mt-4" id="algorithm-sm-items">
+                    <small class="algorithm-sm-item w-100 justify-content-center mt-1" id="algorithms-empty-text">
+                      Pick some algorithms to get started!
+                    </small>
+                  </div>
                 </div>
               </div>
 
-              <ol class="list-group mt-8">
-                <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-light">Algorithm Cost</small>
-                    <span class="text-white">~0.00$</span>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-light">Income</small>
-                    <span class="text-white">~4%</span>
-                    <span class="text-white">~0.00$</span>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-light">Total Balance After</small>
-                    <span class="text-white ">~4%</span>
-                    <span class="text-white">~0.00$</span>
-                  </div>
-                </li>
-              </ol>
+              <div class="table-responsive mt-4 border rounded overflow-hidden">
+                <table class="table">
+                  <tbody class="table-border-bottom-0">
+                    <tr>
+                      <td><small class="text-light">Algorithm Cost</small></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white">~0.00$</span></td>
+                    </tr>
+                    <tr>
+                      <td><small class="text-light">Income</small></td>
+                      <td class="text-end"><span class="text-white">~4%</span></td>
+                      <td class="text-end"><span class="text-white">~0.00$</span></td>
+                    </tr>
+                    <tr>
+                      <td><small class="text-light">Total Balance After</small></td>
+                      <td class="text-end"><span class="text-white">~4%</span></td>
+                      <td class="text-end"><span class="text-white">~23.120.00$</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               <small class="d-flex align-items-start text-primary gap-2 mt-4">
                 <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -461,13 +487,11 @@
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
                 <span>
-                  Amounts specified above are estimated and minor changes around 1% can happen when algorithms are
-                  executed.
+                  Amounts specified above are estimated and minor changes can happen when executing trades.
                 </span>
               </small>
 
               <div class="d-flex justify-content-end mt-4">
-                <button type="button" class="btn btn-sm btn-label-dark me-2">Clear</button>
                 <button type="button" class="btn btn-sm btn-primary">Proceed</button>
               </div>
             </div>
@@ -476,6 +500,3 @@
       </div>
     </div>
   @endsection
-  {{-- <div class="d-flex justify-content-center text-center">
-                  <small>Pick some algorithms to get started!</small>
-                </div> --}}
