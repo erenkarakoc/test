@@ -5,12 +5,58 @@
 ('use strict');
 
 (function () {
-  const tabToggles = document.querySelectorAll('[data-bs-toggle="tab"]');
-  tabToggles.forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      document.querySelector('[data-tab-element="title"]').textContent = toggle.getAttribute('data-tab-title');
-      document.querySelector('[data-tab-element="subtitle"]').textContent = toggle.getAttribute('data-tab-subtitle');
-    });
+  let chosenAlgorithms = [];
+  const amountInput = document.querySelector('#lock_amount');
+  const maxButton = document.querySelector('#max_button');
+  const algorithmCost = document.querySelector('#algorithm_cost');
+  const unlockDate = document.querySelector('#unlock_date');
+  const unlockAfter = document.querySelector('#unlock_after');
+  const income = document.querySelector('#income');
+  const totalBalanceAfter = document.querySelector('#total_balance_after');
+  const totalBalanceAfterPct = document.querySelector('#total_balance_after_percentage');
+  const algorithmSmItems = document.querySelector('#algorithm-sm-items');
+  const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
+
+  const calculateAlgorithm = () => {
+    if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
+      const amount = Number(amountInput.value);
+
+      const contributionRate = chosenAlgorithms.reduce((sum, algorithm) => sum + (algorithm.contribution || 0), 0);
+      const cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution / 6.78122312, 0);
+
+      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+
+      const newRate = 0.00078113 * (1 + contributionRate / 100);
+      const estimatedProfit =
+        amount * newRate * Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+
+      const incomeValue = estimatedProfit - amount - cost;
+      const totalBalanceAfterValue = estimatedProfit - cost;
+      const totalBalanceAfterPercentage = (incomeValue / amount) * 100;
+
+      algorithmCost.innerHTML = '≈' + cost.toFixed(2) + '$';
+      unlockAfter.innerHTML = `${period} days`;
+      income.innerHTML = '≈' + incomeValue.toFixed(2) + '$';
+      totalBalanceAfter.innerHTML = '≈' + totalBalanceAfterValue.toFixed(2) + '$';
+      totalBalanceAfterPct.innerHTML = '≈' + totalBalanceAfterPercentage.toFixed(2) + '%';
+    } else {
+      income.innerHTML = '0.00$';
+      totalBalanceAfter.innerHTML = '0.00$';
+      totalBalanceAfterPct.innerHTML = '0.00%';
+    }
+  };
+
+  maxButton.addEventListener('click', calculateAlgorithm);
+  amountInput.addEventListener('input', () => {
+    if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
+      amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
+    }
+    calculateAlgorithm();
+  });
+
+  unlockDate.addEventListener('change', () => {
+    document.querySelector('.unlock_after_wrap').classList.remove('d-none');
+    calculateAlgorithm();
   });
 
   const algorithmGlow = document.querySelector('.algorithm-glow');
@@ -685,7 +731,6 @@
 
   const calculateGlow = count => {
     const svgElements = algorithmGlow.querySelectorAll('svg');
-
     svgElements.forEach((svg, index) => {
       svg.classList.toggle(
         'active',
@@ -697,17 +742,13 @@
     });
   };
 
-  const algorithmSmItems = document.querySelector('#algorithm-sm-items');
-  const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
-  let algorithmsCount = 0;
-
-  function toggleEmptyText() {
-    if (algorithmsCount === 0) {
+  const toggleEmptyText = () => {
+    if (!chosenAlgorithms.length) {
       algorithmsEmptyText.classList.remove('d-none');
     } else {
       algorithmsEmptyText.classList.add('d-none');
     }
-  }
+  };
 
   document.addEventListener('click', event => {
     if (event.target.closest('.algorithm-add-button')) {
@@ -718,7 +759,7 @@
       const icon = button.getAttribute('data-icon');
 
       if (!algorithmSmItems.querySelector(`.algorithm-sm-item[data-title="${title}"]`)) {
-        algorithmsCount++;
+        chosenAlgorithms.push({ title, contribution: Number(contribution), icon });
         toggleEmptyText();
 
         const algorithmItem = document.createElement('div');
@@ -732,9 +773,9 @@
               stroke-width="2" d="m15 5l-6 7l6 7" />
           </svg>
         </button>
-        <span class="notranslate">${title}</span>
+        <span class="algorithm-sm-item-title notranslate">${title}</span>
         <small>${subtitle || ''}</small>
-        <small class="algorithm-sm-item-contribution">~${contribution || 0}%</small>
+        <small class="algorithm-sm-item-contribution">≈${contribution || 0}%</small>
       `;
 
         algorithmSmItems.appendChild(algorithmItem);
@@ -745,6 +786,7 @@
           0
         );
         calculateGlow(algorithmIconCount);
+        calculateAlgorithm();
       }
     }
 
@@ -752,7 +794,8 @@
       const item = event.target.closest('.algorithm-sm-item');
       if (item) {
         item.remove();
-        algorithmsCount--;
+        const title = item.querySelector('.algorithm-sm-item-title').textContent.trim();
+        chosenAlgorithms = chosenAlgorithms.filter(algorithm => algorithm.title !== title);
         toggleEmptyText();
 
         const iconEls = algorithmSmItems.querySelectorAll('.algorithm-sm-item .remove-algorithm');
@@ -761,8 +804,17 @@
           0
         );
         calculateGlow(algorithmIconCount);
+        calculateAlgorithm();
       }
     }
+  });
+
+  const tabToggles = document.querySelectorAll('[data-bs-toggle="tab"]');
+  tabToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      document.querySelector('[data-tab-element="title"]').textContent = toggle.getAttribute('data-tab-title');
+      document.querySelector('[data-tab-element="subtitle"]').textContent = toggle.getAttribute('data-tab-subtitle');
+    });
   });
 
   document.querySelectorAll('.nav-link').forEach(navLink => {

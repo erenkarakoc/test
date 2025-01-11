@@ -7,6 +7,14 @@
 
 @section('title', 'Algorithms')
 
+@section('vendor-style')
+  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss'])
+@endsection
+
+@section('vendor-script')
+  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.js'])
+@endsection
+
 @section('page-style')
   @vite(['resources/assets/vendor/scss/pages/algorithms.scss'])
 @endsection
@@ -151,7 +159,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -200,7 +208,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -249,7 +257,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -298,7 +306,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -347,7 +355,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -396,7 +404,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">~<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -440,18 +448,56 @@
                       <label class="text-nowrap mb-2" for="lock_amount">Amount to Lock</label>
                       <div class="input-group flex-nowrap">
                         <small class="input-group-text text-white">$</small>
-                        <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount">
-                        <button class="input-group-text">Max.</button>
+                        <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount"
+                          min="1" data-max="{{ $userTotalBalance }}" pattern="^\d*(\.\d{0,2})?$">
+                        <button type="button" class="input-group-text"
+                          onclick="if ({{ $userTotalBalance }}) document.querySelector('#lock_amount').value = {{ $userTotalBalance }}.toFixed(2)"
+                          id="max_button">Max.</button>
                       </div>
                     </div>
                     <div class="algorithm-glow"></div>
                   </div>
 
+                  <label class="d-flex flex-column mt-3" for="unlock_date">
+                    <label class="d-flex align-items-center text-nowrap mb-2" for="unlock_date">
+                      <span>Unlock Date</span>
+                      <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
+                        data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                        data-bs-custom-class="popover-dark"
+                        data-bs-content="<span class='me-4'>You can lock for</span><br />- 14 days min.<br />- 365 days max.">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
+                          <path fill="currentColor"
+                            d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                        </svg>
+                      </span>
+                    </label>
+                    <div class="input-group flex-nowrap">
+                      <small class="input-group-text text-light">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M6.96 2c.418 0 .756.31.756.692V4.09c.67-.012 1.422-.012 2.268-.012h4.032c.846 0 1.597 0 2.268.012V2.692c0-.382.338-.692.756-.692s.756.31.756.692V4.15c1.45.106 2.403.368 3.103 1.008c.7.641.985 1.513 1.101 2.842v1H2V8c.116-1.329.401-2.2 1.101-2.842c.7-.64 1.652-.902 3.103-1.008V2.692c0-.382.339-.692.756-.692" />
+                          <path fill="currentColor"
+                            d="M22 14v-2c0-.839-.013-2.335-.026-3H2.006c-.013.665 0 2.161 0 3v2c0 3.771 0 5.657 1.17 6.828C4.349 22 6.234 22 10.004 22h4c3.77 0 5.654 0 6.826-1.172S22 17.771 22 14"
+                            opacity=".5" />
+                          <path fill="currentColor" fill-rule="evenodd"
+                            d="M14 12.25A1.75 1.75 0 0 0 12.25 14v2a1.75 1.75 0 1 0 3.5 0v-2A1.75 1.75 0 0 0 14 12.25m0 1.5a.25.25 0 0 0-.25.25v2a.25.25 0 1 0 .5 0v-2a.25.25 0 0 0-.25-.25"
+                            clip-rule="evenodd" />
+                          <path fill="currentColor"
+                            d="M11.25 13a.75.75 0 0 0-1.28-.53l-1.5 1.5a.75.75 0 0 0 1.06 1.06l.22-.22V17a.75.75 0 0 0 1.5 0z" />
+                        </svg>
+                      </small>
+                      <input class="form-control flatpickr" id="unlock_date" type="date" name="unlock_date"
+                        pattern="\d{2}.\d{2}.\d{4}" placeholder="mm.dd.yyyy">
+                    </div>
+                  </label>
+
                   <div class="d-flex flex-column row-gap-2 mt-4" id="algorithm-sm-items">
                     <small
                       class="d-flex justify-content-center align-items-center text-center border rounded p-2 mt-1 w-100"
                       id="algorithms-empty-text">
-                      Pick some algorithms to get started!
+                      Pick some algorithms to get started.
                     </small>
                   </div>
                 </div>
@@ -463,17 +509,23 @@
                     <tr>
                       <td><small class="text-light">Algorithm Cost</small></td>
                       <td class="text-end"></td>
-                      <td class="text-end"><span class="text-white">~0.00$</span></td>
+                      <td class="text-end"><span class="text-white" id="algorithm_cost">0.00$</span></td>
+                    </tr>
+                    <tr class="d-none unlock_after_wrap">
+                      <td><small class="text-light">Unlock After</small></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white" id="unlock_after">0 days</span></td>
                     </tr>
                     <tr>
                       <td><small class="text-light">Income</small></td>
-                      <td class="text-end"><span class="text-white">~4%</span></td>
-                      <td class="text-end"><span class="text-white">~0.00$</span></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white" id="income">0.00$</span></td>
                     </tr>
                     <tr>
                       <td><small class="text-light">Total Balance After</small></td>
-                      <td class="text-end"><span class="text-white">~4%</span></td>
-                      <td class="text-end"><span class="text-white">~23.120.00$</span></td>
+                      <td class="text-end"><span class="text-white" id="total_balance_after_percentage">0.00%</span>
+                      </td>
+                      <td class="text-end"><span class="text-white" id="total_balance_after">0.00$</span></td>
                     </tr>
                   </tbody>
                 </table>
@@ -501,4 +553,18 @@
         </div>
       </div>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        flatpickr('#unlock_date', {
+          dateFormat: 'm.d.Y',
+          minDate: new Date().fp_incr(14),
+          maxDate: new Date().fp_incr(365),
+          disable: [{
+            from: '1970-01-01',
+            to: new Date().setHours(0, 0, 0, 0)
+          }]
+        });
+      });
+    </script>
   @endsection
