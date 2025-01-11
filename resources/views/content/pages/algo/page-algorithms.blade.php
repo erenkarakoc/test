@@ -136,7 +136,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
@@ -185,7 +185,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
@@ -234,7 +234,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
@@ -283,7 +283,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
@@ -332,7 +332,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
@@ -381,7 +381,7 @@
                           alt="{{ $algorithm->title }}" draggable="false">
                         <div class="d-flex flex-column w-100">
                           <h5 class="d-flex justify-content-between w-100 text-heading mb-1 fw-bold lh-1">
-                            <span>{{ $algorithm->title }}</span>
+                            <span class="notranslate">{{ $algorithm->title }}</span>
                             <div class="d-flex align-items-center">
                               <div class="popover-trigger text-light cursor-pointer me-1" data-bs-toggle="popover"
                                 data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"

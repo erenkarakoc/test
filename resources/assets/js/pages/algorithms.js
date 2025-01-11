@@ -684,15 +684,23 @@
   }
 
   const calculateGlow = count => {
-    algorithmGlow.querySelector(`svg:nth-of-type('${count}')`).classList.add('active');
+    const svgElements = algorithmGlow.querySelectorAll('svg');
+
+    svgElements.forEach((svg, index) => {
+      svg.classList.toggle(
+        'active',
+        (count === 1 && index === 2) ||
+          (count === 2 && index < 2) ||
+          (count === 3 && index < 3) ||
+          (count === 4 && index < 4)
+      );
+    });
   };
 
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
   let algorithmsCount = 0;
-  let algorithmIconCount = 0;
 
-  // Utility function to toggle empty text visibility
   function toggleEmptyText() {
     if (algorithmsCount === 0) {
       algorithmsEmptyText.classList.remove('d-none');
@@ -709,10 +717,6 @@
       const contribution = button.getAttribute('data-contribution');
       const icon = button.getAttribute('data-icon');
 
-      if (icon && Number(icon) > algorithmIconCount) {
-        algorithmIconCount = Number(icon);
-      }
-
       if (!algorithmSmItems.querySelector(`.algorithm-sm-item[data-title="${title}"]`)) {
         algorithmsCount++;
         toggleEmptyText();
@@ -722,18 +726,25 @@
         algorithmItem.setAttribute('data-title', title);
 
         algorithmItem.innerHTML = `
-        <button type="button" class="remove-algorithm">
+        <button type="button" class="remove-algorithm" data-icon='${icon}'>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
               stroke-width="2" d="m15 5l-6 7l6 7" />
           </svg>
         </button>
-        <span>${title}</span>
-        <small>${subtitle || 'N/A'}</small>
+        <span class="notranslate">${title}</span>
+        <small>${subtitle || ''}</small>
         <small class="algorithm-sm-item-contribution">~${contribution || 0}%</small>
       `;
 
         algorithmSmItems.appendChild(algorithmItem);
+
+        const iconEls = algorithmSmItems.querySelectorAll('.algorithm-sm-item .remove-algorithm');
+        const algorithmIconCount = Array.from(iconEls).reduce(
+          (max, button) => Math.max(max, Number(button.getAttribute('data-icon'))),
+          0
+        );
+        calculateGlow(algorithmIconCount);
       }
     }
 
@@ -743,6 +754,13 @@
         item.remove();
         algorithmsCount--;
         toggleEmptyText();
+
+        const iconEls = algorithmSmItems.querySelectorAll('.algorithm-sm-item .remove-algorithm');
+        const algorithmIconCount = Array.from(iconEls).reduce(
+          (max, button) => Math.max(max, Number(button.getAttribute('data-icon'))),
+          0
+        );
+        calculateGlow(algorithmIconCount);
       }
     }
   });
