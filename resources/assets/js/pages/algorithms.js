@@ -59,7 +59,6 @@
   });
 
   const algorithmGlow = document.querySelector('.algorithm-glow');
-
   for (let i = 0; i < 4; i++) {
     algorithmGlow.innerHTML += `<svg width="37" height="45" viewBox="0 0 37 45" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g filter="url(#algo_glow_id_${i})"> <path d="M10.1898 22.4895L18.5504 34.5999L26.6765 22.4895L18.5504 10.504L10.1898 22.4895Z"fill="#8783F0" />
@@ -802,6 +801,7 @@
           (max, button) => Math.max(max, Number(button.getAttribute('data-icon'))),
           0
         );
+
         calculateGlow(algorithmIconCount);
         calculateAlgorithm();
       }
