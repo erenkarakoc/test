@@ -47,7 +47,7 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/helpers/gdzhelpers.js'])
+  @vite(['resources/assets/js/helpers/gdzhelpers.js', 'resources/assets/js/ui-popover.js'])
 @endsection
 
 @section('layoutContent')
@@ -166,21 +166,6 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('page-team') }}" @class([
-                        'nav-link',
-                        'active' => Route::currentRouteName() === 'page-team',
-                    ])>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <circle cx="15" cy="6" r="3" fill="currentColor" opacity=".4" />
-                        <ellipse cx="16" cy="17" fill="currentColor" opacity=".4" rx="5"
-                          ry="3" />
-                        <circle cx="9.001" cy="6" r="4" fill="currentColor" />
-                        <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
-                      </svg>
-                      <span class="ms-2">Team</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
                     <a href="{{ route('page-transactions') }}" @class([
                         'nav-link',
                         'active' => Route::currentRouteName() === 'page-transactions',
@@ -193,6 +178,21 @@
                           d="M13.25 7a.75.75 0 0 1 1.315-.493l3 3.437a.75.75 0 0 1-1.13.987L14.75 9v8a.75.75 0 0 1-1.5 0zm-5.685 6.07a.75.75 0 1 0-1.13.986l3 3.437A.75.75 0 0 0 10.75 17V7a.75.75 0 0 0-1.5 0v8z" />
                       </svg>
                       <span class="ms-2">Transactions</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('page-team') }}" @class([
+                        'nav-link',
+                        'active' => Route::currentRouteName() === 'page-team',
+                    ])>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <circle cx="15" cy="6" r="3" fill="currentColor" opacity=".4" />
+                        <ellipse cx="16" cy="17" fill="currentColor" opacity=".4" rx="5"
+                          ry="3" />
+                        <circle cx="9.001" cy="6" r="4" fill="currentColor" />
+                        <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
+                      </svg>
+                      <span class="ms-2">Team</span>
                     </a>
                   </li>
                   <li class="nav-item">

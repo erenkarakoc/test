@@ -82,6 +82,34 @@
     }
   });
 
+  const displayUsername = document.querySelector('#display_username');
+  const displayFullName = document.querySelector('#display_full_name');
+  const displayCountry = document.querySelector('#display_country');
+  const displayPhoneNumber = document.querySelector('#display_phone_number');
+  const displayDateOfBirth = document.querySelector('#display_date_of_birth');
+  const display2FA = document.querySelector('#display_2fa');
+
+  const updateDOM = user => {
+    const notSetYet = `<small><i class="fw-light text-light">Not set yet</i></small>`;
+
+    if (user.username) displayUsername.innerHTML = `<span>${user.username}</span>`;
+
+    if (user.full_name) displayFullName.innerHTML = `<span>${user.full_name}</span>`;
+    else displayFullName.innerHTML = notSetYet;
+
+    if (user.country) displayCountry.innerHTML = `<span>${user.country}</span>`;
+    else displayCountry.innerHTML = notSetYet;
+
+    if (user.phone_number) displayPhoneNumber.innerHTML = `<span>${user.phone_number}</span>`;
+    else displayPhoneNumber.innerHTML = notSetYet;
+
+    if (user.date_of_birth) displayDateOfBirth.innerHTML = `<span>${user.date_of_birth}</span>`;
+    else displayDateOfBirth.innerHTML = notSetYet;
+
+    if (user.twofa) display2FA.innerHTML = `<small class="text-success">Active</small>`;
+    else display2FA.innerHTML = notSetYet;
+  };
+
   const postRequest = async (url, data) => {
     const getCsrfToken = () => document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const response = await fetch(url, {
@@ -125,6 +153,8 @@
           profileSaveButton.querySelector('svg').classList.add('loading-hidden');
           profileSaveButton.removeAttribute('disabled');
           toastr.success('Profile updated.');
+
+          updateDOM(response.updated_user);
         }, 500);
       }
     } else {
@@ -152,30 +182,6 @@
     clearDateOfBirth.style.display = 'none';
   });
 
-  document.querySelectorAll('.nav-link').forEach(navLink => {
-    const target = navLink.getAttribute('data-bs-target');
-
-    navLink.addEventListener('click', () => {
-      const url = new URL(window.location);
-      url.searchParams.set('tab', target.replace('#', ''));
-      window.history.pushState({}, '', url);
-    });
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('tab')) {
-      const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
-      tab.show();
-    }
-  });
-
-  window.addEventListener('popstate', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
-    tab.show();
-  });
-
   const summaryItems = document.querySelectorAll('[data-summary-item-target]');
   summaryItems.forEach(summaryItem => {
     summaryItem.addEventListener('click', () => {
@@ -199,5 +205,29 @@
         document.querySelector('#' + target).focus();
       }
     });
+  });
+
+  document.querySelectorAll('.nav-link').forEach(navLink => {
+    const target = navLink.getAttribute('data-bs-target');
+
+    navLink.addEventListener('click', () => {
+      const url = new URL(window.location);
+      url.searchParams.set('tab', target.replace('#', ''));
+      window.history.pushState({}, '', url);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('tab')) {
+      const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
+      tab.show();
+    }
+  });
+
+  window.addEventListener('popstate', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
+    tab.show();
   });
 })();

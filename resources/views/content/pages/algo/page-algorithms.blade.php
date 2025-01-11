@@ -432,14 +432,10 @@
         <div class="d-flex flex-column" id="build-algorithm">
           <h6 class="mb-2 lh-1">Build Strategy</h6>
           <small class="mb-7">
-            View costs and estimated incomes at the end of the strategy period
+            View costs and estimated income at the end of the strategy period
           </small>
 
           <div class="card bg-light border">
-            <div class="card-header">
-              <h6 class="mb-0 lh-1 fw-normal">Strategy Summary</h6>
-            </div>
-
             <div class="card-body">
               <div id="strategy-content">
                 <div class="bg-light border rounded p-5">
@@ -458,7 +454,7 @@
                     <div class="algorithm-glow"></div>
                   </div>
 
-                  <label class="d-flex flex-column mt-3" for="unlock_date">
+                  <label class="d-flex flex-column mt-4" for="unlock_date">
                     <label class="d-flex align-items-center text-nowrap mb-2" for="unlock_date">
                       <span>Unlock Date</span>
                       <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
@@ -493,9 +489,8 @@
                     </div>
                   </label>
 
-                  <div class="d-flex flex-column row-gap-2 mt-4" id="algorithm-sm-items">
-                    <small
-                      class="d-flex justify-content-center align-items-center text-center border rounded p-2 mt-1 w-100"
+                  <div class="d-flex flex-column row-gap-2 mt-8" id="algorithm-sm-items">
+                    <small class="d-flex justify-content-center align-items-center text-center border rounded p-2 w-100"
                       id="algorithms-empty-text">
                       Pick some algorithms to get started.
                     </small>
@@ -503,7 +498,9 @@
                 </div>
               </div>
 
-              <div class="table-responsive mt-4 border rounded overflow-hidden">
+              <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Strategy Summary</h6>
+
+              <div class="table-responsive border rounded overflow-hidden">
                 <table class="table">
                   <tbody class="table-border-bottom-0">
                     <tr>
@@ -541,7 +538,8 @@
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
                 <span>
-                  Amounts specified above are estimated and minor changes can happen when executing trades.
+                  Above specified amounts are values and may up to 15% change at the end of the lock period depending on
+                  market fluctuation.
                 </span>
               </small>
 

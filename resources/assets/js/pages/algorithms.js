@@ -22,20 +22,17 @@
       const amount = Number(amountInput.value);
 
       const contributionRate = chosenAlgorithms.reduce((sum, algorithm) => sum + (algorithm.contribution || 0), 0);
-      const cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution / 6.78122312, 0);
-
+      const cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution / 4.78124608, 0);
       const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
 
-      const newRate = 0.00078113 * (1 + contributionRate / 100);
-      const estimatedProfit =
-        amount * newRate * Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      const incomeRate = 0.071113 * (1 + contributionRate / 100);
+      const estimatedProfit = amount * incomeRate * period;
 
       const incomeValue = estimatedProfit - amount - cost;
       const totalBalanceAfterValue = estimatedProfit - cost;
       const totalBalanceAfterPercentage = (incomeValue / amount) * 100;
 
       algorithmCost.innerHTML = '≈' + cost.toFixed(2) + '$';
-      unlockAfter.innerHTML = `${period} days`;
       income.innerHTML = '≈' + incomeValue.toFixed(2) + '$';
       totalBalanceAfter.innerHTML = '≈' + totalBalanceAfterValue.toFixed(2) + '$';
       totalBalanceAfterPct.innerHTML = '≈' + totalBalanceAfterPercentage.toFixed(2) + '%';
@@ -55,6 +52,8 @@
   });
 
   unlockDate.addEventListener('change', () => {
+    const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+    unlockAfter.innerHTML = `${period} days`;
     document.querySelector('.unlock_after_wrap').classList.remove('d-none');
     calculateAlgorithm();
   });

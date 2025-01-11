@@ -33,14 +33,14 @@
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='username'>
           <small class="w-50">Username</small>
-          <span class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">{{ $user->username }}</span>
+          <span class="mb-0 w-50 m-w-100 overflow-hidden text-truncate" id="display_username">{{ $user->username }}</span>
         </div>
       </div>
       <div class="col col-12 col-lg-6">
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='full_name'>
           <small class="w-50">Full Name</small>
-          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate" id="display_full_name">
             @if ($user->full_name)
               <span>{{ $user->full_name }}</span>
             @else
@@ -53,7 +53,7 @@
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='country'>
           <small class="w-50">Country</small>
-          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate" id="display_country">
             @if ($user->country)
               <span>{{ $user->country }}</span>
             @else
@@ -66,7 +66,7 @@
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='phone_number'>
           <small class="w-50">Phone Number</small>
-          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate">
+          <div class="mb-0 w-50 m-w-100 overflow-hidden text-truncate" id="display_phone_number">
             @if ($user->phone_number)
               <span>{{ $user->phone_number }}</span>
             @else
@@ -79,7 +79,7 @@
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='date_of_birth'>
           <small class="w-50 m-w-100 overflow-hidden text-truncate">Date of Birth</small>
-          <div class="mb-0 w-50">
+          <div class="mb-0 w-50" id="display_date_of_birth">
             @if ($user->date_of_birth)
               <span>{{ $user->date_of_birth }}</span>
             @else
@@ -92,7 +92,7 @@
         <div class="profile-summary-item editable d-flex align-items-center bg-light rounded py-4 px-6"
           data-summary-item-target='2fa'>
           <small class="w-50 m-w-100 overflow-hidden text-truncate">2FA Authentication</small>
-          <div class="mb-0 w-50">
+          <div class="mb-0 w-50" id="display_2fa">
             @if ($user->two_factor_confirmed_at)
               <small class="text-success">Active</small>
             @else

@@ -66,7 +66,9 @@
 <div class="gdz-navbar navbar-nav-right d-flex align-items-center" id="navbar-collapse">
   <ul class="navbar-nav nav-pills flex-row align-items-center ms-auto gap-2">
     <li class="nav-item">
-      <button type="button" class="btn btn-sm text-gray dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+      <button type="button" class="btn btn-sm text-gray popover-trigger" data-bs-toggle="popover"
+        data-bs-trigger="focus" data-bs-placement="bottom" data-bs-custom-class="popover-dark"
+        data-bs-content="Other languages will be added very soon!">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
           <g fill="currentColor">
             <path d="M224 56v120c-64 55.43-112-55.43-176 0V56c64-55.43 112 55.43 176 0" opacity=".4" />
@@ -87,8 +89,9 @@
           <path fill="currentColor"
             d="M12.75 6a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0zM7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0" />
         </svg>
-        <span class="ms-2 lh-1">Notifications</span>
-        <span class="badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary ms-2 pt-50">3</span>
+        <span class="badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary ms-6 pt-50 position-absolute">
+          3
+        </span>
       </button>
     </li>
 

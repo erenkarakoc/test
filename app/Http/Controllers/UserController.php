@@ -35,6 +35,11 @@ class UserController extends Controller
             'success' => true,
             'updated_user' => [
                 'username' => $user->username,
+                'full_name' => $user->full_name,
+                'country' => $user->country,
+                'phone_number' => $user->phone_number,
+                'date_of_birth' => $user->date_of_birth,
+                'twofa' => $user->two_factor_confirmed_at,
             ],
         ]);
     }

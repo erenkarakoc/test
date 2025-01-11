@@ -46,10 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
     // Pages - Add Funds
     Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('page-add-funds');
-    // Pages - Team
-    Route::get('/team', [PageTeam::class, 'index'])->name('page-team');
     // Pages - Transactions
     Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
+    // Pages - Team
+    Route::get('/team', [PageTeam::class, 'index'])->name('page-team');
     // Pages - User - Profile
     Route::get('/user/profile', [PageUserProfile::class, 'index'])->name('page-user-profile');
 
