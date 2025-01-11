@@ -21,21 +21,32 @@
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       const amount = Number(amountInput.value);
 
+      let cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution * 8.280134, 0);
+      const contributions = chosenAlgorithms.map(algorithm => algorithm.contribution);
+
+      contributions.forEach((contribution, index) => {
+        const interactionFactor = contributions
+          .filter((_, i) => i !== index)
+          .reduce((sum, otherContribution) => sum + otherContribution / 100, 0);
+        cost += (contribution / 12.8023467) * (1 + interactionFactor);
+      });
+
+      cost += cost * amount * 0.00546806;
+
       const contributionRate = chosenAlgorithms.reduce((sum, algorithm) => sum + (algorithm.contribution || 0), 0);
-      const cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution / 4.78124608, 0);
       const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
 
-      const incomeRate = 0.071113 * (1 + contributionRate / 100);
+      const incomeRate = 0.08394713 * (1 + Math.abs(contributionRate) / 100);
       const estimatedProfit = amount * incomeRate * period;
 
-      const incomeValue = estimatedProfit - amount - cost;
+      const incomeValue = estimatedProfit - amount;
       const totalBalanceAfterValue = estimatedProfit - cost;
       const totalBalanceAfterPercentage = (incomeValue / amount) * 100;
 
-      algorithmCost.innerHTML = '≈' + cost.toFixed(2) + '$';
-      income.innerHTML = '≈' + incomeValue.toFixed(2) + '$';
-      totalBalanceAfter.innerHTML = '≈' + totalBalanceAfterValue.toFixed(2) + '$';
-      totalBalanceAfterPct.innerHTML = '≈' + totalBalanceAfterPercentage.toFixed(2) + '%';
+      income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
+      algorithmCost.innerHTML = `<span class="${cost > 0 ? 'text-danger' : ''}">${cost.toFixed(2)}$</span>`;
+      totalBalanceAfter.innerHTML = `<span class="${totalBalanceAfterValue < amount ? 'text-danger' : 'text-success'}">≈${totalBalanceAfterValue.toFixed(2)}$</span>`;
+      totalBalanceAfterPct.innerHTML = `<span class="${totalBalanceAfterPercentage < 0 ? 'text-danger' : 'text-success'}">≈${totalBalanceAfterPercentage.toFixed(2)}%</span>`;
     } else {
       income.innerHTML = '0.00$';
       totalBalanceAfter.innerHTML = '0.00$';

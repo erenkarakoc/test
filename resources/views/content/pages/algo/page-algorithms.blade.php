@@ -159,7 +159,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -208,7 +208,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -257,7 +257,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -306,7 +306,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -355,7 +355,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -404,7 +404,7 @@
                                 </svg>
                               </div>
                               <span
-                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution) }}</span>%</span>
+                                class="algorithm-contribution">≈<span>{{ number_format($algorithm->profit_contribution, 2) }}</span>%</span>
                             </div>
                           </h5>
                           <small class="mb-0">{{ $algorithm->subtitle }}</small>
@@ -460,7 +460,7 @@
                       <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
                         data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
                         data-bs-custom-class="popover-dark"
-                        data-bs-content="<span class='me-4'>You can lock for</span><br />- 14 days min.<br />- 365 days max.">
+                        data-bs-content="<span class='me-4'>You can lock balances for:</span><br />- min. 14 days<br />- max. 365 days">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                           <path fill="currentColor"
                             d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
@@ -503,11 +503,6 @@
               <div class="table-responsive border rounded overflow-hidden">
                 <table class="table">
                   <tbody class="table-border-bottom-0">
-                    <tr>
-                      <td><small class="text-light">Algorithm Cost</small></td>
-                      <td class="text-end"></td>
-                      <td class="text-end"><span class="text-white" id="algorithm_cost">0.00$</span></td>
-                    </tr>
                     <tr class="d-none unlock_after_wrap">
                       <td><small class="text-light">Unlock After</small></td>
                       <td class="text-end"></td>
@@ -517,6 +512,11 @@
                       <td><small class="text-light">Income</small></td>
                       <td class="text-end"></td>
                       <td class="text-end"><span class="text-white" id="income">0.00$</span></td>
+                    </tr>
+                    <tr>
+                      <td><small class="text-light">Algorithm Cost</small></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white" id="algorithm_cost">0.00$</span></td>
                     </tr>
                     <tr>
                       <td><small class="text-light">Total Balance After</small></td>
