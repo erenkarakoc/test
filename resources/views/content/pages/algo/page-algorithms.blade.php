@@ -639,77 +639,6 @@
                 <div class="card bg-light">
                   <div class="card-header">
                     <small class="fw-bold text-uppercase text-light">Step 1</small>
-                    <h5 class="fw-bold text-heading mt-1 mb-0">Pack Title</h5>
-                    <small>Specify a custom pack title for future reuse.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">Enter the Title</h6>
-                    <small>
-                      Provide a meaningful title for your custom algorithm pack. This title will help you identify and
-                      reuse the pack in the future with ease.
-                    </small>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <small class="fw-bold text-uppercase text-light">Step 2</small>
-                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Amount</h5>
-                    <small>Specify the amount of capital you want to allocate for the built algorithm pack.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">1. Enter the Amount</h6>
-                    <small>
-                      In the provided input field (e.g., Amount to Lock), enter the amount of money you are willing to
-                      allocate to be locked for the strategy. This amount will be the starting capital that your
-                      algorithms will work with and will be locked until the date you've chosen (See also: Step 3). Larger
-                      amounts of capital will result in higher potential incomes, but the algorithm costs may also
-                      increase slightly.
-                    </small>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <small class="fw-bold text-uppercase text-light">Step 3</small>
-                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Period</h5>
-                    <small>Select the unlock date to determine when your capital and incomes can be accessed.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">1. What is the Unlock Date?</h6>
-                    <small>
-                      The Unlock Date marks when your capital becomes accessible after the lock period begins. This period
-                      starts immediately upon executing your newly created algorithm pack and can range from 14 to 365
-                      days from today.
-                    </small>
-
-                    <h6 class="mt-8 mb-1">2. Set the Unlock Date</h6>
-                    <small>
-                      The period between the current date and the unlock date will influence how your incomes accumulate,
-                      as the algorithms will generate returns based on the time period you select. You can execute the
-                      algorithm pack at any time after you built it.
-                    </small>
-
-                    <h6 class="mt-8 mb-1">3. Consider the Lock Period</h6>
-                    <div class="d-flex flex-column">
-                      <small>
-                        - Longer lock periods reduce the overall algorithm costs, offering cost efficiency over
-                        extended durations.
-                      </small>
-                      <small class="mt-1">
-                        - Shorter lock periods may result in higher algorithm costs due to the
-                        limited time available for trade execution.
-                      </small>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <small class="fw-bold text-uppercase text-light">Step 4</small>
                     <h5 class="fw-bold text-heading mt-1 mb-0">Select Algorithms for Your Strategy</h5>
                     <small>Choose the algorithms that you believe will align best with your budget and time.</small>
                   </div>
@@ -765,8 +694,9 @@
 
                     <h6 class="mt-8 mb-1">3. Consider Conflicting Strategies</h6>
                     <small>
-                      Exercise caution when selecting algorithms from different categories, as some may conflict,
-                      potentially leading to minor imbalances in performance.
+                      Carefully evaluate the compatibility of algorithms from different categories, as conflicts between
+                      strategies can lead to inefficiencies, performance imbalances, or increased costs. Choose
+                      complementary algorithms to maximize effectiveness and avoid potential issues.
                     </small>
 
                     <ul class="list-group mt-4">
@@ -870,6 +800,77 @@
                         incompatibility, but will result in unnecessary costs.
                       </span>
                     </small>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 2</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Pack Title</h5>
+                    <small>Specify a custom pack title for future reuse.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">Enter the Title</h6>
+                    <small>
+                      Provide a meaningful title for your custom algorithm pack. This title will help you identify and
+                      reuse the pack in the future with ease.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 3</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Amount</h5>
+                    <small>Specify the amount of capital you want to allocate for the built algorithm pack.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">1. Enter the Amount</h6>
+                    <small>
+                      In the provided input field (e.g., Amount to Lock), enter the amount of money you are willing to
+                      allocate to be locked for the strategy. This amount will be the starting capital that your
+                      algorithms will work with and will be locked until the date you've chosen (See also: Step 3). Larger
+                      amounts of capital will result in higher potential incomes, but the algorithm costs may also
+                      increase slightly.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 4</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Period</h5>
+                    <small>Select the unlock date to determine when your capital and incomes can be accessed.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">1. What is the Unlock Date?</h6>
+                    <small>
+                      The Unlock Date marks when your capital becomes accessible after the lock period begins. This period
+                      starts immediately upon executing your newly created algorithm pack and can range from 14 to 365
+                      days from today.
+                    </small>
+
+                    <h6 class="mt-8 mb-1">2. Set the Unlock Date</h6>
+                    <small>
+                      The period between the current date and the unlock date will influence how your incomes accumulate,
+                      as the algorithms will generate returns based on the time period you select. You can execute the
+                      algorithm pack at any time after you built it.
+                    </small>
+
+                    <h6 class="mt-8 mb-1">3. Consider the Lock Period</h6>
+                    <div class="d-flex flex-column">
+                      <small>
+                        - Longer lock periods reduce the overall algorithm costs, offering cost efficiency over
+                        extended durations.
+                      </small>
+                      <small class="mt-1">
+                        - Shorter lock periods may result in higher algorithm costs due to the
+                        limited time available for trade execution.
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
