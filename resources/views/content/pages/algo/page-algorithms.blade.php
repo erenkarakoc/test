@@ -498,7 +498,7 @@
                 </div>
               </div>
 
-              <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Strategy Summary</h6>
+              <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Summary</h6>
 
               <div class="table-responsive border rounded overflow-hidden">
                 <table class="table">
@@ -509,14 +509,19 @@
                       <td class="text-end"><span class="text-white" id="unlock_after">0 days</span></td>
                     </tr>
                     <tr>
-                      <td><small class="text-light">Income</small></td>
-                      <td class="text-end"></td>
-                      <td class="text-end"><span class="text-white" id="income">0.00$</span></td>
-                    </tr>
-                    <tr>
                       <td><small class="text-light">Algorithm Cost</small></td>
                       <td class="text-end"></td>
                       <td class="text-end"><span class="text-white" id="algorithm_cost">0.00$</span></td>
+                    </tr>
+                    <tr>
+                      <td><small class="text-light">Balance After Purchase</small></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white" id="balance_after_purchase">0.00$</span></td>
+                    </tr>
+                    <tr>
+                      <td><small class="text-light">Income</small></td>
+                      <td class="text-end"></td>
+                      <td class="text-end"><span class="text-white" id="income">0.00$</span></td>
                     </tr>
                     <tr>
                       <td><small class="text-light">Total Balance After</small></td>
@@ -528,7 +533,7 @@
                 </table>
               </div>
 
-              <small class="d-flex align-items-start text-primary gap-2 mt-4">
+              <small class="d-flex align-items-start text-primary gap-2 mt-8">
                 <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -538,8 +543,8 @@
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
                 <span>
-                  Above specified amounts are values and may up to 15% change at the end of the lock period depending on
-                  market fluctuation.
+                  Above specified amounts are estimated values and may change up to 15% at the end of the lock period
+                  depending on market fluctuation.
                 </span>
               </small>
 

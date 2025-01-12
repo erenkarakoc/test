@@ -8,9 +8,10 @@
   let chosenAlgorithms = [];
   const amountInput = document.querySelector('#lock_amount');
   const maxButton = document.querySelector('#max_button');
-  const algorithmCost = document.querySelector('#algorithm_cost');
   const unlockDate = document.querySelector('#unlock_date');
   const unlockAfter = document.querySelector('#unlock_after');
+  const algorithmCost = document.querySelector('#algorithm_cost');
+  const balanceAfterPurchase = document.querySelector('#balance_after_purchase');
   const income = document.querySelector('#income');
   const totalBalanceAfter = document.querySelector('#total_balance_after');
   const totalBalanceAfterPct = document.querySelector('#total_balance_after_percentage');
@@ -20,37 +21,59 @@
   const calculateAlgorithm = () => {
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       const amount = Number(amountInput.value);
-
-      let cost = chosenAlgorithms.reduce((sum, algorithm) => sum + algorithm.contribution * 8.280134, 0);
+      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
       const contributions = chosenAlgorithms.map(algorithm => algorithm.contribution);
 
-      contributions.forEach((contribution, index) => {
-        const interactionFactor = contributions
+      const contributionRate = contributions.reduce((sum, contribution) => sum + contribution, 0);
+
+      let baseCost = contributions.reduce((sum, contribution) => sum + contribution * 15, 0);
+      chosenAlgorithms.forEach((algorithm, index) => {
+        const randomInteractionFactor = chosenAlgorithms
           .filter((_, i) => i !== index)
-          .reduce((sum, otherContribution) => sum + otherContribution / 100, 0);
-        cost += (contribution / 12.8023467) * (1 + interactionFactor);
+          .reduce((sum, other) => sum + (other.contribution / 200) * (Math.random() * 0.1 + 0.95), 0);
+        baseCost += (algorithm.contribution / 10) * (1 + randomInteractionFactor);
       });
 
-      cost += cost * amount * 0.00546806;
+      let cost = baseCost / Math.sqrt(period + 10);
 
-      const contributionRate = chosenAlgorithms.reduce((sum, algorithm) => sum + (algorithm.contribution || 0), 0);
-      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      const shortPeriodPenalty = 1 + 15 / (period + 15);
+      cost *= shortPeriodPenalty;
 
-      const incomeRate = 0.08394713 * (1 + Math.abs(contributionRate) / 100);
-      const estimatedProfit = amount * incomeRate * period;
+      const dynamicCostFactor = 1 + Math.log1p(amount) / 8;
+      cost *= dynamicCostFactor;
 
-      const incomeValue = estimatedProfit - amount;
-      const totalBalanceAfterValue = estimatedProfit - cost;
-      const totalBalanceAfterPercentage = (incomeValue / amount) * 100;
+      const contributionDiscount = Math.min(contributionRate / 200, 0.3);
+      cost *= 1 - contributionDiscount;
 
-      income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
-      algorithmCost.innerHTML = `<span class="${cost > 0 ? 'text-danger' : ''}">${cost.toFixed(2)}$</span>`;
-      totalBalanceAfter.innerHTML = `<span class="${totalBalanceAfterValue < amount ? 'text-danger' : 'text-success'}">≈${totalBalanceAfterValue.toFixed(2)}$</span>`;
-      totalBalanceAfterPct.innerHTML = `<span class="${totalBalanceAfterPercentage < 0 ? 'text-danger' : 'text-success'}">≈${totalBalanceAfterPercentage.toFixed(2)}%</span>`;
+      cost += Math.log1p(amount) / 10;
+
+      const balanceAfterPurchaseValue = amount - cost;
+
+      const incomeRate = 0.05 + 0.03 * Math.log1p(contributionRate / 10) + 0.005 * Math.sqrt(period);
+
+      const profitScalingFactor = 1 + (chosenAlgorithms.length - 1) * 0.005;
+      const estimatedProfit = balanceAfterPurchaseValue * incomeRate * period * profitScalingFactor;
+
+      const finalBalance = balanceAfterPurchaseValue + estimatedProfit;
+
+      const incomeValue = finalBalance - amount;
+      const finalPercentage = (incomeValue / amount) * 100;
+
+      if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
+        algorithmCost.innerHTML = `<span class="${cost > 0 ? 'text-danger' : ''}">${cost.toFixed(2)}$</span>`;
+        balanceAfterPurchase.innerHTML = `<span class="text-danger">${balanceAfterPurchaseValue.toFixed(2)}$</span>`;
+        income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
+        totalBalanceAfter.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
+        totalBalanceAfterPct.innerHTML = `<span class="${finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${finalPercentage.toFixed(2)}%</span>`;
+      }
     } else {
-      income.innerHTML = '0.00$';
-      totalBalanceAfter.innerHTML = '0.00$';
-      totalBalanceAfterPct.innerHTML = '0.00%';
+      if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
+        algorithmCost.innerHTML = '0.00$';
+        balanceAfterPurchase.innerHTML = '0.00$';
+        income.innerHTML = '0.00$';
+        totalBalanceAfter.innerHTML = '0.00$';
+        totalBalanceAfterPct.innerHTML = '0.00%';
+      }
     }
   };
 
@@ -776,16 +799,16 @@
         algorithmItem.setAttribute('data-title', title);
 
         algorithmItem.innerHTML = `
-        <button type="button" class="remove-algorithm" data-icon='${icon}'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-              stroke-width="2" d="m15 5l-6 7l6 7" />
-          </svg>
-        </button>
-        <span class="algorithm-sm-item-title notranslate">${title}</span>
-        <small>${subtitle || ''}</small>
-        <small class="algorithm-sm-item-contribution">≈${contribution || 0}%</small>
-      `;
+          <button type="button" class="remove-algorithm" data-icon='${icon}'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" d="m15 5l-6 7l6 7" />
+            </svg>
+          </button>
+          <span class="algorithm-sm-item-title notranslate">${title}</span>
+          <small>${subtitle || ''}</small>
+          <small class="algorithm-sm-item-contribution">≈${contribution || 0}%</small>
+        `;
 
         algorithmSmItems.appendChild(algorithmItem);
 
