@@ -796,7 +796,7 @@
                         </path>
                       </svg>
                       <span>
-                        Selecting conflicting algorithms will not be used simultaneously due to their
+                        Selected conflicting algorithms will not be used simultaneously when executing trades due to their
                         incompatibility, but will result in unnecessary costs.
                       </span>
                     </small>
