@@ -15,12 +15,26 @@ abstract class Controller
 
     protected $userTotalLockedBalance = 0.0;
 
+    protected $walletIcons = [];
+
+    protected $walletIconSymbols = [];
+
+    protected $walletSmallIcons = [];
+
     public function __construct()
     {
+        $this->walletIcons = config('wallet_icons.walletIcons');
+        $this->walletIconSymbols = config('wallet_icons.walletIconSymbols');
+        $this->walletSmallIcons = config('wallet_icons.walletSmallIcons');
+
+        $this->shareWalletIcons();
         $this->shareUserTotalBalance();
         $this->shareMarketDataPrices();
     }
 
+    /**
+     * Share the authenticated user's total balance with all views.
+     */
     private function shareUserTotalBalance()
     {
         if (Auth::check()) {
@@ -40,6 +54,9 @@ abstract class Controller
         }
     }
 
+    /**
+     * Calculate the authenticated user's total balance with all views.
+     */
     public function calculateUserTotalBalance()
     {
         if (Auth::check()) {
@@ -59,9 +76,22 @@ abstract class Controller
         }
     }
 
+    /**
+     * Share market data prices with all views.
+     */
     private function shareMarketDataPrices()
     {
         $this->marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
         View::share('marketDataPrices', $this->marketDataPrices);
+    }
+
+    /**
+     * Share wallet icons with all views.
+     */
+    private function shareWalletIcons()
+    {
+        View::share('walletIcons', $this->walletIcons);
+        View::share('walletIconSymbols', $this->walletIconSymbols);
+        View::share('walletSmallIcons', $this->walletSmallIcons);
     }
 }

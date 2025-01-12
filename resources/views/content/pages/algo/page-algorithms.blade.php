@@ -30,14 +30,54 @@
 
     <div class="row row-gap-4current-algorithm-items">
       <div class="col col-3">
-        <div class="card bg-primary bg-glow current-algorithm-item">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start">
-              <div class="d-flex flex-column">
-                <h5 class="text-white mb-1 fw-bold lh-1">MR</h5>
-                <small class="text-white mb-0 lh-1">Mean Reversion</small>
+        <div
+          class="card bg-light border bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
+          <div class="p-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-2">
+                {!! $walletIconSymbols[$userBalances->where('wallet', 'GDZ')->value('wallet')] ?? '' !!}
+                <h6 class="mb-0 text-white wallet-item-title">{{ $userBalances->where('wallet', 'GDZ')->value('title') }}
+                </h6>
               </div>
-              <small class="text-white fw-bold">+4.00$</small>
+              <div class="d-flex flex-column align-items-end text-right">
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
+                </h5>
+                <small class="text-dark">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
+                  {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-3">
+        <div class="card bg-light border bg-glow h-100 p-4">
+          <div class="d-flex justify-content-between align-items-center h-100">
+            <div class="d-flex align-items-center gap-2">
+              <div class="d-flex justify-content-center align-items-center" style="height: 36px; width: 36px;">
+                <svg class="flex-shrink-0 text-white" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.7"
+                    d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
+                    fill="currentColor"></path>
+                  <path opacity="0.5"
+                    d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
+                    fill="currentColor"></path>
+                  <path opacity="0.7"
+                    d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
+                    fill="currentColor"></path>
+                </svg>
+              </div>
+              <h6 class="mb-0 text-white wallet-item-title">
+                Gems
+              </h6>
+            </div>
+            <div class="d-flex flex-column align-items-start text-right">
+              <h5 class="mb-0 text-white">0</h5>
             </div>
           </div>
         </div>
@@ -94,7 +134,8 @@
               <button type="button" class="nav-link" data-tab-title="Market Structure & Execution"
                 data-tab-subtitle="Algorithms that analyze market microstructure and optimize trade execution for better outcomes"
                 role="tab" data-bs-toggle="tab" data-bs-target="#mse" aria-controls="mse" aria-selected="false">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
                     opacity=".5" />

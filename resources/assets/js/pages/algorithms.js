@@ -24,8 +24,8 @@
       const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
 
       // Calculate base rates
-      const baseAlgorithmCost = 1; // Example: Base cost for each algorithm
-      const baseIncomeRate = 0.15; // Example: Base income rate
+      const baseAlgorithmCost = 1.8; // Example: Base cost for each algorithm
+      const baseIncomeRate = 0.0015; // Example: Base income rate
 
       // Conflict map (conflicting categories of algorithms)
       const conflictMap = {
@@ -57,7 +57,7 @@
 
         // Apply a dynamic penalty based on the number of algorithms selected
         const algorithmCount = adjustedAlgorithms.length;
-        const penaltyFactor = Math.log(algorithmCount + 1); // Logarithmic scale
+        const penaltyFactor = Math.log(algorithmCount + 2); // Logarithmic scale
         cost *= 1 + penaltyFactor * 0.1; // Increase cost by a factor related to the number of algorithms
 
         // Apply period-based discount (longer periods reduce cost)
@@ -70,9 +70,9 @@
       // Total algorithm cost (sum of individual costs)
       const totalAlgorithmCost = algorithmCostValues.reduce((sum, cost) => sum + cost, 0);
 
-      // Calculate income (based on base income rate and algorithm contribution)
+      // Calculate income (based on base income rate, algorithm contribution, and amount)
       const totalIncome = adjustedAlgorithms.reduce(
-        (sum, algorithm) => sum + baseIncomeRate * algorithm.contribution,
+        (sum, algorithm) => sum + baseIncomeRate * algorithm.contribution * amount,
         0
       );
 
