@@ -43,7 +43,7 @@
           if (adjustedAlgorithm !== otherAlgorithm) {
             const conflicts = conflictMap[adjustedAlgorithm.category];
             if (conflicts && conflicts.includes(otherAlgorithm.category)) {
-              adjustedAlgorithm.contribution *= 0.1;
+              adjustedAlgorithm.contribution *= 0.5;
             }
           }
         });
@@ -51,7 +51,7 @@
         return adjustedAlgorithm;
       });
 
-      // Calculate algorithm cost, influenced by the number of algorithms and their contribution rates
+      // Calculate algorithm cost, influenced by the number of algorithms and their contribution rates, and period
       const algorithmCostValues = adjustedAlgorithms.map(algorithm => {
         let cost = baseAlgorithmCost * algorithm.contribution; // Increase cost based on contribution rate
 
@@ -59,6 +59,10 @@
         const algorithmCount = adjustedAlgorithms.length;
         const penaltyFactor = Math.log(algorithmCount + 1); // Logarithmic scale
         cost *= 1 + penaltyFactor * 0.1; // Increase cost by a factor related to the number of algorithms
+
+        // Apply period-based discount (longer periods reduce cost)
+        const periodDiscount = Math.log(period + 1) / 10; // Logarithmic discount scaling
+        cost *= 1 - periodDiscount; // Reduce cost by the discount factor
 
         return cost;
       });

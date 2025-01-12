@@ -614,17 +614,16 @@
                   fill="currentColor" />
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M10.5697 8.55793C10.8095 8.32363 11.1449 8.17083 11.7796 8.08776C12.4331 8.00157 13.2982 8 14.5395 8H17.9983C19.2396 8 20.1047 8.00157 20.7582 8.08776C21.3929 8.17083 21.7283 8.32363 21.9681 8.55793C22.2071 8.79301 22.363 9.12213 22.4484 9.74353C22.5362 10.3837 22.5378 11.2316 22.5378 12.447V18.5897H12.622C11.9144 18.5897 11.4317 18.5889 11.0179 18.6979C10.648 18.795 10.3048 18.9533 10 19.1618V12.4478C10 11.2316 10.0016 10.3837 10.0893 9.74353C10.1747 9.12213 10.3307 8.79301 10.5697 8.55793ZM12.8108 10.9652C12.6407 10.9635 12.4768 11.0294 12.3552 11.1484C12.2335 11.2674 12.164 11.4298 12.162 11.5999C12.162 11.951 12.4519 12.2354 12.81 12.2354H19.7277C19.8978 12.2369 20.0614 12.1709 20.1829 12.0519C20.3044 11.933 20.3737 11.7707 20.3758 11.6007C20.3739 11.4305 20.3047 11.2681 20.1832 11.1489C20.0617 11.0298 19.8979 10.9637 19.7277 10.9652H12.8108ZM12.162 14.5651C12.162 14.2148 12.4519 13.9304 12.81 13.9304H17.1332C17.3034 13.9287 17.4672 13.9946 17.5889 14.1136C17.7105 14.2326 17.78 14.3949 17.782 14.5651C17.7802 14.7354 17.7108 14.898 17.5891 15.0171C17.4675 15.1363 17.3035 15.2023 17.1332 15.2006H12.81C12.64 15.2021 12.4763 15.1361 12.3549 15.0171C12.2334 14.8981 12.164 14.7351 12.162 14.5651Z"
-                  fill="#fff" opacity=".8" />
+                  fill="#fff" opacity=".9" />
                 <path
                   d="M12.7292 19.8555C11.8837 19.8555 11.5883 19.861 11.361 19.9205C11.0583 19.9985 10.779 20.149 10.5473 20.3589C10.3157 20.5689 10.1386 20.832 10.0312 21.1257C10.0433 21.424 10.0652 21.6902 10.0971 21.9242C10.1825 22.5456 10.3384 22.8747 10.5774 23.1098C10.8172 23.3441 11.1526 23.4969 11.7873 23.58C12.4409 23.6662 13.306 23.6677 14.5472 23.6677H18.0061C19.2473 23.6677 20.1124 23.6662 20.7659 23.5808C21.4007 23.4969 21.736 23.3441 21.9758 23.1098C22.1451 22.9429 22.2736 22.729 22.3637 22.3967H12.8178C12.6478 22.3982 12.4841 22.3322 12.3626 22.2132C12.2412 22.0943 12.1718 21.932 12.1697 21.762C12.1697 21.4109 12.4597 21.1265 12.8178 21.1265H22.522C22.5377 20.7613 22.5432 20.3429 22.5455 19.8555H12.7292Z"
-                  fill="#fff" opacity=".8" />
+                  fill="#fff" opacity=".6" />
               </svg>
               <div class="d-flex flex-column">
-                <h4 class="modal-title fw-bold">Build Guide</h4>
+                <h4 class="modal-title text-heading fw-bold">Build Guide</h4>
                 <small class="mt-2">
                   This guide will walk you through the process of building your own algorithmic trading strategy. The
-                  strategies are designed to adjust algorithm costs and contributions dynamically, based on your
-                  choices.
+                  strategies are designed to adjust algorithm costs and contributions dynamically, based on your choices.
                   Follow the steps below to make better selections.
                 </small>
               </div>
@@ -639,7 +638,79 @@
               <div class="col col-12">
                 <div class="card bg-light">
                   <div class="card-header">
-                    <h5 class="mb-1"><b>Step 1:</b> Select Algorithms for Your Strategy</h5>
+                    <small class="fw-bold text-uppercase text-light">Step 1</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Pack Title</h5>
+                    <small>Specify a custom pack title for future reuse.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">Enter the Title</h6>
+                    <small>
+                      Provide a meaningful title for your custom algorithm pack. This title will help you identify and
+                      reuse the pack in the future with ease.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 2</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Amount</h5>
+                    <small>Specify the amount of capital you want to allocate for the built algorithm pack.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">1. Enter the Amount</h6>
+                    <small>
+                      In the provided input field (e.g., Amount to Lock), enter the amount of money you are willing to
+                      allocate to be locked for the strategy. This amount will be the starting capital that your
+                      algorithms will work with and will be locked until the date you've chosen (See also: Step 3). Larger
+                      amounts of capital will result in higher potential incomes, but the algorithm costs may also
+                      increase slightly.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 3</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Lock Period</h5>
+                    <small>Select the unlock date to determine when your capital and incomes can be accessed.</small>
+                  </div>
+
+                  <div class="card-body mt-2">
+                    <h6 class="mb-1">1. What is the Unlock Date?</h6>
+                    <small>
+                      The Unlock Date marks when your capital becomes accessible after the lock period begins. This period
+                      starts immediately upon executing your newly created algorithm pack and can range from 14 to 365
+                      days from today.
+                    </small>
+
+                    <h6 class="mt-8 mb-1">2. Set the Unlock Date</h6>
+                    <small>
+                      The period between the current date and the unlock date will influence how your incomes accumulate,
+                      as the algorithms will generate returns based on the time period you select. You can execute the
+                      algorithm pack at any time after you built it.
+                    </small>
+
+                    <h6 class="mt-8 mb-1">3. Consider the Lock Period</h6>
+                    <div class="d-flex flex-column">
+                      <small>
+                        - Longer lock periods reduce the overall algorithm costs, offering cost efficiency over
+                        extended durations.
+                      </small>
+                      <small class="mt-1">
+                        - Shorter lock periods may result in higher algorithm costs due to the
+                        limited time available for trade execution.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card bg-light mt-6">
+                  <div class="card-header">
+                    <small class="fw-bold text-uppercase text-light">Step 4</small>
+                    <h5 class="fw-bold text-heading mt-1 mb-0">Select Algorithms for Your Strategy</h5>
                     <small>Choose the algorithms that you believe will align best with your budget and time.</small>
                   </div>
 
@@ -799,62 +870,6 @@
                         incompatibility, but will result in unnecessary costs.
                       </span>
                     </small>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <h5 class="mb-1"><b>Step 2:</b> Lock Amount</h5>
-                    <small>Specify the amount of capital you want to allocate for the built algorithm pack.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">1. Enter the Amount</h6>
-                    <small>
-                      In the provided input field (e.g., Amount to Lock), enter the amount of money you are willing to
-                      allocate to be locked for the strategy. This amount will be the starting capital that your
-                      algorithms will work with and will be locked until the date you've chosen (See also: Step 3). Larger
-                      amounts of capital will result in higher potential profits, but
-                      the algorithm costs may
-                      also increase slightly.
-                    </small>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <h5 class="mb-1"><b>Step 3:</b> Lock Period</h5>
-                    <small>Select the unlock date to determine when your capital and profits can be accessed.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">1. What is the Unlock Date?</h6>
-                    <small>
-                      The Unlock Date is the date when your capital becomes accessible after the lock period. This period
-                      starts from the moment you execute. your newly built algorithm pack. You can choose any date between
-                      14 days from now and 365 days from now.
-                    </small>
-
-                    <h6 class="mt-8 mb-1">2. Set the Unlock Date</h6>
-                    <small>
-                      Use the calendar or date picker tool to choose an unlock date. The period between the current date
-                      and the unlock date will influence how your profits accumulate, as the algorithms will generate
-                      returns based on the time period you select. You can execute the algorithm pack at any time after
-                      you built it.
-                    </small>
-
-                    <h6 class="mt-8 mb-1">3. Consider the Lock Period</h6>
-                    <div class="d-flex flex-column">
-                      <small class="mt-1">
-                        - Shorter periods might lead to higher costs since the algorithms will have less time to execute
-                        trades.
-                      </small>
-                      <small>
-                        - A longer period allows more time for your algorithms to execute trades, also
-                        impacts the overall cost of the algorithms. As a result, the algorithms’ costs decrease slightly
-                        as the period increases.
-                      </small>
-                    </div>
                   </div>
                 </div>
               </div>
