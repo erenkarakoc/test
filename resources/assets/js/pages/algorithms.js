@@ -22,50 +22,69 @@
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       const amount = Number(amountInput.value);
       const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
-      const contributions = chosenAlgorithms.map(algorithm => algorithm.contribution);
-      const totalContributionRate = contributions.reduce((sum, contribution) => sum + contribution, 0);
 
-      // Initialize algorithm cost based on total contribution rate with a slight adjustment for large numbers
-      let algorithmCostValue = totalContributionRate * 0.005 * amount;
+      // Calculate base rates
+      const baseAlgorithmCost = 1; // Example: Base cost for each algorithm
+      const baseIncomeRate = 0.15; // Example: Base income rate
 
-      // Influence factor between algorithms with diminishing returns on larger differences
-      chosenAlgorithms.forEach((algorithm, index) => {
-        let influenceFactor = 0;
+      // Conflict map (conflicting categories of algorithms)
+      const conflictMap = {
+        MR: ['TF'],
+        MLP: ['MR'],
+        MSE: ['TF']
+      };
 
-        chosenAlgorithms.forEach((otherAlgorithm, otherIndex) => {
-          if (index !== otherIndex) {
-            const contributionDifference = Math.abs(algorithm.contribution - otherAlgorithm.contribution);
-            const weight = Math.pow(contributionDifference / totalContributionRate, 1.5); // Diminished influence for larger differences
-            influenceFactor += weight * (otherAlgorithm.contribution / totalContributionRate);
+      // Adjust contribution rates based on conflicts
+      const adjustedAlgorithms = chosenAlgorithms.map(algorithm => {
+        let adjustedAlgorithm = { ...algorithm };
+
+        // Check for conflicts and adjust contribution rates
+        chosenAlgorithms.forEach(otherAlgorithm => {
+          if (adjustedAlgorithm !== otherAlgorithm) {
+            const conflicts = conflictMap[adjustedAlgorithm.category];
+            if (conflicts && conflicts.includes(otherAlgorithm.category)) {
+              adjustedAlgorithm.contribution *= 0.1;
+            }
           }
         });
 
-        // Apply the influence factor to the algorithm's cost
-        algorithmCostValue += influenceFactor * amount * 0.05; // Reduced influence factor to avoid inflated costs
+        return adjustedAlgorithm;
       });
 
-      // Calculate balance after algorithm costs
-      const balanceAfterPurchaseValue = amount - algorithmCostValue;
+      // Calculate algorithm cost, influenced by the number of algorithms and their contribution rates
+      const algorithmCostValues = adjustedAlgorithms.map(algorithm => {
+        let cost = baseAlgorithmCost * algorithm.contribution; // Increase cost based on contribution rate
 
-      // Apply the period influence for profit calculation, with an exponential scaling for larger periods
-      let baseIncome = balanceAfterPurchaseValue * 0.2840543;
+        // Apply a dynamic penalty based on the number of algorithms selected
+        const algorithmCount = adjustedAlgorithms.length;
+        const penaltyFactor = Math.log(algorithmCount + 1); // Logarithmic scale
+        cost *= 1 + penaltyFactor * 0.1; // Increase cost by a factor related to the number of algorithms
 
-      // Increase base income based on the contribution rates, with diminishing returns for very high contributions
-      chosenAlgorithms.forEach(algorithm => {
-        baseIncome += algorithm.contribution * baseIncome * 0.15; // Increase the scaling factor for larger contributions
+        return cost;
       });
 
-      // Adjust profit based on period influence, making it more sensitive to longer periods
-      const periodInfluence = Math.pow(period / 30, 1.3); // Slightly less aggressive scaling
-      const incomeValue = baseIncome * periodInfluence;
+      // Total algorithm cost (sum of individual costs)
+      const totalAlgorithmCost = algorithmCostValues.reduce((sum, cost) => sum + cost, 0);
 
-      // Final balance and profit percentage
+      // Calculate income (based on base income rate and algorithm contribution)
+      const totalIncome = adjustedAlgorithms.reduce(
+        (sum, algorithm) => sum + baseIncomeRate * algorithm.contribution,
+        0
+      );
+
+      // Balance after purchase
+      const balanceAfterPurchaseValue = amount - totalAlgorithmCost;
+      const incomeValue = totalIncome * period; // Apply period for increased income
+
+      // Calculate final balance after applying income
       const finalBalance = balanceAfterPurchaseValue + incomeValue;
-      const finalPercentage = (incomeValue / balanceAfterPurchaseValue) * 100;
 
-      // Update the HTML elements with calculated values
+      // Calculate final percentage
+      const finalPercentage = ((finalBalance - amount) / amount) * 100;
+
+      // Update HTML elements with calculated values
       if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
-        algorithmCost.innerHTML = `<span class="${algorithmCostValue > 0 ? 'text-danger' : ''}">${algorithmCostValue.toFixed(2)}$</span>`;
+        algorithmCost.innerHTML = `<span class="${totalAlgorithmCost > 0 ? 'text-danger' : ''}">${totalAlgorithmCost.toFixed(2)}$</span>`;
         balanceAfterPurchase.innerHTML = `<span class="text-danger">${balanceAfterPurchaseValue.toFixed(2)}$</span>`;
         income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
         totalBalanceAfter.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
@@ -795,9 +814,10 @@
       const subtitle = button.getAttribute('data-subtitle');
       const contribution = button.getAttribute('data-contribution');
       const icon = button.getAttribute('data-icon');
+      const category = button.getAttribute('data-category');
 
       if (!algorithmSmItems.querySelector(`.algorithm-sm-item[data-title="${title}"]`)) {
-        chosenAlgorithms.push({ title, contribution: Number(contribution), icon });
+        chosenAlgorithms.push({ title, contribution: Number(contribution), icon, category });
         toggleEmptyText();
 
         const algorithmItem = document.createElement('div');

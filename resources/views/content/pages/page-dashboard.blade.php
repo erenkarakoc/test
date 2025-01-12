@@ -42,7 +42,7 @@
               </svg>
             </div>
             <div class="content-right">
-              <span class="text-heading fw-medium mb-0">Total Profit</span>
+              <span class="text-heading fw-medium mb-0">Total Income</span>
               <h6 class="text-primary mb-0">{{ number_format($totalEarned, 2) }}$<small
                   class="text-success fw-light ms-1">7.64%</small></h6>
             </div>

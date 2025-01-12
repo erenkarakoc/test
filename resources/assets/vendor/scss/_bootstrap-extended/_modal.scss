@@ -4,11 +4,9 @@
 .modal {
   .btn-close {
     background-color: $card-bg;
-    border-radius: $border-radius-sm;
     background-image: str-replace(str-replace($btn-close-bg, '#{$btn-close-color}', $text-muted), '#', '%23');
     opacity: 1;
     padding: 0.3757rem;
-    box-shadow: $box-shadow-xs;
     transition: all 0.23s ease 0.1s;
     @include ltr-style {
       transform: translate(23px, -25px);
@@ -24,14 +22,6 @@
     &:active {
       opacity: 1;
       outline: none;
-
-      @include ltr-style {
-        transform: translate(20px, -20px);
-      }
-
-      @include rtl-style {
-        transform: translate(-26px, -20px);
-      }
     }
   }
 
@@ -39,12 +29,12 @@
     position: relative;
     .btn-close {
       position: absolute;
-      top: $modal-dialog-margin + 0.1875rem;
+      top: $modal-dialog-margin + 1.5rem;
       @include ltr-style() {
-        right: $modal-footer-margin-between - 0.1875rem;
+        right: $modal-footer-margin-between + 1.125rem;
       }
       @include rtl-style {
-        left: $modal-footer-margin-between + 0.3;
+        left: $modal-footer-margin-between + 2.3;
       }
     }
   }

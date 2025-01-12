@@ -74,15 +74,7 @@ class SeedAlgorithms extends Command
             'description' => 'Identifies when an asset\'s price deviates significantly from its historical average, assuming it will revert to the mean over time.',
             'icon' => '2',
             'profit_contribution' => 0.8,
-            'category' => 'MRSA',
-        ]);
-        Algorithm::Create([
-            'title' => 'PT',
-            'subtitle' => 'Pair Trading',
-            'description' => 'Trades correlated cryptocurrency pairs. Buys the underperforming asset and sells the outperforming one, assuming they will revert to their historical correlation.',
-            'icon' => '2',
-            'profit_contribution' => 0.8,
-            'category' => 'MRSA',
+            'category' => 'MR',
         ]);
         Algorithm::Create([
             'title' => 'BB',
@@ -90,7 +82,7 @@ class SeedAlgorithms extends Command
             'description' => 'Trades based on price movements relative to Bollinger Bands. Buys when the price touches the lower band and sells when it touches the upper band.',
             'icon' => '2',
             'profit_contribution' => 0.6,
-            'category' => 'MRSA',
+            'category' => 'MR',
         ]);
         Algorithm::Create([
             'title' => 'FR',
@@ -98,7 +90,7 @@ class SeedAlgorithms extends Command
             'description' => 'Uses Fibonacci retracement levels to identify potential support and resistance levels for buying and selling.',
             'icon' => '2',
             'profit_contribution' => 0.6,
-            'category' => 'MRSA',
+            'category' => 'MR',
         ]);
         Algorithm::Create([
             'title' => 'MM',
@@ -194,6 +186,14 @@ class SeedAlgorithms extends Command
             'description' => 'Automatically triggers sell orders to limit losses or lock in profits when predetermined price levels are reached.',
             'icon' => '2',
             'profit_contribution' => 1.1,
+            'category' => 'BASIC',
+        ]);
+        Algorithm::Create([
+            'title' => 'PT',
+            'subtitle' => 'Pair Trading',
+            'description' => 'Trades correlated cryptocurrency pairs. Buys the underperforming asset and sells the outperforming one, assuming they will revert to their historical correlation.',
+            'icon' => '2',
+            'profit_contribution' => 0.8,
             'category' => 'BASIC',
         ]);
 
