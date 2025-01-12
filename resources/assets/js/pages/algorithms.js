@@ -18,55 +18,61 @@
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
 
-  const calculateAlgorithm = () => {
+  const calculateSummary = () => {
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       const amount = Number(amountInput.value);
       const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
       const contributions = chosenAlgorithms.map(algorithm => algorithm.contribution);
+      const totalContributionRate = contributions.reduce((sum, contribution) => sum + contribution, 0);
 
-      const contributionRate = contributions.reduce((sum, contribution) => sum + contribution, 0);
+      // Initialize algorithm cost based on total contribution rate with a slight adjustment for large numbers
+      let algorithmCostValue = totalContributionRate * 0.005 * amount;
 
-      let baseCost = contributions.reduce((sum, contribution) => sum + contribution * 15, 0);
+      // Influence factor between algorithms with diminishing returns on larger differences
       chosenAlgorithms.forEach((algorithm, index) => {
-        const randomInteractionFactor = chosenAlgorithms
-          .filter((_, i) => i !== index)
-          .reduce((sum, other) => sum + (other.contribution / 200) * (Math.random() * 0.1 + 0.95), 0);
-        baseCost += (algorithm.contribution / 10) * (1 + randomInteractionFactor);
+        let influenceFactor = 0;
+
+        chosenAlgorithms.forEach((otherAlgorithm, otherIndex) => {
+          if (index !== otherIndex) {
+            const contributionDifference = Math.abs(algorithm.contribution - otherAlgorithm.contribution);
+            const weight = Math.pow(contributionDifference / totalContributionRate, 1.5); // Diminished influence for larger differences
+            influenceFactor += weight * (otherAlgorithm.contribution / totalContributionRate);
+          }
+        });
+
+        // Apply the influence factor to the algorithm's cost
+        algorithmCostValue += influenceFactor * amount * 0.05; // Reduced influence factor to avoid inflated costs
       });
 
-      let cost = baseCost / Math.sqrt(period + 10);
+      // Calculate balance after algorithm costs
+      const balanceAfterPurchaseValue = amount - algorithmCostValue;
 
-      const shortPeriodPenalty = 1 + 15 / (period + 15);
-      cost *= shortPeriodPenalty;
+      // Apply the period influence for profit calculation, with an exponential scaling for larger periods
+      let baseIncome = balanceAfterPurchaseValue * 0.2840543;
 
-      const dynamicCostFactor = 1 + Math.log1p(amount) / 8;
-      cost *= dynamicCostFactor;
+      // Increase base income based on the contribution rates, with diminishing returns for very high contributions
+      chosenAlgorithms.forEach(algorithm => {
+        baseIncome += algorithm.contribution * baseIncome * 0.15; // Increase the scaling factor for larger contributions
+      });
 
-      const contributionDiscount = Math.min(contributionRate / 200, 0.3);
-      cost *= 1 - contributionDiscount;
+      // Adjust profit based on period influence, making it more sensitive to longer periods
+      const periodInfluence = Math.pow(period / 30, 1.3); // Slightly less aggressive scaling
+      const incomeValue = baseIncome * periodInfluence;
 
-      cost += Math.log1p(amount) / 10;
+      // Final balance and profit percentage
+      const finalBalance = balanceAfterPurchaseValue + incomeValue;
+      const finalPercentage = (incomeValue / balanceAfterPurchaseValue) * 100;
 
-      const balanceAfterPurchaseValue = amount - cost;
-
-      const incomeRate = 0.05 + 0.03 * Math.log1p(contributionRate / 10) + 0.005 * Math.sqrt(period);
-
-      const profitScalingFactor = 1 + (chosenAlgorithms.length - 1) * 0.005;
-      const estimatedProfit = balanceAfterPurchaseValue * incomeRate * period * profitScalingFactor;
-
-      const finalBalance = balanceAfterPurchaseValue + estimatedProfit;
-
-      const incomeValue = finalBalance - amount;
-      const finalPercentage = (incomeValue / amount) * 100;
-
+      // Update the HTML elements with calculated values
       if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
-        algorithmCost.innerHTML = `<span class="${cost > 0 ? 'text-danger' : ''}">${cost.toFixed(2)}$</span>`;
+        algorithmCost.innerHTML = `<span class="${algorithmCostValue > 0 ? 'text-danger' : ''}">${algorithmCostValue.toFixed(2)}$</span>`;
         balanceAfterPurchase.innerHTML = `<span class="text-danger">${balanceAfterPurchaseValue.toFixed(2)}$</span>`;
         income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
         totalBalanceAfter.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
         totalBalanceAfterPct.innerHTML = `<span class="${finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${finalPercentage.toFixed(2)}%</span>`;
       }
     } else {
+      // Reset values if inputs are empty or invalid
       if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
         algorithmCost.innerHTML = '0.00$';
         balanceAfterPurchase.innerHTML = '0.00$';
@@ -77,19 +83,19 @@
     }
   };
 
-  maxButton.addEventListener('click', calculateAlgorithm);
+  maxButton.addEventListener('click', calculateSummary);
   amountInput.addEventListener('input', () => {
-    if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-      amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
-    }
-    calculateAlgorithm();
+    // if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
+    //   amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
+    // }
+    calculateSummary();
   });
 
   unlockDate.addEventListener('change', () => {
     const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
     unlockAfter.innerHTML = `${period} days`;
     document.querySelector('.unlock_after_wrap').classList.remove('d-none');
-    calculateAlgorithm();
+    calculateSummary();
   });
 
   const algorithmGlow = document.querySelector('.algorithm-glow');
@@ -818,7 +824,7 @@
           0
         );
         calculateGlow(algorithmIconCount);
-        calculateAlgorithm();
+        calculateSummary();
       }
     }
 
@@ -837,7 +843,7 @@
         );
 
         calculateGlow(algorithmIconCount);
-        calculateAlgorithm();
+        calculateSummary();
       }
     }
   });
