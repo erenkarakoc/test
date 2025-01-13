@@ -11,10 +11,10 @@
   const unlockDate = document.querySelector('#unlock_date');
   const unlockAfter = document.querySelector('#unlock_after');
   const algorithmCost = document.querySelector('#algorithm_cost');
-  const balanceAfterPurchase = document.querySelector('#balance_after_purchase');
+  const amountAfterUnlock = document.querySelector('#amount_after_purchase');
   const income = document.querySelector('#income');
-  const totalBalanceAfter = document.querySelector('#total_balance_after');
-  const totalBalanceAfterPct = document.querySelector('#total_balance_after_percentage');
+  const totalAmountAfterUnlock = document.querySelector('#total_amount_after_unlock');
+  const totalAmountAfterUnlockPct = document.querySelector('#total_amount_after_unlock_percentage');
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
 
@@ -77,31 +77,31 @@
       );
 
       // Balance after purchase
-      const balanceAfterPurchaseValue = amount - totalAlgorithmCost;
+      const amountAfterUnlockValue = amount - totalAlgorithmCost;
       const incomeValue = totalIncome * period; // Apply period for increased income
 
       // Calculate final balance after applying income
-      const finalBalance = balanceAfterPurchaseValue + incomeValue;
+      const finalBalance = amountAfterUnlockValue + incomeValue;
 
       // Calculate final percentage
       const finalPercentage = ((finalBalance - amount) / amount) * 100;
 
       // Update HTML elements with calculated values
-      if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
+      if (income && algorithmCost && amountAfterUnlock && totalAmountAfterUnlock && totalAmountAfterUnlockPct) {
         algorithmCost.innerHTML = `<span class="${totalAlgorithmCost > 0 ? 'text-danger' : ''}">${totalAlgorithmCost.toFixed(2)}$</span>`;
-        balanceAfterPurchase.innerHTML = `<span class="text-danger">${balanceAfterPurchaseValue.toFixed(2)}$</span>`;
+        amountAfterUnlock.innerHTML = `<span class="text-danger">${amountAfterUnlockValue.toFixed(2)}$</span>`;
         income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
-        totalBalanceAfter.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
-        totalBalanceAfterPct.innerHTML = `<span class="${finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${finalPercentage.toFixed(2)}%</span>`;
+        totalAmountAfterUnlock.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
+        totalAmountAfterUnlockPct.innerHTML = `<span class="${finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${finalPercentage.toFixed(2)}%</span>`;
       }
     } else {
       // Reset values if inputs are empty or invalid
-      if (income && algorithmCost && balanceAfterPurchase && totalBalanceAfter && totalBalanceAfterPct) {
+      if (income && algorithmCost && amountAfterUnlock && totalAmountAfterUnlock && totalAmountAfterUnlockPct) {
         algorithmCost.innerHTML = '0.00$';
-        balanceAfterPurchase.innerHTML = '0.00$';
+        amountAfterUnlock.innerHTML = '0.00$';
         income.innerHTML = '0.00$';
-        totalBalanceAfter.innerHTML = '0.00$';
-        totalBalanceAfterPct.innerHTML = '0.00%';
+        totalAmountAfterUnlock.innerHTML = '0.00$';
+        totalAmountAfterUnlockPct.innerHTML = '0.00%';
       }
     }
   };

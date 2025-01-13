@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\UpdateMarketData::class,
         Commands\SeedCountries::class,
         Commands\SeedAlgorithms::class,
+        Commands\SeedStrategyPacks::class,
     ];
 
     /**

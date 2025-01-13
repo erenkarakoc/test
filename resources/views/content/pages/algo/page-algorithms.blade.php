@@ -73,7 +73,7 @@
                 </svg>
               </div>
               <h6 class="mb-0 text-white wallet-item-title">
-                Gems
+                Collected Gems
               </h6>
             </div>
             <div class="d-flex flex-column align-items-start text-right">
@@ -599,9 +599,9 @@
                       <td class="text-end"><span class="text-white" id="algorithm_cost">0.00$</span></td>
                     </tr>
                     <tr>
-                      <td><small class="text-light">Balance After Purchase</small></td>
+                      <td><small class="text-light">Amount After Purchase</small></td>
                       <td class="text-end"></td>
-                      <td class="text-end"><span class="text-white" id="balance_after_purchase">0.00$</span></td>
+                      <td class="text-end"><span class="text-white" id="amount_after_purchase">0.00$</span></td>
                     </tr>
                     <tr>
                       <td><small class="text-light">Income</small></td>
@@ -609,10 +609,11 @@
                       <td class="text-end"><span class="text-white" id="income">0.00$</span></td>
                     </tr>
                     <tr>
-                      <td><small class="text-light">Total Balance After</small></td>
-                      <td class="text-end"><span class="text-white" id="total_balance_after_percentage">0.00%</span>
+                      <td><small class="text-light">Amount After Unlock</small></td>
+                      <td class="text-end"><span class="text-white"
+                          id="total_amount_after_unlock_percentage">0.00%</span>
                       </td>
-                      <td class="text-end"><span class="text-white" id="total_balance_after">0.00$</span></td>
+                      <td class="text-end"><span class="text-white" id="total_amount_after_unlock">0.00$</span></td>
                     </tr>
                   </tbody>
                 </table>
@@ -729,8 +730,9 @@
 
                     <h6 class="mt-8 mb-1">2. Pick the Algorithms</h6>
                     <small>
-                      Select algorithms that align with your budget, time constraints, or the specific outcomes you aim to
-                      achieve.
+                      Using all Basic Algorithms is recommended for a balanced strategy in any combination. Other than
+                      Basic Algorithms, you can select algorithms from other categories that align with your budget, time
+                      constraints, or the specific outcomes you aim to achieve.
                     </small>
 
                     <h6 class="mt-8 mb-1">3. Consider Conflicting Strategies</h6>
@@ -820,7 +822,8 @@
                         <div class="d-flex flex-column">
                           <b>Market Structure & Execution &rarr; Trend-Following</b>
                           <small>
-                            While one focuses on efficient execution, the other relies on sustained trends.
+                            They might not work well together as while one focuses on efficient execution, the other
+                            relies on sustained trends.
                           </small>
                         </div>
                       </li>

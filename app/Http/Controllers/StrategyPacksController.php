@@ -2,4 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class StrategyPacks extends Controller {}
+class StrategyPacks extends Controller
+{
+    //
+}

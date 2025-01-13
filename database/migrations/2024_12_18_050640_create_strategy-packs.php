@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('strategy_packs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
-            $table->integer('period');
-            $table->integer('repeat_hours');
-            $table->timestamp('start_at')->useCurrent();
-            $table->timestamp('end_at')->nullable();
+            $table->text('description');
+            $table->json('algorithms');
+            $table->decimal('total_contribution_rate');
+            $table->decimal('daily_income_rate');
             $table->timestamps();
         });
     }
