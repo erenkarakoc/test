@@ -10,6 +10,18 @@
     top: 80px;
   }
 
+  #lock-amount-button {
+    svg.loading-hidden {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    svg:not(.loading-hidden) {
+      margin-right: 0.75rem;
+    }
+  }
+
   #algorithms-nav .nav-tabs {
     .nav-link svg {
       flex-shrink: 0;
@@ -308,5 +320,91 @@
 
   .table tbody tr:first-of-type td {
     border-top-width: 0 !important;
+  }
+
+  // Strategies Card Slider
+  .swiper-container {
+    border: 1px solid #ffffff30;
+
+    // card bg color
+    &.swiper-card-advance-bg {
+      background-color: $primary;
+      border-radius: $border-radius;
+      box-shadow: $card-box-shadow;
+    }
+    .swiper-wrapper {
+      .swiper-slide {
+        padding: 1.5rem;
+        white-space: nowrap;
+
+        .strategy-pack-btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: fit-content;
+          padding: 0.375rem 0.75rem;
+          border-radius: 0.375rem;
+          background-color: #6258cc;
+          color: var(--bs-text-light);
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 1;
+          transition: all 0.15s ease-out;
+
+          &:hover {
+            background-color: #5a52b8;
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+
+        li {
+          height: 30px;
+
+          .strategy-pack-text-bg {
+            background-color: rgba-to-hex(rgba($primary, 0.85), $rgba-to-hex-bg-inverted);
+            padding: 0.293rem 0.5rem;
+            border-radius: $border-radius;
+            min-width: 60px;
+            font-size: 12px;
+            text-align: center;
+
+            & + p {
+              font-size: 13px;
+              max-width: 200px;
+              white-space: pre-line;
+            }
+          }
+        }
+
+        .strategy-pack-img {
+          filter: drop-shadow(rgba(0, 0, 0, 0.5) 0px 4px 60px);
+          transition: all 7s ease-out;
+        }
+
+        &:hover .strategy-pack-img {
+          transform: scale(1.1) rotate(5deg);
+        }
+      }
+    }
+    &.swiper-container-horizontal > .swiper-pagination-bullets {
+      bottom: 0.3rem;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .swiper-pagination-bullet {
+        opacity: unset;
+        background: rgba($white, 0.4) !important;
+        height: 6px;
+        width: 6px;
+        margin: 0 2px;
+
+        &.swiper-pagination-bullet-active {
+          background: $white !important;
+        }
+      }
+    }
   }
 }

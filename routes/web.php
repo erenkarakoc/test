@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Assets\AssetsController;
+use App\Http\Controllers\AlgorithmController;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageAlgorithms;
@@ -69,11 +70,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/create-transaction', [TransactionController::class, 'createTransaction']);
     Route::post('/cancel-transaction', [TransactionController::class, 'cancelTransaction']);
 
+    // Algorithms
+    Route::post('/calculate-algorithm-summary', [AlgorithmController::class, 'calculateAlgorithmSummary']);
+    Route::post('/lock-amount-with-chosen-algorithms', [AlgorithmController::class, 'lockAmountWithChosenAlgorithms']);
+
     // Tron API
     Route::post('/create-transaction-for-tron', [TronApiController::class, 'createTransactionForTron'])->name('create-transaction-for-tron');
     Route::post('/generate-tron-wallet', [TronApiController::class, 'generateTronWallet'])->name('generate-new-wallet');
     Route::post('/check-tron-wallet-balance', [TronApiController::class, 'checkTronWalletBalance'])->name('check-tron-wallet-balance');
     Route::get('/test-tron-api', [TestController::class, 'test'])->name('test-tron-api');
+
 });
 
 // Admin Pages

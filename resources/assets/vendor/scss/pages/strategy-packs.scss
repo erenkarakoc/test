@@ -5,6 +5,45 @@
 @import '../_custom-variables/pages';
 
 .page-strategy-packs {
+  .strategy-pack {
+    .btn-primary {
+      background-color: #685dd8;
+    }
+
+    .strategy-pack-title {
+      margin-bottom: 0;
+      color: #fff;
+      font-size: 1.25rem;
+    }
+    .strategy-pack-desc {
+      line-height: 1 !important;
+      color: #eee;
+    }
+
+    .strategy-pack-algorithm {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      background-color: #6258cc;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      min-width: 60px;
+      font-size: 12px;
+      text-align: left;
+      color: #fff;
+
+      .strategy-pack-algo-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .strategy-pack-algo-subtitle {
+        margin-top: 4px;
+        color: #d6d2ff;
+      }
+    }
+  }
+
   .strategy-packs-table {
     tbody td {
       box-shadow: none;

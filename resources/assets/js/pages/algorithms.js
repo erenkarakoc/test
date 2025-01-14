@@ -5,7 +5,19 @@
 ('use strict');
 
 (function () {
+  toastr.options = {
+    positionClass: 'toast-top-center',
+    timeOut: '1000',
+    showDuration: '30',
+    hideDuration: '30'
+  };
+
+  let calculated = false;
+  let controller = new AbortController();
   let chosenAlgorithms = [];
+  let amount = 0;
+  let period = 0;
+
   const amountInput = document.querySelector('#lock_amount');
   const maxButton = document.querySelector('#max_button');
   const unlockDate = document.querySelector('#unlock_date');
@@ -17,112 +29,56 @@
   const totalAmountAfterUnlockPct = document.querySelector('#total_amount_after_unlock_percentage');
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
+  const lockAmountButton = document.querySelector('#lock-amount-button');
+  const calculatingIcon = `<svg class="text-primary" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><circle cx="4" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale0" attributeName="r" begin="0;svgSpinners3DotsScale1.end-0.25s" dur="0.75s" values="3;.2;3"/></circle><circle cx="12" cy="12" r="3" fill="currentColor"><animate attributeName="r" begin="svgSpinners3DotsScale0.end-0.6s" dur="0.75s" values="3;.2;3"/></circle><circle cx="20" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale1" attributeName="r" begin="svgSpinners3DotsScale0.end-0.45s" dur="0.75s" values="3;.2;3"/></circle></svg>`;
 
   const calculateSummary = () => {
+    controller.abort();
+    controller = new AbortController();
+
+    algorithmCost.innerHTML = calculatingIcon;
+    amountAfterUnlock.innerHTML = calculatingIcon;
+    income.innerHTML = calculatingIcon;
+    totalAmountAfterUnlock.innerHTML = calculatingIcon;
+    totalAmountAfterUnlockPct.innerHTML = calculatingIcon;
+
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
-      const amount = Number(amountInput.value);
-      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      amount = Number(amountInput.value);
+      period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      const data = { chosen_algorithms: chosenAlgorithms, amount, period: period };
 
-      // Calculate base rates
-      const baseAlgorithmCost = 1.8; // Example: Base cost for each algorithm
-      const baseIncomeRate = 0.0015; // Example: Base income rate
-
-      // Conflict map (conflicting categories of algorithms)
-      const conflictMap = {
-        MR: ['TF'],
-        MLP: ['MR'],
-        MSE: ['TF']
-      };
-
-      const periodMap = {
-        TF: 'long',
-        MR: 'long',
-        MSE: 'short'
-      };
-
-      // Adjust contribution rates based on conflicts
-      const adjustedAlgorithms = chosenAlgorithms.map(algorithm => {
-        let adjustedAlgorithm = { ...algorithm };
-
-        // Check for conflicts and adjust contribution rates
-        chosenAlgorithms.forEach(otherAlgorithm => {
-          if (adjustedAlgorithm !== otherAlgorithm) {
-            const conflicts = conflictMap[adjustedAlgorithm.category];
-            if (conflicts && conflicts.includes(otherAlgorithm.category)) {
-              adjustedAlgorithm.contribution *= 0.5;
-            }
+      fetch('/calculate-algorithm-summary', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+        },
+        signal: controller.signal
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
           }
-        });
-
-        return adjustedAlgorithm;
-      });
-
-      // Calculate algorithm cost, influenced by the number of algorithms and their contribution rates, and period
-      const algorithmCostValues = adjustedAlgorithms.map(algorithm => {
-        let cost = baseAlgorithmCost * algorithm.contribution; // Increase cost based on contribution rate
-
-        // Apply a dynamic penalty based on the number of algorithms selected
-        const algorithmCount = adjustedAlgorithms.length;
-        const penaltyFactor = Math.log(algorithmCount + 2); // Logarithmic scale
-        cost *= 1 + penaltyFactor * 0.1; // Increase cost by a factor related to the number of algorithms
-
-        // Apply period-based discount (longer periods reduce cost)
-        const periodDiscount = Math.log(period + 1) / 10; // Logarithmic discount scaling
-        cost *= 1 - periodDiscount; // Reduce cost by the discount factor
-
-        return cost;
-      });
-
-      // Total algorithm cost (sum of individual costs)
-      const totalAlgorithmCost = algorithmCostValues.reduce((sum, cost) => sum + cost, 0);
-
-      // Calculate income (based on base income rate, algorithm contribution, amount, and period preference)
-      const totalIncome = adjustedAlgorithms.reduce((sum, algorithm) => {
-        let incomeRate = baseIncomeRate * algorithm.contribution;
-
-        // Adjust income rate based on periodMap
-        const preferredPeriod = periodMap[algorithm.category];
-        if (preferredPeriod === 'long') {
-          // Longer periods positively affect income rate for "long" category
-          const longPeriodBoost = Math.log(period + 1) / 20; // Logarithmic boost
-          incomeRate *= 1 + longPeriodBoost; // Increase income rate
-        } else if (preferredPeriod === 'short') {
-          // Longer periods negatively affect income rate for "short" category
-          const shortPeriodPenalty = Math.log(period + 1) / 20; // Logarithmic penalty
-          incomeRate *= 1 - shortPeriodPenalty; // Decrease income rate
-        }
-
-        // Add income for this algorithm to the total
-        return sum + incomeRate * amount;
-      }, 0);
-
-      // Balance after purchase
-      const amountAfterUnlockValue = amount - totalAlgorithmCost;
-      const incomeValue = totalIncome * period; // Apply period for increased income
-
-      // Calculate final balance after applying income
-      const finalBalance = amountAfterUnlockValue + incomeValue;
-
-      // Calculate final percentage
-      const finalPercentage = ((finalBalance - amount) / amount) * 100;
-
-      // Update HTML elements with calculated values
-      if (income && algorithmCost && amountAfterUnlock && totalAmountAfterUnlock && totalAmountAfterUnlockPct) {
-        algorithmCost.innerHTML = `<span class="${totalAlgorithmCost > 0 ? 'text-danger' : ''}">${totalAlgorithmCost.toFixed(2)}$</span>`;
-        amountAfterUnlock.innerHTML = `<span class="text-danger">${amountAfterUnlockValue.toFixed(2)}$</span>`;
-        income.innerHTML = `<span class="${incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${incomeValue.toFixed(2)}$</span>`;
-        totalAmountAfterUnlock.innerHTML = `<span class="${finalBalance < amount ? 'text-danger' : 'text-success'}">≈${finalBalance.toFixed(2)}$</span>`;
-        totalAmountAfterUnlockPct.innerHTML = `<span class="${finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${finalPercentage.toFixed(2)}%</span>`;
-      }
+        })
+        .then(data => {
+          algorithmCost.innerHTML = `<span class="${data.totalAlgorithmCost > 0 ? 'text-danger' : ''}">${data.totalAlgorithmCost.toFixed(2)}$</span>`;
+          amountAfterUnlock.innerHTML = `<span class="text-danger">${data.amountAfterUnlockValue.toFixed(2)}$</span>`;
+          income.innerHTML = `<span class="${data.incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${data.incomeValue.toFixed(2)}$</span>`;
+          totalAmountAfterUnlock.innerHTML = `<span class="${data.finalBalance < amount ? 'text-danger' : 'text-success'}">≈${data.finalBalance.toFixed(2)}$</span>`;
+          totalAmountAfterUnlockPct.innerHTML = `<span class="${data.finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${data.finalPercentage.toFixed(2)}%</span>`;
+          calculated = true;
+          lockAmountButton.removeAttribute('disabled');
+        })
+        .catch(_ => {});
     } else {
-      // Reset values if inputs are empty or invalid
-      if (income && algorithmCost && amountAfterUnlock && totalAmountAfterUnlock && totalAmountAfterUnlockPct) {
-        algorithmCost.innerHTML = '0.00$';
-        amountAfterUnlock.innerHTML = '0.00$';
-        income.innerHTML = '0.00$';
-        totalAmountAfterUnlock.innerHTML = '0.00$';
-        totalAmountAfterUnlockPct.innerHTML = '0.00%';
-      }
+      algorithmCost.innerHTML = '0.00$';
+      amountAfterUnlock.innerHTML = '0.00$';
+      income.innerHTML = '0.00$';
+      totalAmountAfterUnlock.innerHTML = '0.00$';
+      totalAmountAfterUnlockPct.innerHTML = '0.00%';
+      calculated = false;
+      lockAmountButton.setAttribute('disabled', true);
     }
   };
 
@@ -901,6 +857,60 @@
       }
     }
   });
+
+  lockAmountButton.addEventListener('click', () => {
+    if (calculated && chosenAlgorithms.length) {
+      lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+
+      setTimeout(() => {
+        toastr.info(
+          `<div class="d-flex flex-column" id="lockAmountToast">
+                <span>Are you sure you want to lock ${amount.toFixed(2)}$ on the built algorithm pack?</span>
+                <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="btn btn-label-danger btn-sm" id="lockAmountButtonToastCancel">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm ms-2" id="lockAmountButtonToastContinue">Lock Amount</button>
+                </div>
+            </div>`,
+          'Lock Amount?',
+          {
+            timeOut: 0,
+            extendedTimeOut: 0,
+            onShown: () => {
+              const lockAmountToast = document.querySelector('#lockAmountToast');
+              const lockAmountButtonToastContinue = lockAmountToast.querySelector('#lockAmountButtonToastContinue');
+              const lockAmountButtonToastCancel = lockAmountToast.querySelector('#lockAmountButtonToastCancel');
+
+              lockAmountButtonToastCancel.addEventListener('click', () => {
+                lockAmountButton.querySelector('svg').classList.add('loading-hidden');
+                toastr.clear();
+              });
+              lockAmountButtonToastContinue.addEventListener('click', () => {
+                lockAmountButton.querySelector('svg').classList.add('loading-hidden');
+
+                window.location.reload();
+              });
+            }
+          }
+        );
+      }, 1000);
+    }
+  });
+
+  const swiperWithPagination = document.querySelector('#gdzStrategiesCard');
+  if (swiperWithPagination) {
+    new Swiper(swiperWithPagination, {
+      loop: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      pagination: {
+        clickable: true,
+        el: '.swiper-pagination'
+      }
+    });
+  }
 
   const tabToggles = document.querySelectorAll('[data-bs-toggle="tab"]');
   tabToggles.forEach(toggle => {

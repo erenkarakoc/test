@@ -37,38 +37,6 @@ class SeedAlgorithms extends Command
     public function handle()
     {
         Algorithm::Create([
-            'title' => 'MT',
-            'subtitle' => 'Momentum Trading',
-            'description' => 'Identifies cryptocurrencies showing strong upward or downward trends and trades in the direction of the momentum.',
-            'icon' => '2',
-            'profit_contribution' => 1,
-            'category' => 'TF',
-        ]);
-        Algorithm::Create([
-            'title' => 'MAC',
-            'subtitle' => 'Moving Average Crossover',
-            'description' => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
-            'icon' => '2',
-            'profit_contribution' => 0.7,
-            'category' => 'TF',
-        ]);
-        Algorithm::Create([
-            'title' => 'MACD',
-            'subtitle' => 'Moving Average Convergence Divergence',
-            'description' => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
-            'icon' => '2',
-            'profit_contribution' => 0.8,
-            'category' => 'TF',
-        ]);
-        Algorithm::Create([
-            'title' => 'BT',
-            'subtitle' => 'Breakout Trading',
-            'description' => 'Identifies breakout levels based on resistance or support zones and trades in the direction of the breakout.',
-            'icon' => '2',
-            'profit_contribution' => 0.9,
-            'category' => 'TF',
-        ]);
-        Algorithm::Create([
             'title' => 'MR',
             'subtitle' => 'Mean Reversion',
             'description' => 'Identifies when an asset\'s price deviates significantly from its historical average, assuming it will revert to the mean over time.',
@@ -139,6 +107,38 @@ class SeedAlgorithms extends Command
             'icon' => '4',
             'profit_contribution' => 1.6,
             'category' => 'MLP',
+        ]);
+        Algorithm::Create([
+            'title' => 'BT',
+            'subtitle' => 'Breakout Trading',
+            'description' => 'Identifies breakout levels based on resistance or support zones and trades in the direction of the breakout.',
+            'icon' => '2',
+            'profit_contribution' => 0.9,
+            'category' => 'TF',
+        ]);
+        Algorithm::Create([
+            'title' => 'MT',
+            'subtitle' => 'Momentum Trading',
+            'description' => 'Identifies cryptocurrencies showing strong upward or downward trends and trades in the direction of the momentum.',
+            'icon' => '2',
+            'profit_contribution' => 1,
+            'category' => 'TF',
+        ]);
+        Algorithm::Create([
+            'title' => 'MAC',
+            'subtitle' => 'Moving Average Crossover',
+            'description' => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
+            'icon' => '2',
+            'profit_contribution' => 0.7,
+            'category' => 'TF',
+        ]);
+        Algorithm::Create([
+            'title' => 'MACD',
+            'subtitle' => 'Moving Average Convergence Divergence',
+            'description' => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
+            'icon' => '2',
+            'profit_contribution' => 0.8,
+            'category' => 'TF',
         ]);
         Algorithm::Create([
             'title' => 'NSA',

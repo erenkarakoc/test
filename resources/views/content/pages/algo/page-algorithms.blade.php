@@ -8,11 +8,11 @@
 @section('title', 'Algorithms')
 
 @section('vendor-style')
-  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss'])
+  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/swiper/swiper.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
 @endsection
 
 @section('vendor-script')
-  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.js'])
+  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.js', 'resources/assets/vendor/libs/swiper/swiper.js', 'resources/assets/vendor/libs/toastr/toastr.js'])
 @endsection
 
 @section('page-style')
@@ -25,11 +25,21 @@
 
 @section('content')
   <div class="page-algorithms">
-    <h5 class="mb-3 lh-1">Algorithms</h5>
-    <p class="lh-1 mb-7">Explore a wide range of trading algorithms and build your own strategy</p>
+    @csrf
 
     <div class="row">
-      <div class="col col-6">
+      <div class="col col-8">
+        <h5 class="mb-3 lh-1">Algorithms</h5>
+        <p class="lh-1 mb-7">Explore a wide range of trading algorithms and build your own strategy</p>
+      </div>
+      <div class="col col-4">
+        <h5 class="mb-3 lh-1">Strategy Packs</h5>
+        <p class="lh-1 mb-7">Choose a strategy pack and start your journey</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-4">
         <div
           class="card bg-light border bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
           <div class="p-4">
@@ -52,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div class="col col-6">
+      <div class="col col-4">
         <div class="card bg-light border bg-glow h-100 p-4">
           <div class="d-flex justify-content-between align-items-center h-100">
             <div class="d-flex align-items-center gap-2">
@@ -81,6 +91,33 @@
               <h5 class="mb-0 text-white">0</h5>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="col col-4">
+        <div class="swiper-container swiper-container-horizontal swiper swiper-card-advance-bg" id="gdzStrategiesCard">
+          <div class="swiper-wrapper">
+            @foreach ($strategyPacks as $strategyPack)
+              <div class="swiper-slide">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <div class="h6 d-flex align-items-center text-white mb-0">
+                        <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
+                          alt="{{ $strategyPack->title }}" height="30" class="strategy-pack-img">
+                        <span class="ms-3">
+                          {{ $strategyPack->title }}
+                        </span>
+                      </div>
+                      <a href="#" class="strategy-pack-btn">
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          <div class="swiper-pagination"></div>
         </div>
       </div>
     </div>
@@ -121,7 +158,8 @@
               <button type="button" class="nav-link" data-tab-title="Mean Reversion"
                 data-tab-subtitle="Algorithms that exploit deviations from historical averages." role="tab"
                 data-bs-toggle="tab" data-bs-target="#mr" aria-controls="mr" aria-selected="false">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22"
                     opacity=".5" />
@@ -165,9 +203,8 @@
           </ul>
 
           <div class="d-flex flex-column row-gap-2 mt-4">
-            <button type="button"
-              class="btn btn-sm btn-label-primary rounded w-100 justify-content-start text-left"data-bs-toggle="modal"
-              data-bs-target="#buildGuideModal">
+            <button type="button" class="btn btn-sm btn-label-primary rounded w-100 justify-content-start text-left"
+              data-bs-toggle="modal" data-bs-target="#buildGuideModal">
               <svg class="me-2 ms-2" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                 viewBox="0 0 24 24">
                 <path fill="currentColor"
@@ -215,8 +252,9 @@
               @foreach ($algorithms->where('category', 'BASIC') as $algorithm)
                 <div class="col col-12">
                   <div class="algorithm-item p-4 rounded" data-title="{{ $algorithm->title }}"
-                    data-subtitle="{{ $algorithm->subtitle }}" data-contribution="{{ $algorithm->profit_contribution }}"
-                    data-icon="{{ $algorithm->icon }}" data-category="{{ $algorithm->category }}">
+                    data-subtitle="{{ $algorithm->subtitle }}"
+                    data-contribution="{{ $algorithm->profit_contribution }}" data-icon="{{ $algorithm->icon }}"
+                    data-category="{{ $algorithm->category }}">
                     <div class="d-flex justify-content-between align-items-start">
                       <div class="d-flex align-items-center w-100">
                         <img class="algorithm-item-icon algorithm-item-icon-{{ $algorithm->icon }}"
@@ -620,7 +658,7 @@
                 </table>
               </div>
 
-              <small class="d-flex align-items-start text-primary gap-2 mt-8">
+              <small class="d-flex align-items-start text-primary gap-2 mt-4">
                 <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -636,7 +674,24 @@
               </small>
 
               <div class="d-flex justify-content-end mt-4">
-                <button type="button" class="btn btn-sm btn-primary">Proceed</button>
+                <button type="button" class="btn btn-sm btn-primary" id="lock-amount-button" disabled>
+                  <svg class="loading-hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                    viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="4">
+                      <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
+                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0" />
+                        <animateTransform attributeName="transform" dur="1s" repeatCount="indefinite"
+                          type="rotate" values="0 12 12;360 12 12" />
+                      </path>
+                      <path stroke-dasharray="64" stroke-dashoffset="64" stroke-opacity=".3"
+                        d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
+                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0" />
+                      </path>
+                    </g>
+                  </svg>
+                  <span>Lock Amount</span>
+                </button>
               </div>
             </div>
           </div>
@@ -644,8 +699,7 @@
       </div>
     </div>
 
-    <div class="modal fade modal-lg" id="buildGuideModal" tabindex="-1" aria-labelledby="buildGuideModal"
-      aria-hidden="true">
+    <div class="modal fade modal-lg" id="buildGuideModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">

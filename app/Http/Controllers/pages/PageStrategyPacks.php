@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Algorithm;
 use App\Models\StrategyPacks;
 
 class PageStrategyPacks extends Controller
 {
     public function index()
     {
-        $strategy_packs = StrategyPacks::all();
+        $strategyPacks = StrategyPacks::all();
+        $algorithms = Algorithm::all();
 
-        return view('content.pages.algo.page-strategy-packs', compact('strategy_packs'));
+        return view('content.pages.algo.page-strategy-packs', compact('strategyPacks', 'algorithms'));
     }
 }
