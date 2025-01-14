@@ -181,14 +181,6 @@ class SeedAlgorithms extends Command
             'category' => 'BASIC',
         ]);
         Algorithm::Create([
-            'title' => 'SLTP',
-            'subtitle' => 'Stop-Loss and Take-Profit Automation',
-            'description' => 'Automatically triggers sell orders to limit losses or lock in profits when predetermined price levels are reached.',
-            'icon' => '2',
-            'profit_contribution' => 1.1,
-            'category' => 'BASIC',
-        ]);
-        Algorithm::Create([
             'title' => 'PT',
             'subtitle' => 'Pair Trading',
             'description' => 'Trades correlated cryptocurrency pairs. Buys the underperforming asset and sells the outperforming one, assuming they will revert to their historical correlation.',

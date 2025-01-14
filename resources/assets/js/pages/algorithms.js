@@ -34,6 +34,12 @@
         MSE: ['TF']
       };
 
+      const periodMap = {
+        TF: 'long',
+        MR: 'long',
+        MSE: 'short'
+      };
+
       // Adjust contribution rates based on conflicts
       const adjustedAlgorithms = chosenAlgorithms.map(algorithm => {
         let adjustedAlgorithm = { ...algorithm };
@@ -70,11 +76,25 @@
       // Total algorithm cost (sum of individual costs)
       const totalAlgorithmCost = algorithmCostValues.reduce((sum, cost) => sum + cost, 0);
 
-      // Calculate income (based on base income rate, algorithm contribution, and amount)
-      const totalIncome = adjustedAlgorithms.reduce(
-        (sum, algorithm) => sum + baseIncomeRate * algorithm.contribution * amount,
-        0
-      );
+      // Calculate income (based on base income rate, algorithm contribution, amount, and period preference)
+      const totalIncome = adjustedAlgorithms.reduce((sum, algorithm) => {
+        let incomeRate = baseIncomeRate * algorithm.contribution;
+
+        // Adjust income rate based on periodMap
+        const preferredPeriod = periodMap[algorithm.category];
+        if (preferredPeriod === 'long') {
+          // Longer periods positively affect income rate for "long" category
+          const longPeriodBoost = Math.log(period + 1) / 20; // Logarithmic boost
+          incomeRate *= 1 + longPeriodBoost; // Increase income rate
+        } else if (preferredPeriod === 'short') {
+          // Longer periods negatively affect income rate for "short" category
+          const shortPeriodPenalty = Math.log(period + 1) / 20; // Logarithmic penalty
+          incomeRate *= 1 - shortPeriodPenalty; // Decrease income rate
+        }
+
+        // Add income for this algorithm to the total
+        return sum + incomeRate * amount;
+      }, 0);
 
       // Balance after purchase
       const amountAfterUnlockValue = amount - totalAlgorithmCost;
@@ -108,9 +128,9 @@
 
   maxButton.addEventListener('click', calculateSummary);
   amountInput.addEventListener('input', () => {
-    // if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-    //   amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
-    // }
+    if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
+      amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
+    }
     calculateSummary();
   });
 

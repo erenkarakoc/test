@@ -533,7 +533,7 @@
                         <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount"
                           min="1" data-max="{{ $userTotalBalance }}" pattern="^\d*(\.\d{0,2})?$">
                         <button type="button" class="input-group-text"
-                          onclick="if ({{ $userTotalBalance }}) document.querySelector('#lock_amount').value = {{ $userTotalBalance }}.toFixed(2)"
+                          onclick="if ({{ $userTotalBalance }}) document.querySelector('#lock_amount').value = ({{ $userTotalBalance }}).toFixed(2)"
                           id="max_button">Max.</button>
                       </div>
                     </div>
@@ -848,8 +848,8 @@
 
                     <h6 class="mt-8 mb-1">4. Consider Period</h6>
                     <small>
-                      Some algorithms may perform better over longer periods, while others may be more effective in
-                      shorter periods.
+                      Some algorithms in specific categories may perform better over longer periods, while others may be
+                      more effective in shorter periods.
                     </small>
 
                     <ul class="list-group mt-4">
@@ -899,7 +899,7 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Market Structure & Execution &rarr; Better on longer period</b>
+                          <b>Market Structure & Execution &rarr; Better on shorter period</b>
                           <small>
                             Suited for short periods, focusing on rapid trades and precise execution strategies.
                           </small>
