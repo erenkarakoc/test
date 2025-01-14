@@ -121,7 +121,6 @@
     calculateSummary();
   });
 
-  const algorithmGlowWrap = document.querySelector('#algorithm-glow-wrap');
   const algorithmGlow = document.querySelector('#algorithm-glow');
   for (let i = 0; i < 4; i++) {
     algorithmGlow.innerHTML += `<svg width="37" height="45" viewBox="0 0 37 45" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -804,12 +803,10 @@
     });
 
     if (count) {
-      algorithmGlowWrap.style.display = 'flex';
       algorithmGlow.style.width = '60px';
       algorithmGlow.style.marginLeft = '18px';
     } else {
       setTimeout(() => {
-        algorithmGlowWrap.style.display = 'none';
         algorithmGlow.style.width = '0';
         algorithmGlow.style.marginLeft = '0';
       }, 500);
@@ -906,7 +903,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('tab')) {
-      const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
+      const tabEl = document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`);
+      const tab = new bootstrap.Tab(tabEl);
+      document.querySelector('[data-tab-element="title"]').textContent = tabEl.getAttribute('data-tab-title');
+      document.querySelector('[data-tab-element="subtitle"]').textContent = tabEl.getAttribute('data-tab-subtitle');
       tab.show();
     }
   });

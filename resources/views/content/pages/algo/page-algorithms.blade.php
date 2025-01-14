@@ -26,95 +26,62 @@
 @section('content')
   <div class="page-algorithms">
     <h5 class="mb-3 lh-1">Algorithms</h5>
-    <p class="lh-1 mb-7">Explore a wide range of trading algorithms</p>
+    <p class="lh-1 mb-7">Explore a wide range of trading algorithms and build your own strategy</p>
 
     <div class="row">
-      <div class="col col-4 row row-gap-2">
-        <div class="col col-12">
-          <div
-            class="card bg-light border bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
-            <div class="p-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-2">
-                  {!! $walletIconSymbols[$userBalances->where('wallet', 'GDZ')->value('wallet')] ?? '' !!}
-                  <h6 class="mb-0 text-white wallet-item-title">
-                    {{ $userBalances->where('wallet', 'GDZ')->value('title') }}
-                  </h6>
-                </div>
-                <div class="d-flex flex-column align-items-end text-right">
-                  <h5 class="mb-0 text-white">
-                    {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
-                  </h5>
-                  <small class="text-dark">
-                    {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
-                    {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col col-12">
-          <div class="card bg-light border bg-glow h-100 p-4">
-            <div class="d-flex justify-content-between align-items-center h-100">
+      <div class="col col-6">
+        <div
+          class="card bg-light border bg-glow wallet-item wallet-item-{{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}">
+          <div class="p-4">
+            <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
-                <div class="d-flex justify-content-center align-items-center" style="height: 36px; width: 36px;">
-                  <svg class="flex-shrink-0 text-white" width="18" height="18" viewBox="0 0 20 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path opacity="0.7"
-                      d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
-                      fill="currentColor"></path>
-                    <path opacity="0.5"
-                      d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
-                      fill="currentColor"></path>
-                    <path opacity="0.7"
-                      d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
-                      fill="currentColor"></path>
-                    <path
-                      d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
-                      fill="currentColor"></path>
-                  </svg>
-                </div>
+                {!! $walletIconSymbols[$userBalances->where('wallet', 'GDZ')->value('wallet')] ?? '' !!}
                 <h6 class="mb-0 text-white wallet-item-title">
-                  Collected Gems
+                  {{ $userBalances->where('wallet', 'GDZ')->value('title') }}
                 </h6>
               </div>
-              <div class="d-flex flex-column align-items-start text-right">
-                <h5 class="mb-0 text-white">0</h5>
+              <div class="d-flex flex-column align-items-end text-right">
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
+                </h5>
+                <small class="text-dark">
+                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
+                  {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="col col-8">
-        <h6 class="mb-4 lh-1">Current Algorithm Packs</h6>
-
-        <div class="d-flex align-items-center mt-6">
-          <svg class="me-4 flex-shrink-0 p-0" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-            viewBox="0 0 48 48">
-            <defs>
-              <mask id="ipTForbid5">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                  <path fill="currentColor" fill-rule="evenodd"
-                    d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20" clip-rule="evenodd"
-                    opacity="0.5"></path>
-                  <path d="m15 15l18 18"></path>
-                </g>
-              </mask>
-            </defs>
-            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid5)"></path>
-          </svg>
-          <div class="d-flex flex-column align-items-start">
-            <h6 class="mb-2 pb-0 px-0 fw-bolder text-left">
-              You haven't earned any bonuses yet.
-            </h6>
-            <small class="pt-0 px-0 text-left">
-              The transactions related to the bonuses you've earned from your invitations will be listed here.
-            </small>
+      <div class="col col-6">
+        <div class="card bg-light border bg-glow h-100 p-4">
+          <div class="d-flex justify-content-between align-items-center h-100">
+            <div class="d-flex align-items-center gap-2">
+              <div class="d-flex justify-content-center align-items-center" style="height: 36px; width: 36px;">
+                <svg class="flex-shrink-0 text-white" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.7"
+                    d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
+                    fill="currentColor"></path>
+                  <path opacity="0.5"
+                    d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
+                    fill="currentColor"></path>
+                  <path opacity="0.7"
+                    d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
+                    fill="currentColor"></path>
+                </svg>
+              </div>
+              <h6 class="mb-0 text-white wallet-item-title">
+                Gems
+              </h6>
+            </div>
+            <div class="d-flex flex-column align-items-start text-right">
+              <h5 class="mb-0 text-white">0</h5>
+            </div>
           </div>
         </div>
-
-        <div id="current-algorithm-packs"></div>
       </div>
     </div>
 
@@ -154,8 +121,7 @@
               <button type="button" class="nav-link" data-tab-title="Mean Reversion"
                 data-tab-subtitle="Algorithms that exploit deviations from historical averages." role="tab"
                 data-bs-toggle="tab" data-bs-target="#mr" aria-controls="mr" aria-selected="false">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22"
                     opacity=".5" />
@@ -238,7 +204,7 @@
 
       <div class="col col-md-4">
         <div class="tab-content pt-0 ps-0">
-          <h6 class="mb-2 lh-1" data-tab-element="title">Basic Algoritmhs</h6>
+          <h6 class="mb-2 lh-1" data-tab-element="title">Basic Algorithms</h6>
           <small class="lh-1 mb-7" data-tab-element="subtitle">
             Basic algorithms that are essential for an efficient strategy
           </small>
@@ -559,14 +525,7 @@
             <div class="card-body">
               <div id="strategy-content">
                 <div class="bg-light border rounded p-5">
-                  <div class="d-flex flex-column">
-                    <label class="text-nowrap mb-2" for="lock_amount">Pack Title</label>
-                    <div class="input-group flex-nowrap">
-                      <input type="text" class="form-control w-100" placeholder="Enter a Title" id="pack_title">
-                    </div>
-                  </div>
-
-                  <div class="d-flex align-items-center mt-4">
+                  <div class="d-flex align-items-center">
                     <div class="d-flex flex-column w-100">
                       <label class="text-nowrap mb-2" for="lock_amount">Amount to Lock</label>
                       <div class="input-group flex-nowrap">
@@ -578,6 +537,7 @@
                           id="max_button">Max.</button>
                       </div>
                     </div>
+                    <div id="algorithm-glow"></div>
                   </div>
 
                   <label class="d-flex flex-column mt-4" for="unlock_date">
@@ -658,11 +618,6 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
-
-              <div class="mt-8" id="algorithm-glow-wrap">
-                <h6 class="mb-0 lh-1 fw-normal">Gems to be Earned</h6>
-                <div id="algorithm-glow"></div>
               </div>
 
               <small class="d-flex align-items-start text-primary gap-2 mt-8">
@@ -800,7 +755,7 @@
                           </path>
                         </svg>
                         <span class="me-1">&rarr;</span>
-                        <svg class="me-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
                           height="24" viewBox="0 0 24 24">
                           <path fill="currentColor"
                             d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
@@ -829,7 +784,7 @@
                           </path>
                         </svg>
                         <span class="me-1">&rarr;</span>
-                        <svg class="me-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
                           height="24" viewBox="0 0 24 24">
                           <path fill="currentColor"
                             d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22"
@@ -856,7 +811,7 @@
                           </path>
                         </svg>
                         <span class="me-1">&rarr;</span>
-                        <svg class="me-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
                           height="24" viewBox="0 0 24 24">
                           <path fill="currentColor"
                             d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
@@ -890,28 +845,72 @@
                         incompatibility, but will result in unnecessary costs.
                       </span>
                     </small>
+
+                    <h6 class="mt-8 mb-1">4. Consider Period</h6>
+                    <small>
+                      Some algorithms may perform better over longer periods, while others may be more effective in
+                      shorter periods.
+                    </small>
+
+                    <ul class="list-group mt-4">
+                      <li class="list-group-item d-flex align-items-center">
+                        <svg class="me-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
+                            opacity=".5"></path>
+                          <path fill="currentColor"
+                            d="M14.5 10.75a.75.75 0 0 1 0-1.5H17a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-.69l-2.013 2.013a1.75 1.75 0 0 1-2.474 0l-1.586-1.586a.25.25 0 0 0-.354 0L7.53 14.53a.75.75 0 0 1-1.06-1.06l2.293-2.293a1.75 1.75 0 0 1 2.474 0l1.586 1.586a.25.25 0 0 0 .354 0l2.012-2.013z">
+                          </path>
+                        </svg>
+                        <div class="d-flex flex-column">
+                          <b>Trend Following</b>
+                          <small>
+                            gets better in long period
+                          </small>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex align-items-center">
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                          height="24" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22"
+                            opacity=".5"></path>
+                          <path fill="currentColor"
+                            d="M12 5.25a.75.75 0 0 1 .75.75v12a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75m-5 3a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V9A.75.75 0 0 1 7 8.25m10 4a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0v-5a.75.75 0 0 1 .75-.75">
+                          </path>
+                        </svg>
+                        <div class="d-flex flex-column">
+                          <b>Mean Reversion</b>
+                          <small>
+                            gets better in long period
+                          </small>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex align-items-center">
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                          height="24" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
+                            opacity=".5"></path>
+                          <path fill="currentColor"
+                            d="M17.576 10.48a.75.75 0 0 0-1.152-.96l-1.797 2.156c-.37.445-.599.716-.786.885a.8.8 0 0 1-.163.122l-.011.005l-.008-.004l-.003-.001a.8.8 0 0 1-.164-.122c-.187-.17-.415-.44-.786-.885l-.292-.35c-.328-.395-.625-.75-.901-1c-.301-.272-.68-.514-1.18-.514s-.878.242-1.18.514c-.276.25-.572.605-.9 1l-1.83 2.194a.75.75 0 0 0 1.153.96l1.797-2.156c.37-.445.599-.716.786-.885a.8.8 0 0 1 .163-.122l.007-.003l.004-.001q.004 0 .011.004a.8.8 0 0 1 .164.122c.187.17.415.44.786.885l.292.35c.329.395.625.75.901 1c.301.272.68.514 1.18.514s.878-.242 1.18-.514c.276-.25.572-.605.9-1z">
+                          </path>
+                        </svg>
+                        <div class="d-flex flex-column">
+                          <b>Market Structure & Execution</b>
+                          <small>
+                            gets worse in long period
+                          </small>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
                 <div class="card bg-light mt-6">
                   <div class="card-header">
                     <small class="fw-bold text-uppercase text-light">Step 2</small>
-                    <h5 class="fw-bold text-heading mt-1 mb-0">Pack Title</h5>
-                    <small>Specify a custom pack title for future reuse.</small>
-                  </div>
-
-                  <div class="card-body mt-2">
-                    <h6 class="mb-1">Enter the Title</h6>
-                    <small>
-                      Provide a meaningful title for your custom algorithm pack. This title will help you identify and
-                      reuse the pack in the future with ease.
-                    </small>
-                  </div>
-                </div>
-
-                <div class="card bg-light mt-6">
-                  <div class="card-header">
-                    <small class="fw-bold text-uppercase text-light">Step 3</small>
                     <h5 class="fw-bold text-heading mt-1 mb-0">Lock Amount</h5>
                     <small>Specify the amount of capital you want to allocate for the built algorithm pack.</small>
                   </div>
@@ -930,7 +929,7 @@
 
                 <div class="card bg-light mt-6">
                   <div class="card-header">
-                    <small class="fw-bold text-uppercase text-light">Step 4</small>
+                    <small class="fw-bold text-uppercase text-light">Step 3</small>
                     <h5 class="fw-bold text-heading mt-1 mb-0">Lock Period</h5>
                     <small>Select the unlock date to determine when your capital and incomes can be accessed.</small>
                   </div>

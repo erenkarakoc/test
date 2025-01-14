@@ -80,7 +80,7 @@
       </button>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item position-relative">
       <button type="button" class="btn btn-sm text-gray dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
           <path fill="currentColor"
@@ -89,10 +89,12 @@
           <path fill="currentColor"
             d="M12.75 6a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0zM7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0" />
         </svg>
-        <span class="badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary ms-6 pt-50 position-absolute">
-          3
-        </span>
       </button>
+      <span
+        class="badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary pt-50 position-absolute user-select-none"
+        style="pointer-events: none; top: -2px; right: 4px;">
+        3
+      </span>
     </li>
 
     <li class="nav-item navbar-dropdown dropdown">
