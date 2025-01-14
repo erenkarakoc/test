@@ -864,9 +864,10 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Trend Following</b>
+                          <b>Trend Following &rarr; Better on longer period</b>
                           <small>
-                            gets better in long period
+                            Performs better over extended periods by capturing long-term trends and avoiding short-term
+                            noise.
                           </small>
                         </div>
                       </li>
@@ -881,9 +882,9 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Mean Reversion</b>
+                          <b>Mean Reversion &rarr; Better on longer period</b>
                           <small>
-                            gets better in long period
+                            More effective in longer periods by exploiting price corrections and market inefficiencies.
                           </small>
                         </div>
                       </li>
@@ -898,9 +899,9 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Market Structure & Execution</b>
+                          <b>Market Structure & Execution &rarr; Better on longer period</b>
                           <small>
-                            gets worse in long period
+                            Suited for short periods, focusing on rapid trades and precise execution strategies.
                           </small>
                         </div>
                       </li>
