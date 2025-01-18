@@ -58,20 +58,22 @@
           <div class="card-body">
             <div class="d-flex flex-column row-gap-4">
               @foreach ($strategyPacks as $strategyPack)
-                <div class="strategy-pack">
-                  <div class="card bg-primary">
+                <label class="strategy-pack" for="{{ $strategyPack->id }}">
+                  <input type="radio" id="{{ $strategyPack->id }}" name="strategy_pack">
+                  <span class="strategy-pack-radio"></span>
+
+                  <div class="card bg-light border">
                     <div class="card-body">
-                      <div class="d-flex align-items-center mb-4">
+                      <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
                           alt="{{ $strategyPack->title }}" height="60" class="strategy-pack-img">
                         <h5 class="strategy-pack-title ms-4">
                           {{ $strategyPack->title }}
                         </h5>
                       </div>
-                      <small class="strategy-pack-desc">{{ $strategyPack->description }}</small>
                     </div>
                   </div>
-                </div>
+                </label>
               @endforeach
             </div>
           </div>
