@@ -22,6 +22,6 @@ class PageDashboard extends Controller
         $strategyPacks = StrategyPacks::all();
         $algorithms = Algorithm::all();
 
-        return view('content.pages.page-dashboard', compact('userBalances', 'totalReceived', 'totalSent', 'totalEarned', 'totalBonus', 'strategyPacks', 'algorithms'));
+        return view('content.pages.page-dashboard', compact('userBalances', 'transactions', 'totalReceived', 'totalSent', 'totalEarned', 'totalBonus', 'strategyPacks', 'algorithms'));
     }
 }

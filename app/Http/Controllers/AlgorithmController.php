@@ -93,7 +93,7 @@ class AlgorithmController extends Controller
         $finalBalance = $amountAfterUnlockValue + $incomeValue;
         $finalPercentage = (($finalBalance - $amount) / $amount) * 100;
 
-        sleep(1);
+        sleep(0.5);
 
         // Return results
         return response()->json([

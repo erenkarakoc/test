@@ -45,7 +45,7 @@
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center gap-2">
-                {!! $walletIconSymbols[$userBalances->where('wallet', 'GDZ')->value('wallet')] ?? '' !!}
+                {!! $walletIconSymbols['GDZ'] ?? '' !!}
                 <h6 class="mb-0 text-white wallet-item-title">
                   {{ $userBalances->where('wallet', 'GDZ')->value('title') }}
                 </h6>
@@ -67,20 +67,44 @@
           <div class="d-flex justify-content-between align-items-center h-100">
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex justify-content-center align-items-center" style="height: 36px; width: 36px;">
-                <svg class="flex-shrink-0 text-white" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                <svg class="flex-shrink-0 text-white" width="22" height="22" viewBox="0 0 250 227" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
-                  <path opacity="0.7"
-                    d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
-                    fill="currentColor"></path>
-                  <path opacity="0.5"
-                    d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
-                    fill="currentColor"></path>
-                  <path opacity="0.7"
-                    d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
-                    fill="currentColor"></path>
                   <path
-                    d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
-                    fill="currentColor"></path>
+                    d="M112.548 6.91449L75.9055 59.6981C73.9676 62.4905 72.9986 65.7453 73 69L125.72 69V0C120.735 -4.35961e-07 115.749 2.3046 112.548 6.91449Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M112.548 131.086L75.9055 78.3016C73.9676 75.5093 72.9986 72.2545 73 69L125.72 69L125.72 138C120.735 138 115.749 135.695 112.548 131.086Z"
+                    fill="currentColor" fill-opacity="0.65" />
+                  <path
+                    d="M138.781 131.086L175.118 78.3016C177.041 75.5093 178.001 72.2545 178 69H125.72L125.72 138C130.663 138 135.607 135.695 138.781 131.086Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M138.781 6.91449L175.118 59.6981C177.041 62.4905 178.001 65.7453 178 69H125.72V0C130.663 4.32352e-07 135.607 2.3046 138.781 6.91449Z"
+                    fill="currentColor" fill-opacity="0.95" />
+                  <path
+                    d="M39.5485 95.9145L2.9055 148.698C0.967592 151.491 -0.00136684 154.745 1.44831e-06 158L52.7197 158V89C47.7346 89 42.7489 91.3046 39.5485 95.9145Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M39.5485 220.086L2.9055 167.302C0.967593 164.509 -0.00136741 161.255 1.44831e-06 158L52.7197 158L52.7197 227C47.7346 227 42.7489 224.695 39.5485 220.086Z"
+                    fill="currentColor" fill-opacity="0.65" />
+                  <path
+                    d="M65.7807 220.086L102.118 167.302C104.041 164.509 105.001 161.255 105 158H52.7197L52.7197 227C57.6634 227 62.6072 224.695 65.7807 220.086Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M65.7807 95.9145L102.118 148.698C104.041 151.491 105.001 154.745 105 158H52.7197V89C57.6634 89 62.6072 91.3046 65.7807 95.9145Z"
+                    fill="currentColor" fill-opacity="0.95" />
+                  <path
+                    d="M184.548 95.9145L147.906 148.698C145.968 151.491 144.999 154.745 145 158L197.72 158V89C192.735 89 187.749 91.3046 184.548 95.9145Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M184.548 220.086L147.906 167.302C145.968 164.509 144.999 161.255 145 158L197.72 158V227C192.735 227 187.749 224.695 184.548 220.086Z"
+                    fill="currentColor" fill-opacity="0.65" />
+                  <path
+                    d="M210.781 220.086L247.118 167.302C249.041 164.509 250.001 161.255 250 158H197.72V227C202.663 227 207.607 224.695 210.781 220.086Z"
+                    fill="currentColor" fill-opacity="0.8" />
+                  <path
+                    d="M210.781 95.9145L247.118 148.698C249.041 151.491 250.001 154.745 250 158H197.72V89C202.663 89 207.607 91.3046 210.781 95.9145Z"
+                    fill="currentColor" fill-opacity="0.95" />
                 </svg>
               </div>
               <h6 class="mb-0 text-white wallet-item-title">
@@ -107,6 +131,17 @@
                         <span class="ms-3">
                           {{ $strategyPack->title }}
                         </span>
+                        <span class="popover-trigger text-white cursor-pointer ms-1" data-bs-toggle="popover"
+                          data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                          data-bs-content="{{ $strategyPack->description }}">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                              d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                              opacity=".3" />
+                            <path fill="currentColor"
+                              d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                          </svg>
+                        </span>
                       </div>
                       <a href="#" class="strategy-pack-btn">
                         View
@@ -130,7 +165,8 @@
               <button type="button" class="nav-link active" data-tab-title="Basic Algorithms"
                 data-tab-subtitle="Basic algorithms that are essential for an efficient strategy" role="tab"
                 data-bs-toggle="tab" data-bs-target="#basic" aria-controls="basic" aria-selected="true">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
                     opacity=".5" />
@@ -144,7 +180,8 @@
               <button type="button" class="nav-link" data-tab-title="Trend-Following Models"
                 data-tab-subtitle="Designed to identify and capitalize on sustained market movements in a specific direction"
                 role="tab" data-bs-toggle="tab" data-bs-target="#tf" aria-controls="tf" aria-selected="false">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
                     opacity=".5" />
@@ -218,20 +255,20 @@
               </span>
             </button>
             <button type="button" class="btn btn-sm btn-label-primary rounded w-100 justify-content-start">
-              <svg class="me-2 ms-2" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                viewBox="0 0 24 24">
-                <path opacity="0.7"
-                  d="M13.0119 20.0474L18.0223 12.7806C18.2873 12.3962 18.4198 11.9481 18.4196 11.5H11.2109V20.9994C11.8926 20.9994 12.5743 20.6821 13.0119 20.0474Z"
-                  fill="currentColor" />
-                <path opacity="0.5"
-                  d="M13.0119 2.95191L18.0223 10.2188C18.2873 10.6032 18.4198 11.0513 18.4196 11.4994H11.2109V2C11.8926 1.99997 12.5743 2.31727 13.0119 2.95191Z"
-                  fill="currentColor" />
-                <path opacity="0.7"
-                  d="M9.40777 2.95191L4.39736 10.2188C4.13229 10.6032 3.99984 11.0513 4 11.4994H11.2087V2C10.527 1.99997 9.84534 2.31727 9.40777 2.95191Z"
-                  fill="currentColor" />
+              <svg class="me-2 ms-2" width="22" height="22"viewBox="0 0 314 314" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
                 <path
-                  d="M9.40777 20.0474L4.39736 12.7806C4.13229 12.3962 3.99984 11.9481 4 11.5H11.2087V20.9994C10.527 20.9994 9.84534 20.6821 9.40777 20.0474Z"
-                  fill="currentColor" />
+                  d="M134.927 49.0252L71.0639 140.823C67.6864 145.679 65.9976 151.34 66 157L157.883 157V37C149.195 37 140.505 41.008 134.927 49.0252Z"
+                  fill="currentColor" fill-opacity="0.8" />
+                <path
+                  d="M134.927 264.975L71.0639 173.177C67.6864 168.32 65.9976 162.66 66 157L157.883 157L157.883 277C149.195 277 140.505 272.992 134.927 264.975Z"
+                  fill="currentColor" fill-opacity="0.65" />
+                <path
+                  d="M180.646 264.975L243.977 173.177C247.328 168.32 249.002 162.66 249 157H157.883L157.883 277C166.499 277 175.115 272.992 180.646 264.975Z"
+                  fill="currentColor" fill-opacity="0.8" />
+                <path
+                  d="M180.646 49.0252L243.977 140.823C247.328 145.679 249.002 151.34 249 157H157.883V37C166.499 37 175.115 41.008 180.646 49.0252Z"
+                  fill="currentColor" fill-opacity="0.95" />
               </svg>
               What are Gems?
             </button>

@@ -67,7 +67,7 @@
         <div class="card bg-primary bg-glow wallet-item wallet-item-Total">
           <div class="p-4">
             <div class="d-flex justify-content-between align-items-center">
-              <h6 class="mb-0 text-white wallet-item-title">Total<br />Balance</h6>
+              <h6 class="mb-0 fw-medium text-white wallet-item-title">Total<br />Balance</h6>
               <div class="d-flex flex-column align-items-end text-right">
                 <h5 class="mb-0 text-white">
                   {{ number_format($userTotalBalance, 2) }}$

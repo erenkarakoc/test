@@ -147,20 +147,20 @@
                         'nav-link',
                         'active' => Route::currentRouteName() === 'page-algorithms',
                     ])>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                      <svg width="20" height="20" viewBox="0 0 314 314" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path opacity="0.7"
-                          d="M11.9248 18.9979L17.2797 11.3481C17.5629 10.9434 17.7045 10.4717 17.7043 10H10V20C10.7285 20 11.4571 19.666 11.9248 18.9979Z"
-                          fill="currentColor" />
-                        <path opacity="0.5"
-                          d="M11.9248 1.00208L17.2797 8.65194C17.5629 9.05663 17.7045 9.52833 17.7043 10H10V0C10.7285 -3.33786e-05 11.4571 0.333993 11.9248 1.00208Z"
-                          fill="currentColor" />
-                        <path opacity="0.7"
-                          d="M8.07646 1.00208L2.72156 8.65194C2.43827 9.05663 2.29671 9.52833 2.29688 10L10.0012 10L10.0012 2.5109e-09C9.27267 -3.34398e-05 8.54412 0.333993 8.07646 1.00208Z"
-                          fill="currentColor" />
                         <path
-                          d="M8.07646 18.9979L2.72156 11.3481C2.43827 10.9434 2.29671 10.4717 2.29688 10L10.0012 10L10.0012 20C9.27267 20 8.54412 19.666 8.07646 18.9979Z"
-                          fill="currentColor" />
+                          d="M131.72 33.7288L58.7833 138.531C54.926 144.075 52.9973 150.538 53 157L157.937 157V20C148.015 20 138.091 24.5758 131.72 33.7288Z"
+                          fill="currentColor" fill-opacity="0.8" />
+                        <path
+                          d="M131.72 280.272L58.7833 175.468C54.926 169.924 52.9973 163.462 53 157L157.937 157L157.937 294C148.015 294 138.091 289.424 131.72 280.272Z"
+                          fill="currentColor" fill-opacity="0.65" />
+                        <path
+                          d="M183.935 280.272L256.264 175.468C260.09 169.924 262.002 163.462 262 157H157.937L157.937 294C167.778 294 177.618 289.424 183.935 280.272Z"
+                          fill="currentColor" fill-opacity="0.8" />
+                        <path
+                          d="M183.935 33.7288L256.264 138.531C260.09 144.075 262.002 150.538 262 157H157.937V20C167.778 20 177.618 24.5758 183.935 33.7288Z"
+                          fill="currentColor" fill-opacity="0.95" />
                       </svg>
                       <span class="ms-2">Algorithms</span>
                     </a>
@@ -215,13 +215,13 @@
                           fill="#7E3EFF" />
                         <path
                           d="M221.02 108.733L137.613 228.835C133.202 235.189 130.997 242.594 131 250L251 250L251 93C239.653 93 228.305 98.2438 221.02 108.733Z"
-                          fill="white" fill-opacity="0.85" />
+                          fill="white" fill-opacity="0.8" />
                         <path
                           d="M221.02 391.267L137.613 271.165C133.202 264.811 130.997 257.405 131 250L251 250L251 407C239.653 407.001 228.305 401.756 221.02 391.267Z"
-                          fill="white" fill-opacity="0.75" />
+                          fill="white" fill-opacity="0.65" />
                         <path
                           d="M280.729 391.267L363.44 271.165C367.816 264.811 370.003 257.405 370 250H251L251 407C262.253 407.001 273.506 401.756 280.729 391.267Z"
-                          fill="white" fill-opacity="0.85" />
+                          fill="white" fill-opacity="0.8" />
                         <path
                           d="M280.729 108.733L363.44 228.835C367.816 235.189 370.003 242.594 370 250H251L251 93C262.253 93 273.506 98.2438 280.729 108.733Z"
                           fill="white" fill-opacity="0.95" />
@@ -231,7 +231,7 @@
                         <defs>
                           <linearGradient id="paint0_linear_1015_79" x1="250" y1="0" x2="250"
                             y2="500" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="white" stop-opacity="0.3" />
+                            <stop stop-color="white" stop-opacity="0.4" />
                             <stop offset="1" stop-color="white" stop-opacity="0" />
                           </linearGradient>
                         </defs>
