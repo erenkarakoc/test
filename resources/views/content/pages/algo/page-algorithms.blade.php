@@ -656,6 +656,16 @@
                       Pick some algorithms to get started.
                     </small>
                   </div>
+
+                  <div class="d-none mt-6" id="conflictWarningsWrap">
+                    <small class="d-flex align-items-start text-primary gap-2">
+                      <span>
+                        Categories below conflict with each other. They will not be used simultaneously when executing
+                        trades due to their incompatibility, but will result in unnecessary costs:
+                      </span>
+                    </small>
+                    <div class="d-flex flex-column text-primary" id="conflictWarnings"></div>
+                  </div>
                 </div>
               </div>
 
@@ -727,7 +737,7 @@
                       </path>
                     </g>
                   </svg>
-                  <span>Lock Amount</span>
+                  <span>Lock</span>
                 </button>
               </div>
             </div>
@@ -812,7 +822,7 @@
                       </div>
                       <div class="col col-6">
                         <div class="d-flex flex-column border rounded p-4 h-100">
-                          <span class="text-heading">Machine Learning</span>
+                          <span class="text-heading">Machine Learning & Predictive</span>
                           <small class="mt-2">
                             Algorithms based on predictive models that improve over time with more data.
                           </small>
@@ -858,7 +868,7 @@
                         <div class="d-flex flex-column">
                           <b>Mean Reversion &rarr; Trend-Following</b>
                           <small>
-                            These strategies may not work well together as the migh depend on opposing market behaviors.
+                            These algorithms may not work well together as the migh depend on opposing market behaviors.
                           </small>
                         </div>
                       </li>
@@ -885,9 +895,9 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Machine Learning &rarr; Mean Reversion</b>
+                          <b>Machine Learning & Predictive &rarr; Mean Reversion</b>
                           <small>
-                            Machine learning algorithms might not align wel with th assumptions behind mean reversion.
+                            Machine learning algorithms might not align well with the assumptions behind mean reversion.
                           </small>
                         </div>
                       </li>
@@ -955,7 +965,7 @@
                           </path>
                         </svg>
                         <div class="d-flex flex-column">
-                          <b>Trend Following &rarr; Better on longer period</b>
+                          <b>Trend-Following &rarr; Better on longer period</b>
                           <small>
                             Performs better over extended periods by capturing long-term trends and avoiding short-term
                             noise.

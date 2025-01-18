@@ -20,56 +20,63 @@
     <h5 class="mb-3 lh-1">Strategy Packs</h5>
     <p class="lh-1 mb-7">See our pre-defined strategy packs for optimized algo-trading</p>
 
-    <div class="row row-gap-4">
-      @foreach ($strategyPacks as $strategyPack)
-        <div class="col col-12 strategy-pack">
-          <div class="row p-4 rounded bg-primary">
-            <div class="col-6">
-              <div class="d-flex align-items-center mb-4">
-                <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
-                  alt="{{ $strategyPack->title }}" height="60" class="strategy-pack-img">
-                <h5 class="strategy-pack-title ms-4">
-                  {{ $strategyPack->title }}
-                </h5>
+    <div class="row">
+      <div class="col col-8">
+        <div class="card bg-light border">
+          <div class="card-body">
+            <div class="strategy-pack-algorithm">
+              <div class="d-flex flex-column">
+                <div class="d-flex align-items-center">
+                  <span class="strategy-pack-algo-title lh-1">
+                    t
+                  </span>
+                  <span class="popover-trigger text-white cursor-pointer ms-1 lh-1" data-bs-toggle="popover"
+                    data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                    data-bs-content="desc">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                      <path fill="currentColor"
+                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
+                      <path fill="currentColor"
+                        d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                    </svg>
+                  </span>
+                </div>
+                <small class="strategy-pack-algo-subtitle">
+                  t
+                </small>
               </div>
-              <small class="strategy-pack-desc">{{ $strategyPack->description }}</small>
-            </div>
-            <div class="col-6">
-              <div class="d-flex flex-column row-gap-2 strategy-pack-algorithms mb-7">
-                @foreach (json_decode($strategyPack->algorithms) as $algorithm)
-                  <div class="strategy-pack-algorithm">
-                    <div class="d-flex flex-column">
-                      <div class="d-flex align-items-center">
-                        <span class="strategy-pack-algo-title lh-1">
-                          {{ $algorithm }}
-                        </span>
-                        <span class="popover-trigger text-white cursor-pointer ms-1 lh-1" data-bs-toggle="popover"
-                          data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                          data-bs-content="{{ $algorithms->where('title', $algorithm)->value('description') }}">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                              d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                              opacity=".3" />
-                            <path fill="currentColor"
-                              d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
-                          </svg>
-                        </span>
-                      </div>
-                      <small class="strategy-pack-algo-subtitle">
-                        {{ $algorithms->where('title', $algorithm)->value('subtitle') }}
-                      </small>
-                    </div>
-                    <span class="strategy-pack-algo-contribution">
-                      ≈{{ $algorithms->where('title', $algorithm)->value('profit_contribution') }}%
-                    </span>
-                  </div>
-                @endforeach
-              </div>
-              <button type="button" class="btn btn-sm btn-label-primary ms-auto mt-4">Purchase</button>
+              <span class="strategy-pack-algo-contribution">
+                ≈5%
+              </span>
             </div>
           </div>
         </div>
-      @endforeach
+      </div>
+
+      <div class="col col-4">
+        <div class="card bg-light border">
+          <div class="card-body">
+            <div class="d-flex flex-column row-gap-4">
+              @foreach ($strategyPacks as $strategyPack)
+                <div class="strategy-pack">
+                  <div class="card bg-primary">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center mb-4">
+                        <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
+                          alt="{{ $strategyPack->title }}" height="60" class="strategy-pack-img">
+                        <h5 class="strategy-pack-title ms-4">
+                          {{ $strategyPack->title }}
+                        </h5>
+                      </div>
+                      <small class="strategy-pack-desc">{{ $strategyPack->description }}</small>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="strategy-packs-table row mt-7">

@@ -12,11 +12,14 @@
     hideDuration: '30'
   };
 
+  let chosenAlgorithms = [];
   let calculated = false;
   let controller = new AbortController();
-  let chosenAlgorithms = [];
   let amount = 0;
   let period = 0;
+
+  const conflictMap = [{ MR: ['TF'] }, { MLP: ['MR'] }, { MSE: ['TF'] }];
+  const periodMap = [{ TF: 'long' }, { MR: 'long' }, { MSE: 'short' }];
 
   const amountInput = document.querySelector('#lock_amount');
   const maxButton = document.querySelector('#max_button');
@@ -30,7 +33,63 @@
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
   const algorithmsEmptyText = document.querySelector('#algorithms-empty-text');
   const lockAmountButton = document.querySelector('#lock-amount-button');
-  const calculatingIcon = `<svg class="text-primary" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><circle cx="4" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale0" attributeName="r" begin="0;svgSpinners3DotsScale1.end-0.25s" dur="0.75s" values="3;.2;3"/></circle><circle cx="12" cy="12" r="3" fill="currentColor"><animate attributeName="r" begin="svgSpinners3DotsScale0.end-0.6s" dur="0.75s" values="3;.2;3"/></circle><circle cx="20" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale1" attributeName="r" begin="svgSpinners3DotsScale0.end-0.45s" dur="0.75s" values="3;.2;3"/></circle></svg>`;
+  const calculatingIcon = `<svg class="text-primary mt-1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><circle cx="4" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale0" attributeName="r" begin="0;svgSpinners3DotsScale1.end-0.25s" dur="0.75s" values="3;.2;3"/></circle><circle cx="12" cy="12" r="3" fill="currentColor"><animate attributeName="r" begin="svgSpinners3DotsScale0.end-0.6s" dur="0.75s" values="3;.2;3"/></circle><circle cx="20" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale1" attributeName="r" begin="svgSpinners3DotsScale0.end-0.45s" dur="0.75s" values="3;.2;3"/></circle></svg>`;
+
+  const conflictWarningsWrap = document.querySelector('#conflictWarningsWrap');
+  const conflictWarnings = document.querySelector('#conflictWarnings');
+
+  const conflictWarning = (text, algorithm) =>
+    `<span class="d-flex align-items-center lh-1 mt-2" id="conflict-warning-${algorithm}">
+      <svg class="flex-shrink-0 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z" opacity=".4" />
+        <path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+      </svg>
+      <small>${text}</small>
+    </span>`;
+
+  const getFullCategoryName = category => {
+    switch (category) {
+      case 'TF':
+        return 'Trend-Following';
+      case 'MR':
+        return 'Mean Reversion';
+      case 'MSE':
+        return 'Market Structure & Execution';
+      case 'MLP':
+        return 'Machine Learning & Predictive';
+      default:
+        return 'Basic Algorithm';
+    }
+  };
+
+  const checkAlgorithms = () => {
+    conflictWarnings.innerHTML = '';
+
+    const conflictSet = new Set();
+
+    chosenAlgorithms.forEach(algorithm => {
+      const conflict = conflictMap.find(map => Object.keys(map)[0] === algorithm.category);
+      if (conflict) {
+        const conflictingCategories = conflict[algorithm.category];
+        conflictingCategories.forEach(conflictingCategory => {
+          if (chosenAlgorithms.some(alg => alg.category === conflictingCategory)) {
+            conflictSet.add(
+              `${getFullCategoryName(algorithm.category)} &rarr; ${getFullCategoryName(conflictingCategory)}`
+            );
+          }
+        });
+      }
+    });
+
+    if (conflictSet.size > 0) {
+      conflictWarningsWrap.classList.remove('d-none');
+      conflictSet.forEach(conflictMessage => {
+        conflictWarnings.innerHTML += conflictWarning(conflictMessage);
+      });
+    } else {
+      conflictWarningsWrap.classList.add('d-none');
+    }
+  };
 
   const calculateSummary = () => {
     controller.abort();
@@ -41,6 +100,8 @@
     income.innerHTML = calculatingIcon;
     totalAmountAfterUnlock.innerHTML = calculatingIcon;
     totalAmountAfterUnlockPct.innerHTML = calculatingIcon;
+
+    checkAlgorithms();
 
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       amount = Number(amountInput.value);
