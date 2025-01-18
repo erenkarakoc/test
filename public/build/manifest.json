@@ -332,7 +332,7 @@
     "isEntry": true
   },
   "resources/assets/js/main.js": {
-    "file": "assets/main-CflBrAKt.js",
+    "file": "assets/main-m5XTBnl6.js",
     "name": "main",
     "src": "resources/assets/js/main.js",
     "isEntry": true
@@ -341,6 +341,12 @@
     "file": "assets/add-funds-jRPcSOfu.js",
     "name": "add-funds",
     "src": "resources/assets/js/pages/add-funds.js",
+    "isEntry": true
+  },
+  "resources/assets/js/pages/algorithms.js": {
+    "file": "assets/algorithms-BbkEMPOa.js",
+    "name": "algorithms",
+    "src": "resources/assets/js/pages/algorithms.js",
     "isEntry": true
   },
   "resources/assets/js/pages/auth.js": {
@@ -355,6 +361,12 @@
     "src": "resources/assets/js/pages/dashboard.js",
     "isEntry": true
   },
+  "resources/assets/js/pages/strategy-packs.js": {
+    "file": "assets/strategy-packs-9_uTdEvv.js",
+    "name": "strategy-packs",
+    "src": "resources/assets/js/pages/strategy-packs.js",
+    "isEntry": true
+  },
   "resources/assets/js/pages/team.js": {
     "file": "assets/team-FHjOjQ1K.js",
     "name": "team",
@@ -362,19 +374,19 @@
     "isEntry": true
   },
   "resources/assets/js/pages/transactions.js": {
-    "file": "assets/transactions-D4rksLmF.js",
+    "file": "assets/transactions-Bs8wAaX_.js",
     "name": "transactions",
     "src": "resources/assets/js/pages/transactions.js",
     "isEntry": true
   },
   "resources/assets/js/pages/user/user-profile.js": {
-    "file": "assets/user-profile-7tv8f30I.js",
+    "file": "assets/user-profile-Dj5_0eN2.js",
     "name": "user-profile",
     "src": "resources/assets/js/pages/user/user-profile.js",
     "isEntry": true
   },
   "resources/assets/js/pages/wallet.js": {
-    "file": "assets/wallet-B2c2orvj.js",
+    "file": "assets/wallet-394qOJ3O.js",
     "name": "wallet",
     "src": "resources/assets/js/pages/wallet.js",
     "isEntry": true
@@ -404,7 +416,7 @@
     "isEntry": true
   },
   "resources/assets/vendor/fonts/flag-icons.scss": {
-    "file": "assets/flag-icons-5md7KAlB.css",
+    "file": "assets/flag-icons-B2r7fxKT.css",
     "src": "resources/assets/vendor/fonts/flag-icons.scss",
     "isEntry": true
   },
@@ -2569,7 +2581,7 @@
     "src": "resources/assets/vendor/fonts/flags/4x3/zw.svg"
   },
   "resources/assets/vendor/fonts/fontawesome.scss": {
-    "file": "assets/fontawesome-BYduq7_5.css",
+    "file": "assets/fontawesome-xJ33QM-p.css",
     "src": "resources/assets/vendor/fonts/fontawesome.scss",
     "isEntry": true
   },
@@ -2606,7 +2618,7 @@
     "src": "resources/assets/vendor/fonts/fontawesome/fa-v4compatibility.woff2"
   },
   "resources/assets/vendor/fonts/tabler-icons.scss": {
-    "file": "assets/tabler-icons-xn7K5xzq.css",
+    "file": "assets/tabler-icons-Cw6d9diP.css",
     "src": "resources/assets/vendor/fonts/tabler-icons.scss",
     "isEntry": true
   },
@@ -3049,7 +3061,7 @@
     ]
   },
   "resources/assets/vendor/libs/jstree/jstree.scss": {
-    "file": "assets/jstree-BxZOGeDv.css",
+    "file": "assets/jstree-CP9no_AO.css",
     "src": "resources/assets/vendor/libs/jstree/jstree.scss",
     "isEntry": true
   },
@@ -3078,7 +3090,7 @@
     "src": "resources/assets/vendor/libs/jstree/themes/default/throbber.gif"
   },
   "resources/assets/vendor/libs/leaflet/leaflet.js": {
-    "file": "assets/leaflet-DDTMC7pA.js",
+    "file": "assets/leaflet-D0RF-yjQ.js",
     "name": "leaflet",
     "src": "resources/assets/vendor/libs/leaflet/leaflet.js",
     "isEntry": true,
@@ -3092,7 +3104,7 @@
     ]
   },
   "resources/assets/vendor/libs/leaflet/leaflet.scss": {
-    "file": "assets/leaflet-DljVXREH.css",
+    "file": "assets/leaflet-BrPXyluJ.css",
     "src": "resources/assets/vendor/libs/leaflet/leaflet.scss",
     "isEntry": true
   },
@@ -3229,7 +3241,7 @@
     "isEntry": true
   },
   "resources/assets/vendor/libs/quill/katex.scss": {
-    "file": "assets/katex-DwlGodLo.css",
+    "file": "assets/katex-BUDBvtZA.css",
     "src": "resources/assets/vendor/libs/quill/katex.scss",
     "isEntry": true
   },
@@ -3371,12 +3383,12 @@
     "isEntry": true
   },
   "resources/assets/vendor/scss/core-dark.scss": {
-    "file": "assets/core-dark-D0WRBqRE.css",
+    "file": "assets/core-dark-u6TyuVMq.css",
     "src": "resources/assets/vendor/scss/core-dark.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/core.scss": {
-    "file": "assets/core-Z9Jm1mzt.css",
+    "file": "assets/core-Bp2LP0Eq.css",
     "src": "resources/assets/vendor/scss/core.scss",
     "isEntry": true
   },
@@ -3385,19 +3397,29 @@
     "src": "resources/assets/vendor/scss/pages/add-funds.scss",
     "isEntry": true
   },
+  "resources/assets/vendor/scss/pages/algorithms.scss": {
+    "file": "assets/algorithms-DABWmtbI.css",
+    "src": "resources/assets/vendor/scss/pages/algorithms.scss",
+    "isEntry": true
+  },
   "resources/assets/vendor/scss/pages/auth.scss": {
     "file": "assets/auth-C2QJ-4Tx.css",
     "src": "resources/assets/vendor/scss/pages/auth.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/pages/dashboard.scss": {
-    "file": "assets/dashboard-BxMNlLQE.css",
+    "file": "assets/dashboard-C7rMcW3u.css",
     "src": "resources/assets/vendor/scss/pages/dashboard.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/pages/page-misc.scss": {
     "file": "assets/page-misc-TG6udcCE.css",
     "src": "resources/assets/vendor/scss/pages/page-misc.scss",
+    "isEntry": true
+  },
+  "resources/assets/vendor/scss/pages/strategy-packs.scss": {
+    "file": "assets/strategy-packs-BgwZcqIK.css",
+    "src": "resources/assets/vendor/scss/pages/strategy-packs.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/pages/team.scss": {
@@ -3411,7 +3433,7 @@
     "isEntry": true
   },
   "resources/assets/vendor/scss/pages/user-profile.scss": {
-    "file": "assets/user-profile-DaM4fsUq.css",
+    "file": "assets/user-profile-CjYy976b.css",
     "src": "resources/assets/vendor/scss/pages/user-profile.scss",
     "isEntry": true
   },
@@ -3421,12 +3443,12 @@
     "isEntry": true
   },
   "resources/assets/vendor/scss/rtl/core-dark.scss": {
-    "file": "assets/core-dark-Dgl9MgXk.css",
+    "file": "assets/core-dark-CJ1Dn4dq.css",
     "src": "resources/assets/vendor/scss/rtl/core-dark.scss",
     "isEntry": true
   },
   "resources/assets/vendor/scss/rtl/core.scss": {
-    "file": "assets/core-50oxVtae.css",
+    "file": "assets/core-C01nX5EC.css",
     "src": "resources/assets/vendor/scss/rtl/core.scss",
     "isEntry": true
   },

@@ -1,0 +1,1 @@
+(function(){document.querySelectorAll(".strategy-pack-algo-btn").forEach(t=>{t.addEventListener("click",()=>{const e=t.parentElement.querySelector(".strategy-pack-algorithms");e.classList.contains("d-none")?(e.classList.remove("d-none"),t.textContent=t.getAttribute("data-expanded-text")):(e.classList.add("d-none"),t.textContent=t.getAttribute("data-collapsed-text"))})})})();

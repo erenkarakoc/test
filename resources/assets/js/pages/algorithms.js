@@ -44,8 +44,8 @@
 
     if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       amount = Number(amountInput.value);
-      period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
-      const data = { chosen_algorithms: chosenAlgorithms, amount, period: period };
+      period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+      const data = { chosen_algorithms: chosenAlgorithms, amount, period };
 
       fetch('/calculate-algorithm-summary', {
         method: 'POST',
@@ -69,8 +69,7 @@
           totalAmountAfterUnlockPct.innerHTML = `<span class="${data.finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${data.finalPercentage.toFixed(2)}%</span>`;
           calculated = true;
           lockAmountButton.removeAttribute('disabled');
-        })
-        .catch(_ => {});
+        });
     } else {
       algorithmCost.innerHTML = '0.00$';
       amountAfterUnlock.innerHTML = '0.00$';
