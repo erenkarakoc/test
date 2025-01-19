@@ -21,6 +21,34 @@
     <p class="lh-1 mb-7">See our pre-defined strategy packs for optimized algo-trading</p>
 
     <div class="row">
+      <div class="col col-4">
+        <div class="card bg-light border">
+          <div class="card-body">
+            <div class="d-flex flex-column row-gap-4">
+              @foreach ($strategyPacks as $strategyPack)
+                <label class="strategy-pack" for="{{ $strategyPack->id }}">
+                  <input type="radio" id="{{ $strategyPack->id }}" name="strategy_pack"
+                    {{ $strategyPack->title == 'Momentum' ? 'checked' : '' }}>
+                  <span class="strategy-pack-radio"></span>
+
+                  <div class="card bg-light border">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
+                          alt="{{ $strategyPack->title }}" height="60" class="strategy-pack-img">
+                        <h5 class="strategy-pack-title ms-4">
+                          {{ $strategyPack->title }}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              @endforeach
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col col-8">
         <div class="card bg-light border">
           <div class="card-body">
@@ -52,33 +80,6 @@
           </div>
         </div>
       </div>
-
-      <div class="col col-4">
-        <div class="card bg-light border">
-          <div class="card-body">
-            <div class="d-flex flex-column row-gap-4">
-              @foreach ($strategyPacks as $strategyPack)
-                <label class="strategy-pack" for="{{ $strategyPack->id }}">
-                  <input type="radio" id="{{ $strategyPack->id }}" name="strategy_pack">
-                  <span class="strategy-pack-radio"></span>
-
-                  <div class="card bg-light border">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
-                          alt="{{ $strategyPack->title }}" height="60" class="strategy-pack-img">
-                        <h5 class="strategy-pack-title ms-4">
-                          {{ $strategyPack->title }}
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                </label>
-              @endforeach
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="strategy-packs-table row mt-7">
@@ -87,7 +88,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="table-responsive border border-top-0 rounded">
+          <div class="table-responsive bg-light border border-top-0 rounded">
             <table class="table table-striped text-center mb-0">
               <thead>
                 <tr>
