@@ -105,10 +105,7 @@
                     <p class="text-center mb-0">Swift</p>
                   </th>
                   <th scope="col">
-                    <p class="text-center mb-0">Category</p>
-                  </th>
-                  <th scope="col">
-                    <p class="text-end mb-0">Contribution</p>
+                    <p class="text-end mb-0">Category</p>
                   </th>
                 </tr>
               </thead>
@@ -123,7 +120,11 @@
                   <tr>
                     <td class="text-start text-heading">
                       <div class="d-flex flex-column">
-                        <span>{{ $algorithm->title }}</span>
+                        <div class="d-flex align-items-center">
+                          <span class="lh-1">{{ $algorithm->title }}</span>
+                          <small
+                            class="algorithms-table-contribution-rate">≈{{ $algorithm->profit_contribution }}%</small>
+                        </div>
                         <small class="text-light">{{ $algorithm->subtitle }}</small>
                       </div>
                     </td>
@@ -153,17 +154,7 @@
                           </span>
                         </div>
                       @else
-                        <div class="d-flex justify-content-center">
-                          <span class="text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                                opacity=".5" />
-                              <path fill="currentColor"
-                                d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06" />
-                            </svg>
-                          </span>
-                        </div>
+                        <span class="algorithm-table-not-containing">─</span>
                       @endif
                     </td>
                     <td>
@@ -192,17 +183,7 @@
                           </span>
                         </div>
                       @else
-                        <div class="d-flex justify-content-center">
-                          <span class="text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                                opacity=".5" />
-                              <path fill="currentColor"
-                                d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06" />
-                            </svg>
-                          </span>
-                        </div>
+                        <span class="algorithm-table-not-containing">─</span>
                       @endif
                     </td>
                     <td>
@@ -231,20 +212,10 @@
                           </span>
                         </div>
                       @else
-                        <div class="d-flex justify-content-center">
-                          <span class="text-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                                opacity=".5" />
-                              <path fill="currentColor"
-                                d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06" />
-                            </svg>
-                          </span>
-                        </div>
+                        <span class="algorithm-table-not-containing">─</span>
                       @endif
                     </td>
-                    <td>
+                    <td class="text-end">
                       <p class="mb-0">
                         @if ($algorithm->category === 'BASIC')
                           <span class="badge bg-label-primary">Basic Algorithms</span>
@@ -258,9 +229,6 @@
                           <span class="badge bg-label-primary">ML & Predictive Models</span>
                         @endif
                       </p>
-                    </td>
-                    <td class="text-end">
-                      <small>≈{{ $algorithm->profit_contribution }}%</small>
                     </td>
                   </tr>
                 @endforeach
