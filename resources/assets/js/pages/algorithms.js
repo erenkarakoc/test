@@ -19,7 +19,6 @@
   let period = 0;
 
   const conflictMap = [{ MR: ['TF'] }, { MLP: ['MR'] }, { MSE: ['TF'] }];
-  const periodMap = [{ TF: 'long' }, { MR: 'long' }, { MSE: 'short' }];
 
   const amountInput = document.querySelector('#lock_amount');
   const maxButton = document.querySelector('#max_button');
@@ -59,6 +58,37 @@
         return 'Machine Learning & Predictive';
       default:
         return 'Basic Algorithm';
+    }
+  };
+
+  const calculateGlow = count => {
+    const svgElements = algorithmGlow.querySelectorAll('svg');
+    svgElements.forEach((svg, index) => {
+      svg.classList.toggle(
+        'active',
+        (count === 1 && index === 2) ||
+          (count === 2 && index < 2) ||
+          (count === 3 && index < 3) ||
+          (count === 4 && index < 4)
+      );
+    });
+
+    if (count) {
+      algorithmGlow.style.width = '60px';
+      algorithmGlow.style.marginLeft = '18px';
+    } else {
+      setTimeout(() => {
+        algorithmGlow.style.width = '0';
+        algorithmGlow.style.marginLeft = '0';
+      }, 500);
+    }
+  };
+
+  const toggleEmptyText = () => {
+    if (!chosenAlgorithms.length) {
+      algorithmsEmptyText.classList.remove('d-none');
+    } else {
+      algorithmsEmptyText.classList.add('d-none');
     }
   };
 
@@ -825,37 +855,6 @@
             </svg>
     `;
   }
-
-  const calculateGlow = count => {
-    const svgElements = algorithmGlow.querySelectorAll('svg');
-    svgElements.forEach((svg, index) => {
-      svg.classList.toggle(
-        'active',
-        (count === 1 && index === 2) ||
-          (count === 2 && index < 2) ||
-          (count === 3 && index < 3) ||
-          (count === 4 && index < 4)
-      );
-    });
-
-    if (count) {
-      algorithmGlow.style.width = '60px';
-      algorithmGlow.style.marginLeft = '18px';
-    } else {
-      setTimeout(() => {
-        algorithmGlow.style.width = '0';
-        algorithmGlow.style.marginLeft = '0';
-      }, 500);
-    }
-  };
-
-  const toggleEmptyText = () => {
-    if (!chosenAlgorithms.length) {
-      algorithmsEmptyText.classList.remove('d-none');
-    } else {
-      algorithmsEmptyText.classList.add('d-none');
-    }
-  };
 
   document.addEventListener('click', event => {
     if (event.target.closest('.algorithm-add-button')) {
