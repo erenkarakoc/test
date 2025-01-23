@@ -5,9 +5,9 @@
 ('use strict');
 
 (function () {
-  let chosenAlgorithms = [];
   let calculated = false;
   let controller = new AbortController();
+  let chosenAlgorithms = [];
   let amount = 0;
   let period = 0;
 
@@ -785,6 +785,7 @@
 
   strategyPackRadios.forEach(radio => {
     radio.addEventListener('click', () => {
+      let gemCount = 0;
       packTitle.innerHTML = radio.getAttribute('data-title');
       packDescription.innerHTML = radio.getAttribute('data-description');
 
@@ -807,11 +808,22 @@
         `;
 
         algorithmSmItems.appendChild(algorithmItem);
+
+        chosenAlgorithms = [];
+        chosenAlgorithms.push({
+          title: title,
+          contribution: Number(contribution),
+          icon: Number(algorithm.icon),
+          category: algorithm.category
+        });
+
+        const algoWithHighestIcon = chosenAlgorithms.reduce((prev, current) =>
+          prev.icon > current.icon ? prev : current
+        );
+        gemCount = algoWithHighestIcon.icon;
       });
 
-      chosenAlgorithms = algorithms;
-      console.log(chosenAlgorithms);
-      calculateGlow();
+      calculateGlow(gemCount);
       calculateSummary();
     });
   });

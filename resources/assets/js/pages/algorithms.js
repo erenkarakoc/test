@@ -96,6 +96,7 @@
     conflictWarnings.innerHTML = '';
 
     const conflictSet = new Set();
+    console.log(chosenAlgorithms)
 
     chosenAlgorithms.forEach(algorithm => {
       const conflict = conflictMap.find(map => Object.keys(map)[0] === algorithm.category);

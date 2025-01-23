@@ -148,6 +148,7 @@
                       <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/img/illustrations/momentum.png') }}" alt="Momentum" width="50">
                         <span class="text-heading fw-bold ms-2">Momentum</span>
+                        <div id="algorithm-glow" class="ms-auto"></div>
                       </div>
                     </div>
                   </div>
@@ -164,7 +165,6 @@
                           id="max_button">Max.</button>
                       </div>
                     </div>
-                    <div id="algorithm-glow"></div>
                   </div>
 
                   <label class="d-flex flex-column mt-4" for="unlock_date">
