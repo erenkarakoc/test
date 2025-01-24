@@ -11,7 +11,7 @@
   let amount = 0;
   let period = 0;
 
-  const strategyPackRadios = document.querySelectorAll('input[name="strategy_pack"]');
+  const strategyPackButtons = document.querySelectorAll('.strategy-pack-btn');
   const packTitle = document.querySelector('#pack-title');
   const packDescription = document.querySelector('#pack-description');
   const algorithmSmItems = document.querySelector('#algorithm-sm-items');
@@ -783,54 +783,77 @@
     calculateSummary();
   });
 
-  strategyPackRadios.forEach(radio => {
-    radio.addEventListener('click', () => {
-      let gemCount = 0;
-      packTitle.innerHTML = radio.getAttribute('data-title');
-      packDescription.innerHTML = radio.getAttribute('data-description');
+  const setCurrentStrategyPack = (title, description, algorithms) => {
+    packTitle.innerHTML = title;
+    packDescription.innerHTML = description;
 
-      const algorithms = JSON.parse(radio.getAttribute('data-algorithms'));
-      algorithmSmItems.innerHTML = '';
+    algorithmSmItems.innerHTML = '';
 
-      algorithms.forEach(algorithm => {
-        const title = algorithm.title;
-        const subtitle = algorithm.subtitle;
-        const contribution = algorithm.profit_contribution;
+    algorithms.forEach(algorithm => {
+      const title = algorithm.title;
+      const subtitle = algorithm.subtitle;
+      const contribution = algorithm.profit_contribution;
 
-        const algorithmItem = document.createElement('div');
-        algorithmItem.classList.add('algorithm-sm-item');
-        algorithmItem.setAttribute('data-title', title);
+      const algorithmItem = document.createElement('div');
+      algorithmItem.classList.add('algorithm-sm-item');
+      algorithmItem.setAttribute('data-title', title);
 
-        algorithmItem.innerHTML = `
+      algorithmItem.innerHTML = `
           <span class="algorithm-sm-item-title notranslate">${title}</span>
           <small>${subtitle || ''}</small>
           <small class="algorithm-sm-item-contribution">≈${contribution || 0}%</small>
         `;
 
-        algorithmSmItems.appendChild(algorithmItem);
+      algorithmSmItems.appendChild(algorithmItem);
+    });
+  };
 
-        chosenAlgorithms = [];
-        chosenAlgorithms.push({
-          title: title,
-          contribution: Number(contribution),
-          icon: Number(algorithm.icon),
-          category: algorithm.category
-        });
+  const setChosenStrategyPack = button => {
+    const packTitle = button.getAttribute('data-title');
+    const packAlgorithms = JSON.parse(button.getAttribute('data-algorithms'));
 
-        const algoWithHighestIcon = chosenAlgorithms.reduce((prev, current) =>
-          prev.icon > current.icon ? prev : current
-        );
-        gemCount = algoWithHighestIcon.icon;
+    const chosenPackImgs = document.querySelector('#chosen-pack-img');
+    const chosenPackImg = chosenPackImgs.querySelector('#' + packTitle + '-img');
+    const chosenPackTitle = document.querySelector('#chosen-pack-title');
+
+    chosenPackTitle.innerHTML = packTitle;
+    chosenPackImgs.querySelectorAll('img').forEach(img => img.classList.add('d-none'));
+    chosenPackImg.classList.remove('d-none');
+
+    packAlgorithms.forEach(algorithm => {
+      let gemCount = 0;
+
+      const title = algorithm.title;
+      const contribution = algorithm.profit_contribution;
+
+      chosenAlgorithms = [];
+      chosenAlgorithms.push({
+        title: title,
+        contribution: Number(contribution),
+        icon: Number(algorithm.icon),
+        category: algorithm.category
       });
 
+      const algoWithHighestIcon = chosenAlgorithms.reduce((prev, current) =>
+        prev.icon > current.icon ? prev : current
+      );
+
+      gemCount = algoWithHighestIcon.icon;
+
       calculateGlow(gemCount);
-      calculateSummary();
     });
+
+    calculateSummary();
+  };
+
+  strategyPackButtons.forEach(button => button.addEventListener('click', () => setChosenStrategyPack(button)));
+  document.addEventListener('DOMContentLoaded', () => {
+    setChosenStrategyPack(document.querySelector('.strategy-pack-btn[data-title="Momentum"]'));
   });
 
-  const swiperWithPagination = document.querySelector('#strategy-packs');
-  if (swiperWithPagination) {
-    new Swiper(swiperWithPagination, {
+  const strategyPacks = document.querySelector('#strategy-packs');
+  if (strategyPacks) {
+    const strategyPacksSwiper = new Swiper(strategyPacks, {
       loop: true,
       spaceBetween: 10,
       autoplay: {
@@ -842,6 +865,16 @@
         clickable: true,
         el: '.swiper-pagination'
       }
+    });
+
+    strategyPacksSwiper.on('slideChange', swiper => {
+      const activeEl = swiper.el.querySelector('[data-swiper-slide-index="' + swiper.realIndex + '"]');
+
+      const title = activeEl.getAttribute('data-title');
+      const description = activeEl.getAttribute('data-description');
+      const algorithms = JSON.parse(activeEl.getAttribute('data-algorithms'));
+
+      setCurrentStrategyPack(title, description, algorithms);
     });
   }
 })();

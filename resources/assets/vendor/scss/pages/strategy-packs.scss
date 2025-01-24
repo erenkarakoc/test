@@ -8,6 +8,16 @@
   #lock-strategy {
     position: sticky;
     top: 80px;
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
   }
 
   #strategy-packs {
@@ -18,16 +28,11 @@
     overflow-x: hidden;
 
     .strategy-pack {
-      cursor: pointer;
       position: relative;
       width: 100%;
 
       .strategy-pack-img {
         object-fit: contain;
-      }
-
-      input[type='radio'] {
-        display: none;
       }
 
       .card {
@@ -46,15 +51,18 @@
       }
 
       .strategy-pack-title {
-        user-select: none;
         font-size: 20px;
         margin-bottom: 0;
         color: #fff;
       }
-      .strategy-pack-desc {
+      .strategy-pack-text-bg {
         user-select: none;
-        line-height: 1 !important;
-        color: #ddd;
+        background-color: rgba-to-hex(rgba($primary, 0.85), $rgba-to-hex-bg-inverted);
+        padding: 0.3rem 0.5rem;
+        border-radius: $border-radius;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
       }
       .strategy-pack-btn {
         display: flex;
@@ -178,6 +186,21 @@
             transform: translateX(0);
           }
         }
+      }
+    }
+  }
+
+  #chosen-pack-img {
+    img {
+      animation: rotate 0.25s ease forwards;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(30deg);
+      }
+      to {
+        transform: rotate(0);
       }
     }
   }

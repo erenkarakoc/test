@@ -73,12 +73,10 @@
                     ->values();
               @endphp
 
-              <div class="swiper-slide">
-                <label class="strategy-pack" for="{{ $strategyPack->id }}">
-                  <input type="radio" id="{{ $strategyPack->id }}" name="strategy_pack"
-                    {{ $strategyPack->title == 'Momentum' ? 'checked' : '' }} data-title="{{ $strategyPack->title }}"
-                    data-description="{{ $strategyPack->description }}"
-                    data-algorithms="{{ json_encode($allStrategyAlgorithms) }}">
+              <div class="swiper-slide" data-title="{{ $strategyPack->title }}"
+                data-description="{{ $strategyPack->description }}"
+                data-algorithms="{{ json_encode($allStrategyAlgorithms) }}">
+                <div class="strategy-pack">
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex align-items-center justify-content-between">
@@ -87,15 +85,21 @@
                             alt="{{ $strategyPack->title }}" height="80" class="strategy-pack-img">
                           <h5 class="strategy-pack-title ms-5">
                             {{ $strategyPack->title }}
-                            </h4>
+                          </h5>
+                          <small class="fw-medium ms-2 strategy-pack-text-bg" data-bs-toggle="popover"
+                            data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
+                            data-bs-content="Total contribution rate of algorithms">
+                            ≈{{ $strategyPack->total_contribution_rate }}%
+                          </small>
                         </div>
-                        <button type="button" class="strategy-pack-btn" data-target="{{ $strategyPack->title }}">
+                        <button type="button" class="strategy-pack-btn" data-title="{{ $strategyPack->title }}"
+                          data-algorithms="{{ json_encode($allStrategyAlgorithms) }}">
                           Choose
                         </button>
                       </div>
                     </div>
                   </div>
-                </label>
+                </div>
               </div>
             @endforeach
           </div>
@@ -122,9 +126,7 @@
 
               <small class="text-heading">Algorithms</small>
               <div class="mt-2 p-2 rounded border">
-                <div class="d-flex flex-column row-gap-2" id="algorithm-sm-items">
-
-                </div>
+                <div class="d-flex flex-column row-gap-2" id="algorithm-sm-items"></div>
               </div>
             </div>
           </div>
@@ -133,75 +135,74 @@
 
       <div class="col col-5">
         <div class="d-flex flex-column" id="lock-strategy">
-          <h6 class="mb-2 lh-1">Lock Strategy</h6>
+          <h6 class="mb-2 lh-1">Lock Strategy Pack</h6>
           <small class="mb-7">
-            Enter amount and unlock date for the estimated results.
+            Enter amount and unlock date for the estimated results
           </small>
 
           <div class="card bg-light border">
             <div class="card-body">
-              <div id="strategy-content">
-                <div class="bg-light border rounded p-5">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex flex-column w-100">
-                      <label class="text-nowrap mb-2">Strategy Pack</label>
-                      <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/img/illustrations/momentum.png') }}" alt="Momentum" width="50">
-                        <span class="text-heading fw-bold ms-2">Momentum</span>
-                        <div id="algorithm-glow" class="ms-auto"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="d-flex align-items-center mt-4">
-                    <div class="d-flex flex-column w-100">
-                      <label class="text-nowrap mb-2" for="lock_amount">Amount to Lock</label>
-                      <div class="input-group flex-nowrap">
-                        <small class="input-group-text text-white">$</small>
-                        <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount"
-                          min="1" data-max="{{ $userTotalBalance }}" pattern="^\d*(\.\d{0,2})?$">
-                        <button type="button" class="input-group-text"
-                          onclick="if ({{ $userTotalBalance }}) document.querySelector('#lock_amount').value = ({{ $userTotalBalance }}).toFixed(2)"
-                          id="max_button">Max.</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <label class="d-flex flex-column mt-4" for="unlock_date">
-                    <label class="d-flex align-items-center text-nowrap mb-2" for="unlock_date">
-                      <span>Unlock Date</span>
-                      <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
-                        data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
-                        data-bs-custom-class="popover-dark"
-                        data-bs-content="<span class='me-4'>You can lock balances for:</span><br />- min. 14 days<br />- max. 365 days">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                          <path fill="currentColor"
-                            d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
-                          <path fill="currentColor"
-                            d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
-                        </svg>
-                      </span>
-                    </label>
-                    <div class="input-group flex-nowrap">
-                      <small class="input-group-text text-light">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                          <path fill="currentColor"
-                            d="M6.96 2c.418 0 .756.31.756.692V4.09c.67-.012 1.422-.012 2.268-.012h4.032c.846 0 1.597 0 2.268.012V2.692c0-.382.338-.692.756-.692s.756.31.756.692V4.15c1.45.106 2.403.368 3.103 1.008c.7.641.985 1.513 1.101 2.842v1H2V8c.116-1.329.401-2.2 1.101-2.842c.7-.64 1.652-.902 3.103-1.008V2.692c0-.382.339-.692.756-.692" />
-                          <path fill="currentColor"
-                            d="M22 14v-2c0-.839-.013-2.335-.026-3H2.006c-.013.665 0 2.161 0 3v2c0 3.771 0 5.657 1.17 6.828C4.349 22 6.234 22 10.004 22h4c3.77 0 5.654 0 6.826-1.172S22 17.771 22 14"
-                            opacity=".5" />
-                          <path fill="currentColor" fill-rule="evenodd"
-                            d="M14 12.25A1.75 1.75 0 0 0 12.25 14v2a1.75 1.75 0 1 0 3.5 0v-2A1.75 1.75 0 0 0 14 12.25m0 1.5a.25.25 0 0 0-.25.25v2a.25.25 0 1 0 .5 0v-2a.25.25 0 0 0-.25-.25"
-                            clip-rule="evenodd" />
-                          <path fill="currentColor"
-                            d="M11.25 13a.75.75 0 0 0-1.28-.53l-1.5 1.5a.75.75 0 0 0 1.06 1.06l.22-.22V17a.75.75 0 0 0 1.5 0z" />
-                        </svg>
-                      </small>
-                      <input class="form-control flatpickr" id="unlock_date" type="date" name="unlock_date"
-                        pattern="\d{2}.\d{2}.\d{4}" placeholder="mm.dd.yyyy">
-                    </div>
-                  </label>
+              <div class="d-flex align-items-center">
+                <div id="chosen-pack-img">
+                  @foreach ($strategyPacks as $strategyPack)
+                    <img src="{{ asset('assets/img/illustrations/' . strToLower($strategyPack->title) . '.png') }}"
+                      alt="{{ $strategyPack->title }}" width="50" class="d-none"
+                      id="{{ $strategyPack->title }}-img">
+                  @endforeach
                 </div>
+                <span class="text-heading fw-bold ms-4" id="chosen-pack-title">Momentum</span>
+                <div id="algorithm-glow" class="ms-auto"></div>
+              </div>
+
+              <div class="bg-light border rounded p-5 mt-6">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex flex-column w-100">
+                    <label class="text-nowrap mb-2" for="lock_amount">Amount to Lock</label>
+                    <div class="input-group flex-nowrap">
+                      <small class="input-group-text text-white">$</small>
+                      <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount" min="1"
+                        data-max="{{ $userTotalBalance }}" pattern="^\d*(\.\d{0,2})?$">
+                      <button type="button" class="input-group-text"
+                        onclick="if ({{ $userTotalBalance }}) document.querySelector('#lock_amount').value = ({{ $userTotalBalance }}).toFixed(2)"
+                        id="max_button">Max.</button>
+                    </div>
+                  </div>
+                </div>
+
+                <label class="d-flex flex-column mt-4" for="unlock_date">
+                  <label class="d-flex align-items-center text-nowrap mb-2" for="unlock_date">
+                    <span>Unlock Date</span>
+                    <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
+                      data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                      data-bs-custom-class="popover-dark"
+                      data-bs-content="<span class='me-4'>You can lock balances for:</span><br />- min. 14 days<br />- max. 365 days">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
+                        <path fill="currentColor"
+                          d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                      </svg>
+                    </span>
+                  </label>
+                  <div class="input-group flex-nowrap">
+                    <small class="input-group-text text-light">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M6.96 2c.418 0 .756.31.756.692V4.09c.67-.012 1.422-.012 2.268-.012h4.032c.846 0 1.597 0 2.268.012V2.692c0-.382.338-.692.756-.692s.756.31.756.692V4.15c1.45.106 2.403.368 3.103 1.008c.7.641.985 1.513 1.101 2.842v1H2V8c.116-1.329.401-2.2 1.101-2.842c.7-.64 1.652-.902 3.103-1.008V2.692c0-.382.339-.692.756-.692" />
+                        <path fill="currentColor"
+                          d="M22 14v-2c0-.839-.013-2.335-.026-3H2.006c-.013.665 0 2.161 0 3v2c0 3.771 0 5.657 1.17 6.828C4.349 22 6.234 22 10.004 22h4c3.77 0 5.654 0 6.826-1.172S22 17.771 22 14"
+                          opacity=".5" />
+                        <path fill="currentColor" fill-rule="evenodd"
+                          d="M14 12.25A1.75 1.75 0 0 0 12.25 14v2a1.75 1.75 0 1 0 3.5 0v-2A1.75 1.75 0 0 0 14 12.25m0 1.5a.25.25 0 0 0-.25.25v2a.25.25 0 1 0 .5 0v-2a.25.25 0 0 0-.25-.25"
+                          clip-rule="evenodd" />
+                        <path fill="currentColor"
+                          d="M11.25 13a.75.75 0 0 0-1.28-.53l-1.5 1.5a.75.75 0 0 0 1.06 1.06l.22-.22V17a.75.75 0 0 0 1.5 0z" />
+                      </svg>
+                    </small>
+                    <input class="form-control flatpickr" id="unlock_date" type="date" name="unlock_date"
+                      pattern="\d{2}.\d{2}.\d{4}" placeholder="mm.dd.yyyy">
+                  </div>
+                </label>
               </div>
 
               <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Summary</h6>
