@@ -179,14 +179,14 @@
     }
     &.swiper-container-horizontal > .swiper-pagination-bullets {
       bottom: auto;
-      top: 1rem;
+      top: 0.5rem;
       @include app-ltr() {
-        right: 1rem;
+        right: 0.75rem;
         text-align: right;
         left: unset;
       }
       @include app-rtl() {
-        left: 1rem;
+        left: 0.75rem;
         text-align: left;
         right: unset;
       }
