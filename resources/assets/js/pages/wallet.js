@@ -548,6 +548,22 @@
     );
   });
 
+  const walletAddressWrapper = document.querySelectorAll('.wallet-address-wrapper');
+
+  walletAddressWrapper.forEach(wrapper => {
+    wrapper.addEventListener('click', () => {
+      const walletAddressPopover = document.querySelector('.wallet-address-popover');
+      const walletAddress = wrapper.querySelector('.wallet-address');
+      navigator.clipboard.writeText(walletAddress.value.trim());
+
+      walletAddressPopover.style.left = '12px';
+      walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
+      walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
+
+      walletAddress.select();
+    });
+  });
+
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {
     const target = navLink.getAttribute('data-bs-target');
 
