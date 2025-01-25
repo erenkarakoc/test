@@ -15,13 +15,15 @@ class PageDashboard extends Controller
     {
         $userBalances = UserBalances::all();
         $transactions = Transaction::where('user_id', Auth::user()->id)->get();
-        $totalReceived = $transactions->where('type', 'deposit')->where('status', 'completed')->sum('amount_in_usd');
-        $totalSent = $transactions->where('type', 'withdraw')->where('status', 'completed')->sum('amount_in_usd');
+        $transactionsExceptEarned = Transaction::where('type', '!=', 'earned')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
+        $transactionsEarned = Transaction::where('type', 'earned')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
+        $totalReceived = $transactions->where('type', 'received')->where('status', 'completed')->sum('amount_in_usd');
+        $totalSent = $transactions->where('type', 'sent')->where('status', 'completed')->sum('amount_in_usd');
         $totalEarned = $transactions->where('type', 'earned')->where('status', 'completed')->sum('amount_in_usd');
-        $totalBonus = $transactions->where('type', 'referral_bonus')->where('status', 'completed')->sum('amount_in_usd');
+        $totalBonus = $transactions->where('type', 'bonus')->where('status', 'completed')->sum('amount_in_usd');
         $strategyPacks = StrategyPacks::all();
         $algorithms = Algorithm::all();
 
-        return view('content.pages.page-dashboard', compact('userBalances', 'transactions', 'totalReceived', 'totalSent', 'totalEarned', 'totalBonus', 'strategyPacks', 'algorithms'));
+        return view('content.pages.page-dashboard', compact('userBalances', 'transactionsExceptEarned', 'transactionsEarned', 'totalReceived', 'totalSent', 'totalEarned', 'totalBonus', 'strategyPacks', 'algorithms'));
     }
 }

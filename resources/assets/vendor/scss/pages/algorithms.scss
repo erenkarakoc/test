@@ -22,6 +22,19 @@
     }
   }
 
+  #gdzStrategiesCard {
+    .strategy-pack-text-bg {
+      user-select: none;
+      background-color: rgba-to-hex(rgba($primary, 0.85), $rgba-to-hex-bg-inverted);
+      padding: 0.3rem 0.3rem;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 10px;
+      line-height: 1;
+      text-align: center;
+    }
+  }
+
   #algorithms-nav .nav-tabs {
     .nav-link svg {
       flex-shrink: 0;

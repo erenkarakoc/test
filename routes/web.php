@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/update-user-profile', [UserController::class, 'update'])->withoutMiddleware('auth');
 
     // Transactions
+    Route::post('/get-transaction-by-id', [TransactionController::class, 'getTransactionById']);
     Route::post('/create-transaction', [TransactionController::class, 'createTransaction']);
     Route::post('/cancel-transaction', [TransactionController::class, 'cancelTransaction']);
 

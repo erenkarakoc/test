@@ -56,4 +56,15 @@ class TransactionController extends Controller
             'cancelledTransaction' => $transactionToCancel,
         ]);
     }
+
+    public function getTransactionById(Request $request)
+    {
+        $request->validate([
+          'tnx_id' => 'required|string'
+        ]);
+
+        $transaction = Transaction::where('tnx_id', $request->tnx_id)->first();
+
+        return response()->json($transaction);
+    }
 }

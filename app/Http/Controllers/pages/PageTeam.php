@@ -12,7 +12,7 @@ class PageTeam extends Controller
     public function index()
     {
         $invitedUsers = User::where('ref_user_id', Auth::user()->id)->get();
-        $transactions = Transaction::where('user_id', Auth::user()->id)->where('type', 'referral_bonus')->get();
+        $transactions = Transaction::where('user_id', Auth::user()->id)->where('type', 'bonus')->get();
 
         return view('content.pages.page-team', compact('invitedUsers', 'transactions'));
     }

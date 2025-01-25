@@ -82,7 +82,7 @@
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                           <img src="{{ asset('assets/img/illustrations/' . strtolower($strategyPack->title) . '.png') }}"
-                            alt="{{ $strategyPack->title }}" height="80" class="strategy-pack-img">
+                            alt="{{ $strategyPack->title }}" height="80" class="strategy-pack-img" draggable="false">
                           <h5 class="strategy-pack-title ms-5">
                             {{ $strategyPack->title }}
                           </h5>
@@ -149,8 +149,8 @@
                 <div id="chosen-pack-img">
                   @foreach ($strategyPacks as $strategyPack)
                     <img src="{{ asset('assets/img/illustrations/' . strToLower($strategyPack->title) . '.png') }}"
-                      alt="{{ $strategyPack->title }}" width="50" class="d-none"
-                      id="{{ $strategyPack->title }}-img">
+                      alt="{{ $strategyPack->title }}" width="50" class="d-none" id="{{ $strategyPack->title }}-img"
+                      draggable="false">
                   @endforeach
                 </div>
                 <span class="text-heading fw-bold ms-4" id="chosen-pack-title">Momentum</span>

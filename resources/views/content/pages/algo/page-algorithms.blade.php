@@ -33,8 +33,8 @@
         <p class="lh-1 mb-7">Explore a wide range of trading algorithms and build your own strategy</p>
       </div>
       <div class="col col-4">
-        <h5 class="mb-3 lh-1">Strategy Packs</h5>
-        <p class="lh-1 mb-7">Choose a strategy pack and start your journey</p>
+        <h6 class="mb-2 lh-1">Strategy Packs</h6>
+        <small class="lh-1 mb-7">Choose a strategy pack and start your journey</small>
       </div>
     </div>
 
@@ -131,17 +131,11 @@
                         <span class="ms-3">
                           {{ $strategyPack->title }}
                         </span>
-                        <span class="popover-trigger text-white cursor-pointer ms-1" data-bs-toggle="popover"
+                        <small class="fw-medium ms-2 strategy-pack-text-bg" data-bs-toggle="popover"
                           data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-                          data-bs-content="{{ $strategyPack->description }}">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                              d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                              opacity=".3" />
-                            <path fill="currentColor"
-                              d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
-                          </svg>
-                        </span>
+                          data-bs-content="Total contribution rate of algorithms">
+                          ≈{{ $strategyPack->total_contribution_rate }}%
+                        </small>
                       </div>
                       <a href="#" class="strategy-pack-btn">
                         View
@@ -165,8 +159,7 @@
               <button type="button" class="nav-link active" data-tab-title="Basic Algorithms"
                 data-tab-subtitle="Basic algorithms that are essential for an efficient strategy" role="tab"
                 data-bs-toggle="tab" data-bs-target="#basic" aria-controls="basic" aria-selected="true">
-                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
                     opacity=".5" />
@@ -979,8 +972,8 @@
 
                     <ul class="list-group mt-4">
                       <li class="list-group-item d-flex align-items-center">
-                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                          viewBox="0 0 24 24">
+                        <svg class="me-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                          height="24" viewBox="0 0 24 24">
                           <path fill="currentColor"
                             d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"
                             opacity=".5"></path>

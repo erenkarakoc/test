@@ -51,6 +51,7 @@
       }
 
       .strategy-pack-title {
+        user-select: none;
         font-size: 20px;
         margin-bottom: 0;
         color: #fff;
@@ -213,12 +214,12 @@
 
   #chosen-pack-img {
     img {
-      animation: rotate 0.25s ease forwards;
+      animation: rotate 0.2s ease forwards;
     }
 
     @keyframes rotate {
       from {
-        transform: rotate(30deg);
+        transform: rotate(50deg);
       }
       to {
         transform: rotate(0);

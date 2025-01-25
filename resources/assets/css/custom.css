@@ -278,6 +278,7 @@
 }
 
 .transaction-item {
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -301,17 +302,6 @@
 
 .transaction-item .transaction-item-icon {
   margin-right: 10px;
-}
-
-.transaction-item-in .transaction-item-icon {
-  color: var(--bs-success);
-}
-.transaction-item-out .transaction-item-icon {
-  transform: rotate(180deg);
-  color: var(--bs-danger);
-}
-.transaction-item-bonus .transaction-item-icon {
-  color: var(--bs-primary);
 }
 
 .transaction-item .transaction-status {
@@ -356,14 +346,6 @@
   transition: all 0.1s ease-out;
 }
 
-.transaction-item-in .transaction-usd-amount,
-.transaction-item-bonus .transaction-usd-amount {
-  color: var(--bs-success);
-}
-.transaction-item-out .transaction-usd-amount {
-  color: var(--bs-danger);
-}
-
 .transaction-item .transaction-item-view {
   opacity: 0;
   transform: translateX(-20px);
@@ -379,4 +361,20 @@
 .transaction-item:hover .transaction-usd-amount,
 .transaction-item:hover .transaction-asset-amount {
   transform: translateX(-8px);
+}
+
+.pagination .page-link-disabled {
+  pointer-events: none !important;
+  cursor: default !important;
+  opacity: 0.5 !important;
+}
+
+.pagination .page-link-more {
+  cursor: default;
+  pointer-events: none !important;
+}
+
+.pagination .page-link-more .waves-ripple,
+.pagination .page-link-disabled .waves-ripple {
+  display: none !important;
 }

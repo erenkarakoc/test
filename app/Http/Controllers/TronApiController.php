@@ -36,7 +36,7 @@ class TronApiController extends Controller
         [$totalBalance, $totalLockedBalance] = $this->calculateUserTotalBalance();
 
         $transaction = [
-            'type' => 'deposit',
+            'type' => 'received',
             'amount_in_asset' => $request->amount_in_asset,
             'amount_in_usd' => $request->amount_in_usd,
             'asset' => $request->asset,

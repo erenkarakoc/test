@@ -20,7 +20,7 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/dashboard.js', 'resources/assets/js/ui-popover.js'])
+  @vite(['resources/assets/js/pages/dashboard.js', 'resources/assets/js/ui-popover.js', 'resources/assets/js/components/transaction-modal.js'])
 @endsection
 
 @section('content')
@@ -377,54 +377,101 @@
         </div>
       </div>
 
-      @if (!$transactions->isEmpty())
-        <div class="col col-7 mt-7">
-          <div class="card text-white bg-light">
-            <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-start">
-                  <span class="text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                      <path fill="currentColor"
-                        d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535" />
-                      <path fill="#fff"
-                        d="M13.25 7a.75.75 0 0 1 1.315-.493l3 3.437a.75.75 0 0 1-1.13.987L14.75 9v8a.75.75 0 0 1-1.5 0zm-5.685 6.07a.75.75 0 1 0-1.13.986l3 3.437A.75.75 0 0 0 10.75 17V7a.75.75 0 0 0-1.5 0v8z"
-                        opacity=".7" />
-                    </svg>
-                  </span>
-                  <div class="d-flex flex-column">
-                    <h5 class="d-flex align-items-center ms-2 mb-0">
-                      Transactions
-                    </h5>
-                    <small class="text-light ms-2">Latest transactions made in your account</small>
-                  </div>
+      <div class="col col-6 mt-7">
+        <div class="card text-white bg-light">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-start">
+                <span class="text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535" />
+                    <path fill="#fff"
+                      d="M13.25 7a.75.75 0 0 1 1.315-.493l3 3.437a.75.75 0 0 1-1.13.987L14.75 9v8a.75.75 0 0 1-1.5 0zm-5.685 6.07a.75.75 0 1 0-1.13.986l3 3.437A.75.75 0 0 0 10.75 17V7a.75.75 0 0 0-1.5 0v8z"
+                      opacity=".7" />
+                  </svg>
+                </span>
+                <div class="d-flex flex-column">
+                  <h5 class="d-flex align-items-center ms-2 mb-0">
+                    Transactions
+                  </h5>
+                  <small class="text-light ms-2">Latest transactions made in your account</small>
                 </div>
-                <a href="{{ route('page-transactions') }}" class="btn btn-sm btn-primary">View All</a>
               </div>
+              <a href="{{ route('page-transactions') }}?tab=all" class="btn btn-sm btn-primary">View All</a>
             </div>
-            <div class="card-body">
-              <div class="transaction-items">
-                @foreach ($transactions as $transaction)
-                  <a href="transaction/{{ $transaction->tnx_id }}" class="transaction-item transaction-item-in">
+          </div>
+          <div class="card-body">
+            <div class="transaction-items">
+              @if (!$transactionsExceptEarned->isEmpty())
+                @foreach ($transactionsExceptEarned as $transaction)
+                  <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                          <g fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10" opacity=".5" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
-                          </g>
-                        </svg>
+                        @if ($transaction->type === 'received')
+                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                              <circle cx="12" cy="12" r="10" opacity=".5" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                            </g>
+                          </svg>
+                        @elseif ($transaction->type === 'sent')
+                          <svg class="text-danger" width="28" height="28" viewBox="0 0 28 28"
+                            xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <path opacity="0.5"
+                              d="M14 25.6667C20.4433 25.6667 25.6667 20.4433 25.6667 14C25.6667 7.55668 20.4433 2.33333 14 2.33333C7.55668 2.33333 2.33333 7.55668 2.33333 14C2.33333 20.4433 7.55668 25.6667 14 25.6667Z"
+                              stroke="currentColor" stroke-width="1.75" />
+                            <path d="M10.5 17.5L17.5 10.5M17.5 10.5L17.5 15.75M17.5 10.5L12.25 10.5"
+                              stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                        @elseif ($transaction->type === 'locked')
+                          <svg class="text-light" width="28" height="28" viewBox="0 0 80 80" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M40 9.16667C22.9712 9.16667 9.16667 22.9712 9.16667 40C9.16667 57.0288 22.9712 70.8333 40 70.8333C57.0288 70.8333 70.8333 57.0288 70.8333 40C70.8333 22.9712 57.0288 9.16667 40 9.16667ZM4.16667 40C4.16667 20.2098 20.2098 4.16667 40 4.16667C59.7902 4.16667 75.8333 20.2098 75.8333 40C75.8333 59.7902 59.7902 75.8333 40 75.8333C20.2098 75.8333 4.16667 59.7902 4.16667 40Z"
+                              fill="currentColor" />
+                            <path opacity="0.5"
+                              d="M22 46.9389C22 41.9549 22 39.4612 23.5491 37.9139C25.0965 36.3647 27.5902 36.3647 32.5741 36.3647H46.673C51.6569 36.3647 54.1506 36.3647 55.698 37.9139C57.2471 39.4612 57.2471 41.9549 57.2471 46.9389C57.2471 51.9228 57.2471 54.4165 55.698 55.9639C54.1506 57.513 51.6569 57.513 46.673 57.513H32.5741C27.5902 57.513 25.0965 57.513 23.5491 55.9639C22 54.4165 22 51.9228 22 46.9389Z"
+                              fill="currentColor" />
+                            <path
+                              d="M30.9786 33.8959C30.9786 31.442 31.9534 29.0886 33.6886 27.3535C35.4237 25.6183 37.7771 24.6435 40.231 24.6435C42.6849 24.6435 45.0382 25.6183 46.7734 27.3535C48.5085 29.0886 49.4833 31.442 49.4833 33.8959V36.5694C50.4826 36.5782 51.3585 36.6012 52.1269 36.6576V33.8959C52.1269 30.7409 50.8735 27.7151 48.6426 25.4842C46.4117 23.2533 43.386 22 40.231 22C37.076 22 34.0502 23.2533 31.8193 25.4842C29.5884 27.7151 28.3351 30.7409 28.3351 33.8959V36.6593C29.2151 36.6018 30.0967 36.5718 30.9786 36.5694V33.8959Z"
+                              fill="currentColor" />
+                            <path
+                              d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
+                              fill="currentColor" />
+                          </svg>
+                        @elseif ($transaction->type === 'earned')
+                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                              <circle cx="12" cy="12" r="10" opacity=".5" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                            </g>
+                          </svg>
+                        @elseif ($transaction->type === 'bonus')
+                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                              <circle cx="12" cy="12" r="10" opacity=".5" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
+                            </g>
+                          </svg>
+                        @endif
                       </div>
                       <div class="d-flex flex-column">
                         <h6 class="mb-0">
-                          @if ($transaction->type === 'deposit')
+                          @if ($transaction->type === 'received')
                             Received via {{ $transaction->asset }}
-                          @elseif ($transaction->status === 'withdraw')
+                          @elseif ($transaction->type === 'sent')
                             Sent via {{ $transaction->asset }}
-                          @elseif ($transaction->status === 'invest')
+                          @elseif ($transaction->type === 'locked')
                             Locked via {{ $transaction->asset }}
-                          @else
+                          @elseif ($transaction->type === 'earned')
                             Earned via {{ $transaction->asset }}
+                          @elseif ($transaction->type === 'bonus')
+                            Bonus via {{ $transaction->asset }}
                           @endif
                           @if (!empty(json_decode($transaction->notes, true)))
                             @php
@@ -434,10 +481,10 @@
                               data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
                               data-bs-custom-class="popover-dark"
                               data-bs-content="<div class='d-flex flex-column row-gap-2'>
-                                @foreach ($notesArray as $index => $note)
+                        @foreach ($notesArray as $index => $note)
 <span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
 @endforeach
-                              </div>"
+                        </div>"
                               xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                               <path fill="currentColor"
                                 d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
@@ -453,8 +500,9 @@
                           <small @class([
                               'transaction-status',
                               'text-success' => $transaction->status === 'completed',
-                              'text-danger' => $transaction->status === 'rejected',
-                              'text-danger' => $transaction->status === 'cancelled',
+                              'text-danger' =>
+                                  $transaction->status === 'rejected' ||
+                                  $transaction->status === 'cancelled',
                               'text-warning' => $transaction->status === 'pending',
                           ])>
                             @if ($transaction->status === 'completed')
@@ -472,8 +520,14 @@
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="d-flex flex-column align-items-end text-right">
-                        <span
-                          class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                        <span @class([
+                            'transaction-usd-amount',
+                            'text-danger' => $transaction->type === 'sent',
+                            'text-success' =>
+                                $transaction->type !== 'sent' || $transaction->type !== 'locked',
+                            'text-light' => $transaction->type === 'locked',
+                        ])
+                          class="transaction-usd-amount">{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ number_format($transaction->amount_in_usd, 2) }}$</span>
                         <span
                           class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
                           {{ $transaction->asset }}</span>
@@ -485,47 +539,57 @@
                         </svg>
                       </span>
                     </div>
-                  </a>
+                  </div>
                 @endforeach
-              </div>
+              @else
+                <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                  <h6 class="text-light mt-4 mb-2 pb-0 px-0 fw-bolder">
+                    You don't have any transactions yet.
+                  </h6>
+                  <small class="text-light pt-0 px-0">
+                    All transactions made in your account will be listed here.
+                  </small>
+                </div>
+              @endif
             </div>
           </div>
         </div>
-      @endif
+      </div>
 
-      @if (!$transactions->where('type', 'earned')->isEmpty())
-        <div class="col col-5 mt-7">
-          <div class="card text-white bg-light">
-            <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-start">
-                  <span class="text-primary">
-                    <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M4.0415 23.9593C5.75183 25.6673 8.5005 25.6673 14.0002 25.6673C19.4998 25.6673 22.2497 25.6673 23.9577 23.9582C25.6668 22.2513 25.6668 19.5003 25.6668 14.0007C25.6668 8.50098 25.6668 5.75115 23.9577 4.04198C22.2508 2.33398 19.4998 2.33398 14.0002 2.33398C8.5005 2.33398 5.75066 2.33398 4.0415 4.04198C2.3335 5.75232 2.3335 8.50098 2.3335 14.0007C2.3335 19.5003 2.3335 22.2513 4.0415 23.9593Z"
-                        fill="currentColor" />
-                      <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
-                        d="M14 6.125C14.2321 6.125 14.4546 6.21719 14.6187 6.38128C14.7828 6.54538 14.875 6.76794 14.875 7V7.36983C16.7767 7.7105 18.375 9.13967 18.375 11.0833C18.375 11.3154 18.2828 11.538 18.1187 11.7021C17.9546 11.8661 17.7321 11.9583 17.5 11.9583C17.2679 11.9583 17.0454 11.8661 16.8813 11.7021C16.7172 11.538 16.625 11.3154 16.625 11.0833C16.625 10.2923 15.967 9.4535 14.875 9.15483V13.2032C16.7767 13.5438 18.375 14.973 18.375 16.9167C18.375 18.8603 16.7767 20.2895 14.875 20.6302V21C14.875 21.2321 14.7828 21.4546 14.6187 21.6187C14.4546 21.7828 14.2321 21.875 14 21.875C13.7679 21.875 13.5454 21.7828 13.3813 21.6187C13.2172 21.4546 13.125 21.2321 13.125 21V20.6302C11.2233 20.2895 9.625 18.8603 9.625 16.9167C9.625 16.6846 9.71719 16.462 9.88128 16.2979C10.0454 16.1339 10.2679 16.0417 10.5 16.0417C10.7321 16.0417 10.9546 16.1339 11.1187 16.2979C11.2828 16.462 11.375 16.6846 11.375 16.9167C11.375 17.7077 12.033 18.5465 13.125 18.844V14.7968C11.2233 14.4562 9.625 13.027 9.625 11.0833C9.625 9.13967 11.2233 7.7105 13.125 7.36983V7C13.125 6.76794 13.2172 6.54538 13.3813 6.38128C13.5454 6.21719 13.7679 6.125 14 6.125ZM13.125 9.15483C12.033 9.4535 11.375 10.2923 11.375 11.0833C11.375 11.8743 12.033 12.7132 13.125 13.0107V9.15483ZM16.625 16.9167C16.625 16.1257 15.967 15.2868 14.875 14.9893V18.844C15.967 18.5465 16.625 17.7077 16.625 16.9167Z"
-                        fill="#fff" />
-                    </svg>
-                  </span>
-                  <div class="d-flex flex-column">
-                    <h5 class="d-flex align-items-center ms-2 mb-0">
-                      Earned
-                    </h5>
-                    <small class="text-light ms-2">Latest incomes you've earned</small>
-                  </div>
+      <div class="col col-6 mt-7">
+        <div class="card text-white bg-light">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-start">
+                <span class="text-primary">
+                  <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4.0415 23.9593C5.75183 25.6673 8.5005 25.6673 14.0002 25.6673C19.4998 25.6673 22.2497 25.6673 23.9577 23.9582C25.6668 22.2513 25.6668 19.5003 25.6668 14.0007C25.6668 8.50098 25.6668 5.75115 23.9577 4.04198C22.2508 2.33398 19.4998 2.33398 14.0002 2.33398C8.5005 2.33398 5.75066 2.33398 4.0415 4.04198C2.3335 5.75232 2.3335 8.50098 2.3335 14.0007C2.3335 19.5003 2.3335 22.2513 4.0415 23.9593Z"
+                      fill="currentColor" />
+                    <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+                      d="M14 6.125C14.2321 6.125 14.4546 6.21719 14.6187 6.38128C14.7828 6.54538 14.875 6.76794 14.875 7V7.36983C16.7767 7.7105 18.375 9.13967 18.375 11.0833C18.375 11.3154 18.2828 11.538 18.1187 11.7021C17.9546 11.8661 17.7321 11.9583 17.5 11.9583C17.2679 11.9583 17.0454 11.8661 16.8813 11.7021C16.7172 11.538 16.625 11.3154 16.625 11.0833C16.625 10.2923 15.967 9.4535 14.875 9.15483V13.2032C16.7767 13.5438 18.375 14.973 18.375 16.9167C18.375 18.8603 16.7767 20.2895 14.875 20.6302V21C14.875 21.2321 14.7828 21.4546 14.6187 21.6187C14.4546 21.7828 14.2321 21.875 14 21.875C13.7679 21.875 13.5454 21.7828 13.3813 21.6187C13.2172 21.4546 13.125 21.2321 13.125 21V20.6302C11.2233 20.2895 9.625 18.8603 9.625 16.9167C9.625 16.6846 9.71719 16.462 9.88128 16.2979C10.0454 16.1339 10.2679 16.0417 10.5 16.0417C10.7321 16.0417 10.9546 16.1339 11.1187 16.2979C11.2828 16.462 11.375 16.6846 11.375 16.9167C11.375 17.7077 12.033 18.5465 13.125 18.844V14.7968C11.2233 14.4562 9.625 13.027 9.625 11.0833C9.625 9.13967 11.2233 7.7105 13.125 7.36983V7C13.125 6.76794 13.2172 6.54538 13.3813 6.38128C13.5454 6.21719 13.7679 6.125 14 6.125ZM13.125 9.15483C12.033 9.4535 11.375 10.2923 11.375 11.0833C11.375 11.8743 12.033 12.7132 13.125 13.0107V9.15483ZM16.625 16.9167C16.625 16.1257 15.967 15.2868 14.875 14.9893V18.844C15.967 18.5465 16.625 17.7077 16.625 16.9167Z"
+                      fill="#fff" />
+                  </svg>
+                </span>
+                <div class="d-flex flex-column">
+                  <h5 class="d-flex align-items-center ms-2 mb-0">
+                    Earned
+                  </h5>
+                  <small class="text-light ms-2">Latest incomes you've earned</small>
                 </div>
-                <a href="#" class="btn btn-sm btn-primary">View All</a>
               </div>
+              <a href="{{ route('page-transactions') }}?tab=earned" class="btn btn-sm btn-primary">View All</a>
             </div>
-            <div class="card-body">
-              <div class="transaction-items">
-                @foreach ($transactions->where('type', 'earned') as $transaction)
-                  <a href="transaction/{{ $transaction->tnx_id }}" class="transaction-item transaction-item-in">
+          </div>
+          <div class="card-body">
+            <div class="transaction-items">
+              @if (!$transactionsEarned->isEmpty())
+                @foreach ($transactionsEarned as $transaction)
+                  <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                        <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                          viewBox="0 0 24 24">
                           <g fill="none" stroke="currentColor" stroke-width="1.5">
                             <circle cx="12" cy="12" r="10" opacity=".5" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
@@ -543,10 +607,10 @@
                               data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
                               data-bs-custom-class="popover-dark"
                               data-bs-content="<div class='d-flex flex-column row-gap-2'>
-                                @foreach ($notesArray as $index => $note)
+@foreach ($notesArray as $index => $note)
 <span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
 @endforeach
-                              </div>"
+</div>"
                               xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                               <path fill="currentColor"
                                 d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
@@ -562,8 +626,9 @@
                           <small @class([
                               'transaction-status',
                               'text-success' => $transaction->status === 'completed',
-                              'text-danger' => $transaction->status === 'rejected',
-                              'text-danger' => $transaction->status === 'cancelled',
+                              'text-danger' =>
+                                  $transaction->status === 'rejected' ||
+                                  $transaction->status === 'cancelled',
                               'text-warning' => $transaction->status === 'pending',
                           ])>
                             @if ($transaction->status === 'completed')
@@ -582,7 +647,7 @@
                     <div class="d-flex align-items-center">
                       <div class="d-flex flex-column align-items-end text-right">
                         <span
-                          class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                          class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
                         <span
                           class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
                           {{ $transaction->asset }}</span>
@@ -594,13 +659,24 @@
                         </svg>
                       </span>
                     </div>
-                  </a>
+                  </div>
                 @endforeach
-              </div>
+              @else
+                <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                  <h6 class="text-light mt-4 mb-2 pb-0 px-0 fw-bolder">
+                    You haven't earned any profits yet.
+                  </h6>
+                  <small class="text-light pt-0 px-0">
+                    The transactions related to your incomes from strategies will be listed here.
+                  </small>
+                </div>
+              @endif
             </div>
           </div>
         </div>
-      @endif
+      </div>
     </div>
   </div>
+
+  @include('components.transaction-modal')
 @endsection

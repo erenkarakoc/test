@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tnx_id')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ref_user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->enum('type', ['deposit', 'withdraw', 'invest', 'earned', 'referral_bonus']);
+            $table->enum('type', ['received', 'sent', 'locked', 'earned', 'bonus']);
             $table->decimal('amount_in_asset')->nullable();
             $table->decimal('amount_in_usd');
             $table->string('asset')->nullable();
