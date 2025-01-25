@@ -9,6 +9,7 @@
   <div class="d-flex justify-content-center w-100 mt-6">
     <nav>
       <ul class="pagination pagination-rounded pagination-sm mb-0">
+        {{-- First --}}
         @if ($startPage > 1)
           <li class="page-item first">
             <a class="page-link" href="{{ $paginator->url(1) }}&tab={{ $tab }}">
@@ -35,6 +36,7 @@
           </li>
         @endif
 
+        {{-- Prev --}}
         <li class="page-item prev">
           @if ($paginator->onFirstPage())
             <a class="page-link text-light page-link-disabled">
@@ -53,6 +55,7 @@
           @endif
         </li>
 
+        {{-- Dots --}}
         @if ($startPage > 2)
           <li class="page-item">
             <a class="page-link page-link-more">
@@ -64,6 +67,7 @@
           </li>
         @endif
 
+        {{-- Pages --}}
         @for ($page = $startPage; $page <= $endPage; $page++)
           <li class="page-item">
             @if ($page == $paginator->currentPage())
@@ -74,6 +78,7 @@
           </li>
         @endfor
 
+        {{-- Dots --}}
         @if ($endPage < $lastPage - 1)
           <li class="page-item">
             <a class="page-link page-link-more">
@@ -85,6 +90,7 @@
           </li>
         @endif
 
+        {{-- Next --}}
         <li class="page-item next">
           @if ($paginator->hasMorePages())
             <a class="page-link" href="{{ $paginator->nextPageUrl() }}&tab={{ $tab }}">
@@ -103,6 +109,7 @@
           @endif
         </li>
 
+        {{-- Last --}}
         @if ($endPage < $lastPage)
           <li class="page-item">
             <a class="page-link" href="{{ $paginator->url($lastPage) }}&tab={{ $tab }}">

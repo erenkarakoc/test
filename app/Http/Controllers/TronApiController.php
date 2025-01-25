@@ -67,6 +67,10 @@ class TronApiController extends Controller
         $tron = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
         $generatedWallet = $tron->createAccount();
 
+        $renderer = new GDLibRenderer(130);
+        $writer = new Writer($renderer);
+        $qr_code = base64_encode($writer->writeString($generatedWallet->getAddress(true)));
+
         $wallet = [
             'user_id' => Auth::user()->id,
             'tnx_id' => $request->tnx_id,
@@ -79,11 +83,8 @@ class TronApiController extends Controller
             'address_hex' => $generatedWallet->getAddress(true),
             'address_base58' => $generatedWallet->getAddress(),
             'status' => 'generated',
+            'qr_code' => $qr_code,
         ];
-
-        $renderer = new GDLibRenderer(130);
-        $writer = new Writer($renderer);
-        $qr_code = base64_encode($writer->writeString($generatedWallet->getAddress(true)));
 
         GeneratedTronWallet::create($wallet);
 
@@ -108,5 +109,19 @@ class TronApiController extends Controller
             'trx_balance_received' => $generatedWallet->trx_balance,
             'usdt_balance_received' => $generatedWallet->usdt_balance,
         ]);
+    }
+
+    public function getGeneratedTronWalletByTransaction(Request $request)
+    {
+      $request->validate([
+        'tnx_id' => "required|string"
+      ]);
+
+      $generatedWallet = GeneratedTronWallet::where('tnx_id', $request->tnx_id)->first();
+
+      return response()->json([
+        'qr_code' => $generatedWallet->qr_code,
+        'address_hex' => $generatedWallet->address_hex
+      ]);
     }
 }

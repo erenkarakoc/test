@@ -21,6 +21,7 @@ class GeneratedTronWallet extends Model
         'address_hex',
         'address_base58',
         'status',
+        'qr_code',
         'hash_id',
     ];
 }

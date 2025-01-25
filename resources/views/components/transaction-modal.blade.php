@@ -79,11 +79,180 @@
                 <span class="transaction-type-text" data-received-text="Received" data-sent-text="Sent"
                   data-locked-text="Locked" data-earned-text="Earned" data-bonus-text="Bonus"></span>
                 via
-                <span class="transaction-asset-text"></span>
+                <span class="transaction-asset"></span>
               </h5>
             </div>
 
+            <span class="h4 fw-medium transaction-amount-in-usd" data-symbol="$">
+              <span class="text-success"></span>
+            </span>
+          </div>
+        </div>
 
+        <div class="divider my-6 mx-n6 border border-dashed border-top-1 border-bottom-0"></div>
+
+        <div class="row">
+          <h6 class="mb-2">Summary</h6>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>Amount in USD</span>
+                <span class="d-flex align-items-center gap-2">
+                  <span class="chosen-asset-icon">
+                    <svg height="18" width="18"></svg>
+                  </span>
+                  <span class="transaction-amount-in-usd" data-symbol="$"></span>
+                </span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>Amount in <span class="transaction-asset"></span></span>
+                <span class="d-flex align-items-center gap-2">
+                  <span class="chosen-asset-icon">
+                    <svg height="18" width="18"></svg>
+                  </span>
+                  <span class="transaction-amount-in-asset"></span>
+                </span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span><span class="transaction-asset"></span> Price</span>
+                <span class="d-flex align-items-center gap-2">
+                  <span class="chosen-asset-icon">
+                    <svg height="18" width="18"></svg>
+                  </span>
+                  <span class="transaction-asset-price" data-symbol="$"></span>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        {{-- Received & Pending --}}
+        <div class="row mt-4" id="received-pending">
+          <ul class="list-group transaction-received-pending d-none">
+            <li class="list-group-item bg-light">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>You will send</span>
+                <span>
+                  <span class="transaction-amount-in-asset"></span>
+                </span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="card border border-1 border-light p-0 mt-4">
+            <div class="card-header border-1 border-bottom-1 border-light">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                  <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                    viewBox="0 0 24 24">
+                    <g fill="none" fill-rule="evenodd">
+                      <path fill="currentColor"
+                        d="M12 4.5a7.5 7.5 0 1 0 0 15a7.5 7.5 0 0 0 0-15M1.5 12C1.5 6.201 6.201 1.5 12 1.5S22.5 6.201 22.5 12S17.799 22.5 12 22.5S1.5 17.799 1.5 12"
+                        opacity=".1" />
+                      <path fill="currentColor"
+                        d="M12 4.5a7.46 7.46 0 0 0-5.187 2.083a1.5 1.5 0 0 1-2.075-2.166A10.46 10.46 0 0 1 12 1.5a1.5 1.5 0 0 1 0 3"
+                        opacity=".7">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                          from="360 12 12" to="0 12 12" dur="4s" additive="sum" repeatCount="indefinite">
+                        </animateTransform>
+                      </path>
+                    </g>
+                  </svg>
+                  <div class="d-flex flex-column">
+                    <h6 class="mb-0">
+                      Waiting for <span class="chosen-asset-text"></span> funds to arrive.
+                      <br>
+                    </h6>
+                    <span class="fw-light text-light" id="payment-progress-timer">30:00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body mt-8">
+              <div class="transaction-qr-code mt-4 d-none">
+                <img src="data:image/png;base64," alt="QR Code">
+              </div>
+
+              <div class="d-flex flex-column mt-7">
+                <div
+                  class="h5 mb-0 mx-auto d-flex justify-content-center align-items-center gap-2 chosen-asset-amount-wrapper"
+                  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                  data-bs-custom-class="popover-dark chosen-asset-amount-popover" data-bs-content="Click to copy">
+                  <span class="transaction-amount-in-asset" id="chosenAssetAmount"></span>
+                  <span class="transaction-asset"></span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                    <path fill="currentColor"
+                      d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                      opacity=".5" />
+                  </svg>
+                </div>
+                <small><span class="transaction-amount-in-usd-plain"></span> USD</small>
+              </div>
+
+              <label for="walletAddress" class="wallet-address-label mt-8 mb-2">
+                <span class="transaction-asset"></span>
+                <span class="transaction-network"></span>
+                <span> address</span>
+              </label>
+
+              <div class="wallet-address-wrapper" data-bs-toggle="popover" data-bs-trigger="hover"
+                data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                data-bs-content="Click to copy">
+                <span class="wallet-address-icon">
+                  <span class="chosen-asset-icon-sm"></span>
+                </span>
+                <input type="text" class="transaction-wallet-address" id="walletAddress" value=""
+                  readonly />
+                <span class="wallet-address-copy">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                    <path fill="currentColor"
+                      d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                      opacity=".5" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column row-gap-2 mt-4">
+            <small class="d-flex align-items-center text-primary gap-2">
+              <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                  opacity=".4" />
+                <path fill="currentColor"
+                  d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+              </svg>
+              <span>Make sure you are sending the correct amount of <span class="transaction-asset"></span>.</span>
+            </small>
+            <small class="d-flex align-items-start text-danger gap-2">
+              <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                  opacity=".4" />
+                <path fill="currentColor"
+                  d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+              </svg>
+              Be cautious about sending the funds to the correct address provided above or your transaction
+              might not complete.
+            </small>
+          </div>
+
+          <div class="col-4 d-flex flex-column mx-auto gap-4 mt-12">
+            <button class="btn btn-label-danger" id="cancelPaymentButton">
+              <span class="align-middle d-sm-inline-block d-none fw-normal">Cancel Payment</span>
+            </button>
           </div>
         </div>
       </div>

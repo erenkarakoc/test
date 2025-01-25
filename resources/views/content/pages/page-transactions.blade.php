@@ -10,7 +10,7 @@
 @section('title', 'Transactions')
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/transactions.scss'])
+  @vite(['resources/assets/vendor/scss/pages/transactions.scss', 'resources/assets/vendor/scss/_components/_transaction-modal.scss'])
 @endsection
 
 @section('page-script')
@@ -152,8 +152,8 @@
     <div class="nav-tabs-shadow nav-align-right mt-12">
       <ul class="nav nav-tabs bg-light" role="tablist">
         <li class="nav-item">
-          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#all"
-            aria-controls="all" aria-selected="false">
+          <button type="button" class="nav-link active" role="tab" data-bs-target="#all" aria-controls="all"
+            aria-selected="false">
             <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor"
                 d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535"
@@ -165,8 +165,8 @@
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#received"
-            aria-controls="received" aria-selected="false">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#received" aria-controls="received"
+            aria-selected="false">
             <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"
                 opacity=".5" />
@@ -177,8 +177,8 @@
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#sent"
-            aria-controls="sent" aria-selected="false">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#sent" aria-controls="sent"
+            aria-selected="false">
             <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"
                 opacity=".5" />
@@ -189,8 +189,8 @@
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#locked"
-            aria-controls="locked" aria-selected="false">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#locked" aria-controls="locked"
+            aria-selected="false">
             <svg class="me-2" width="24" height="24" viewBox="0 0 80 80" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path opacity="0.5"
@@ -207,8 +207,8 @@
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#earned"
-            aria-controls="earned" aria-selected="false">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#earned" aria-controls="earned"
+            aria-selected="false">
             <svg class="me-2" width="24" height="24" viewBox="0 0 80 80" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path opacity="0.5"
@@ -223,8 +223,8 @@
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#bonus"
-            aria-controls="bonus" aria-selected="false">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#bonus" aria-controls="bonus"
+            aria-selected="false">
             <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path fill="currentColor"
                 d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12"

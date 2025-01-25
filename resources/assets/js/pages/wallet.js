@@ -548,7 +548,7 @@
     );
   });
 
-  document.querySelectorAll('.nav-link').forEach(navLink => {
+  document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {
     const target = navLink.getAttribute('data-bs-target');
 
     navLink.addEventListener('click', () => {

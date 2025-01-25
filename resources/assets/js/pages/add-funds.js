@@ -164,7 +164,7 @@
     };
 
     const cancelPayment = async () => {
-      const cancelledTransaction = await postRequest('/cancel-transaction', {
+      await postRequest('/cancel-transaction', {
         tnx_id: tnxId.toString()
       });
 
@@ -177,7 +177,7 @@
               <span>Are you sure you want to cancel this transaction?</span>
               <div class="d-flex justify-content-end mt-4">
               <button type="button" class="btn btn-label-success btn-sm" id="cancelTransactionButtonToastContinue">Continue</button>
-              <button type="button" class="btn btn-danger btn-sm ms-2" id="cancelTransactionButtonToastCancel">Cancel</button>
+              <button type="button" class="btn btn-danger btn-sm ms-2" id="cancelTransactionButtonToastCancel">Cancel Payment</button>
               </div>
           </div>`,
         'Cancel Transaction',

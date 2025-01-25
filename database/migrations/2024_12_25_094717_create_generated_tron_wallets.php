@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('address_hex');
             $table->string('address_base58');
             $table->enum('status', ['generated', 'received-balance', 'paid-user', 'sent-balance', 'errored']);
+            $table->text('qr_code')->nullable();
             $table->string('hash_id')->nullable();
             $table->timestamps();
         });

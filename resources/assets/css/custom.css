@@ -103,6 +103,19 @@
   overflow: hidden;
 }
 
+#gdzLoadingContent svg {
+  animation: gdzLoadingContent 0.8s linear infinite;
+}
+
+@keyframes gdzLoadingContent {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .gdz-navbar .dropdown-toggle {
   border: none !important;
 }

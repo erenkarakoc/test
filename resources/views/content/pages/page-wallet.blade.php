@@ -184,9 +184,10 @@
         </li>
         <li class="nav-item px-4 mt-6">
           <div class="d-flex gap-2">
-            <a href="{{ route('page-add-funds') }}" class="btn btn-sm btn-primary bg-glow mx-auto w-50">
+            <button class="btn btn-sm btn-primary bg-glow mx-auto w-50" role="tab" data-bs-toggle="tab"
+              data-bs-target="#add-funds" aria-controls="add-funds" aria-selected="false">
               Add Funds
-            </a>
+            </button>
             <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
               Send
             </a>
@@ -522,6 +523,56 @@
                 TRC-20). Incorrect addresses may result in lost funds on the blockchain.
               </small>
             </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="add-funds" role="tabpanel" aria-labelledby="add-funds" tabindex="0">
+          <h6 class="mb-2 lh-1">Add Funds</h6>
+          <small class="lh-1">
+            Add funds to your wallet
+          </small>
+
+          <div class="row row-gap-4 mt-7">
+            @foreach ($assets as $asset)
+              <div class="col col-12">
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <span>
+                          {!! $walletIcons[$asset->symbol] ?? '' !!}
+                        </span>
+                        <div class="d-flex flex-column ms-2">
+                          <h5 class="mb-1 lh-1">{{ $asset->symbol }}</h5>
+                          <span class="text-light lh-1">{{ $asset->title }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column text-end">
+                        <span class="h6 mb-0">0.00$</span>
+                        <small class="text-light">0.00 {{ $asset->symbol }}</small>
+                      </div>
+                    </div>
+
+                    <div class="wallet-address-wrapper mt-4" data-bs-toggle="popover" data-bs-trigger="hover"
+                      data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                      data-bs-content="Click to copy">
+                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG"
+                        readonly />
+                      <span class="wallet-address-copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                          <path fill="currentColor"
+                            d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                            opacity=".5" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
           </div>
         </div>
       </div>

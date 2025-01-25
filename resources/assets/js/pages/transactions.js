@@ -10,8 +10,12 @@
 
     navLink.addEventListener('click', () => {
       const url = new URL(window.location);
+
       url.searchParams.set('tab', target.replace('#', ''));
+      url.searchParams.delete('page');
+
       window.history.pushState({}, '', url);
+      window.location.reload();
     });
   });
 

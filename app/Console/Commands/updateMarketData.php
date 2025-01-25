@@ -40,12 +40,19 @@ class UpdateMarketData extends Command
         $assets = Asset::all();
 
         foreach ($assets as $asset) {
-            $price = convertAssetToUsd(1, $asset->symbol);
-            if (is_numeric($price) && $price > 0) {
-                MarketData::updateOrCreate(
-                    ['asset' => $asset->symbol],
-                    ['price' => $price]
-                );
+            try {
+              $price = convertAssetToUsd(1, $asset->symbol);
+              if (is_numeric($price) && $price > 0) {
+                  MarketData::updateOrCreate(
+                      ['asset' => $asset->symbol],
+                      ['price' => $price]
+                  );
+              }
+            } catch(\Exception $e) {
+              MarketData::updateOrCreate(
+                  ['asset' => $asset->symbol],
+                  ['price' => 1.00]
+              );
             }
         }
 
@@ -57,9 +64,16 @@ class UpdateMarketData extends Command
             ['asset' => 'USD'],
             ['price' => 1]
         );
-        MarketData::updateOrCreate(
+        try {
+          MarketData::updateOrCreate(
             ['asset' => 'EUR'],
             ['price' => convertUsdToEur(1)]
+          );
+        } catch(\Exception $e) {
+          MarketData::updateOrCreate(
+            ['asset' => 'EUR'],
+            ['price' => 1.00]
         );
+        }
     }
 }

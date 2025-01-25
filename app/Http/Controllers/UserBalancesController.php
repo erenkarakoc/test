@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\GeneratedTronWallet;
 use App\Models\UserBalances;
 
 class UserBalancesController extends Controller
@@ -37,6 +38,10 @@ class UserBalancesController extends Controller
                 'balance' => 0,
                 'locked_balance' => 0,
             ]);
+
+            if ($asset->symbol === "TRX" && "USDT") {
+
+            }
         }
     }
 

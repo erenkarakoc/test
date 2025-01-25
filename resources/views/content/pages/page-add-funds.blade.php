@@ -268,7 +268,7 @@
                   <div class="row g-6 mt-7">
                     <div class="col-8 mx-auto mt-0">
                       <div class="row g-2">
-                        <ol class="list-group">
+                        <ul class="list-group">
                           <li class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center">
                               <span>Asset</span>
@@ -328,9 +328,9 @@
                               </span>
                             </div>
                           </li>
-                        </ol>
+                        </ul>
 
-                        <ol class="list-group mt-4">
+                        <ul class="list-group mt-4">
                           <li class="list-group-item bg-light">
                             <div class="d-flex justify-content-between align-items-center">
                               <span>You will send</span>
@@ -340,7 +340,7 @@
                               </span>
                             </div>
                           </li>
-                        </ol>
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -368,7 +368,6 @@
                         <div class="card border border-1 border-light p-0">
                           <div class="card-header border-1 border-bottom-1 border-light">
                             <div class="d-flex justify-content-between align-items-center">
-
                               <div class="d-flex">
                                 <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                   viewBox="0 0 24 24">
