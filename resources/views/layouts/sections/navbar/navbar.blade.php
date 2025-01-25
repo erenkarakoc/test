@@ -110,7 +110,7 @@
       <ul class="dropdown-menu dropdown-menu-end dropdown-wallet">
         <li>
           <div class="d-flex gap-2">
-            <a href="{{ route('page-add-funds') }}" class="btn btn-primary btn-sm w-50">Add Funds</a>
+            <a href="{{ route('page-wallet') }}?tab=add-funds" class="btn btn-primary btn-sm w-50">Add Funds</a>
             <a href="/send" class="btn btn-outline-primary btn-sm w-50">Send</a>
           </div>
         </li>

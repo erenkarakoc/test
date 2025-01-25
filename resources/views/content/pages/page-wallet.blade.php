@@ -149,51 +149,60 @@
     </div>
 
     <div class="nav-tabs-shadow nav-align-right">
-      <ul class="nav nav-tabs bg-light" role="tablist">
-        <li class="nav-item">
-          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#assets"
-            aria-controls="assets" aria-selected="false">
-            <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor"
-                d="M14.25 19h1.5c2.317-.005 3.558-.062 4.472-.674a4 4 0 0 0 1.104-1.103C22 16.213 22 14.809 22 12s0-4.213-.674-5.222a4 4 0 0 0-1.104-1.103c-.915-.612-2.155-.669-4.472-.674h-1.5V9H15a3 3 0 1 1 0 6h-.75zm-4.5 0v-4H9a3 3 0 1 1 0-6h.75V5.001h-1.5c-2.317.005-3.557.062-4.472.674a4 4 0 0 0-1.104 1.103C2 7.787 2 9.192 2 12c0 2.81 0 4.214.674 5.223a4 4 0 0 0 1.104 1.103c.915.612 2.155.669 4.472.674z" />
-              <path fill="currentColor" d="M9.75 19h4.5V5h-4.5z" opacity=".5" />
-            </svg>
-            Assets
-          </button>
-        </li>
-        <li class="nav-item">
-          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#manage"
-            aria-controls="manage" aria-selected="false">
-            <svg class="me-2" width="24" height="24" viewBox="0 0 112 112" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M98.877 37.3515C98.5846 37.3359 98.2735 37.3297 97.9437 37.3328H85.003C74.405 37.3328 65.333 45.4341 65.333 55.9995C65.333 66.5648 74.405 74.6661 85.003 74.6661H97.9437C98.2735 74.6693 98.5846 74.663 98.877 74.6475C103.184 74.3861 106.992 71.1148 107.314 66.5415C107.333 66.2428 107.333 65.9208 107.333 65.6221V46.3768C107.333 46.0781 107.333 45.7561 107.314 45.4575C106.992 40.8841 103.184 37.6175 98.877 37.3515ZM83.8643 60.9788C86.5897 60.9788 88.8017 58.7481 88.8017 55.9995C88.8017 53.2461 86.5897 51.0201 83.8643 51.0201C81.139 51.0201 78.9177 53.2508 78.9177 55.9995C78.9177 58.7528 81.1343 60.9788 83.8643 60.9788Z"
-                fill="currentColor" />
-              <path opacity="0.5"
-                d="M98.653 37.3427C98.653 31.8313 98.4477 25.9187 94.929 21.686C94.584 21.2723 94.2212 20.8737 93.8417 20.4913C90.3463 17.0007 85.9177 15.4513 80.4483 14.714C75.1283 14 68.3383 14 59.761 14H49.905C41.3277 14 34.533 14 29.213 14.714C23.7437 15.4513 19.315 17.0007 15.8197 20.4913C12.329 23.9867 10.7797 28.4153 10.0423 33.8847C9.33301 39.2047 9.33301 45.9947 9.33301 54.572V55.0947C9.33301 56.3839 9.33301 57.6328 9.33543 58.8424C10.5409 58.1549 11.7297 57.5127 12.8585 56.9885C15.1378 55.9299 17.8742 55 21.1497 55C24.4289 55 27.1659 55.9328 29.4418 56.9907C31.4139 57.9073 33.5745 59.1862 35.6837 60.4347L36.0105 60.6281L37.6294 61.5863L37.9395 61.77C40.0559 63.0238 42.2195 64.3055 43.9805 65.6003C46.0117 67.0936 48.1161 69.0236 49.7039 71.8428C51.2851 74.6503 51.8501 77.4468 52.0902 79.9453C52.3006 82.1348 52.3002 84.677 52.2997 87.1976L52.2997 87.5459V89.4541L52.2997 89.8027C52.3001 91.8069 52.3004 93.824 52.1949 95.6667H59.761C68.3383 95.6667 75.133 95.6667 80.4483 94.9527C85.9177 94.2153 90.3463 92.666 93.8417 89.1753C94.7906 88.2171 95.6088 87.1904 96.2963 86.0953C98.3963 82.7353 98.6483 78.6193 98.6483 74.662L97.9483 74.6667H85.003C74.405 74.6667 65.333 66.5653 65.333 56C65.333 45.4347 74.405 37.3333 85.003 37.3333H97.9437C98.1895 37.3333 98.429 37.3364 98.653 37.3427Z"
-                fill="currentColor" />
-              <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
-                d="M21.15 65C18.5321 65 16.1468 66.41 11.381 69.2347L9.76895 70.1888C4.99845 73.0135 2.6179 74.4258 1.30895 76.75C-1.40071e-07 79.0765 0 81.8965 0 87.5459V89.4541C0 95.1011 -1.40071e-07 97.9258 1.30895 100.25C2.6179 102.574 4.99845 103.986 9.76895 106.809L11.381 107.765C16.1468 110.588 18.5321 112 21.15 112C23.7679 112 26.1508 110.59 30.9189 107.765L32.531 106.809C37.2968 103.989 39.6821 102.574 40.9911 100.25C42.3 97.9235 42.3 95.1035 42.3 89.4541V87.5459C42.3 81.8988 42.3 79.0741 40.9911 76.75C39.6821 74.4258 37.2968 73.0135 32.531 70.1888L30.9189 69.2347C26.1484 66.4124 23.7679 65 21.15 65Z"
-                fill="currentColor" />
-              <path
-                d="M21.1504 79.6895C18.8132 79.6895 16.5717 80.6179 14.919 82.2706C13.2663 83.9232 12.3379 86.1647 12.3379 88.502C12.3379 90.8392 13.2663 93.0807 14.919 94.7333C16.5717 96.386 18.8132 97.3145 21.1504 97.3145C23.4876 97.3145 25.7291 96.386 27.3818 94.7333C29.0344 93.0807 29.9629 90.8392 29.9629 88.502C29.9629 86.1647 29.0344 83.9232 27.3818 82.2706C25.7291 80.6179 23.4876 79.6895 21.1504 79.6895Z"
-                fill="currentColor" />
-            </svg>
-            Manage Wallet
-          </button>
-        </li>
-        <li class="nav-item px-4 mt-6">
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-primary bg-glow mx-auto w-50" role="tab" data-bs-toggle="tab"
-              data-bs-target="#add-funds" aria-controls="add-funds" aria-selected="false">
-              Add Funds
+      <div id="right-sidebar">
+        <ul class="nav nav-tabs bg-light" role="tablist">
+          <li class="nav-item">
+            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#assets"
+              aria-controls="assets" aria-selected="false">
+              <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M14.25 19h1.5c2.317-.005 3.558-.062 4.472-.674a4 4 0 0 0 1.104-1.103C22 16.213 22 14.809 22 12s0-4.213-.674-5.222a4 4 0 0 0-1.104-1.103c-.915-.612-2.155-.669-4.472-.674h-1.5V9H15a3 3 0 1 1 0 6h-.75zm-4.5 0v-4H9a3 3 0 1 1 0-6h.75V5.001h-1.5c-2.317.005-3.557.062-4.472.674a4 4 0 0 0-1.104 1.103C2 7.787 2 9.192 2 12c0 2.81 0 4.214.674 5.223a4 4 0 0 0 1.104 1.103c.915.612 2.155.669 4.472.674z" />
+                <path fill="currentColor" d="M9.75 19h4.5V5h-4.5z" opacity=".5" />
+              </svg>
+              Assets
             </button>
-            <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
-              Send
-            </a>
-          </div>
-        </li>
-      </ul>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#manage"
+              aria-controls="manage" aria-selected="false">
+              <svg class="me-2" width="24" height="24" viewBox="0 0 112 112" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M98.877 37.3515C98.5846 37.3359 98.2735 37.3297 97.9437 37.3328H85.003C74.405 37.3328 65.333 45.4341 65.333 55.9995C65.333 66.5648 74.405 74.6661 85.003 74.6661H97.9437C98.2735 74.6693 98.5846 74.663 98.877 74.6475C103.184 74.3861 106.992 71.1148 107.314 66.5415C107.333 66.2428 107.333 65.9208 107.333 65.6221V46.3768C107.333 46.0781 107.333 45.7561 107.314 45.4575C106.992 40.8841 103.184 37.6175 98.877 37.3515ZM83.8643 60.9788C86.5897 60.9788 88.8017 58.7481 88.8017 55.9995C88.8017 53.2461 86.5897 51.0201 83.8643 51.0201C81.139 51.0201 78.9177 53.2508 78.9177 55.9995C78.9177 58.7528 81.1343 60.9788 83.8643 60.9788Z"
+                  fill="currentColor" />
+                <path opacity="0.5"
+                  d="M98.653 37.3427C98.653 31.8313 98.4477 25.9187 94.929 21.686C94.584 21.2723 94.2212 20.8737 93.8417 20.4913C90.3463 17.0007 85.9177 15.4513 80.4483 14.714C75.1283 14 68.3383 14 59.761 14H49.905C41.3277 14 34.533 14 29.213 14.714C23.7437 15.4513 19.315 17.0007 15.8197 20.4913C12.329 23.9867 10.7797 28.4153 10.0423 33.8847C9.33301 39.2047 9.33301 45.9947 9.33301 54.572V55.0947C9.33301 56.3839 9.33301 57.6328 9.33543 58.8424C10.5409 58.1549 11.7297 57.5127 12.8585 56.9885C15.1378 55.9299 17.8742 55 21.1497 55C24.4289 55 27.1659 55.9328 29.4418 56.9907C31.4139 57.9073 33.5745 59.1862 35.6837 60.4347L36.0105 60.6281L37.6294 61.5863L37.9395 61.77C40.0559 63.0238 42.2195 64.3055 43.9805 65.6003C46.0117 67.0936 48.1161 69.0236 49.7039 71.8428C51.2851 74.6503 51.8501 77.4468 52.0902 79.9453C52.3006 82.1348 52.3002 84.677 52.2997 87.1976L52.2997 87.5459V89.4541L52.2997 89.8027C52.3001 91.8069 52.3004 93.824 52.1949 95.6667H59.761C68.3383 95.6667 75.133 95.6667 80.4483 94.9527C85.9177 94.2153 90.3463 92.666 93.8417 89.1753C94.7906 88.2171 95.6088 87.1904 96.2963 86.0953C98.3963 82.7353 98.6483 78.6193 98.6483 74.662L97.9483 74.6667H85.003C74.405 74.6667 65.333 66.5653 65.333 56C65.333 45.4347 74.405 37.3333 85.003 37.3333H97.9437C98.1895 37.3333 98.429 37.3364 98.653 37.3427Z"
+                  fill="currentColor" />
+                <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M21.15 65C18.5321 65 16.1468 66.41 11.381 69.2347L9.76895 70.1888C4.99845 73.0135 2.6179 74.4258 1.30895 76.75C-1.40071e-07 79.0765 0 81.8965 0 87.5459V89.4541C0 95.1011 -1.40071e-07 97.9258 1.30895 100.25C2.6179 102.574 4.99845 103.986 9.76895 106.809L11.381 107.765C16.1468 110.588 18.5321 112 21.15 112C23.7679 112 26.1508 110.59 30.9189 107.765L32.531 106.809C37.2968 103.989 39.6821 102.574 40.9911 100.25C42.3 97.9235 42.3 95.1035 42.3 89.4541V87.5459C42.3 81.8988 42.3 79.0741 40.9911 76.75C39.6821 74.4258 37.2968 73.0135 32.531 70.1888L30.9189 69.2347C26.1484 66.4124 23.7679 65 21.15 65Z"
+                  fill="currentColor" />
+                <path
+                  d="M21.1504 79.6895C18.8132 79.6895 16.5717 80.6179 14.919 82.2706C13.2663 83.9232 12.3379 86.1647 12.3379 88.502C12.3379 90.8392 13.2663 93.0807 14.919 94.7333C16.5717 96.386 18.8132 97.3145 21.1504 97.3145C23.4876 97.3145 25.7291 96.386 27.3818 94.7333C29.0344 93.0807 29.9629 90.8392 29.9629 88.502C29.9629 86.1647 29.0344 83.9232 27.3818 82.2706C25.7291 80.6179 23.4876 79.6895 21.1504 79.6895Z"
+                  fill="currentColor" />
+              </svg>
+              Manage Wallet
+            </button>
+          </li>
+          <li class="nav-item px-4 mt-6">
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-primary bg-glow mx-auto w-50" role="tab" data-bs-toggle="tab"
+                data-bs-target="#add-funds" aria-controls="add-funds" aria-selected="false">
+                Add Funds
+              </button>
+              <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
+                Send
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <div class="d-flex flex-column row-gap-2 mt-4">
+          <button type="button" class="btn btn-sm btn-label-primary rounded w-100" data-bs-toggle="modal"
+            data-bs-target="#buildGuideModal">
+            How to Add Funds?
+          </button>
+        </div>
+      </div>
 
       <div class="tab-content pt-0 ps-0">
         <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets" tabindex="0">
@@ -554,11 +563,16 @@
                       </div>
                     </div>
 
-                    <div class="wallet-address-wrapper mt-4" data-bs-toggle="popover" data-bs-trigger="hover"
+                    <label for="wallet-addres-{{ $asset->symbol }}" class="wallet-address-label mt-6">
+                      <span class="chosen-asset-text">{{ $asset->symbol }}</span>
+                      <span class="chosen-asset-network">({{ $asset->network }})</span>
+                      <span> address</span>
+                    </label>
+                    <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
                       data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
                       data-bs-content="Click to copy">
-                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG"
-                        readonly />
+                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG" readonly
+                        id="wallet-addres-{{ $asset->symbol }}" />
                       <span class="wallet-address-copy">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                           <path fill="currentColor"
@@ -573,6 +587,35 @@
                 </div>
               </div>
             @endforeach
+          </div>
+
+          <div class="row mt-7">
+            <div class="d-flex flex-column row-gap-2">
+              <small class="d-flex align-items-start text-primary gap-2">
+                <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                    opacity=".4" />
+                  <path fill="currentColor"
+                    d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                </svg>
+                Make sure you choose correct network for each asset when sending funds from the external wallet. For
+                example if you want to receive TRX or USDT, you should use TRC-20 network.
+              </small>
+              <small class="d-flex align-items-start text-danger gap-2">
+                <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                    opacity=".4" />
+                  <path fill="currentColor"
+                    d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                </svg>
+                Be cautious about sending funds to the correct address. Sending funds to incorrect crypto addresses
+                might result in losing funds in blockchain temporarily.
+              </small>
+            </div>
           </div>
         </div>
       </div>

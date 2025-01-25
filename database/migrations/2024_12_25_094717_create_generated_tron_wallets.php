@@ -14,18 +14,13 @@ return new class extends Migration
         Schema::create('generated_tron_wallets', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
-            $table->string('tnx_id');
             $table->decimal('trx_balance');
             $table->decimal('usdt_balance');
-            $table->decimal('amount_in_usd');
-            $table->decimal('asset_price');
             $table->string('private_key');
             $table->string('public_key');
             $table->string('address_hex');
             $table->string('address_base58');
-            $table->enum('status', ['generated', 'received-balance', 'paid-user', 'sent-balance', 'errored']);
             $table->text('qr_code')->nullable();
-            $table->string('hash_id')->nullable();
             $table->timestamps();
         });
     }

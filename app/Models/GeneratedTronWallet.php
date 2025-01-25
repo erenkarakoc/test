@@ -11,17 +11,12 @@ class GeneratedTronWallet extends Model
 
     protected $fillable = [
         'user_id',
-        'tnx_id',
         'trx_balance',
         'usdt_balance',
-        'amount_in_usd',
-        'asset_price',
         'private_key',
         'public_key',
         'address_hex',
         'address_base58',
-        'status',
         'qr_code',
-        'hash_id',
     ];
 }

@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('symbol');
-            $table->decimal('min_deposit')->nullable();
-            $table->decimal('max_deposit')->nullable();
-            $table->decimal('min_withdraw')->nullable();
-            $table->decimal('max_withdraw')->nullable();
+            $table->string('network');
             $table->timestamps();
         });
     }

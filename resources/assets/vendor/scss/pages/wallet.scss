@@ -118,16 +118,34 @@
     }
   }
 
+  .wallet-address-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    span {
+      font-size: 10px;
+    }
+  }
+
   .wallet-address-wrapper {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     margin: 0 0;
     padding: 10px 20px;
-    background-color: #0a0a0a;
+    background-color: #0e0e0e;
     border: 1px solid transparent;
     border-radius: 5px;
     transition: all 0.2s ease-out;
+
+    .wallet-address-network {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      line-height: 1;
+      white-space: nowrap;
+    }
 
     .wallet-address {
       cursor: pointer;
@@ -138,24 +156,29 @@
       background-color: transparent;
       text-align: left;
       font-weight: 300;
+      line-height: 1;
     }
 
     &:active,
     &:hover,
     &:focus {
       color: var(--bs-primary);
-      background-color: #0e0e0e;
+      background-color: #0c0c0c;
       border-color: var(--bs-primary);
       box-shadow: 0 0 10px -4px var(--bs-primary);
     }
   }
 
-  .nav {
+  #right-sidebar {
     position: sticky;
     top: 90px;
     height: fit-content;
-    padding: 10px 0;
-    border: 1px solid var(--bs-nav-tabs-border-color);
+
+    .nav {
+      padding: 10px 0;
+      border: 1px solid var(--bs-nav-tabs-border-color);
+      overflow: hidden !important;
+    }
   }
 
   .btn-primary {

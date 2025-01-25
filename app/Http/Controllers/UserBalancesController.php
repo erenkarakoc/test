@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
-use App\Models\GeneratedTronWallet;
 use App\Models\UserBalances;
 
 class UserBalancesController extends Controller
@@ -30,6 +29,8 @@ class UserBalancesController extends Controller
             'locked_balance' => 0,
         ]);
 
+        $tronApi = new TronApiController;
+
         foreach ($assets as $asset) {
             UserBalances::create([
                 'user_id' => $user_id,
@@ -40,7 +41,7 @@ class UserBalancesController extends Controller
             ]);
 
             if ($asset->symbol === "TRX" && "USDT") {
-
+              $tronApi->generateTronWalletForUser($user_id);
             }
         }
     }
@@ -52,13 +53,13 @@ class UserBalancesController extends Controller
     {
         $assets = Asset::all();
         $assetsToGenerate = [
-            ['title' => 'Tether', 'symbol' => 'USDT'],
-            ['title' => 'Tron', 'symbol' => 'TRX'],
-            ['title' => 'Bitcoin', 'symbol' => 'BTC'],
-            ['title' => 'Ethereum', 'symbol' => 'ETH'],
-            ['title' => 'Ethereum Classic', 'symbol' => 'ETC'],
-            ['title' => 'Binance Coin', 'symbol' => 'BNB'],
-            ['title' => 'Litecoin', 'symbol' => 'LTC'],
+            ['title' => 'Tether', 'symbol' => 'USDT','network' => 'TRC-20'],
+            ['title' => 'Tron', 'symbol' => 'TRX','network' => 'TRC-20'],
+            ['title' => 'Bitcoin', 'symbol' => 'BTC','network' => 'Bitcoin'],
+            ['title' => 'Ethereum', 'symbol' => 'ETH','network' => 'ERC-20'],
+            ['title' => 'Ethereum Classic', 'symbol' => 'ETC','network' => 'ERC-20'],
+            ['title' => 'Binance Coin', 'symbol' => 'BNB','network' => 'BEP-20'],
+            ['title' => 'Litecoin', 'symbol' => 'LTC','network' => 'Litecoin'],
         ];
 
         if ($assets->isEmpty()) {
@@ -66,10 +67,7 @@ class UserBalancesController extends Controller
                 Asset::create([
                     'title' => $newAsset['title'],
                     'symbol' => $newAsset['symbol'],
-                    'min_deposit' => 0,
-                    'max_deposit' => 0,
-                    'min_withdraw' => 0,
-                    'max_withdraw' => 0,
+                    'network' => $newAsset['network'],
                 ]);
             }
         }

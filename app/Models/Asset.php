@@ -9,9 +9,6 @@ class Asset extends Model
     protected $fillable = [
         'title',
         'symbol',
-        'min_deposit',
-        'max-deposit',
-        'min_withdraw',
-        'max-withdraw',
+        'network',
     ];
 }
