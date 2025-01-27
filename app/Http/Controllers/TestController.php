@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TestController extends Controller
 {
@@ -14,19 +13,18 @@ class TestController extends Controller
     public function __construct()
     {
         $this->client = new Client();
-        $this->apiKey = "0de0611b106ffc86621ea94688fc8f8dff84ba7f";
     }
 
     public function test()
     {
-      $response = $this->client->get('https://rest.cryptoapis.io/wallet-as-a-service/wallets/60c9d9921c38030006675ff6/ethereum/sepolia/addresses?context=yourExampleString&limit=50&offset=0', [
-          'headers' => [
-              'Content-Type' => 'application/json',
-              'X-API-Key' => $this->apiKey,
-          ],
-          'json' => [],
-      ]);
+      $response = Http::withHeaders([
+        'x-api-key' => 't-6797a4fd758217afa9cf4c55-4d684a2c1de042ac9a6d0c46',
+        'content-type' => 'application/json',
+        'accept' => 'application/json'
+      ])->get('https://api.tatum.io/v3/tron/wallet');
 
-      dd($response);
+      $walletData = $response->json();
+
+      dd($walletData);
     }
 }

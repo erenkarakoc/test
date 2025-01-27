@@ -6,14 +6,14 @@ use App\Models\GeneratedTronWallet;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
-class CheckGeneratedTronWallets extends Command
+class TronCheckWallets extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check:generated-tron-wallets';
+    protected $signature = 'tron:check-wallets';
 
     /**
      * The console command description.

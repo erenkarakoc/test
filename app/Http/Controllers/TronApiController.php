@@ -8,6 +8,8 @@ use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use \IEXBase\TronAPI\Support\Base58;
 
 class TronApiController extends Controller
 {
@@ -16,6 +18,7 @@ class TronApiController extends Controller
     protected $solidityNode;
 
     protected $eventServer;
+
 
     public function __construct()
     {
@@ -57,46 +60,35 @@ class TronApiController extends Controller
         ]);
     }
 
-    public function generateTronWallet(Request $request)
-    {
-        $request->validate([
-            'tnx_id' => 'required|numeric',
-            'asset_price' => 'required|numeric',
-        ]);
+    public function generateTronWalletForUser($user_id) {
+      $response = $this->client->request('GET', 'https://api.tatum.io/v3/tron/wallet', [
+        'headers' => [
+          'accept' => 'application/json',
+          'x-api-key' => 't-66a730ccccfd17001c479705-2f597d14ad7543f289a03418',
+        ]
+      ]);
 
-        $tron = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
-        $generatedWallet = $tron->createAccount();
+      $walletData = $response->json();
 
-        $renderer = new GDLibRenderer(130);
-        $writer = new Writer($renderer);
-        $qr_code = base64_encode($writer->writeString($generatedWallet->getAddress(true)));
+      dd($walletData);
 
-        $wallet = [
-            'user_id' => Auth::user()->id,
-            'tnx_id' => $request->tnx_id,
-            'trx_balance' => 0,
-            'usdt_balance' => 0,
-            'amount_in_usd' => 0,
-            'asset_price' => $request->asset_price,
-            'private_key' => $generatedWallet->getPrivateKey(),
-            'public_key' => $generatedWallet->getPublicKey(),
-            'address_hex' => $generatedWallet->getAddress(true),
-            'address_base58' => $generatedWallet->getAddress(),
-            'status' => 'generated',
-            'qr_code' => $qr_code,
-        ];
+      $generatedWallet = [
+          'user_id' => $user_id,
+          'trx_balance' => 0,
+          'usdt_balance' => 0,
+          'private_key' => $walletData['data']['privateKey'],
+          'public_key' => $walletData['data']['publicKey'],
+          'address_hex' => $walletData['data']['address'],
+          'address_base58' => '',
+          'qr_code' => $qr_code,
+          'asset' => 'TRX',
+      ];
 
-        GeneratedTronWallet::create($wallet);
-
-        return response()->json([
-            'success' => true,
-            'tnx_id' => $request->tnx_id,
-            'wallet_address' => $generatedWallet->getAddress(true),
-            'qr_code' => $qr_code,
-        ]);
+      // Create a new wallet record in your database
+      GeneratedTronWallet::create($generatedWallet);
     }
 
-    public function generateTronWalletForUser($user_id)
+    public function oldGenerateTronWalletForUser($user_id)
     {
       $tron = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
       $generatedWallet = $tron->createAccount();

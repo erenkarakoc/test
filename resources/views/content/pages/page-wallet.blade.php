@@ -344,7 +344,7 @@
         <div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage" tabindex="0">
           <h6 class="mb-2 lh-1">Manage Wallet</h6>
           <small class="lh-1">
-            Add, remove, edit your wallet addresses
+            Add, remove, edit your external wallet addresses
           </small>
 
           <div class="row row-gap-4 mt-7">
@@ -541,54 +541,6 @@
             Add funds to your wallet
           </small>
 
-          <div class="row row-gap-4 mt-7">
-            @foreach ($assets as $asset)
-              <div class="col col-12">
-                <div class="card bg-light">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <span>
-                          {!! $walletIcons[$asset->symbol] ?? '' !!}
-                        </span>
-                        <div class="d-flex flex-column ms-2">
-                          <h5 class="mb-1 lh-1">{{ $asset->symbol }}</h5>
-                          <span class="text-light lh-1">{{ $asset->title }}</span>
-                        </div>
-                      </div>
-
-                      <div class="d-flex flex-column text-end">
-                        <span class="h6 mb-0">0.00$</span>
-                        <small class="text-light">0.00 {{ $asset->symbol }}</small>
-                      </div>
-                    </div>
-
-                    <label for="wallet-addres-{{ $asset->symbol }}" class="wallet-address-label mt-6">
-                      <span class="chosen-asset-text">{{ $asset->symbol }}</span>
-                      <span class="chosen-asset-network">({{ $asset->network }})</span>
-                      <span> address</span>
-                    </label>
-                    <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
-                      data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
-                      data-bs-content="Click to copy">
-                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG" readonly
-                        id="wallet-addres-{{ $asset->symbol }}" />
-                      <span class="wallet-address-copy">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                          <path fill="currentColor"
-                            d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
-                          <path fill="currentColor"
-                            d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
-                            opacity=".5" />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            @endforeach
-          </div>
-
           <div class="row mt-7">
             <div class="d-flex flex-column row-gap-2">
               <small class="d-flex align-items-start text-primary gap-2">
@@ -612,10 +564,56 @@
                   <path fill="currentColor"
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
-                Be cautious about sending funds to the correct address. Sending funds to incorrect crypto addresses
-                might result in losing funds in blockchain temporarily.
+                Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in
+                losing funds in blockchain.
               </small>
             </div>
+          </div>
+
+          <div class="row row-gap-4 mt-7">
+            @foreach ($assets as $asset)
+              <div class="col col-6">
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <span>
+                          {!! $walletIcons[$asset->symbol] ?? '' !!}
+                        </span>
+                        <div class="d-flex flex-column ms-2">
+                          <h5 class="mb-1 lh-1">{{ $asset->title }}</h5>
+                          <span class="text-light lh-1">{{ $asset->symbol }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column text-end">
+                        <span class="h6 mb-0">0.00$</span>
+                        <small class="text-light">0.00 {{ $asset->symbol }}</small>
+                      </div>
+                    </div>
+
+                    <label for="wallet-addres-{{ $asset->symbol }}" class="wallet-address-label mt-6">
+                      <span class="chosen-asset-network">{{ $asset->network }} Network</span>
+                    </label>
+                    <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
+                      data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                      data-bs-content="Click to copy">
+                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG" readonly
+                        id="wallet-addres-{{ $asset->symbol }}" />
+                      <span class="wallet-address-copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                          <path fill="currentColor"
+                            d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                            opacity=".5" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
           </div>
         </div>
       </div>
@@ -829,7 +827,7 @@
                         d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                     </svg>
                     Please ensure you provide a correct wallet address, especially with correct blockchain network (eg.
-                    TRC-20). Incorrect addresses may result in lost funds on the blockchain.
+                    TRC-20 for TRX or USDT). Incorrect addresses may result in lost funds on the blockchain.
                   </small>
                 </div>
               </div>

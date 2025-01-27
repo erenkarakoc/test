@@ -39,11 +39,10 @@ class UserBalancesController extends Controller
                 'balance' => 0,
                 'locked_balance' => 0,
             ]);
-
-            if ($asset->symbol === "TRX" && "USDT") {
-              $tronApi->generateTronWalletForUser($user_id);
-            }
         }
+
+        // Tron Wallet
+        $tronApi->generateTronWalletForUser($user_id);
     }
 
     /**

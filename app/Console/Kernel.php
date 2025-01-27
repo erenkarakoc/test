@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\CheckGeneratedTronWallets::class,
+        Commands\TronCheckWallets::class,
         Commands\AddReceivedTronBalanceToUser::class,
         Commands\SendReceivedTronBalanceToMainWallet::class,
         Commands\UpdateMarketData::class,

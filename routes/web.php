@@ -80,7 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/generate-tron-wallet', [TronApiController::class, 'generateTronWallet'])->name('generate-new-wallet');
     Route::post('/check-tron-wallet-balance', [TronApiController::class, 'checkTronWalletBalance'])->name('check-tron-wallet-balance');
     Route::post('/get-generated-tron-wallet-by-transaction', [TronApiController::class, 'getGeneratedTronWalletByTransaction'])->name('get-generated-tron-wallet-qr-code');
-    Route::get('/test-tron-api', [TestController::class, 'test'])->name('test-tron-api');
+    Route::get('/test-api', [TestController::class, 'test'])->name('test-api');
 });
 
 // Admin Pages

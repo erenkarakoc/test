@@ -157,6 +157,8 @@
       text-align: left;
       font-weight: 300;
       line-height: 1;
+      text-overflow: ellipsis;
+      margin-right: 0.5rem;
     }
 
     &:active,
