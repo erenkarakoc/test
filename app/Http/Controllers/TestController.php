@@ -11,9 +11,7 @@ use GuzzleHttp\Client;
 
 class TestController extends Controller
 {
-  protected $address;
 
-  protected $priv;
 
   public function __construct()
   {
