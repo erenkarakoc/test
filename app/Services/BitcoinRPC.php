@@ -10,7 +10,7 @@ class BitcoinRPC {
     protected $rpcPassword;
 
     public function __construct() {
-        $this->client = new Client(['base_uri' => 'http://127.0.0.1:8332/']);
+        $this->client = new Client(['base_uri' => 'http://127.0.0.1:18332/']);
         $this->rpcUser = config('bitcoin.rpc_user');
         $this->rpcPassword = config('bitcoin.rpc_password');
     }

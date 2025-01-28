@@ -19,7 +19,8 @@ class TestController extends Controller
     public function test()
     {
         $bitcoin = new BitcoinRPC();
-        $response = $bitcoin->call('getnewaddress');
-        dd($response);
+        $response = $bitcoin->call('sendtoaddress', [
+      ]);
+      return $response;
     }
 }
