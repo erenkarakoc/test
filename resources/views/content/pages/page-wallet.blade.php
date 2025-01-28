@@ -571,7 +571,13 @@
           </div>
 
           <div class="row row-gap-4 mt-7">
-            @foreach ($assets as $asset)
+            @php
+              $sortedAssets = collect($assets)->sortByDesc(function ($asset) use ($walletAddresses) {
+                  return isset($walletAddresses[$asset->symbol]) ? 1 : 0;
+              });
+            @endphp
+
+            @foreach ($sortedAssets as $asset)
               <div class="col col-6">
                 <div class="card bg-light">
                   <div class="card-body">

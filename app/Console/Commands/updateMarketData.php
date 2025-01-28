@@ -76,6 +76,6 @@ class UpdateMarketData extends Command
       );
     }
 
-    $this->info('Updated market data successfully.');
+    $this->info('Updated market data successfully!');
   }
 }

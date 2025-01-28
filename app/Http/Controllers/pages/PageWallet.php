@@ -4,7 +4,7 @@ namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
-use App\Models\Blockchains\GeneratedBitcoinWallet;
+use App\Models\Blockchains\GeneratedBscWallet;
 use App\Models\Blockchains\GeneratedTronWallet;
 use App\Models\UserBalances;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ class PageWallet extends Controller
     $walletAddresses = [
       'TRX' => GeneratedTronWallet::where('user_id', $user->id)->first()->value('address_hex'),
       'USDT' => GeneratedTronWallet::where('user_id', $user->id)->first()->value('address_hex'),
-      'BTC' => GeneratedBitcoinWallet::where('user_id', $user->id)->first()->value('address')
+      'BNB' => GeneratedBscWallet::where('user_id', $user->id)->first()->value('address')
     ];
 
     return view('content.pages.page-wallet', compact('user', 'assets', 'wallet', 'activeWallets', 'inactiveWallets', 'userBalances', 'walletAddresses'));
