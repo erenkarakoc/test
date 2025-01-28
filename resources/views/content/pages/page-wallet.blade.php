@@ -595,21 +595,36 @@
                     <label for="wallet-addres-{{ $asset->symbol }}" class="wallet-address-label mt-6">
                       <span class="chosen-asset-network">{{ $asset->network }} Network</span>
                     </label>
-                    <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
-                      data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
-                      data-bs-content="Click to copy">
-                      <input type="text" class="wallet-address" value="TYKTXAo249P8j2Z69is5iZhZpmFTpsWifG" readonly
-                        id="wallet-addres-{{ $asset->symbol }}" />
-                      <span class="wallet-address-copy">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                          <path fill="currentColor"
-                            d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
-                          <path fill="currentColor"
-                            d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
-                            opacity=".5" />
-                        </svg>
-                      </span>
-                    </div>
+
+                    @if (isset($walletAddresses[$asset->symbol]))
+                      <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
+                        data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                        data-bs-content="Click to copy">
+                        <input type="text" class="wallet-address" value="{{ $walletAddresses[$asset->symbol] }}"
+                          readonly id="wallet-addres-{{ $asset->symbol }}" />
+                        <span class="wallet-address-copy">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                              d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                            <path fill="currentColor"
+                              d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                              opacity=".5" />
+                          </svg>
+                        </span>
+                      </div>
+                    @else
+                      <div class="wallet-address-wrapper network-under-maintenance mt-1">
+                        <span class="text-center w-100">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                              d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3"
+                              opacity=".5" />
+                            <path fill="currentColor"
+                              d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                          </svg>
+                          <span class="ms-1">Under Maintenance</span>
+                      </div>
+                    @endif
                   </div>
                 </div>
               </div>

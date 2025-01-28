@@ -14,7 +14,7 @@ use App\Http\Controllers\pages\PageWallet;
 use App\Http\Controllers\pages\user\PageUserProfile;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\TronApiController;
+use App\Http\Controllers\Blockchains\TronApiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use App\Http\Middleware\AdminMiddleware;

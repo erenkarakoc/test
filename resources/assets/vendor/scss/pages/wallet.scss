@@ -129,9 +129,10 @@
   }
 
   .wallet-address-wrapper {
-    cursor: pointer;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    min-height: 46px;
     margin: 0 0;
     padding: 10px 20px;
     background-color: #0e0e0e;
@@ -161,13 +162,28 @@
       margin-right: 0.5rem;
     }
 
-    &:active,
-    &:hover,
-    &:focus {
+    &:not(.network-under-maintenance):active,
+    &:not(.network-under-maintenance):hover,
+    &:not(.network-under-maintenance):focus {
+      cursor: pointer;
       color: var(--bs-primary);
       background-color: #0c0c0c;
       border-color: var(--bs-primary);
       box-shadow: 0 0 10px -4px var(--bs-primary);
+    }
+
+    &.network-under-maintenance {
+      user-select: none;
+
+      span {
+        opacity: 0.7;
+        font-size: 13px;
+      }
+
+      svg {
+        opacity: 0.7;
+        margin-bottom: 3px;
+      }
     }
   }
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blockchains\GeneratedBitcoinWallet;
 use App\Services\BitcoinRPC;
+use BaconQrCode\Renderer\GDLibRenderer;
+use BaconQrCode\Writer;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 
 class TestController extends Controller
 {
@@ -19,8 +21,17 @@ class TestController extends Controller
     public function test()
     {
         $bitcoin = new BitcoinRPC();
-        $response = $bitcoin->call('sendtoaddress', [
-      ]);
-      return $response;
+        $generatedWallet = $bitcoin->call('getnewaddress');
+
+        $renderer = new GDLibRenderer(130);
+        $writer = new Writer($renderer);
+        $qr_code = base64_encode($writer->writeString($generatedWallet['result']));
+
+        GeneratedBitcoinWallet::create([
+            'user_id' => 1,
+            'balance' => 0.00,
+            'address' => $generatedWallet['result'],
+            'qr_code' => $qr_code,
+        ]);
     }
 }
