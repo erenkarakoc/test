@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Blockchains;
 
-use App\Models\Blockchains\GeneratedBitcoinWallet;
 use App\Models\Blockchains\GeneratedBSCWallet;
 use App\Services\BSCService;
 use BaconQrCode\Renderer\GDLibRenderer;
