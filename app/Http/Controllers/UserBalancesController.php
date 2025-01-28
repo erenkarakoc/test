@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Blockchains\BitcoinApiController;
+use App\Http\Controllers\Blockchains\BSCApiController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Models\Asset;
 use App\Models\UserBalances;
@@ -43,10 +44,10 @@ class UserBalancesController extends Controller
     }
 
     $tronApi = new TronApiController;
-    $bitcoinApi = new BitcoinApiController;
+    $bscApi = new BSCApiController;
 
     $tronApi->generateTronWalletForUser($user_id);
-    $bitcoinApi->generateBitcoinWalletForUser($user_id);
+    $bscApi->generateBSCWalletForUser($user_id);
   }
 
   /**

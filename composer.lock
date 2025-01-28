@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3674c664c56d5619f5f20a96bbe7113",
+    "content-hash": "ef423d6672a9f63ab4c40e681a838eab",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1381,6 +1381,59 @@
             "time": "2020-10-15T18:16:13+00:00"
         },
         {
+            "name": "kornrunner/ethereum-offline-raw-tx",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kornrunner/php-ethereum-offline-raw-tx.git",
+                "reference": "6a7d88746c09bed7bb7ef088b707ef63eadc2bbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kornrunner/php-ethereum-offline-raw-tx/zipball/6a7d88746c09bed7bb7ef088b707ef63eadc2bbd",
+                "reference": "6a7d88746c09bed7bb7ef088b707ef63eadc2bbd",
+                "shasum": ""
+            },
+            "require": {
+                "kornrunner/keccak": "^1.0",
+                "kornrunner/rlp": "^0.3",
+                "kornrunner/secp256k1": "^0.2",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kornrunner\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Boris Momcilovic",
+                    "homepage": "https://github.com/kornrunner/php-ethereum-offline-tx"
+                }
+            ],
+            "description": "Pure PHP Ethereum Offline Raw Transaction Signer",
+            "keywords": [
+                "eth",
+                "ethereum",
+                "offline",
+                "transaction",
+                "tx"
+            ],
+            "support": {
+                "issues": "https://github.com/kornrunner/php-ethereum-offline-raw-tx/issues",
+                "source": "https://github.com/kornrunner/php-ethereum-offline-raw-tx/tree/0.6.0"
+            },
+            "time": "2023-02-09T22:03:59+00:00"
+        },
+        {
             "name": "kornrunner/keccak",
             "version": "1.1.0",
             "source": {
@@ -1428,6 +1481,49 @@
                 "source": "https://github.com/kornrunner/php-keccak/tree/1.1.0"
             },
             "time": "2020-12-07T15:40:44+00:00"
+        },
+        {
+            "name": "kornrunner/rlp",
+            "version": "0.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kornrunner/rlp.git",
+                "reference": "39a075058ef2f3df8484be63161754ab60fff74c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kornrunner/rlp/zipball/39a075058ef2f3df8484be63161754ab60fff74c",
+                "reference": "39a075058ef2f3df8484be63161754ab60fff74c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 | ^8.0 | ^8.1 | ^8.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~7|~8.0|~9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kornrunner\\RLP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "sc0Vu",
+                    "email": "alk03073135@gmail.com"
+                }
+            ],
+            "description": "Recursive Length Prefix Encoding in PHP.",
+            "support": {
+                "source": "https://github.com/kornrunner/rlp/tree/0.3.6"
+            },
+            "time": "2023-02-09T21:54:06+00:00"
         },
         {
             "name": "kornrunner/secp256k1",
