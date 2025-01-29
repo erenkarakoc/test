@@ -4,14 +4,12 @@ namespace App\Console\Commands\Blockchain;
 
 use App\Http\Controllers\TransactionController;
 use App\Models\Blockchains\GeneratedBscWallet;
-use App\Models\Blockchains\GeneratedTronWallet;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBalances;
 use App\Services\UserBalancesService;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class BscGetTransactions extends Command
@@ -29,12 +27,6 @@ class BscGetTransactions extends Command
    * @var string
    */
   protected $description = 'Gets transactions of all BSC addresses';
-
-  protected $fullNode;
-
-  protected $solidityNode;
-
-  protected $eventServer;
 
   protected $userBalancesService;
 
@@ -100,31 +92,5 @@ class BscGetTransactions extends Command
         }
       }
     }
-  }
-
-  /**
-   * Get the latest USDT (TRC-20) transactions to an address
-   */
-  private function getLatestUsdtTransaction($address)
-  {
-    $client = new Client;
-
-    $url = "https://api.shasta.trongrid.io/v1/accounts/{$address}/transactions/trc20";
-
-    $response = $client->get($url);
-
-    $trc20ContractAddress = 'TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs';
-
-    if ($response->getStatusCode() === 200) {
-      $data = json_decode($response->getBody(), true);
-
-      $filteredTransactions = array_filter($data['data'], function ($transaction) use ($trc20ContractAddress) {
-        return isset($transaction['to']) && strtolower($transaction['to']) === strtolower($trc20ContractAddress);
-      });
-
-      return array_values($filteredTransactions);
-    }
-
-    return [];
   }
 }
