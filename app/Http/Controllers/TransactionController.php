@@ -8,12 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-  /**
-   * Create a new transaction.
-   *
-   * @param  array  $newTransaction
-   * @return \Illuminate\Http\JsonResponse
-   */
+
   public function createTransaction($newTransaction)
   {
     $transaction = Transaction::create([
@@ -37,11 +32,6 @@ class TransactionController extends Controller
     return $transaction;
   }
 
-  /**
-   * Cancel the transaction with the provided Transaction ID.
-   *
-   * @return \Illuminate\Http\JsonResponse
-   */
   public function cancelTransaction(Request $request)
   {
     $request->validate([
@@ -66,5 +56,12 @@ class TransactionController extends Controller
     $transaction = Transaction::where('tnx_id', $request->tnx_id)->first();
 
     return response()->json($transaction);
+  }
+
+  public function setTransactionStatus($tnx_id, $newStatus)
+  {
+    $transaction = Transaction::where('tnx_id', $tnx_id)->first();
+    $transaction->status = $newStatus;
+    $transaction->save();
   }
 }

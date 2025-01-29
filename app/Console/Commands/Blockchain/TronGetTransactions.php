@@ -4,6 +4,7 @@ namespace App\Console\Commands\Blockchain;
 
 use App\Http\Controllers\TransactionController;
 use App\Models\Blockchains\GeneratedTronWallet;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBalances;
 use App\Services\UserBalancesService;
@@ -52,6 +53,7 @@ class TronGetTransactions extends Command
   {
     $client = new Client;
     $generatedWallets = GeneratedTronWallet::all();
+    $marketDataPrices = View::getShared()['marketDataPrices'];
 
     foreach ($generatedWallets as $wallet) {
       $url = "https://api.shasta.trongrid.io/v1/accounts/{$wallet->address_hex}/transactions";
@@ -61,35 +63,38 @@ class TronGetTransactions extends Command
         $transactions = json_decode($response->getBody(), true)['data'];
 
         foreach ($transactions as $transaction) {
-          $toAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['to_address'];
-          $type = $toAddress === $wallet->address_base58 ? 'received' : 'sent';
-          $amount = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] / 1000000;
-          $marketDataPrices = View::getShared()['marketDataPrices'];
+          $existingTransaction = Transaction::where('hash_id', $transaction['txID'])->first();
 
-          $trxBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('balance');
-          $trxLockedBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('locked_balance');
+          if (!isset($existingTransaction)) {
+            $toAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['to_address'];
+            $type = $toAddress === $wallet->address_base58 ? 'received' : 'sent';
+            $amount = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] / 1000000;
 
-          [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($wallet->user_id);
+            $trxBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('balance');
+            $trxLockedBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('locked_balance');
 
-          $newTransaction = [
-            'tnx_id' => mt_rand(10000000, 99999999),
-            'user_id' => $wallet->user_id,
-            'ref_user_id' => $userModel->where('id', $wallet->user_id)->value('ref_user_id'),
-            'type' => $type,
-            'amount_in_asset' => $amount,
-            'amount_in_usd' => $amount * $marketDataPrices['TRX'],
-            'asset' => 'TRX',
-            'asset_price' => $marketDataPrices['TRX'],
-            'asset_balance_after' => $trxBalance,
-            'asset_locked_balance_after' => $trxLockedBalance,
-            'total_balance_after' => $totalBalance,
-            'total_locked_balance_after' => $totalLockedBalance,
-            'strategy_pack_id' => null,
-            'status' => 'completed',
-            'hash_id' => $transaction['txID'],
-          ];
+            [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($wallet->user_id);
 
-          $transactionController->createTransaction($newTransaction);
+            $newTransaction = [
+              'tnx_id' => mt_rand(10000000, 99999999),
+              'user_id' => $wallet->user_id,
+              'ref_user_id' => $userModel->where('id', $wallet->user_id)->value('ref_user_id'),
+              'type' => $type,
+              'amount_in_asset' => $amount,
+              'amount_in_usd' => $amount * $marketDataPrices['TRX'],
+              'asset' => 'TRX',
+              'asset_price' => $marketDataPrices['TRX'],
+              'asset_balance_after' => $trxBalance,
+              'asset_locked_balance_after' => $trxLockedBalance,
+              'total_balance_after' => $totalBalance,
+              'total_locked_balance_after' => $totalLockedBalance,
+              'strategy_pack_id' => null,
+              'status' => 'pending',
+              'hash_id' => $transaction['txID'],
+            ];
+
+            $transactionController->createTransaction($newTransaction);
+          }
         }
       }
     }
@@ -98,20 +103,13 @@ class TronGetTransactions extends Command
   /**
    * Get the latest USDT (TRC-20) transactions to an address
    */
-  private function getLatestUsdtTransaction($address, $limit, $onlyToThisAddress = true)
+  private function getLatestUsdtTransaction($address)
   {
     $client = new Client;
 
     $url = "https://api.shasta.trongrid.io/v1/accounts/{$address}/transactions/trc20";
 
-    $query = [
-      'only_to' => $onlyToThisAddress,
-      'limit' => $limit,
-    ];
-
-    $response = $client->get($url, [
-      'query' => $query,
-    ]);
+    $response = $client->get($url);
 
     $trc20ContractAddress = 'TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs';
 
@@ -128,5 +126,3 @@ class TronGetTransactions extends Command
     return [];
   }
 }
-
-

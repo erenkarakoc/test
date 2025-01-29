@@ -24,6 +24,11 @@
     }
   }
 
+  .transaction-hash-id {
+    max-width: 100%;
+    word-break: break-all;
+  }
+
   #received-pending {
     .card-body {
       text-align: center;

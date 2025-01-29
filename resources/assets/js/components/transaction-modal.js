@@ -32,10 +32,14 @@
     const transactionAmountInUsd = document.querySelectorAll('.transaction-amount-in-usd');
     const transactionAmountInUsdPlain = document.querySelectorAll('.transaction-amount-in-usd-plain');
     const transactionAmountInAsset = document.querySelectorAll('.transaction-amount-in-asset');
-    const transactionQrCode = document.querySelector('.transaction-qr-code');
-    const transactionReceivedPending = document.querySelector('#received-pending');
-    const transactionNetwork = document.querySelector('.transaction-network');
-    const transactionWalletAddress = document.querySelector('.transaction-wallet-address');
+    const transactionAssetBalanceAfter = document.querySelector('.transaction-asset-balance-after');
+    const transactionTotalBalanceAfter = document.querySelector('.transaction-total-balance-after');
+    const transactionHashIdWrapper = document.querySelector('.transaction-hash-id-wrapper');
+    const transactionHashId = transactionHashIdWrapper.querySelector('.transaction-hash-id');
+    const transactionCreatedDate = document.querySelector('.transaction-created-date');
+    const transactionConfirmedDate = document.querySelector('.transaction-confirmed-date');
+    const transactionNotesWrapper = document.querySelector('.transaction-notes-wrapper');
+    const transactionNotes = document.querySelector('.transaction-notes');
 
     transactionDetailIcon.querySelectorAll('svg').forEach(svg => svg.classList.add('d-none'));
     transactionDetailIcon.querySelector('.transaction-' + transaction.type).classList.remove('d-none');
@@ -50,7 +54,6 @@
     );
     transactionTnxText.forEach(el => (el.innerHTML = transaction.tnx_id));
     transactionAsset.forEach(el => (el.innerHTML = transaction.asset));
-    transactionNetwork.innerHTML = '(TRC-20)';
 
     transactionAmountInUsd.forEach(el => {
       if (transaction.type === 'sent') {
@@ -62,22 +65,61 @@
       }
     });
     transactionAmountInUsdPlain.forEach(el => (el.innerHTML = Number(transaction.amount_in_usd).toFixed(2)));
-    transactionAmountInAsset.forEach(el => (el.innerHTML = Number(transaction.amount_in_asset).toFixed(2)));
 
-    transactionReceivedPending.classList.add('d-none');
-    transactionQrCode.classList.add('d-none');
-    if (
-      transaction.type === 'received' &&
-      transaction.status === 'pending' &&
-      (transaction.asset === 'USDT' || transaction.asset === 'TRX')
-    ) {
-      transactionReceivedPending.classList.remove('d-none');
+    transactionAmountInAsset.forEach(el => {
+      if (transaction.type === 'sent') {
+        el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_asset).toFixed(2)}</span>`;
+      } else if (transaction.type === 'locked') {
+        el.innerHTML = `<span class="text-light">-${Number(transaction.amount_in_asset).toFixed(2)}</span>`;
+      } else {
+        el.innerHTML = `<span class="text-success">+${Number(transaction.amount_in_asset).toFixed(2)} ${transaction.asset}</span>`;
+      }
+    });
 
-      const tronWallet = await postRequest('/get-generated-tron-wallet-by-transaction', { tnx_id: transaction.tnx_id });
-      transactionQrCode.classList.remove('d-none');
-      transactionQrCode.querySelector('img').setAttribute('src', `data:image/png;base64,${tronWallet.qr_code}`);
+    transactionAssetBalanceAfter.innerHTML = transaction.asset_balance_after + ' ' + transaction.asset;
+    transactionTotalBalanceAfter.innerHTML =
+      transaction.total_balance_after + transactionTotalBalanceAfter.getAttribute('data-symbol');
 
-      transactionWalletAddress.value = tronWallet.address_hex;
+    transactionHashIdWrapper.classList.add('d-none');
+    if (transaction.hash_id) {
+      let explorerLink = '';
+
+      if (transaction.asset === 'TRX' || transaction.asset === 'USDT') {
+        explorerLink = 'https://tronscan.org/#/transaction/';
+      } else if (transaction.asset === 'BNB') {
+        explorerLink = 'https://bscscan.com/tx/';
+      }
+
+      transactionHashIdWrapper.classList.remove('d-none');
+      transactionHashId.setAttribute('href', explorerLink + transaction.hash_id);
+      transactionHashId.innerHTML = transaction.hash_id;
+    }
+
+    const createdDate = new Date(transaction.created_at);
+    transactionCreatedDate.innerHTML = createdDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const confirmedDate = new Date(transaction.updated_at);
+    transactionConfirmedDate.innerHTML = confirmedDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+
+    transactionNotesWrapper.classList.add('d-none');
+    const notesPopover = document
+      .querySelector('[data-tnx-id="' + transaction.tnx_id + '"]')
+      .querySelector('.popover-trigger');
+
+    if (notesPopover) {
+      transactionNotesWrapper.classList.remove('d-none');
+      transactionNotes.innerHTML = notesPopover.getAttribute('data-bs-content');
     }
   };
 
@@ -90,29 +132,5 @@
 
       transactionDetailModal.show();
     });
-  });
-
-  const walletAddressWrapper = document.querySelector('.wallet-address-wrapper');
-  const walletAddress = walletAddressWrapper.querySelector('#walletAddress');
-  walletAddressWrapper.addEventListener('click', () => {
-    const walletAddressPopover = document.querySelector('.wallet-address-popover');
-    navigator.clipboard.writeText(walletAddress.value.trim());
-
-    walletAddressPopover.style.left = '12px';
-    walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
-    walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
-
-    walletAddress.select();
-  });
-
-  const chosenAssetAmountWrapper = document.querySelector('.chosen-asset-amount-wrapper');
-  const chosenAssetAmount = document.querySelector('#chosenAssetAmount');
-  chosenAssetAmountWrapper.addEventListener('click', () => {
-    const chosenAssetAmountPopover = document.querySelector('.chosen-asset-amount-popover');
-
-    navigator.clipboard.writeText(chosenAssetAmount.textContent);
-    chosenAssetAmountPopover.style.left = '12px';
-    chosenAssetAmountPopover.querySelector('.popover-body').textContent = 'Copied';
-    chosenAssetAmountPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
   });
 })();
