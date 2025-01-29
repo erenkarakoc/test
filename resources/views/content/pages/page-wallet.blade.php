@@ -552,8 +552,10 @@
                   <path fill="currentColor"
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
-                Make sure you choose correct network for each asset when sending funds from the external wallet. For
-                example if you want to receive TRX or USDT, you should use TRC-20 network.
+                <span>
+                  Make sure you choose correct network (eg. TRC-20 for USDT and TRX) for each asset when sending funds
+                  from the external wallet.
+                </span>
               </small>
               <small class="d-flex align-items-start text-danger gap-2">
                 <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -564,8 +566,7 @@
                   <path fill="currentColor"
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
-                Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in
-                losing funds in blockchain.
+                <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in losing funds in blockchain.</span>
               </small>
             </div>
           </div>
@@ -629,8 +630,11 @@
                               'title' => $asset->title,
                               'symbol' => $asset->symbol,
                               'icon' => $walletIcons[$asset->symbol] ?? '',
-                              'amount_in_usd' => number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2),
-                              'amount_in_asset' =>number_format($userBalances->where('wallet', $asset->symbol)->value('balance') , 2),
+                              'amount_in_usd' => number_format(
+                                  $userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol],
+                                  2,
+                              ),
+                              'amount_in_asset' => number_format($userBalances->where('wallet', $asset->symbol)->value('balance'), 2),
                               'network' => $asset->network,
                               'address' => $walletAddresses[$asset->symbol]['address'],
                               'qr_code' => $walletAddresses[$asset->symbol]['qr_code'],
@@ -984,7 +988,8 @@
                       d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                   </svg>
                   <span>
-                    Make sure you choose <span class="walletDetailModalNetwork"></span> network for each asset when
+                    Make sure you choose <span class="walletDetailModalNetwork"></span> network for <span
+                      class="walletDetailModalSymbol"></span> when
                     sending funds from the external wallet.
                   </span>
                 </small>
@@ -997,8 +1002,7 @@
                     <path fill="currentColor"
                       d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                   </svg>
-                  Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in
-                  losing funds in blockchain.
+                  <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in losing funds in blockchain.</span>
                 </small>
               </div>
             </div>
