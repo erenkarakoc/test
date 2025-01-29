@@ -549,7 +549,6 @@
   });
 
   const walletAddressWrapper = document.querySelectorAll('.wallet-address-wrapper');
-
   walletAddressWrapper.forEach(wrapper => {
     wrapper.addEventListener('click', () => {
       const walletAddressPopover = document.querySelector('.wallet-address-popover');
@@ -561,6 +560,42 @@
       walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
 
       walletAddress.select();
+    });
+  });
+
+  const walletAccountModalAddress = document.querySelector('#walletAccountModalAddress');
+  walletAccountModalAddress.addEventListener('click', () => {
+    const walletAddressPopover = walletAccountModalAddress.querySelector('.wallet-address-popover');
+    const walletAddress = wrapper.querySelector('.wallet-address');
+    navigator.clipboard.writeText(walletAddress.value.trim());
+
+    walletAddressPopover.style.left = '12px';
+    walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
+    walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
+
+    walletAddress.select();
+  });
+
+  const walletAddressToggleBtn = document.querySelectorAll('.wallet-address-toggle-btn');
+  const walletDetailModalIcon = document.querySelector('#walletDetailModalIcon');
+  const walletDetailModalTitle = document.querySelector('#walletDetailModalTitle');
+  const walletDetailModalSymbol = document.querySelectorAll('.walletDetailModalSymbol');
+  const walletDetailModalAmountInUsd = document.querySelector('#walletDetailModalAmountInUsd');
+  const walletDetailModalAmountInAsset = document.querySelector('#walletDetailModalAmountInAsset');
+  const walletDetailModalQRCode = document.querySelector('#walletDetailModalQRCode');
+  const walletDetailModalNetwork = document.querySelectorAll('.walletDetailModalNetwork');
+  walletAddressToggleBtn.forEach(button => {
+    button.addEventListener('click', () => {
+      const data = JSON.parse(button.getAttribute('data-account-data'));
+
+      walletDetailModalIcon.innerHTML = data.icon;
+      walletDetailModalTitle.innerHTML = data.title;
+      walletDetailModalSymbol.forEach(symbol => (symbol.innerHTML = data.symbol));
+      walletDetailModalAmountInUsd.innerHTML = data.amount_in_usd;
+      walletDetailModalAmountInAsset.innerHTML = data.amount_in_asset;
+      walletDetailModalNetwork.forEach(network => (network.innerHTML = data.network));
+      walletDetailModalQRCode.src = 'data:image/png;base64,' + data.qr_code;
+      walletAccountModalAddress.value = data.address;
     });
   });
 

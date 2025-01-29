@@ -579,7 +579,7 @@
 
             @foreach ($sortedAssets as $asset)
               <div class="col col-6">
-                <div class="card bg-light">
+                <div class="wallet-account-item card bg-light">
                   <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between">
                       <div class="d-flex align-items-center">
@@ -593,30 +593,57 @@
                       </div>
 
                       <div class="d-flex flex-column text-end">
-                        <span class="h6 mb-0">0.00$</span>
-                        <small class="text-light">0.00 {{ $asset->symbol }}</small>
+                        <span
+                          class="h6 mb-0">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2) }}$</span>
+                        <small
+                          class="text-light">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance'), 2) }}
+                          {{ $asset->symbol }}</small>
                       </div>
                     </div>
 
                     <label for="wallet-addres-{{ $asset->symbol }}" class="wallet-address-label mt-6">
-                      <span class="chosen-asset-network">{{ $asset->network }} Network</span>
+                      <span class="chosen-asset-network">{{ $asset->network }} Network Address</span>
                     </label>
 
-                    @if (isset($walletAddresses[$asset->symbol]))
-                      <div class="wallet-address-wrapper mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
-                        data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
-                        data-bs-content="Click to copy">
-                        <input type="text" class="wallet-address" value="{{ $walletAddresses[$asset->symbol] }}"
-                          readonly id="wallet-addres-{{ $asset->symbol }}" />
-                        <span class="wallet-address-copy">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    @if (isset($walletAddresses[$asset->symbol]['address']))
+                      <div class="d-flex align-items-center">
+                        <div class="wallet-address-wrapper w-100 mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
+                          data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                          data-bs-content="Click to copy">
+                          <input type="text" class="wallet-address"
+                            value="{{ $walletAddresses[$asset->symbol]['address'] }}" readonly
+                            id="wallet-addres-{{ $asset->symbol }}" />
+                          <span class="wallet-address-copy">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                              <path fill="currentColor"
+                                d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                              <path fill="currentColor"
+                                d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                                opacity=".5" />
+                            </svg>
+                          </span>
+                        </div>
+                        <button type="button" class="wallet-address-toggle-btn btn btn-icon border ms-2"
+                          data-bs-toggle="modal" data-bs-target="#walletDetailModal"
+                          data-account-data="{{ json_encode([
+                              'title' => $asset->title,
+                              'symbol' => $asset->symbol,
+                              'icon' => $walletIcons[$asset->symbol] ?? '',
+                              'amount_in_usd' => number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2),
+                              'amount_in_asset' =>number_format($userBalances->where('wallet', $asset->symbol)->value('balance') , 2),
+                              'network' => $asset->network,
+                              'address' => $walletAddresses[$asset->symbol]['address'],
+                              'qr_code' => $walletAddresses[$asset->symbol]['qr_code'],
+                          ]) }}">
+                          <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 24 24">
                             <path fill="currentColor"
-                              d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
-                            <path fill="currentColor"
-                              d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                              d="M14 2.75c1.907 0 3.262.002 4.29.14c1.005.135 1.585.389 2.008.812s.677 1.003.812 2.009c.138 1.028.14 2.382.14 4.289a.75.75 0 0 0 1.5 0v-.056c0-1.838 0-3.294-.153-4.433c-.158-1.172-.49-2.121-1.238-2.87c-.749-.748-1.698-1.08-2.87-1.238c-1.14-.153-2.595-.153-4.433-.153H14a.75.75 0 0 0 0 1.5m-4.056-1.5H10a.75.75 0 0 1 0 1.5c-1.907 0-3.261.002-4.29.14c-1.005.135-1.585.389-2.008.812S3.025 4.705 2.89 5.71c-.138 1.029-.14 2.383-.14 4.29a.75.75 0 0 1-1.5 0v-.056c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238c1.14-.153 2.595-.153 4.433-.153M22 13.25a.75.75 0 0 1 .75.75v.056c0 1.838 0 3.294-.153 4.433c-.158 1.172-.49 2.121-1.238 2.87c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H14a.75.75 0 0 1 0-1.5c1.907 0 3.262-.002 4.29-.14c1.005-.135 1.585-.389 2.008-.812s.677-1.003.812-2.009c.138-1.027.14-2.382.14-4.289a.75.75 0 0 1 .75-.75M2.75 14a.75.75 0 0 0-1.5 0v.056c0 1.838 0 3.294.153 4.433c.158 1.172.49 2.121 1.238 2.87c.749.748 1.698 1.08 2.87 1.238c1.14.153 2.595.153 4.433.153H10a.75.75 0 0 0 0-1.5c-1.907 0-3.261-.002-4.29-.14c-1.005-.135-1.585-.389-2.008-.812s-.677-1.003-.812-2.009c-.138-1.027-.14-2.382-.14-4.289"
                               opacity=".5" />
+                            <path fill="currentColor"
+                              d="M5.527 5.527C5 6.054 5 6.903 5 8.6c0 1.131 0 1.697.351 2.049C5.703 11 6.27 11 7.4 11h1.2c1.131 0 1.697 0 2.049-.351C11 10.297 11 9.73 11 8.6V7.4c0-1.131 0-1.697-.351-2.049C10.297 5 9.73 5 8.6 5c-1.697 0-2.546 0-3.073.527m0 12.946C5 17.946 5 17.097 5 15.4c0-1.131 0-1.697.351-2.049C5.703 13 6.27 13 7.4 13h1.2c1.131 0 1.697 0 2.049.351c.351.352.351.918.351 2.049v1.2c0 1.131 0 1.697-.351 2.048C10.297 19 9.73 19 8.6 19c-1.697 0-2.546 0-3.073-.527M13 7.4c0-1.131 0-1.697.351-2.049C13.704 5 14.27 5 15.4 5c1.697 0 2.546 0 3.073.527S19 6.903 19 8.6c0 1.131 0 1.697-.352 2.049c-.35.351-.917.351-2.048.351h-1.2c-1.131 0-1.697 0-2.049-.351C13 10.297 13 9.73 13 8.6zm.352 11.249C13 18.297 13 17.73 13 16.6v-1.2c0-1.131 0-1.697.351-2.049C13.704 13 14.27 13 15.4 13h1.2c1.131 0 1.697 0 2.048.351c.352.352.352.918.352 2.049c0 1.697 0 2.546-.527 3.073S17.097 19 15.4 19c-1.131 0-1.697 0-2.049-.352" />
                           </svg>
-                        </span>
+                        </button>
                       </div>
                     @else
                       <div class="wallet-address-wrapper network-under-maintenance mt-1">
@@ -875,4 +902,109 @@
         </form>
       </div>
     </div>
-  @endsection
+
+    <div class="modal fade modal-lg" id="walletDetailModal" tabindex="-1" aria-labelledby="walletDetailModal"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="d-flex align-items-center">
+                <span id="walletDetailModalIcon"></span>
+                <div class="d-flex flex-column ms-2">
+                  <h5 class="mb-1 lh-1" id="walletDetailModalTitle"></h5>
+                  <span class="text-light lh-1 walletDetailModalSymbol"></span>
+                </div>
+              </div>
+
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+
+          <div class="divider my-6 border border-top-1 border-bottom-0"></div>
+
+          <div class="modal-body pt-0">
+            <div class="row">
+              <div class="col col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex flex-column text-start">
+                    <span class="h6 mb-0">Current Balance</span>
+                  </div>
+                  <div class="d-flex flex-column text-end">
+                    <span class="h6 mb-0"><span id="walletDetailModalAmountInUsd"></span>$</span>
+                    <small class="text-light">
+                      <span id="walletDetailModalAmountInAsset"></span> <span class="walletDetailModalSymbol"></span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider my-6 border border-top-1 border-bottom-0"></div>
+
+              <div class="col col-12">
+                <div id="walletAddressModalQR">
+                  <div class="qr-code-wrapper">
+                    <img src="data:image/png;base64," alt="QR Code" id="walletDetailModalQRCode">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col col-12">
+                <label for="walletAccountModalAddress" class="wallet-address-label mt-6">
+                  <span class="chosen-asset-network"><span class="walletDetailModalNetwork"></span> Network
+                    Address</span>
+                </label>
+                <div class="wallet-address-wrapper w-100 mt-1" data-bs-toggle="popover" data-bs-trigger="hover"
+                  data-bs-placement="top" data-bs-custom-class="popover-dark wallet-address-popover"
+                  data-bs-content="Click to copy">
+                  <input type="text" class="wallet-address" value="" readonly
+                    id="walletAccountModalAddress" />
+                  <span class="wallet-address-copy">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="currentColor"
+                        d="M6.6 11.397c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c2.715 0 4.073 0 4.916.847c.844.847.844 2.21.844 4.936v4.82c0 2.726 0 4.089-.844 4.936c-.843.847-2.201.847-4.916.847h-2.88c-2.716 0-4.073 0-4.917-.847s-.843-2.21-.843-4.936z" />
+                      <path fill="currentColor"
+                        d="M4.172 3.172C3 4.343 3 6.229 3 10v2c0 3.771 0 5.657 1.172 6.828c.617.618 1.433.91 2.62 1.048c-.192-.84-.192-1.996-.192-3.66v-4.819c0-2.726 0-4.089.843-4.936c.844-.847 2.201-.847 4.917-.847h2.88c1.652 0 2.8 0 3.638.19c-.138-1.193-.43-2.012-1.05-2.632C16.657 2 14.771 2 11 2S5.343 2 4.172 3.172"
+                        opacity=".5" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-7">
+              <div class="d-flex flex-column row-gap-2">
+                <small class="d-flex align-items-start text-primary gap-2">
+                  <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                      opacity=".4" />
+                    <path fill="currentColor"
+                      d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                  </svg>
+                  <span>
+                    Make sure you choose <span class="walletDetailModalNetwork"></span> network for each asset when
+                    sending funds from the external wallet.
+                  </span>
+                </small>
+                <small class="d-flex align-items-start text-danger gap-2">
+                  <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                      opacity=".4" />
+                    <path fill="currentColor"
+                      d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                  </svg>
+                  Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in
+                  losing funds in blockchain.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
