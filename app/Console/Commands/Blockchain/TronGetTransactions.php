@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands\Blockchain;
 
+use App\Http\Controllers\TransactionController;
 use App\Models\Blockchains\GeneratedTronWallet;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class TronGetTransactions extends Command
 {
@@ -39,23 +42,48 @@ class TronGetTransactions extends Command
   /**
    * Get the transactions to an address
    */
-  private function handle()
+  public function handle()
   {
     $client = new Client;
-    $tron = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
-
     $generatedWallets = GeneratedTronWallet::all();
 
     foreach ($generatedWallets as $wallet) {
-      $url = "https://api.shasta.trongrid.io/v1/accounts/{$wallet->address}/transactions";
-      $response = $client->get($url, );
+      $url = "https://api.shasta.trongrid.io/v1/accounts/{$wallet->address_hex}/transactions";
+      $response = $client->get($url);
 
       if ($response->getStatusCode() === 200) {
-        $data = json_decode($response->getBody(), true);
+        $transactions = json_decode($response->getBody(), true)['data'];
 
-        dd($data);
+        $transactionController = new TransactionController();
+        foreach ($transactions as $transaction) {
+          $toAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['to_address'];
+          $type = $toAddress === $wallet->address_base58 ? 'received' : 'sent';
+          $amount = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] / 1000000;
+          $marketDataPrices = View::getShared()['marketDataPrices'];
+          $userTotalBalance = View::getShared();
 
-        return $data['data'];
+          dd($userTotalBalance);
+
+          $newTransaction = [
+            'tnx_id' => mt_rand(10000000, 99999999),
+            'user_id' => Auth::user()->id,
+            'ref_user_id' => Auth::user()->ref_id,
+            'type' => $type,
+            'amount_in_asset' => $amount,
+            'amount_in_usd' => $amount * $marketDataPrices['TRX'],
+            'asset' => 'TRX',
+            'asset_price' => $marketDataPrices['TRX'],
+            'asset_balance_after' => 0,
+            'asset_locked_balance_after' => 0,
+            'total_balance_after' => 0,
+            'total_locked_balance_after' => 0,
+            'strategy_pack_id' => null,
+            'status' => 'completed',
+            'hash_id' => $transaction['txID'],
+          ];
+
+          $transactionController->createTransaction($newTransaction);
+        }
       }
     }
   }
