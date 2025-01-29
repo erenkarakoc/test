@@ -90,20 +90,20 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span>Amount in <span class="transaction-asset"></span></span>
-              <span class="transaction-amount-in-asset"></span>
+              <span class="fw-light">Amount in <span class="transaction-asset"></span></span>
+              <span class="transaction-amount-in-asset fw-medium"></span>
             </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span>Amount in USD</span>
-              <span class="transaction-amount-in-usd" data-symbol="$"></span>
+              <span class="fw-light">Amount in USD</span>
+              <span class="transaction-amount-in-usd fw-medium" data-symbol="$"></span>
             </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span><span class="transaction-asset"></span> Price</span>
-              <span class="transaction-asset-price" data-symbol="$"></span>
+              <span class="fw-light"><span class="transaction-asset"></span> Price</span>
+              <span class="transaction-asset-price fw-medium" data-symbol="$"></span>
             </div>
           </li>
         </ul>
@@ -112,13 +112,13 @@
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
               <span><span class="transaction-asset"></span> Balance After</span>
-              <span class="transaction-asset-balance-after"></span>
+              <span class="transaction-asset-balance-after fw-medium"></span>
             </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span>Total Balance After</span>
-              <span class="transaction-total-balance-after" data-symbol="$"></span>
+              <span class="fw-light">Total Balance After</span>
+              <span class="transaction-total-balance-after fw-medium" data-symbol="$"></span>
             </div>
           </li>
         </ul>
@@ -126,14 +126,14 @@
         <ul class="list-group mt-4">
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span>Created at</span>
-              <small class="transaction-created-date"></small>
+              <span class="fw-light">Created at</span>
+              <small class="transaction-created-date fw-medium"></small>
             </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
-              <span>Confirmed at</span>
-              <small class="transaction-confirmed-date"></small>
+              <span class="fw-light">Confirmed at</span>
+              <small class="transaction-confirmed-date fw-medium"></small>
             </div>
           </li>
         </ul>
@@ -144,7 +144,7 @@
           <li class="list-group-item">
             <div class="d-flex flex-column align-items-start">
               <div class="d-flex align-items-center mt-1 w-100">
-                <span>Hash ID:</span>
+                <span class="fw-light">Hash ID:</span>
                 <span class="popover-trigger text-light cursor-pointer ms-auto" data-bs-toggle="popover"
                   data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
                   data-bs-content="Hash ID can be used to verify a transaction through blockchain explorer platforms (eg. Tronscan, BscScan).">
@@ -156,7 +156,7 @@
                   </svg>
                 </span>
               </div>
-              <a href="#" target="_blank" class="transaction-hash-id mt-2"></a>
+              <a href="#" target="_blank" class="transaction-hash-id fw-medium mt-2"></a>
             </div>
           </li>
         </ul>

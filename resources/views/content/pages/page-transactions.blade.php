@@ -327,7 +327,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
                               @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
                               </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -450,7 +450,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
 @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
 </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -582,7 +582,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
 @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
 </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -720,7 +720,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
 @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
 </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -853,7 +853,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
 @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
 </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -988,7 +988,7 @@
                                 data-bs-custom-class="popover-dark"
                                 data-bs-content="<div class='d-flex flex-column row-gap-2'>
 @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
 </div>"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
