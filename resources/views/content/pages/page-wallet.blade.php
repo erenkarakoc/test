@@ -566,7 +566,8 @@
                   <path fill="currentColor"
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
-                <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in losing funds in blockchain.</span>
+                <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might
+                  result in losing funds in blockchain.</span>
               </small>
             </div>
           </div>
@@ -1002,7 +1003,8 @@
                     <path fill="currentColor"
                       d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                   </svg>
-                  <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might result in losing funds in blockchain.</span>
+                  <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might
+                    result in losing funds in blockchain.</span>
                 </small>
               </div>
             </div>

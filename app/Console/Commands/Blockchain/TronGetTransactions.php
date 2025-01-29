@@ -4,6 +4,9 @@ namespace App\Console\Commands\Blockchain;
 
 use App\Http\Controllers\TransactionController;
 use App\Models\Blockchains\GeneratedTronWallet;
+use App\Models\User;
+use App\Models\UserBalances;
+use App\Services\UserBalancesService;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
@@ -31,18 +34,21 @@ class TronGetTransactions extends Command
 
   protected $eventServer;
 
+  protected $userBalancesService;
+
   public function __construct()
   {
     parent::__construct();
 
     $this->fullNode = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
     $this->solidityNode = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
+    $this->userBalancesService = new UserBalancesService;
   }
 
   /**
    * Get the transactions to an address
    */
-  public function handle()
+  public function handle(UserBalancesService $userBalancesService, TransactionController $transactionController, UserBalances $userBalances, User $userModel)
   {
     $client = new Client;
     $generatedWallets = GeneratedTronWallet::all();
@@ -54,29 +60,30 @@ class TronGetTransactions extends Command
       if ($response->getStatusCode() === 200) {
         $transactions = json_decode($response->getBody(), true)['data'];
 
-        $transactionController = new TransactionController();
         foreach ($transactions as $transaction) {
           $toAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['to_address'];
           $type = $toAddress === $wallet->address_base58 ? 'received' : 'sent';
           $amount = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] / 1000000;
           $marketDataPrices = View::getShared()['marketDataPrices'];
-          $userTotalBalance = View::getShared();
 
-          dd($userTotalBalance);
+          $trxBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('balance');
+          $trxLockedBalance = $userBalances->where('user_id', $wallet->user_id)->where('wallet', 'TRX')->value('locked_balance');
+
+          [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($wallet->user_id);
 
           $newTransaction = [
             'tnx_id' => mt_rand(10000000, 99999999),
-            'user_id' => Auth::user()->id,
-            'ref_user_id' => Auth::user()->ref_id,
+            'user_id' => $wallet->user_id,
+            'ref_user_id' => $userModel->where('id', $wallet->user_id)->value('ref_user_id'),
             'type' => $type,
             'amount_in_asset' => $amount,
             'amount_in_usd' => $amount * $marketDataPrices['TRX'],
             'asset' => 'TRX',
             'asset_price' => $marketDataPrices['TRX'],
-            'asset_balance_after' => 0,
-            'asset_locked_balance_after' => 0,
-            'total_balance_after' => 0,
-            'total_locked_balance_after' => 0,
+            'asset_balance_after' => $trxBalance,
+            'asset_locked_balance_after' => $trxLockedBalance,
+            'total_balance_after' => $totalBalance,
+            'total_locked_balance_after' => $totalLockedBalance,
             'strategy_pack_id' => null,
             'status' => 'completed',
             'hash_id' => $transaction['txID'],

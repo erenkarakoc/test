@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Blockchains;
 
 use kornrunner\Keccak;
 use Elliptic\EC;

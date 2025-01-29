@@ -55,28 +55,6 @@ abstract class Controller
   }
 
   /**
-   * Calculate the authenticated user's total balance with all views.
-   */
-  public function calculateUserTotalBalance()
-  {
-    if (Auth::check()) {
-      $user = Auth::user();
-      $userBalances = UserBalances::where('user_id', $user->id)->get();
-      $marketDataPrices = MarketData::pluck('price', 'asset')->toArray();
-      $totalBalance = 0.0;
-      $totalLockedBalance = 0.0;
-
-      foreach ($userBalances as $wallet) {
-        $price = $marketDataPrices[$wallet['wallet']] ?? 0;
-        $totalBalance += $wallet['balance'] * $price;
-        $totalLockedBalance += $wallet['locked_balance'] * $price;
-      }
-
-      return [$totalBalance, $totalLockedBalance];
-    }
-  }
-
-  /**
    * Share market data prices with all views.
    */
   private function shareMarketDataPrices()

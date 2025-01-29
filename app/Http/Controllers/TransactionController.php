@@ -17,9 +17,9 @@ class TransactionController extends Controller
   public function createTransaction($newTransaction)
   {
     $transaction = Transaction::create([
-      'tnx_id' => mt_rand(10000000, 99999999),
-      'user_id' => Auth::user()->id,
-      'ref_user_id' => Auth::user()->ref_id,
+      'tnx_id' => $newTransaction['tnx_id'],
+      'user_id' => $newTransaction['user_id'],
+      'ref_user_id' => $newTransaction['ref_user_id'],
       'type' => $newTransaction['type'],
       'amount_in_asset' => $newTransaction['amount_in_asset'],
       'amount_in_usd' => $newTransaction['amount_in_usd'],

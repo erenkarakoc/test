@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Blockchains;
 
 use App\Models\Blockchains\GeneratedBSCWallet;
-use App\Services\BSCService;
+use App\Services\Blockchains\BSCService;
 use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
 use GuzzleHttp\Client;
