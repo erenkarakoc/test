@@ -140,7 +140,7 @@
                         </span>
                       </td>
                       <td>
-                        <span class="text-light">{{ $wallet['locked_balance'] }}$</span>
+                        <span class="text-light">{{ number_format($wallet['locked_balance'], 2) }}$</span>
                       </td>
                       <td>
                         <span>{{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$</span>

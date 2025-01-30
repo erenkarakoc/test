@@ -373,8 +373,7 @@
                               'text-light' => $transaction->type === 'locked',
                           ])
                             class="transaction-usd-amount">{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -490,8 +489,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
                             class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -622,8 +620,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
                             class="transaction-usd-amount text-danger">-{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -760,8 +757,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
                             class="transaction-usd-amount text-light">{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -893,8 +889,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
                             class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -1028,8 +1023,7 @@
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
                             class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span
-                            class="transaction-asset-amount text-light">{{ number_format($transaction->amount_in_asset, 2) }}
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">

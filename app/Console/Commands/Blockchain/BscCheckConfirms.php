@@ -26,11 +26,14 @@ class BscCheckConfirms extends Command
 
   protected $userBalancesService;
 
+  protected $bscScanApiKey;
+
   public function __construct()
   {
     parent::__construct();
 
     $this->userBalancesService = new UserBalancesService;
+    $this->bscScanApiKey = config('blockchains.bscscan_api_key');
   }
 
   public function handle(TransactionController $transactionController)

@@ -95,8 +95,9 @@
                   {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance') * $marketDataPrices['GDZ'], 2) }}$
                 </h5>
                 <small class="text-dark">
-                  {{ number_format($userBalances->where('wallet', 'GDZ')->value('balance'), 2) }}
-                  {{ $userBalances->where('wallet', 'GDZ')->value('wallet') }}</small>
+                  {{ formatBalance($userBalances->where('wallet', 'GDZ')->value('balance')) }}
+                  GDZ
+                </small>
               </div>
             </div>
           </div>
@@ -114,10 +115,12 @@
                 </h6>
               </div>
               <div class="d-flex flex-column align-items-end text-right">
-                <h5 class="mb-0 text-white">{{ $userBalances->where('wallet', 'USD')->value('balance') }}$</h5>
+                <h5 class="mb-0 text-white">
+                  {{ number_format($userBalances->where('wallet', 'USD')->value('balance'), 2) }}$</h5>
                 <small class="text-dark">
                   {{ number_format($userBalances->where('wallet', 'USD')->value('balance'), 2) }}
-                  {{ $userBalances->where('wallet', 'USD')->value('wallet') }}</small>
+                  USD
+                </small>
               </div>
             </div>
           </div>
@@ -139,7 +142,7 @@
                 </h5>
                 <small class="text-dark">
                   {{ number_format($userBalances->where('wallet', 'USDT')->value('balance'), 2) }}
-                  {{ $userBalances->where('wallet', 'USDT')->value('wallet') }}
+                  USDT
                 </small>
               </div>
             </div>
@@ -230,7 +233,7 @@
                             {{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$
                           </h5>
                           <small class="text-light">
-                            {{ number_format($wallet['balance'], 2) }}
+                            {{ $wallet['wallet'] === 'GDZ' ? formatBalance($wallet['balance']) : number_format($wallet['balance'], 2) }}
                             {{ $wallet['wallet'] }}
                           </small>
                         </div>
@@ -297,11 +300,11 @@
                         </div>
                         <div class="d-flex flex-column align-items-end text-right">
                           <h5 class="mb-1 lh-1" data-asset="{{ $wallet['wallet'] }}"
-                            data-asset-balance={{ $wallet['balance'] }}>
+                            data-asset-balance={{ formatBalance($wallet['balance']) }}>
                             {{ number_format($wallet['balance'] * $marketDataPrices[$wallet['wallet']], 2) }}$
                           </h5>
                           <small class="text-light">
-                            {{ number_format($wallet['balance'], 2) }}
+                            {{ formatBalance($wallet['balance']) }}
                             {{ $wallet['wallet'] }}
                           </small>
                         </div>
@@ -598,7 +601,7 @@
                         <span
                           class="h6 mb-0">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2) }}$</span>
                         <small
-                          class="text-light">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance'), 2) }}
+                          class="text-light">{{ formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')) }}
                           {{ $asset->symbol }}</small>
                       </div>
                     </div>
@@ -631,11 +634,9 @@
                               'title' => $asset->title,
                               'symbol' => $asset->symbol,
                               'icon' => $walletIcons[$asset->symbol] ?? '',
-                              'amount_in_usd' => number_format(
+                              'amount_in_usd' =>
                                   $userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol],
-                                  2,
-                              ),
-                              'amount_in_asset' => number_format($userBalances->where('wallet', $asset->symbol)->value('balance'), 2),
+                              'amount_in_asset' => formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')),
                               'network' => $asset->network,
                               'address' => $walletAddresses[$asset->symbol]['address'],
                               'qr_code' => $walletAddresses[$asset->symbol]['qr_code'],

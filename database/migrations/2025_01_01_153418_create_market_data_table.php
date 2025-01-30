@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('market_data', function (Blueprint $table) {
             $table->id();
             $table->string('asset');
-            $table->decimal('price');
+            $table->decimal('price', 16, 8);
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('generated_bitcoin_wallets', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
-            $table->decimal('balance');
+            $table->decimal('balance', 16, 8);
             $table->string('address');
             $table->text('qr_code')->nullable();
             $table->timestamps();

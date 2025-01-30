@@ -180,8 +180,9 @@
                               <small @class([
                                   'transaction-status',
                                   'text-success' => $transaction->status === 'completed',
-                                  'text-danger' => $transaction->status === 'rejected',
-                                  'text-danger' => $transaction->status === 'cancelled',
+                                  'text-danger' =>
+                                      $transaction->status === 'rejected' ||
+                                      $transaction->status === 'cancelled',
                                   'text-warning' => $transaction->status === 'pending',
                               ])>
                                 @if ($transaction->status === 'completed')
@@ -203,7 +204,7 @@
                               <span
                                 class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
                               <span class="transaction-asset-amount text-light">
-                                {{ number_format($transaction->amount_in_asset, 2) }}
+                                {{ $transaction->amount_in_asset }}
                                 {{ $transaction->asset }}
                               </span>
                             </div>

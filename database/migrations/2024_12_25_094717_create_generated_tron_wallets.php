@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('generated_tron_wallets', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
-            $table->decimal('trx_balance');
-            $table->decimal('usdt_balance');
+            $table->decimal('trx_balance', 16, 8);
+            $table->decimal('usdt_balance', 16, 8);
             $table->string('private_key');
             $table->string('public_key');
             $table->string('address_hex');

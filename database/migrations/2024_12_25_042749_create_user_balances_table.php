@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('wallet');
-            $table->decimal('balance');
-            $table->decimal('locked_balance');
+            $table->decimal('balance', 16, 8);
+            $table->decimal('locked_balance', 16, 8);
             $table->timestamps();
         });
     }
