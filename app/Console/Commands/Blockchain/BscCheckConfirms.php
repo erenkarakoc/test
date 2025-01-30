@@ -44,7 +44,7 @@ class BscCheckConfirms extends Command
       ->get();
 
     foreach ($pendingTransactions as $transaction) {
-      $response = $client->post("https://api.bscscan.com/api?module=proxy&action=eth_getTransactionByHash&txhash={$transaction->hash_id}&apikey={$this->bscScanApiKey}", [
+      $bscTransaction = $client->post("https://api-testnet.bscscan.com/api?module=proxy&action=eth_getTransactionByHash&txhash={$transaction->hash_id}&apikey={$this->bscScanApiKey}", [
         'json' => ['value' => $transaction->hash_id],
         'headers' => [
           'Accept' => 'application/json',
@@ -52,12 +52,18 @@ class BscCheckConfirms extends Command
         ],
       ]);
 
-      if ($response->getStatusCode() === 200) {
-        $responseData = json_decode($response->getBody(), true);
+      $blockNumberHex = json_decode($bscTransaction->getBody(), true)['result']['blockNumber'];
+      $currentBlockHex = json_decode($client->post("https://api-testnet.bscscan.com/api?module=proxy&action=eth_blockNumber&apikey={$this->bscScanApiKey}")->getBody(), true)['result'];
 
-        if (!empty($responseData)) {
-          $transactionController->setTransactionStatus($transaction->tnx_id, 'completed');
-        }
+      // Convert hexadecimal block numbers to decimal
+      $blockNumber = hexdec($blockNumberHex);
+      $currentBlock = hexdec($currentBlockHex);
+
+      // Calculate the number of confirmations
+      $confirmations = $currentBlock - $blockNumber;
+
+      if ($confirmations > 13) {
+        $transactionController->setTransactionStatus($transaction->tnx_id, 'completed');
       }
     }
   }

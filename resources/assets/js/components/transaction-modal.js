@@ -37,6 +37,7 @@
     const transactionHashIdWrapper = document.querySelector('.transaction-hash-id-wrapper');
     const transactionHashId = transactionHashIdWrapper.querySelector('.transaction-hash-id');
     const transactionCreatedDate = document.querySelector('.transaction-created-date');
+    const transactionConfirmedDateWrapper = document.querySelector('.transaction-confirmed-date-wrapper');
     const transactionConfirmedDate = document.querySelector('.transaction-confirmed-date');
     const transactionNotesWrapper = document.querySelector('.transaction-notes-wrapper');
     const transactionNotes = document.querySelector('.transaction-notes');
@@ -104,13 +105,18 @@
       minute: 'numeric'
     });
     const confirmedDate = new Date(transaction.updated_at);
-    transactionConfirmedDate.innerHTML = confirmedDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric'
-    });
+    if (createdDate != confirmedDate) {
+      transactionConfirmedDate.innerHTML = confirmedDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+    } else {
+      const titleEl = transactionConfirmedDateWrapper.querySelector('[data-confirmed-at]');
+      titleEl.innerHTML = titleEl.getAttribute('data-confirmed-at');
+    }
 
     transactionNotesWrapper.classList.add('d-none');
     const notesPopover = document

@@ -300,7 +300,8 @@
                     <h5 class="text-heading ms-3 mb-0">Gedzen Token</h5>
                   </div>
                   <span class="badge rounded-pill bg-label-primary bg-glow">
-                    Current Price: <span class="text-dark fw-semibold">{{ number_format($marketDataPrices['GDZ'], 2) }}$</span>
+                    Current Price: <span
+                      class="text-dark fw-semibold">{{ number_format($marketDataPrices['GDZ'], 2) }}$</span>
                   </span>
                 </div>
               </div>

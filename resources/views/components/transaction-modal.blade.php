@@ -130,10 +130,11 @@
               <small class="transaction-created-date fw-medium"></small>
             </div>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item transaction-confirmed-at-date-wrapper">
             <div class="d-flex justify-content-between align-items-center">
-              <span class="fw-light">Confirmed at</span>
-              <small class="transaction-confirmed-date fw-medium"></small>
+              <span class="fw-light" data-confirmed-at="Confirmed At"
+                data-block-confirmations="Block Confirmations">Block Confirmations</span>
+              <small class="transaction-confirmed-date fw-medium">0</small>
             </div>
           </li>
         </ul>
