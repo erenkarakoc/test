@@ -80,6 +80,4 @@ class TronCheckWallets extends Command
 
     $this->info('Checked generated Tron wallets.');
   }
-
-
 }

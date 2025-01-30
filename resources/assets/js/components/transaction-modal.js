@@ -37,7 +37,6 @@
     const transactionHashIdWrapper = document.querySelector('.transaction-hash-id-wrapper');
     const transactionHashId = transactionHashIdWrapper.querySelector('.transaction-hash-id');
     const transactionCreatedDate = document.querySelector('.transaction-created-date');
-    const transactionConfirmedDateWrapper = document.querySelector('.transaction-confirmed-date-wrapper');
     const transactionConfirmedDate = document.querySelector('.transaction-confirmed-date');
     const transactionNotesWrapper = document.querySelector('.transaction-notes-wrapper');
     const transactionNotes = document.querySelector('.transaction-notes');
@@ -69,17 +68,17 @@
 
     transactionAmountInAsset.forEach(el => {
       if (transaction.type === 'sent') {
-        el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_asset).toFixed(2)}</span>`;
+        el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset}</span>`;
       } else if (transaction.type === 'locked') {
-        el.innerHTML = `<span class="text-light">-${Number(transaction.amount_in_asset).toFixed(2)}</span>`;
+        el.innerHTML = `<span class="text-light">-${transaction.amount_in_asset}</span>`;
       } else {
-        el.innerHTML = `<span class="text-success">+${Number(transaction.amount_in_asset).toFixed(2)} ${transaction.asset}</span>`;
+        el.innerHTML = `<span class="text-success">+${transaction.amount_in_asset} ${transaction.asset}</span>`;
       }
     });
 
     transactionAssetBalanceAfter.innerHTML = transaction.asset_balance_after + ' ' + transaction.asset;
     transactionTotalBalanceAfter.innerHTML =
-      transaction.total_balance_after + transactionTotalBalanceAfter.getAttribute('data-symbol');
+      Number(transaction.total_balance_after).toFixed(2) + transactionTotalBalanceAfter.getAttribute('data-symbol');
 
     transactionHashIdWrapper.classList.add('d-none');
     if (transaction.hash_id) {
@@ -105,7 +104,9 @@
       minute: 'numeric'
     });
     const confirmedDate = new Date(transaction.updated_at);
-    if (createdDate != confirmedDate) {
+    console.log(createdDate);
+    console.log(confirmedDate);
+    if (createdDate.getTime() !== confirmedDate.getTime()) {
       transactionConfirmedDate.innerHTML = confirmedDate.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -113,9 +114,6 @@
         hour: 'numeric',
         minute: 'numeric'
       });
-    } else {
-      const titleEl = transactionConfirmedDateWrapper.querySelector('[data-confirmed-at]');
-      titleEl.innerHTML = titleEl.getAttribute('data-confirmed-at');
     }
 
     transactionNotesWrapper.classList.add('d-none');

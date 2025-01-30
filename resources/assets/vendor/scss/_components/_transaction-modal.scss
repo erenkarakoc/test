@@ -24,6 +24,10 @@
     }
   }
 
+  li small {
+    white-space: nowrap;
+  }
+
   .transaction-hash-id {
     max-width: 100%;
     word-break: break-all;

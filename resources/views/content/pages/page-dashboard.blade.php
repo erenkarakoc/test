@@ -16,7 +16,7 @@
 @endsection
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/dashboard.scss'])
+  @vite(['resources/assets/vendor/scss/pages/dashboard.scss', 'resources/assets/vendor/scss/_components/_transaction-modal.scss'])
 @endsection
 
 @section('page-script')
