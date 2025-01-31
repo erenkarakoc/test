@@ -89,7 +89,7 @@
                 Add Funds
               </div>
             </a>
-            <a href="{{ route('page-wallet') }}?tab=sent"
+            <a href="{{ route('page-wallet') }}?tab=send"
               class="d-flex align-items-start gap-2 btn btn-primary border border-light">
               <div class="text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
