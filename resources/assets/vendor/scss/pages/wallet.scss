@@ -84,6 +84,24 @@
     }
   }
 
+  .wallet-address-item {
+    position: relative;
+    overflow: hidden;
+
+    .wallet-item-address {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .wallet-item-send-button {
+      flex-shrink: 0;
+      width: fit-content;
+      white-space: nowrap;
+      transition: all 0.2s ease-out;
+    }
+  }
+
   .wallet-address-item-disabled {
     user-select: none;
     filter: saturate(0);
@@ -162,16 +180,6 @@
       margin-right: 0.5rem;
     }
 
-    &:not(.network-under-maintenance):active,
-    &:not(.network-under-maintenance):hover,
-    &:not(.network-under-maintenance):focus {
-      cursor: pointer;
-      color: var(--bs-primary);
-      background-color: #0c0c0c;
-      border-color: var(--bs-primary);
-      box-shadow: 0 0 10px -4px var(--bs-primary);
-    }
-
     &.network-under-maintenance {
       user-select: none;
 
@@ -227,6 +235,48 @@
       #walletAccountModalAddress {
         text-align: center;
       }
+
+      &:not(.network-under-maintenance):active,
+      &:not(.network-under-maintenance):hover,
+      &:not(.network-under-maintenance):focus {
+        cursor: pointer;
+        color: var(--bs-primary);
+        background-color: #0c0c0c;
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 10px -4px var(--bs-primary);
+      }
+    }
+  }
+
+  #sendFundsModal {
+    #sendFundsAmountInput {
+      height: 80px;
+      font-size: 40px;
+      width: fit-content;
+      margin: 0 auto;
+      padding: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      text-align: center;
+    }
+
+    .wallet-address-label {
+      width: 100%;
+      text-align: center;
+    }
+
+    .wallet-address-wrapper {
+      background-color: #0a0a0a;
+
+      .wallet-address {
+        cursor: default;
+        text-align: center;
+      }
+    }
+
+    .form-text {
+      text-align: center;
     }
   }
 

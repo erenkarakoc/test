@@ -599,6 +599,39 @@
     });
   });
 
+  const walletItemSendButton = document.querySelectorAll('.wallet-item-send-button');
+
+  const sendFundsModalIcon = document.querySelector('#sendFundsModalIcon');
+  const sendFundsModal = document.querySelector('#sendFundsModal');
+  const sendFundsModalTitle = sendFundsModal.querySelector('#sendFundsModalTitle');
+  const sendFundsModalAmountInAsset = sendFundsModal.querySelector('#sendFundsModalAmountInAsset');
+  const sendFundsModalSymbol = document.querySelector('#sendFundsModalSymbol');
+  const sendFundsModalSymbolLabel = sendFundsModal.querySelector('#sendFundsModalSymbolLabel');
+  const sendFundsModalAddressInput = sendFundsModal.querySelector('#sendFundsModalAddressInput');
+  const sendFundsModalNetwork = sendFundsModal.querySelector('#sendFundsModalNetwork');
+
+  walletItemSendButton.forEach(button =>
+    button.addEventListener('click', () => {
+      const id = button.getAttribute('data-id');
+      const symbol = button.getAttribute('data-symbol');
+      const title = button.getAttribute('data-title');
+      const address = button.getAttribute('data-address');
+      const balance = button.getAttribute('data-balance');
+      const network = button.getAttribute('data-network');
+
+      const asset = symbol ? assetsData[symbol] : assetsData['USDT'];
+
+      sendFundsModalIcon.innerHTML = asset.iconLg;
+
+      sendFundsModalTitle.innerHTML = `${title} Wallet`;
+      sendFundsModalSymbolLabel.innerHTML = `${symbol} ${symbol === 'USDT' || symbol === 'TRX' ? '<span class="text-light">(TRC-20)</span>' : symbol === 'ETH' || symbol === 'ETC' ? '<span class="text-light">(ERC-20)</span>' : ''}`;
+      sendFundsModalAddressInput.value = address || '';
+      sendFundsModalNetwork.innerHTML = network;
+      sendFundsModalAmountInAsset.innerHTML = balance;
+      sendFundsModalSymbol.innerHTML = symbol;
+    })
+  );
+
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {
     const target = navLink.getAttribute('data-bs-target');
 

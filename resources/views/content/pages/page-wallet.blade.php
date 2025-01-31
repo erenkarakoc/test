@@ -34,7 +34,6 @@
   // Get user balances
   $user = Auth::user();
   $userId = $user->id;
-  $userBalances = UserBalances::where('user_id', $userId)->get();
 @endphp
 
 @extends('layouts/layoutMaster')
@@ -713,60 +712,70 @@
                 </span>
               </small>
             </div>
+          </div>
 
-            @if ($activeWallets->count() > 0)
-              @foreach ($activeWallets as $wallet)
-                <div class="col-12 mt-7">
-                  <div class="d-flex ">
-                    <form>
-                      <div class="form-password-toggle">
-                        <label class="form-label" for="send-wallet-address">Wallet Address</label>
-                        <div class="input-group">
-                          <input type="text" class="form-control" id="send-wallet-address"
-                            placeholder="eg. TR7NHqj.." />
+          @if ($activeWallets->count() > 0)
+            <div class="row row-gap-4 mt-7">
+              <h6 class="mb-0 lh-1">Active Wallets</h6>
+              @foreach ($activeWallets as $walletItem)
+                @if ($walletItem['symbol'] !== 'USD' && $walletItem['symbol'] !== 'GDZ' && $walletItem['symbol'] !== 'Total')
+                  <div class="col-6">
+                    <div class="card bg-light wallet-address-item">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label class="form-label d-flex align-items-center mb-0 w-50"
+                            for="{{ $walletItem['symbol'] }}-wallet-address">
+                            <span class="d-flex align-items-center me-2">
+                              {!! $walletIcons[$walletItem['symbol']] !!}
+                            </span>
+                            <div class="d-flex flex-column w-100">
+                              <div class="h6 mb-0">
+                                {{ $walletItem['label'] ?? $walletItem['title'] }}
+                              </div>
+                              <small class="wallet-item-address text-light">{{ $walletItem['wallet_address'] }}</small>
+                            </div>
+                          </label>
+
+                          <div class="d-flex justify-content-end w-50">
+                            <button type="button" class="btn btn-sm btn-primary wallet-item-send-button"
+                              data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal"
+                              data-bs-target="#sendFundsModal" data-title="{{ $walletItem['title'] }}"
+                              data-symbol="{{ $walletItem['symbol'] }}"
+                              data-address="{{ $walletItem['wallet_address'] }}"
+                              data-label="{{ $walletItem['label'] }}" data-active="{{ $walletItem['active'] }}"
+                              data-balance="{{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}"
+                              data-network="{{ $assets->where('symbol', $walletItem['symbol'])->value('network') }}">
+                              Send Funds
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
+                @endif
               @endforeach
-            @endif
+            </div>
+          @endif
 
-
-            @if ($missingAssetsInWallet)
-              <div class="col-12 mt-7">
-                <div class="d-flex justify-content-between align-items-center bg-light p-4 rounded">
-                  <div class="d-flex flex-column">
-                    <p class="mb-0">
-                      Add a cryptocurrency address to your wallet in order to receive balances to external wallets
-                    </p>
-                  </div>
-                  <button type="button" class="addWalletModalToggle btn btn-sm btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#addWalletModal">
-                    <svg class="me-2" width="24" height="24" viewBox="0 0 112 112" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M98.877 37.3515C98.5846 37.3359 98.2735 37.3297 97.9437 37.3328H85.003C74.405 37.3328 65.333 45.4341 65.333 55.9995C65.333 66.5648 74.405 74.6661 85.003 74.6661H97.9437C98.2735 74.6693 98.5846 74.663 98.877 74.6475C103.184 74.3861 106.992 71.1148 107.314 66.5415C107.333 66.2428 107.333 65.9208 107.333 65.6221V46.3768C107.333 46.0781 107.333 45.7561 107.314 45.4575C106.992 40.8841 103.184 37.6175 98.877 37.3515ZM83.8643 60.9788C86.5897 60.9788 88.8017 58.7481 88.8017 55.9995C88.8017 53.2461 86.5897 51.0201 83.8643 51.0201C81.139 51.0201 78.9177 53.2508 78.9177 55.9995C78.9177 58.7528 81.1343 60.9788 83.8643 60.9788Z"
-                        fill="currentColor" />
-                      <path opacity="0.5"
-                        d="M98.653 37.3427C98.653 31.8313 98.4477 25.9187 94.929 21.686C94.584 21.2723 94.2212 20.8737 93.8417 20.4913C90.3463 17.0007 85.9177 15.4513 80.4483 14.714C75.1283 14 68.3383 14 59.761 14H49.905C41.3277 14 34.533 14 29.213 14.714C23.7437 15.4513 19.315 17.0007 15.8197 20.4913C12.329 23.9867 10.7797 28.4153 10.0423 33.8847C9.33301 39.2047 9.33301 45.9947 9.33301 54.572V55.0947C9.33301 56.1335 9.33301 57.1462 9.33428 58.1333C13.6367 56.1229 18.437 55 23.4997 55C42.0016 55 56.9997 69.9981 56.9997 88.5C56.9997 90.9598 56.7346 93.3577 56.2314 95.6667H59.761C68.3383 95.6667 75.133 95.6667 80.4483 94.9527C85.9177 94.2153 90.3463 92.666 93.8417 89.1753C94.7906 88.2171 95.6088 87.1904 96.2964 86.0953C98.3964 82.7353 98.6483 78.6193 98.6483 74.662L97.9483 74.6667H85.003C74.405 74.6667 65.333 66.5653 65.333 56C65.333 45.4347 74.405 37.3333 85.003 37.3333H97.9437C98.1895 37.3333 98.429 37.3364 98.653 37.3427Z"
-                        fill="currentColor" />
-                      <path opacity="0.5"
-                        d="M47 88.5C47 101.479 36.479 112 23.5 112C10.521 112 0 101.479 0 88.5C0 75.521 10.521 65 23.5 65C36.479 65 47 75.521 47 88.5Z"
-                        fill="currentColor" />
-                      <path
-                        d="M26.2 77.7C26.2 76.9839 25.9155 76.2972 25.4092 75.7908C24.9028 75.2845 24.2161 75 23.5 75C22.7839 75 22.0972 75.2845 21.5908 75.7908C21.0845 76.2972 20.8 76.9839 20.8 77.7V85.8H12.7C11.9839 85.8 11.2972 86.0845 10.7908 86.5908C10.2845 87.0972 10 87.7839 10 88.5C10 89.2161 10.2845 89.9028 10.7908 90.4092C11.2972 90.9155 11.9839 91.2 12.7 91.2H20.8V99.3C20.8 100.016 21.0845 100.703 21.5908 101.209C22.0972 101.716 22.7839 102 23.5 102C24.2161 102 24.9028 101.716 25.4092 101.209C25.9155 100.703 26.2 100.016 26.2 99.3V91.2H34.3C35.0161 91.2 35.7028 90.9155 36.2092 90.4092C36.7155 89.9028 37 89.2161 37 88.5C37 87.7839 36.7155 87.0972 36.2092 86.5908C35.7028 86.0845 35.0161 85.8 34.3 85.8H26.2V77.7Z"
-                        fill="currentColor" />
-                    </svg>
-                    <span class="text-nowrap">
-                      Add Wallet
-                    </span>
-                  </button>
+          @if ($missingAssetsInWallet)
+            <div class="col-12 mt-7">
+              <div class="d-flex justify-content-between align-items-center bg-light p-4 rounded">
+                <div class="d-flex align-items-center">
+                  <svg class="text-primary me-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                      opacity=".3" />
+                    <path fill="currentColor"
+                      d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                  </svg>
+                  <p class="mb-0">
+                    You can send funds to different asset types by adding them on <a
+                      href="{{ route('page-wallet') }}?tab=manage">Manage Wallet</a> section.
+                  </p>
                 </div>
               </div>
-            @endif
-
-          </div>
+            </div>
+          @endif
         </div>
       </div>
     </div>
@@ -1109,6 +1118,61 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="modal fade modal-lg" id="sendFundsModal" tabindex="-1" aria-labelledby="sendFundsModal"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <form class="modal-content" method="POST" action="" id="sendFundsForm">
+          @csrf
+          <div class="modal-header">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="d-flex align-items-center">
+                <span class="me-3" id="sendFundsModalIcon"></span>
+                <div class="d-flex flex-column">
+                  <h5 class="modal-title" id="sendFundsModalTitle"></h5>
+                  <span id="sendFundsModalSymbolLabel"></span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end">
+                <div class="d-flex flex-column text-end">
+                  <span class="mb-0">Balance</span>
+                  <span class="h4">
+                    <span id="sendFundsModalAmountInAsset"></span> <span id="sendFundsModalSymbol"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="send-funds-form-row">
+                <input type="text" id="sendFundsAmountInput" value="0.00" required />
+              </div>
+
+              <div class="col col-12">
+                <label for="walletAccountModalAddress" class="wallet-address-label mt-6">
+                  <span class="chosen-asset-network"><span id="sendFundsModalNetwork">TRC-20</span> Network
+                    Address</span>
+                </label>
+                <div class="wallet-address-wrapper w-100 mt-1">
+                  <input type="text" class="wallet-address" value="" readonly
+                    id="sendFundsModalAddressInput">
+                </div>
+              </div>
+              <div class="col col-12">
+                <div class="form-text mt-2">
+                  You will receive outgoing transactions to this external wallet address.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center mt-6">
+            <button type="button" class="btn btn-sm btn-label-primary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton">Send Funds</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
