@@ -1148,7 +1148,9 @@
           <div class="modal-body">
             <div class="row">
               <div class="send-funds-form-row">
-                <input type="text" id="sendFundsAmountInput" value="0.00" required />
+                <div class="d-flex align-items-center justify-content-center">
+                  <input type="text" id="sendFundsAmountInput" value="0.00" required />
+                </div>
               </div>
 
               <div class="col col-12">

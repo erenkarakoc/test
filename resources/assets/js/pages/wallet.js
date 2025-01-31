@@ -609,6 +609,7 @@
   const sendFundsModalSymbolLabel = sendFundsModal.querySelector('#sendFundsModalSymbolLabel');
   const sendFundsModalAddressInput = sendFundsModal.querySelector('#sendFundsModalAddressInput');
   const sendFundsModalNetwork = sendFundsModal.querySelector('#sendFundsModalNetwork');
+  const sendFundsAmountInput = sendFundsModal.querySelector('#sendFundsAmountInput');
 
   walletItemSendButton.forEach(button =>
     button.addEventListener('click', () => {
@@ -632,6 +633,10 @@
     })
   );
 
+  sendFundsAmountInput.addEventListener('input', () => {
+    sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 'ch';
+  });
+
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {
     const target = navLink.getAttribute('data-bs-target');
 
@@ -643,6 +648,7 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    sendFundsAmountInput.value.length + 'ch';
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('tab')) {
       const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));
