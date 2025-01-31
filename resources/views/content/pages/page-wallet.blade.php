@@ -192,7 +192,11 @@
                 data-bs-target="#add-funds" aria-controls="add-funds" aria-selected="false">
                 Add Funds
               </button>
-              <a href="/send" class="btn btn-sm mx-auto w-50 btn-outline-primary">
+              <button class="btn btn-sm btn-primary btn-outline-primary bg-glow mx-auto w-50" role="tab"
+                data-bs-toggle="tab" data-bs-target="#send" aria-controls="send" aria-selected="false">
+                Send
+              </button>
+              <a href="/send" class="btn btn-sm mx-auto w-50  d-none">
                 Send
               </a>
             </div>
@@ -208,7 +212,8 @@
       </div>
 
       <div class="tab-content pt-0 ps-0">
-        <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets" tabindex="0">
+        <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets"
+          tabindex="0">
           <h6 class="mb-2 lh-1">Assets</h6>
           <small class="lh-1 mb-7">
             Available assets in your wallet
@@ -668,6 +673,50 @@
                 </div>
               </div>
             @endforeach
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="send" role="tabpanel" aria-labelledby="send" tabindex="0">
+          <h6 class="mb-2 lh-1">Send</h6>
+          <small class="lh-1">
+            Send funds to external wallets
+          </small>
+
+          <div class="row mt-7">
+            <div class="d-flex flex-column row-gap-2">
+              <small class="d-flex align-items-start text-primary gap-2">
+                <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                    opacity=".4" />
+                  <path fill="currentColor"
+                    d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                </svg>
+                <span>
+                  Make sure you choose correct network (eg. TRC-20 for USDT and TRX) for each asset when sending funds
+                  from the external wallet.
+                </span>
+              </small>
+              <small class="d-flex align-items-start text-danger gap-2">
+                <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                    opacity=".4" />
+                  <path fill="currentColor"
+                    d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                </svg>
+                <span>Always verify the address thoroughly before sending. Entering incorrect crypto addresses might
+                  result in losing funds in blockchain.</span>
+              </small>
+            </div>
+          </div>
+
+          <div class="row row-gap-4 mt-7">
+
+
+
           </div>
         </div>
       </div>

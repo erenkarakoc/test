@@ -67,7 +67,7 @@
 
         <div class="gdz-dashboard-transactions card shadow-none bg-primary">
           <div class="card-body d-flex justify-content-between gap-3 p-3">
-            <a href="{{ route('page-add-funds') }}"
+            <a href="{{ route('page-wallet') }}?tab=add-funds"
               class="d-flex align-items-start gap-2 btn btn-primary border border-light">
               <div class="text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
@@ -89,7 +89,8 @@
                 Add Funds
               </div>
             </a>
-            <a href="#" class="d-flex align-items-start gap-2 btn btn-primary border border-light">
+            <a href="{{ route('page-wallet') }}?tab=sent"
+              class="d-flex align-items-start gap-2 btn btn-primary border border-light">
               <div class="text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
                   <path fill="currentColor"

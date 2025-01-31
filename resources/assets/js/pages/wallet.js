@@ -591,7 +591,7 @@
       walletDetailModalIcon.innerHTML = data.icon;
       walletDetailModalTitle.innerHTML = data.title;
       walletDetailModalSymbol.forEach(symbol => (symbol.innerHTML = data.symbol));
-      walletDetailModalAmountInUsd.innerHTML = data.amount_in_usd;
+      walletDetailModalAmountInUsd.innerHTML = Number(data.amount_in_usd).toFixed(2);
       walletDetailModalAmountInAsset.innerHTML = data.amount_in_asset;
       walletDetailModalNetwork.forEach(network => (network.innerHTML = data.network));
       walletDetailModalQRCode.src = 'data:image/png;base64,' + data.qr_code;

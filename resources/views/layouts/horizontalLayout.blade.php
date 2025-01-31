@@ -98,7 +98,7 @@
 
                   <div class="px-5 mt-10 d-flex gap-2">
                     <a href="{{ route('page-wallet') }}?tab=add-funds" class="btn btn-primary btn-sm w-50">Add Funds</a>
-                    <a href="/send" class="btn btn-outline-primary btn-sm w-50">Send</a>
+                    <a href="{{ route('page-wallet') }}?tab=sent" class="btn btn-outline-primary btn-sm w-50">Send</a>
                   </div>
 
                   <li class="nav-item mt-10">
