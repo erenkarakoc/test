@@ -551,15 +551,18 @@
   const walletAddressWrapper = document.querySelectorAll('.wallet-address-wrapper');
   walletAddressWrapper.forEach(wrapper => {
     wrapper.addEventListener('click', () => {
-      const walletAddressPopover = document.querySelector('.wallet-address-popover');
-      const walletAddress = wrapper.querySelector('.wallet-address');
-      navigator.clipboard.writeText(walletAddress.value.trim());
+      const isSendFundsModal = wrapper.querySelector('#sendFundsModalAddressInput');
+      if (!isSendFundsModal) {
+        const walletAddressPopover = document.querySelector('.wallet-address-popover');
+        const walletAddress = wrapper.querySelector('.wallet-address');
+        navigator.clipboard.writeText(walletAddress.value.trim());
 
-      walletAddressPopover.style.left = '12px';
-      walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
-      walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
+        walletAddressPopover.style.left = '12px';
+        walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
+        walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
 
-      walletAddress.select();
+        walletAddress.select();
+      }
     });
   });
 
@@ -610,10 +613,10 @@
   const sendFundsModalAddressInput = sendFundsModal.querySelector('#sendFundsModalAddressInput');
   const sendFundsModalNetwork = sendFundsModal.querySelector('#sendFundsModalNetwork');
   const sendFundsAmountInput = sendFundsModal.querySelector('#sendFundsAmountInput');
+  const sendFundsWallet = document.querySelector('#sendFundsWallet');
 
   walletItemSendButton.forEach(button =>
     button.addEventListener('click', () => {
-      const id = button.getAttribute('data-id');
       const symbol = button.getAttribute('data-symbol');
       const title = button.getAttribute('data-title');
       const address = button.getAttribute('data-address');
@@ -630,11 +633,72 @@
       sendFundsModalNetwork.innerHTML = network;
       sendFundsModalAmountInAsset.innerHTML = balance;
       sendFundsModalSymbol.innerHTML = symbol;
+
+      sendFundsAmountInput.value = Number(0).toFixed(2);
+      sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 2 + 'ch';
+      sendFundsSubmitButton.setAttribute('disabled', true);
+      sendFundsWallet.value = symbol;
     })
   );
 
-  sendFundsAmountInput.addEventListener('input', () => {
-    sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 'ch';
+  sendFundsAmountInput.addEventListener('input', e => {
+    let value = e.target.value;
+
+    // Remove all non-numeric characters except the dot
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Ensure only one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    // Limit to 8 decimal places
+    if (parts[1]) {
+      value = parts[0] + '.' + parts[1].slice(0, 8);
+    }
+
+    // Convert empty or invalid input to '0.00'
+    if (!value || isNaN(Number(value))) {
+      value = '0.00';
+      sendFundsSubmitButton.setAttribute('disabled', true);
+    } else {
+      sendFundsSubmitButton.removeAttribute('disabled');
+    }
+
+    // Update input value
+    e.target.value = value;
+
+    // Disable send button if amount is 0 or greater than balance
+    const balance = Number(sendFundsModalAmountInAsset.innerHTML);
+    const submitButton = document.querySelector('#sendFundsSubmitButton');
+    submitButton.disabled = Number(value) <= 0 || Number(value) > balance;
+
+    // Adjust input field width based on value length
+    sendFundsAmountInput.style.width = `${value.length + 1}ch`;
+  });
+
+  const sendFundsModalMaxButton = document.querySelector('#sendFundsModalMaxButton');
+  sendFundsModalMaxButton.addEventListener('click', () => {
+    sendFundsAmountInput.value = sendFundsModalAmountInAsset.innerText;
+    sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 1 + 'ch';
+  });
+
+  const sendFundsForm = document.querySelector('#sendFundsForm');
+
+  sendFundsForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const response = await fetch('/send-funds-request', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ wallet: sendFundsWallet.value, amount: sendFundsAmountInput.value })
+    });
+
+    console.log(await response.json());
   });
 
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {
@@ -648,7 +712,8 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    sendFundsAmountInput.value.length + 'ch';
+    sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 1 + 'ch';
+
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('tab')) {
       const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="#${urlParams.get('tab')}"]`));

@@ -1,33 +1,34 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Blockchains\TronApiController;
+use App\Models\Asset;
+use App\Models\Blockchains\GeneratedTronWallet;
+use App\Models\UserBalances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class WalletController extends Controller
-{
+class WalletController extends Controller {
     /**
      * Store a new wallet for the user.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'title' => 'required|string',
-            'symbol' => 'required|string',
-            'label' => 'nullable|string',
+            'title'          => 'required|string',
+            'symbol'         => 'required|string',
+            'label'          => 'nullable|string',
             'wallet_address' => 'required|string',
         ]);
 
         $user = Auth::user();
 
         $newWallet = [
-            'id' => Str::uuid(),
-            'title' => $request->title,
-            'symbol' => $request->symbol,
+            'id'             => Str::uuid(),
+            'title'          => $request->title,
+            'symbol'         => $request->symbol,
             'wallet_address' => $request->wallet_address,
-            'active' => true,
+            'active'         => true,
         ];
 
         if ($request->has('label')) {
@@ -44,20 +45,19 @@ class WalletController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Wallet added successfully!',
-            'data' => $newWallet,
+            'data'    => $newWallet,
         ]);
     }
 
     /**
      * Update the wallet (e.g., add funds or modify balances).
      */
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $request->validate([
-            'id' => 'required|string',
-            'label' => 'nullable|string',
+            'id'             => 'required|string',
+            'label'          => 'nullable|string',
             'wallet_address' => 'required|string',
-            'active' => 'required|string',
+            'active'         => 'required|string',
         ]);
 
         $user = Auth::user();
@@ -66,7 +66,7 @@ class WalletController extends Controller
         $walletIndex = array_search($request->id, array_column($walletArray, 'id'));
 
         $walletArray[$walletIndex]['wallet_address'] = $request->wallet_address;
-        $walletArray[$walletIndex]['active'] = $request->active === 'true' ? true : false;
+        $walletArray[$walletIndex]['active']         = $request->active === 'true' ? true : false;
         if ($request->has('label')) {
             $walletArray[$walletIndex]['label'] = $request->label;
         }
@@ -77,15 +77,14 @@ class WalletController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Wallet updated successfully!',
-            'data' => $walletArray[$walletIndex],
+            'data'    => $walletArray[$walletIndex],
         ]);
     }
 
     /**
      * Destroy a wallet by its ID.
      */
-    public function destroy(Request $request)
-    {
+    public function destroy(Request $request) {
         $request->validate([
             'id' => 'required|string',
         ]);
@@ -117,6 +116,50 @@ class WalletController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Wallet removed successfully!',
+        ]);
+    }
+
+    public function sendFundsRequest(Request $request, TronApiController $tronApiController) {
+        $request->validate([
+            'wallet' => 'required|string',
+            'amount' => 'required|numeric',
+        ]);
+
+        $user            = Auth::user();
+        $requestedWallet = collect($user->wallet)
+            ->where('symbol', $request->wallet)
+            ->first();
+
+        // Verify the requested asset exists
+        $assetExists = Asset::where('symbol', $request->wallet)->exists();
+        if (! $assetExists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid asset symbol',
+            ]);
+        }
+
+        // Check user has sufficient balance
+        $userBalance = UserBalances::where('user_id', $user->id)
+            ->where('wallet', $request->wallet)
+            ->first();
+
+        if (! $userBalance || $userBalance->balance < $request->amount) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Insufficient balance',
+            ]);
+        }
+
+        $senderAddress    = GeneratedTronWallet::where('user_id', $user->id)->first()->address_hex;
+        $recipientAddress = $requestedWallet['wallet_address'];
+
+        $fee = $tronApiController->calculateEstimatedTrxFee($senderAddress, $recipientAddress, $request->amount);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Created send funds request successfully!',
+            'fee'     => $fee,
         ]);
     }
 }

@@ -1124,8 +1124,10 @@
     <div class="modal fade modal-lg" id="sendFundsModal" tabindex="-1" aria-labelledby="sendFundsModal"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <form class="modal-content" method="POST" action="" id="sendFundsForm">
+        <form class="modal-content" id="sendFundsForm">
           @csrf
+          <input type="hidden" name="sendFundsWallet" id="sendFundsWallet">
+
           <div class="modal-header">
             <div class="d-flex justify-content-between align-items-center w-100">
               <div class="d-flex align-items-center">
@@ -1148,8 +1150,12 @@
           <div class="modal-body">
             <div class="row">
               <div class="send-funds-form-row">
-                <div class="d-flex align-items-center justify-content-center">
-                  <input type="text" id="sendFundsAmountInput" value="0.00" required />
+                <div class="d-flex flex-column justify-content-center">
+                  <div class="d-flex align-items-center justify-content-center position-relative">
+                    <input type="text" id="sendFundsAmountInput" value="0.00" required lang="en_EN" />
+                  </div>
+                  <button type="button" class="btn btn-sm btn-transparent mx-auto mt-2"
+                    id="sendFundsModalMaxButton">Max.</button>
                 </div>
               </div>
 
@@ -1168,11 +1174,29 @@
                   You will receive outgoing transactions to this external wallet address.
                 </div>
               </div>
+
+              <div class="col col-12 mt-6">
+                <small class="d-flex justify-content-center align-items-center text-danger gap-2">
+                  <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"
+                      opacity=".4" />
+                    <path fill="currentColor"
+                      d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+                  </svg>
+                  <span>
+                    Make sure you own this wallet address and have access to it.
+                  </span>
+                </small>
+              </div>
             </div>
           </div>
+
           <div class="modal-footer d-flex justify-content-center mt-6">
             <button type="button" class="btn btn-sm btn-label-primary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton">Send Funds</button>
+            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton" disabled>Send
+              Funds</button>
           </div>
         </form>
       </div>
