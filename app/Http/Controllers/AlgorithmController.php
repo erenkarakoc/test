@@ -1,38 +1,35 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AlgorithmController extends Controller
-{
-    public function calculateAlgorithmSummary(Request $request)
-    {
+class AlgorithmController extends Controller {
+    public function calculateAlgorithmSummary(Request $request) {
         $validated = $request->validate([
             'chosen_algorithms' => 'required|array',
-            'amount' => 'required|numeric',
-            'period' => 'required|numeric',
+            'amount'            => 'required|numeric',
+            'period'            => 'required|numeric',
         ]);
 
         $chosenAlgorithms = $validated['chosen_algorithms'];
-        $amount = $validated['amount'];
-        $period = $validated['period'];
+        $amount           = $validated['amount'];
+        $period           = $validated['period'];
 
         // Base rates
         $baseAlgorithmCost = 1.8;
-        $baseIncomeRate = 0.0015;
+        $baseIncomeRate    = 0.0015;
 
         // Conflict map
         $conflictMap = [
-            'MR' => ['TF'],
+            'MR'  => ['TF'],
             'MLP' => ['MR'],
             'MSE' => ['TF'],
         ];
 
         // Period map
         $periodMap = [
-            'TF' => 'long',
-            'MR' => 'long',
+            'TF'  => 'long',
+            'MR'  => 'long',
             'MSE' => 'short',
         ];
 
@@ -58,7 +55,7 @@ class AlgorithmController extends Controller
 
             // Dynamic penalty based on number of algorithms
             $algorithmCount = count($adjustedAlgorithms);
-            $penaltyFactor = log($algorithmCount + 2);
+            $penaltyFactor  = log($algorithmCount + 2);
             $cost *= 1 + $penaltyFactor * 0.1;
 
             // Period-based discount
@@ -89,34 +86,33 @@ class AlgorithmController extends Controller
 
         // Calculate final values
         $amountAfterUnlockValue = $amount - $totalAlgorithmCost;
-        $incomeValue = $totalIncome * $period;
-        $finalBalance = $amountAfterUnlockValue + $incomeValue;
-        $finalPercentage = (($finalBalance - $amount) / $amount) * 100;
+        $incomeValue            = $totalIncome * $period;
+        $finalBalance           = $amountAfterUnlockValue + $incomeValue;
+        $finalPercentage        = (($finalBalance - $amount) / $amount) * 100;
 
         sleep(0.5);
 
         // Return results
         return response()->json([
-            'totalAlgorithmCost' => $totalAlgorithmCost,
-            'totalIncome' => $totalIncome,
+            'totalAlgorithmCost'     => $totalAlgorithmCost,
+            'totalIncome'            => $totalIncome,
             'amountAfterUnlockValue' => $amountAfterUnlockValue,
-            'incomeValue' => $incomeValue,
-            'finalBalance' => $finalBalance,
-            'finalPercentage' => $finalPercentage,
+            'incomeValue'            => $incomeValue,
+            'finalBalance'           => $finalBalance,
+            'finalPercentage'        => $finalPercentage,
         ]);
     }
 
-    public function lockAmountWithChosenAlgorithms(Request $request)
-    {
+    public function lockAmountWithChosenAlgorithms(Request $request) {
         $validated = $request->validate([
             'chosen_algorithms' => 'required|array',
-            'amount' => 'required|numeric',
-            'period' => 'required|numeric',
+            'amount'            => 'required|numeric',
+            'period'            => 'required|numeric',
         ]);
 
         $chosenAlgorithms = $validated['chosen_algorithms'];
-        $amount = $validated['amount'];
-        $period = $validated['period'];
+        $amount           = $validated['amount'];
+        $period           = $validated['period'];
 
         return response()->json([
             'message' => 'Amount locked with chosen algorithms',
