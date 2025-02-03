@@ -267,9 +267,9 @@
                       </div>
                     @else
                       <div class="d-flex justify-content-end p-4">
-                        <a href="javascript:;" class="btn btn-icon btn-transparent me-n2 mb-n2"data-bs-toggle="popover"
-                          data-bs-trigger="hover" data-bs-custom-class="popover-dark" data-bs-placement="left"
-                          data-bs-content="Swap {{ $wallet['wallet'] }}">
+                        <a href="javascript:;" class="btn btn-icon btn-transparent me-n2 mb-n2"
+                          data-bs-toggle="popover" data-bs-trigger="hover" data-bs-custom-class="popover-dark"
+                          data-bs-placement="left" data-bs-content="Swap {{ $wallet['wallet'] }}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                             <path fill="currentColor"
                               d="M20.536 20.536C22 19.07 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465"
@@ -603,7 +603,10 @@
 
                       <div class="d-flex flex-column text-end">
                         <span
-                          class="h6 mb-0">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2) }}$</span>
+                          class="h6 mb-0">{{ number_format(
+                              $userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol],
+                              2,
+                          ) }}$</span>
                         <small
                           class="text-light">{{ formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')) }}
                           {{ $asset->symbol }}</small>
@@ -798,7 +801,7 @@
                   @foreach ($assets as $asset)
                     @if (!collect($wallet)->pluck('symbol')->contains($asset['symbol']))
                       <option value="{{ $asset['symbol'] }}" data-show-subtext='true'
-                        data-subtext='{{ $asset['symbol'] }}' data-title={{ $asset['title'] }}>
+                        data-subtext='{{ $asset[' symbol'] }}' data-title={{ $asset['title'] }}>
                         {{ $asset['title'] }}
                       </option>
                     @endif
@@ -843,8 +846,8 @@
                 </label>
                 <div class="input-group">
                   <input type="text" class="form-control rounded" placeholder="eg. Personal"
-                    aria-label="eg. Personal" id="addModalAssetLabel"
-                    name="label"data-existing-labels="{{ implode(', ', $existingLabels) }}" />
+                    aria-label="eg. Personal" id="addModalAssetLabel" name="label"
+                    data-existing-labels="{{ implode(', ', $existingLabels) }}" />
                 </div>
               </div>
 
@@ -1194,9 +1197,12 @@
           </div>
 
           <div class="modal-footer d-flex justify-content-center mt-6">
-            <button type="button" class="btn btn-sm btn-label-primary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton" disabled>Send
-              Funds</button>
+            <button type="button" class="btn btn-sm btn-label-primary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton" disabled>
+              Send Funds
+            </button>
           </div>
         </form>
       </div>
