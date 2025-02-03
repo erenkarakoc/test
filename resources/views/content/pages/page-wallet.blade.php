@@ -207,6 +207,10 @@
             data-bs-target="#buildGuideModal">
             How to Add Funds?
           </button>
+          <button type="button" class="btn btn-sm btn-label-primary rounded w-100" data-bs-toggle="modal"
+            data-bs-target="#buildGuideModal">
+            How to Send Funds?
+          </button>
         </div>
       </div>
 
