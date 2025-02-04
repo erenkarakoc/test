@@ -602,6 +602,10 @@
     });
   });
 
+  //////////////////
+  /// Send Funds ///
+  //////////////////
+
   const walletItemSendButton = document.querySelectorAll('.wallet-item-send-button');
 
   const sendFundsModalIcon = document.querySelector('#sendFundsModalIcon');
@@ -680,16 +684,31 @@
 
   const sendFundsModalMaxButton = document.querySelector('#sendFundsModalMaxButton');
   sendFundsModalMaxButton.addEventListener('click', () => {
-    sendFundsAmountInput.value = sendFundsModalAmountInAsset.innerText;
-    sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 1 + 'ch';
+    const balance = sendFundsModalAmountInAsset.innerText;
+
+    if (Number(balance)) {
+      sendFundsAmountInput.value = balance;
+      sendFundsSubmitButton.removeAttribute('disabled');
+      sendFundsAmountInput.style.width = sendFundsAmountInput.value.length + 1 + 'ch';
+    }
   });
 
   const sendFundsForm = document.querySelector('#sendFundsForm');
+  const sendFundsSummaryModalEl = document.querySelector('#sendFundsSummaryModal');
+  const sendFundsSummaryModal = new bootstrap.Modal(sendFundsSummaryModalEl);
+  const sendFundsSummaryForm = document.querySelector('#sendFundsSummaryForm');
+  const sendFundsSummaryTx = document.querySelector('#sendFundsSummaryTx');
+  const sendFundsSummaryAsset = document.querySelectorAll('.send-funds-summary-asset');
+  const sendFundsSummaryAmountInAsset = document.querySelector('.send-funds-summary-amount-in-asset');
+  const sendFundsSummaryAmountInUsd = document.querySelector('.send-funds-summary-amount-in-usd');
+  const sendFundsSummaryFee = document.querySelector('.send-funds-summary-fee');
+  const sendFundsSummaryTotal = document.querySelector('.send-funds-summary-total');
 
   sendFundsForm.addEventListener('submit', async e => {
     e.preventDefault();
+    sendFundsSubmitButton.querySelector('svg').classList.remove('loading-hidden');
 
-    const response = await fetch('/send-funds-request', {
+    const res = await fetch('/send-funds-request', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -697,8 +716,37 @@
       },
       body: JSON.stringify({ wallet: sendFundsWallet.value, amount: sendFundsAmountInput.value })
     });
+    const response = await res.json();
 
-    console.log(await response.json());
+    sendFundsSummaryTx.value = response.txID;
+    sendFundsSummaryAsset.forEach(asset => (asset.innerHTML = response.asset));
+    sendFundsSummaryAmountInAsset.innerHTML = window.formatBalance(response.amount_in_asset);
+    sendFundsSummaryAmountInUsd.innerHTML =
+      Number(response.amount_in_usd).toFixed(2) + sendFundsSummaryAmountInUsd.getAttribute('data-symbol');
+    sendFundsSummaryFee.innerHTML = window.formatBalance(response.fee);
+    sendFundsSummaryTotal.innerHTML = window.formatBalance(response.total);
+
+    sendFundsSummaryModal.show();
+    sendFundsSummaryModal._backdrop._element.style.zIndex = '1090';
+  });
+
+  sendFundsSummaryModalEl.addEventListener('hidden.bs.modal', () => {
+    sendFundsSubmitButton.querySelector('svg').classList.add('loading-hidden');
+  });
+
+  sendFundsSummaryForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const res = await fetch('/complete-send-funds', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ asset: sendFundsWallet.value, transaction: JSON.parse(sendFundsSummaryTx.value) })
+    });
+
+    console.log(res);
   });
 
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {

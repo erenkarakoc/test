@@ -71,3 +71,31 @@ window.convertUsdToEur = async usdAmount => {
     return null;
   }
 };
+
+window.formatBalance = balance => {
+  // Check if the balance is zero
+  if (parseFloat(balance).toFixed(8) === '0.00000000') {
+    return '0.00';
+  }
+
+  // Format the balance with 8 decimal places
+  let formattedBalance = parseFloat(balance).toFixed(8);
+
+  // Remove trailing zeros after decimal point but keep at least two decimal places
+  formattedBalance = formattedBalance.replace(/\.?0+$/, '');
+
+  // If no decimal part, add '.00'
+  if (!formattedBalance.includes('.')) {
+    formattedBalance += '.00';
+  } else {
+    // Ensure at least two decimal places
+    let parts = formattedBalance.split('.');
+    let decimals = parts[1].length;
+    if (decimals < 2) {
+      parts[1] = parts[1].padEnd(2, '0');
+      formattedBalance = parts.join('.');
+    }
+  }
+
+  return formattedBalance;
+};

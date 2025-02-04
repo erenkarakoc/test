@@ -48,16 +48,9 @@ class TronApiController extends Controller {
 
     public function calculateEstimatedTrxFee($senderAddress, $recipientAddress, $amount) {
         $transaction = $this->createTransaction($senderAddress, $recipientAddress, $amount);
-        $fee         = $this->calculateTransactionFee($transaction);
+        $fee         = $this->calculateTrxTransactionFee($senderAddress);
 
-        return $fee;
-    }
-
-    private function getBandwidthPrice() {
-        $response       = $this->client->get('https://api.shasta.trongrid.io/wallet/getchainparameters');
-        $data           = json_decode($response->getBody(), true);
-        $bandwidthPrice = $data['chainParameter'][3]['value'] / 1000000;
-        return $bandwidthPrice;
+        return ['fee' => $fee, 'transaction' => $transaction];
     }
 
     private function createTransaction($senderAddress, $recipientAddress, $amount) {
@@ -76,8 +69,27 @@ class TronApiController extends Controller {
         return json_decode($response->getBody(), true);
     }
 
-    private function calculateTransactionFee($transaction) {
-        $response = $this->client->post('https://api.shasta.trongrid.io/wallet/estimateenergy', [
+    private function calculateTrxTransactionFee($senderAddress) {
+        $response = $this->client->post('https://api.shasta.trongrid.io/wallet/getaccountresource', [
+            'json' => [
+                'address' => $this->tron->toHex($senderAddress),
+            ],
+        ]);
+        $data = json_decode($response->getBody(), true);
+
+        $trxFee             = 0;
+        $bandwidthRequired  = 250;
+        $availableBandwidth = $data['freeNetLimit'] ?? 0;
+
+        if ($availableBandwidth < $bandwidthRequired) {
+            $trxFee = ($bandwidthRequired - $availableBandwidth) * 0.000001;
+        }
+
+        return $trxFee;
+    }
+
+    public function broadcastTrxTransaction($transaction) {
+        $response = $this->client->post('https://api.shasta.trongrid.io/wallet/broadcasttransaction', [
             'json'    => $transaction,
             'headers' => [
                 'Accept'       => 'application/json',
@@ -85,10 +97,12 @@ class TronApiController extends Controller {
             ],
         ]);
 
-        $estimateData   = json_decode($response->getBody(), true);
-        $energyRequired = $estimateData['energy_required'];
-        $bandwidthPrice = $this->getBandwidthPrice();
+        $transaction = json_decode($response->getBody(), true);
 
-        return $energyRequired * $bandwidthPrice;
+        return [
+            'code'    => $transaction['code'],
+            'message' => $transaction['message'],
+            'txID'    => $transaction['txid'],
+        ];
     }
 }

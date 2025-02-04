@@ -63,6 +63,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/update-wallet', [WalletController::class, 'update'])->name('update-wallet');
     Route::post('/remove-wallet', [WalletController::class, 'destroy'])->name('remove-wallet');
     Route::post('/send-funds-request', [WalletController::class, 'sendFundsRequest'])->name('send-funds-request');
+    Route::post('/complete-send-funds', [WalletController::class, 'completeSendFunds'])->name('complete-send-funds');
 
     // Manage User
     Route::post('/user/update-user-profile', [UserController::class, 'update'])->withoutMiddleware('auth');

@@ -267,16 +267,6 @@
       }
     }
 
-    #sendFundsAmountInputRel {
-      visibility: hidden;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 80px;
-      white-space: pre;
-    }
-
     .wallet-address-label {
       width: 100%;
       text-align: center;
@@ -294,6 +284,18 @@
     .form-text {
       text-align: center;
     }
+
+    #sendFundsSubmitButton {
+      svg.loading-hidden {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+      }
+
+      svg:not(.loading-hidden) {
+        margin-right: 0.75rem;
+      }
+    }
   }
 
   #right-sidebar {
@@ -310,5 +312,9 @@
 
   .btn-primary {
     box-shadow: none !important;
+  }
+
+  #sendFundsSummaryModal {
+    z-index: 1091;
   }
 }

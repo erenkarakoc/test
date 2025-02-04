@@ -1205,7 +1205,100 @@
               Cancel
             </button>
             <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSubmitButton" disabled>
-              Send Funds
+              <svg class="loading-hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="4">
+                  <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
+                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0" />
+                    <animateTransform attributeName="transform" dur="1s" repeatCount="indefinite" type="rotate"
+                      values="0 12 12;360 12 12" />
+                  </path>
+                  <path stroke-dasharray="64" stroke-dashoffset="64" stroke-opacity=".3"
+                    d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
+                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0" />
+                  </path>
+                </g>
+              </svg>
+              <span>Send Funds</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade modal-sm" id="sendFundsSummaryModal" tabindex="-1" aria-labelledby="sendFundsSummaryModal"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <form class="modal-content" id="sendFundsSummaryForm">
+          @csrf
+          <input type="hidden" name="sendFundsSummaryTx" id="sendFundsSummaryTx">
+
+          <div class="modal-header">
+            <h6 class="mb-0">Summary</h6>
+          </div>
+
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-light">
+                    Amount in <span class="send-funds-summary-asset"></span>
+                  </span>
+                  <span class="fw-medium">
+                    <span class="send-funds-summary-amount-in-asset"></span> <span
+                      class="send-funds-summary-asset"></span>
+                  </span>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-light">Amount in USD</span>
+                  <span class="send-funds-summary-amount-in-usd fw-medium" data-symbol="$"></span>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center fw-light">
+                    <span>Fee</span>
+                    <span class="popover-trigger cursor-pointer ms-1" data-bs-toggle="popover" data-bs-trigger="hover"
+                      data-bs-placement="top" data-bs-custom-class="popover-dark"
+                      data-bs-content="The commission that will be deducted by blockchain network.">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
+                        <path fill="currentColor"
+                          d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                      </svg>
+                    </span>
+                  </div>
+                  <span class="fw-medium">
+                    <span class="send-funds-summary-fee"></span> <span class="send-funds-summary-asset"></span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+
+            <ul class="list-group mt-4">
+              <li class="list-group-item bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-light">
+                    You will receive
+                  </span>
+                  <span class="fw-medium">
+                    <span class="send-funds-summary-total"></span> <span class="send-funds-summary-asset"></span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-sm btn-label-primary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-sm btn-primary px-6" id="sendFundsSummaryModalSubmit">
+              Complete
             </button>
           </div>
         </form>
