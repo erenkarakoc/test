@@ -703,6 +703,7 @@
   const sendFundsSummaryAmountInUsd = document.querySelector('.send-funds-summary-amount-in-usd');
   const sendFundsSummaryFee = document.querySelector('.send-funds-summary-fee');
   const sendFundsSummaryTotal = document.querySelector('.send-funds-summary-total');
+  const sendFundsSummaryModalSubmit = document.querySelector('#sendFundsSummaryModalSubmit');
 
   sendFundsForm.addEventListener('submit', async e => {
     e.preventDefault();
@@ -736,6 +737,7 @@
 
   sendFundsSummaryForm.addEventListener('submit', async e => {
     e.preventDefault();
+    // sendFundsSummaryModalSubmit.setAttribute('disabled', true);
 
     const res = await fetch('/complete-send-funds', {
       method: 'POST',
@@ -743,10 +745,17 @@
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
-      body: JSON.stringify({ asset: sendFundsWallet.value, transaction: JSON.parse(sendFundsSummaryTx.value) })
+      body: JSON.stringify({
+        asset: sendFundsWallet.value,
+        transaction: JSON.parse(sendFundsSummaryTx.value),
+        amount: Number(sendFundsSummaryTotal.innerHTML)
+      })
     });
+    const response = await res.json();
 
-    console.log(res);
+    console.log(response.status);
+
+    // window.location.href = '/transactions?tnx_id=' + response.tnx_id;
   });
 
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {

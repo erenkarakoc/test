@@ -172,16 +172,16 @@ class WalletController extends Controller {
         $request->validate([
             'asset'       => 'string|required',
             'transaction' => 'array|required',
+            'amount'      => 'numeric|required',
         ]);
 
         $tronApiController = new TronApiController;
-        $response          = [];
 
         if ($request->asset === 'TRX') {
-            $response = $tronApiController->broadcastTrxTransaction($request->transaction);
-        }
+            $broadcast = $tronApiController->broadcastTrxTransaction($request->transaction, Auth::user()->id);
 
-        return response()->json($response);
+            return response()->json($broadcast);
+        }
     }
 
     private function sendTrxFundsRequest($userId, $amount, $recipientAddress) {

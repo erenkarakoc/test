@@ -137,4 +137,15 @@
       transactionDetailModal.show();
     });
   });
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('tnx_id')) {
+      const transaction = await postRequest('/get-transaction-by-id', { tnx_id: urlParams.get('tnx_id') });
+
+      setTransactionModalContent(transaction);
+      transactionDetailModal.show();
+    }
+  });
 })();

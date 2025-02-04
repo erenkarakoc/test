@@ -2,9 +2,15 @@
 namespace App\Http\Controllers\Blockchains;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\TransactionController;
 use App\Models\Blockchains\GeneratedTronWallet;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Models\UserBalances;
+use App\Services\UserBalancesService;
 use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\View;
 
 class TronApiController extends Controller {
     protected $client;
@@ -88,21 +94,73 @@ class TronApiController extends Controller {
         return $trxFee;
     }
 
-    public function broadcastTrxTransaction($transaction) {
-        $response = $this->client->post('https://api.shasta.trongrid.io/wallet/broadcasttransaction', [
-            'json'    => $transaction,
-            'headers' => [
-                'Accept'       => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-        ]);
+    public function broadcastTrxTransaction($transaction, $user_id) {
+        $ownerAddress    = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
+        $ownerAddressKey = GeneratedTronWallet::where('address_base58', $ownerAddress)->value('private_key');
 
-        $transaction = json_decode($response->getBody(), true);
+        $this->tron->setAddress($ownerAddress);
+        $this->tron->setPrivateKey($ownerAddressKey);
 
-        return [
-            'code'    => $transaction['code'],
-            'message' => $transaction['message'],
-            'txID'    => $transaction['txid'],
-        ];
+        try {
+            $signedTransaction = $this->tron->signTransaction($transaction);
+            $rawTransaction    = $this->tron->sendRawTransaction($signedTransaction);
+
+            if ($rawTransaction['result']) {
+                $tnx_id = $this->createTransactionForTron($transaction, 'sent', $user_id);
+            }
+
+            return [
+                'txID'   => $rawTransaction['txid'],
+                'tnx_id' => $tnx_id,
+                'status' => $rawTransaction['result'] ?? false,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    private function createTransactionForTron($transaction, $type, $user_id) {
+        $existingTransaction   = Transaction::where('hash_id', $transaction['txID'])->first();
+        $userModel             = new User;
+        $userBalances          = new UserBalances;
+        $userBalancesService   = new UserBalancesService;
+        $transactionController = new TransactionController;
+
+        if (! isset($existingTransaction)) {
+            $type             = $type;
+            $amount           = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] / 1000000;
+            $marketDataPrices = View::getShared()['marketDataPrices'];
+            $tnx_id           = mt_rand(10000000, 99999999);
+
+            $trxBalance       = $userBalances->where('user_id', $user_id)->where('wallet', 'TRX')->value('balance');
+            $trxLockedBalance = $userBalances->where('user_id', $user_id)->where('wallet', 'TRX')->value('locked_balance');
+
+            [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($user_id);
+
+            $newTransaction = [
+                'tnx_id'                     => $tnx_id,
+                'user_id'                    => $user_id,
+                'ref_user_id'                => $userModel->where('id', $user_id)->value('ref_user_id'),
+                'type'                       => $type,
+                'amount_in_asset'            => $amount,
+                'amount_in_usd'              => $amount * $marketDataPrices['TRX'],
+                'asset'                      => 'TRX',
+                'asset_price'                => $marketDataPrices['TRX'],
+                'asset_balance_after'        => $trxBalance,
+                'asset_locked_balance_after' => $trxLockedBalance,
+                'total_balance_after'        => $totalBalance,
+                'total_locked_balance_after' => $totalLockedBalance,
+                'strategy_pack_id'           => null,
+                'status'                     => 'pending',
+                'hash_id'                    => $transaction['txID'],
+            ];
+
+            $transactionController->createTransaction($newTransaction);
+
+            return $tnx_id;
+        }
     }
 }
