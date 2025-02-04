@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Models\Asset;
 use App\Models\Blockchains\GeneratedTronWallet;
+use App\Models\User;
 use App\Models\UserBalances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class WalletController extends Controller {
         ]);
 
         $user = Auth::user();
+        $user = User::find(Auth::id());
 
         $newWallet = [
             'id'             => Str::uuid(),
@@ -62,6 +64,7 @@ class WalletController extends Controller {
         ]);
 
         $user = Auth::user();
+        $user = User::find(Auth::id());
 
         $walletArray = is_array($user->wallet) ? $user->wallet : json_decode($user->wallet, true) ?? [];
         $walletIndex = array_search($request->id, array_column($walletArray, 'id'));
@@ -91,6 +94,7 @@ class WalletController extends Controller {
         ]);
 
         $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Decode existing wallets or initialize an empty array
         $walletArray = is_array($user->wallet) ? $user->wallet : json_decode($user->wallet, true) ?? [];
@@ -157,7 +161,6 @@ class WalletController extends Controller {
 
         return response()->json([
             'success'         => true,
-            'message'         => 'Created send funds request successfully!',
             'fee'             => $calculatedFeeAndTransaction['fee'],
             'transaction'     => $calculatedFeeAndTransaction['transaction'],
             'asset'           => $request->wallet,

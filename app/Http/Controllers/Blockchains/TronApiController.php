@@ -54,7 +54,7 @@ class TronApiController extends Controller {
 
     public function calculateEstimatedTrxFee($senderAddress, $recipientAddress, $amount) {
         $transaction = $this->createTransaction($senderAddress, $recipientAddress, $amount);
-        $fee         = $this->calculateTrxTransactionFee($senderAddress);
+        $fee         = $this->calculateTrxTransactionFee($senderAddress, $recipientAddress, $amount);
 
         return ['fee' => $fee, 'transaction' => $transaction];
     }
@@ -75,20 +75,31 @@ class TronApiController extends Controller {
         return json_decode($response->getBody(), true);
     }
 
-    private function calculateTrxTransactionFee($senderAddress) {
+    private function calculateTrxTransactionFee($senderAddress, $recipientAddress, $amount) {
+
+        $transaction = $this->tron->getTransactionBuilder()->sendTrx($recipientAddress, $amount, $senderAddress);
+
+        $serializedTransaction = $this->tron->toHex(json_encode($transaction));
+
+        $transactionSizeInBytes = strlen(hex2bin($serializedTransaction));
+
         $response = $this->client->post('https://api.shasta.trongrid.io/wallet/getaccountresource', [
             'json' => [
-                'address' => $this->tron->toHex($senderAddress),
+                'address' => $this->tron->address2HexString($senderAddress),
             ],
         ]);
         $data = json_decode($response->getBody(), true);
 
-        $trxFee             = 0;
-        $bandwidthRequired  = 250;
-        $availableBandwidth = $data['freeNetLimit'] ?? 0;
+        $freeNetLimit     = $data['freeNetLimit'] ?? 0;
+        $freeNetUsed      = $data['freeNetUsed'] ?? 0;
+        $availableFreeNet = $freeNetLimit - $freeNetUsed;
 
-        if ($availableBandwidth < $bandwidthRequired) {
-            $trxFee = ($bandwidthRequired - $availableBandwidth) * 0.000001;
+        $bandwidthRequired = $transactionSizeInBytes;
+
+        $trxFee = 0;
+
+        if ($availableFreeNet < $bandwidthRequired) {
+            $trxFee = ($bandwidthRequired - $availableFreeNet) * 0.000001; // 1 TRX = 1,000,000 SUN
         }
 
         return $trxFee;
@@ -105,14 +116,11 @@ class TronApiController extends Controller {
             $signedTransaction = $this->tron->signTransaction($transaction);
             $rawTransaction    = $this->tron->sendRawTransaction($signedTransaction);
 
-            if ($rawTransaction['result']) {
-                $tnx_id = $this->createTransactionForTron($transaction, 'sent', $user_id);
-            }
+            $tnx_id = $this->createTransactionForTron($transaction, 'sent', $user_id);
 
             return [
                 'txID'   => $rawTransaction['txid'],
                 'tnx_id' => $tnx_id,
-                'status' => $rawTransaction['result'] ?? false,
             ];
         } catch (\Exception $e) {
             return [

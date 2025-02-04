@@ -111,7 +111,7 @@
         <li>
           <div class="d-flex gap-2">
             <a href="{{ route('page-wallet') }}?tab=add-funds" class="btn btn-primary btn-sm w-50">Add Funds</a>
-            <a href="/send" class="btn btn-outline-primary btn-sm w-50">Send</a>
+            <a href="{{ route('page-wallet') }}?tab=send" class="btn btn-outline-primary btn-sm w-50">Send</a>
           </div>
         </li>
         <li>
