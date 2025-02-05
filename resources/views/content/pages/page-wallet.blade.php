@@ -540,7 +540,7 @@
                     d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                 </svg>
                 Please ensure you provide a correct wallet address, especially with correct blockchain network (eg.
-                TRC-20). Incorrect addresses may result in lost funds on the blockchain.
+                TRC-20 for TRX and USDT). Incorrect addresses may result in lost funds on the blockchain.
               </small>
             </div>
           </div>
@@ -873,7 +873,7 @@
                         d="M12 7.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 16a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
                     </svg>
                     Please ensure you provide a correct wallet address, especially with correct blockchain network (eg.
-                    TRC-20 for Tron network). Incorrect addresses may result in lost funds on the blockchain.
+                    TRC-20 for TRX and USDT). Incorrect addresses may result in lost funds on the blockchain.
                   </small>
                 </div>
               </div>
@@ -1263,7 +1263,7 @@
                     <span>Fee</span>
                     <span class="popover-trigger cursor-pointer ms-1" data-bs-toggle="popover" data-bs-trigger="hover"
                       data-bs-placement="top" data-bs-custom-class="popover-dark"
-                      data-bs-content="The commission that will be deducted by blockchain network.">
+                      data-bs-content="The estimated commission that will be deducted by blockchain network.">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                         <path fill="currentColor"
                           d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />

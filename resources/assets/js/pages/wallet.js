@@ -707,6 +707,7 @@
 
   sendFundsForm.addEventListener('submit', async e => {
     e.preventDefault();
+    sendFundsSubmitButton.setAttribute('disabled', true);
     sendFundsSubmitButton.querySelector('svg').classList.remove('loading-hidden');
 
     const res = await fetch('/send-funds-request', {
@@ -719,7 +720,7 @@
     });
     const response = await res.json();
 
-    sendFundsSummaryTx.value = response.txID;
+    sendFundsSummaryTx.value = JSON.stringify(response.transaction);
     sendFundsSummaryAsset.forEach(asset => (asset.innerHTML = response.asset));
     sendFundsSummaryAmountInAsset.innerHTML = window.formatBalance(response.amount_in_asset);
     sendFundsSummaryAmountInUsd.innerHTML =
@@ -732,12 +733,13 @@
   });
 
   sendFundsSummaryModalEl.addEventListener('hidden.bs.modal', () => {
+    sendFundsSubmitButton.removeAttribute('disabled');
     sendFundsSubmitButton.querySelector('svg').classList.add('loading-hidden');
   });
 
   sendFundsSummaryForm.addEventListener('submit', async e => {
     e.preventDefault();
-    sendFundsSummaryModalSubmit.setAttribute('disabled', true);
+    // sendFundsSummaryModalSubmit.setAttribute('disabled', true);
 
     const res = await fetch('/complete-send-funds', {
       method: 'POST',
@@ -753,7 +755,7 @@
     });
     const response = await res.json();
 
-    window.location.href = '/transactions?tnx_id=' + response.tnx_id;
+    // window.location.href = '/transactions?tnx_id=' + response.tnx_id;
   });
 
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {

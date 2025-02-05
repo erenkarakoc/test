@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Models\Asset;
-use App\Models\Blockchains\GeneratedTronWallet;
 use App\Models\User;
 use App\Models\UserBalances;
 use Illuminate\Http\Request;
@@ -130,9 +129,10 @@ class WalletController extends Controller {
             'amount' => 'required|numeric',
         ]);
 
-        $user            = Auth::user();
-        $requestedWallet = collect($user->wallet)->where('symbol', $request->wallet)->first();
-        $userBalance     = UserBalances::where('user_id', $user->id)->where('wallet', $request->wallet)->first();
+        $user              = Auth::user();
+        $requestedWallet   = collect($user->wallet)->where('symbol', $request->wallet)->first();
+        $userBalance       = UserBalances::where('user_id', $user->id)->where('wallet', $request->wallet)->first();
+        $tronApiController = new TronApiController;
 
         // Verify the requested asset exists
         $assetExists = Asset::where('symbol', $request->wallet)->exists();
@@ -151,23 +151,24 @@ class WalletController extends Controller {
             ]);
         }
 
-        $calculatedFeeAndTransaction = [];
+        $sendFundsRequest = [];
 
         if ($request->wallet === 'TRX') {
-            $calculatedFeeAndTransaction = $this->sendTrxFundsRequest($user->id, $request->amount, $requestedWallet['wallet_address']);
+            $sendFundsRequest = $tronApiController->sendTrxFundsRequest($user->id, $request->amount, $requestedWallet['wallet_address']);
         }
 
         $marketDataPrices = View::getShared()['marketDataPrices'];
+        $fee              = $sendFundsRequest['fee'] / 1000;
 
         return response()->json([
             'success'         => true,
-            'fee'             => $calculatedFeeAndTransaction['fee'],
-            'transaction'     => $calculatedFeeAndTransaction['transaction'],
+            'fee'             => $fee,
+            'transaction'     => $sendFundsRequest['transaction'],
             'asset'           => $request->wallet,
             'amount_in_asset' => $request->amount,
             'amount_in_usd'   => $request->amount * $marketDataPrices[$request->wallet],
-            'total'           => $request->amount - $calculatedFeeAndTransaction['fee'],
-            'txID'            => json_encode($calculatedFeeAndTransaction['transaction']),
+            'total'           => $request->amount - $fee,
+            'txID'            => $sendFundsRequest['transaction']['txID'],
         ]);
     }
 
@@ -175,7 +176,6 @@ class WalletController extends Controller {
         $request->validate([
             'asset'       => 'string|required',
             'transaction' => 'array|required',
-            'amount'      => 'numeric|required',
         ]);
 
         $tronApiController = new TronApiController;
@@ -187,11 +187,4 @@ class WalletController extends Controller {
         }
     }
 
-    private function sendTrxFundsRequest($userId, $amount, $recipientAddress) {
-        $tronApiController           = new TronApiController;
-        $senderAddress               = GeneratedTronWallet::where('user_id', $userId)->first()->address_hex;
-        $calculatedFeeAndTransaction = $tronApiController->calculateEstimatedTrxFee($senderAddress, $recipientAddress, $amount);
-
-        return $calculatedFeeAndTransaction;
-    }
 }
