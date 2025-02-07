@@ -53,14 +53,35 @@ class TronApiController extends Controller {
     }
 
     public function sendTrxFundsRequest($userId, $amount, $recipientAddress) {
-        $senderAddress = GeneratedTronWallet::where('user_id', $userId)->first()->address_hex;
-        $transaction   = $this->createTransaction($senderAddress, $recipientAddress, $amount);
-        $fee           = $this->calculateTrxTransactionFee($transaction);
+        try {
+            $senderWallet = GeneratedTronWallet::where('user_id', $userId)->first();
+            if (! $senderWallet) {
+                throw new \Exception('Sender wallet not found');
+            }
 
-        return [
-            'fee'         => $fee,
-            'transaction' => $transaction,
-        ];
+            // Create unsigned transaction
+            $transaction = $this->createTransaction($senderWallet->address_hex, $recipientAddress, $amount);
+
+            // Calculate fee
+            $fee = $this->calculateTrxTransactionFee($transaction);
+
+            // Validate total amount (amount + fee) against balance
+            $totalRequired = $amount + $fee;
+            $balance       = $this->tron->getBalance($senderWallet->address_hex) / 1000000; // Convert from SUN to TRX
+
+            if ($balance < $totalRequired) {
+                throw new \Exception('Insufficient balance including fee. Required: ' . $totalRequired . ' TRX, Available: ' . $balance . ' TRX');
+            }
+
+            return [
+                'fee'            => $fee,
+                'transaction'    => $transaction,
+                'total_required' => $totalRequired,
+                'balance'        => $balance,
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to create transaction: ' . $e->getMessage());
+        }
     }
 
     private function createTransaction($senderAddress, $recipientAddress, $amount) {
@@ -80,40 +101,50 @@ class TronApiController extends Controller {
     }
 
     private function calculateTrxTransactionFee($transaction) {
-        $trxFee        = 0;
-        $senderAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
+        try {
+            $senderAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
 
-        // 1. Get transaction size from raw_data_hex (no signing needed)
-        if (! isset($transaction['raw_data_hex'])) {
-            throw new \Exception('Invalid transaction: raw_data_hex missing');
+                                                                                          // 1. Calculate total transaction size (including signature)
+            $transactionSizeInBytes = strlen(hex2bin($transaction['raw_data_hex'])) + 64; // 64 bytes for signature
+
+            // 2. Fetch account resources
+            $response = $this->client->post('https://api.shasta.trongrid.io/wallet/getaccountresource', [
+                'json' => [
+                    'address' => $senderAddress,
+                ],
+            ]);
+            $accountResources = json_decode($response->getBody(), true);
+
+                                                                       // 3. Calculate available bandwidth
+            $freeNetLimit = $accountResources['freeNetLimit'] ?? 1500; // Default daily free bandwidth
+            $freeNetUsed  = $accountResources['freeNetUsed'] ?? 0;
+            $netLimit     = $accountResources['NetLimit'] ?? 0; // Bandwidth from staked TRX
+            $netUsed      = $accountResources['NetUsed'] ?? 0;
+
+            // Calculate available bandwidth
+            $availableFreeNet        = max(0, $freeNetLimit - $freeNetUsed);
+            $availableStakedNet      = max(0, $netLimit - $netUsed);
+            $totalAvailableBandwidth = $availableFreeNet + $availableStakedNet;
+
+            // 4. Calculate required TRX for bandwidth
+            $bandwidthNeeded  = $transactionSizeInBytes;
+            $bandwidthDeficit = max(0, $bandwidthNeeded - $totalAvailableBandwidth);
+
+            // 5. Convert bandwidth to TRX fee (1 TRX = 1000000 SUN)
+            // Network burns 100 SUN for every byte of bandwidth
+            $trxFee = ($bandwidthDeficit * 100) / 1000000;
+
+            // 6. Add minimum activation fee if needed (0.1 TRX)
+            $activationFee = 0;
+            if (! isset($accountResources['TotalNetLimit'])) {
+                $activationFee = 0.1; // Account activation costs 0.1 TRX
+            }
+
+            return $trxFee + $activationFee;
+        } catch (\Exception $e) {
+            dd($e);
+            return $trxFee;
         }
-        $transactionSizeInBytes = strlen(hex2bin($transaction['raw_data_hex']));
-
-        // 2. Fetch account resources
-        $response = $this->client->post('https://api.shasta.trongrid.io/wallet/getaccountresource', [
-            'json' => [
-                'address' => $this->tron->address2HexString($senderAddress),
-            ],
-        ]);
-        $data = json_decode($response->getBody(), true);
-
-        // 3. Calculate available bandwidth
-        $freeNetLimit = $data['freeNetLimit'] ?? 0;
-        $freeNetUsed  = $data['freeNetUsed'] ?? 0;
-        $netLimit     = $data['NetLimit'] ?? 0;
-        $netUsed      = $data['NetUsed'] ?? 0;
-
-        $availableFreeNet     = max($freeNetLimit - $freeNetUsed, 0);
-        $availableAcquiredNet = max($netLimit - $netUsed, 0);
-        $totalAvailable       = $availableFreeNet + $availableAcquiredNet;
-
-        // 4. Calculate fee
-        if ($transactionSizeInBytes > $totalAvailable) {
-            $overage = $transactionSizeInBytes - $totalAvailable;
-            $trxFee  = $overage / 1000000; // SUN to TRX
-        }
-
-        return $trxFee;
     }
 
     public function broadcastTrxTransaction($transaction, $user_id) {
