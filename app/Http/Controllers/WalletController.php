@@ -168,7 +168,6 @@ class WalletController extends Controller {
             'amount_in_asset' => $request->amount,
             'amount_in_usd'   => $request->amount * $marketDataPrices[$request->wallet],
             'total'           => $request->amount - $fee,
-            'txID'            => $sendFundsRequest['transaction']['txID'],
         ]);
     }
 

@@ -68,7 +68,7 @@ class TronApiController extends Controller {
             'json'    => [
                 'owner_address' => $this->tron->toHex($senderAddress),
                 'to_address'    => $this->tron->toHex($recipientAddress),
-                'amount'        => $amount * 1000000,
+                'amount'        => (int) round($amount * 1000000),
             ],
             'headers' => [
                 'Accept'       => 'application/json',
@@ -80,24 +80,41 @@ class TronApiController extends Controller {
     }
 
     private function calculateTrxTransactionFee($transaction) {
-        $trxFee                 = 0;
-        $senderAddress          = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
-        $serializedTransaction  = $this->tron->toHex(json_encode($transaction));
-        $transactionSizeInBytes = strlen(hex2bin($serializedTransaction));
+        $trxFee        = 0;
+        $senderAddress = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
 
+        // Use the provided raw_data_hex if available
+        if (isset($transaction['raw_data_hex'])) {
+            $serializedHex = $transaction['raw_data_hex'];
+        } else {
+            // Fallback: attempt to serialize the transaction properly (this might not be fully accurate)
+            $serializedHex = $this->tron->toHex($transaction);
+        }
+
+        // Calculate size in bytes: each byte is represented by 2 hex characters.
+        $transactionSizeInBytes = strlen($serializedHex) / 2;
+
+        // Fetch account resources to determine available bandwidth
         $response = $this->client->post('https://api.shasta.trongrid.io/wallet/getaccountresource', [
             'json' => [
                 'address' => $this->tron->address2HexString($senderAddress),
             ],
         ]);
-        $data              = json_decode($response->getBody(), true);
-        $freeNetLimit      = $data['freeNetLimit'] ?? 0;
-        $freeNetUsed       = $data['freeNetUsed'] ?? 0;
-        $availableFreeNet  = $freeNetLimit - $freeNetUsed;
+        $data = json_decode($response->getBody(), true);
+
+        // Retrieve free bandwidth info:
+        $freeNetLimit     = $data['freeNetLimit'] ?? 0;
+        $freeNetUsed      = $data['freeNetUsed'] ?? 0;
+        $availableFreeNet = $freeNetLimit - $freeNetUsed;
+
+        // Use the transaction size (in bytes) as the required bandwidth
         $bandwidthRequired = $transactionSizeInBytes;
 
+        // If available free bandwidth is less than required, calculate the fee.
         if ($availableFreeNet < $bandwidthRequired) {
-            $trxFee = ($bandwidthRequired - $availableFreeNet);
+            $missingBandwidth = $bandwidthRequired - $availableFreeNet;
+            // Each missing bandwidth point costs 1 SUN = 0.000001 TRX
+            $trxFee = $missingBandwidth * 0.000001;
         }
 
         return $trxFee;
@@ -105,33 +122,21 @@ class TronApiController extends Controller {
 
     public function broadcastTrxTransaction($transaction, $user_id) {
         $ownerAddress    = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
-        $amount          = $transaction['raw_data']['contract'][0]['parameter']['value']['amount'];
         $ownerAddressKey = GeneratedTronWallet::where('address_base58', $ownerAddress)->value('private_key');
 
         $this->tron->setAddress($ownerAddress);
         $this->tron->setPrivateKey($ownerAddressKey);
 
-        $fee = $this->calculateTrxTransactionFee($transaction);
+        $signedTransaction = $this->tron->signTransaction($transaction);
+        $rawTransaction    = $this->tron->sendRawTransaction($signedTransaction);
 
-        $transaction['raw_data']['contract'][0]['parameter']['value']['amount'] = $amount - $fee;
+        $tnx_id = $this->createTransactionForTron($transaction, 'sent', $user_id);
 
-        try {
-            $signedTransaction = $this->tron->signTransaction($transaction);
-            $rawTransaction    = $this->tron->sendRawTransaction($signedTransaction);
-
-            $tnx_id = $this->createTransactionForTron($transaction, 'sent', $user_id);
-
-            return [
-                'status' => 'success',
-                'txID'   => $rawTransaction['txid'],
-                'tnx_id' => $tnx_id,
-            ];
-        } catch (\Exception $e) {
-            return [
-                'status'  => 'error',
-                'message' => $e->getMessage(),
-            ];
-        }
+        return [
+            'status' => 'success',
+            'txID'   => $rawTransaction['txid'],
+            'tnx_id' => $tnx_id,
+        ];
     }
 
     private function createTransactionForTron($transaction, $type, $user_id) {
