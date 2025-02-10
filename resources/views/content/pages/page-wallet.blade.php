@@ -746,16 +746,31 @@ $userId = $user->id;
                   </label>
 
                   <div class="d-flex justify-content-end w-50">
-                    <button type="button" class="btn btn-sm btn-primary wallet-item-send-button"
-                      data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal" data-bs-target="#sendFundsModal"
-                      data-title="{{ $walletItem['title'] }}" data-symbol="{{ $walletItem['symbol'] }}"
-                      data-address="{{ $walletItem['wallet_address'] }}" data-label="{{ $walletItem['label'] }}"
-                      data-active="{{ $walletItem['active'] }}"
-                      data-balance="{{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}"
-                      data-network="{{ $assets->where('symbol', $walletItem['symbol'])->value('network') }}">
-                      Send Funds
-                    </button>
+                    <div class="d-flex flex-column">
+                      <div class="d-flex flex-column align-items-end text-right">
+                        <h5 class="mb-1 lh-1 text-white">
+                          {{ number_format(convertAssetToUsd($walletItem['symbol'], $userBalances->where('wallet',
+                          $walletItem['symbol'])->value('balance')), 2) }}
+                          $
+                        </h5>
+                        <small class="text-light">
+                          {{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}
+                          {{ $walletItem['symbol'] }}
+                        </small>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <button type="button" class="btn btn-sm btn-primary w-100 wallet-item-send-button"
+                    data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal" data-bs-target="#sendFundsModal"
+                    data-title="{{ $walletItem['title'] }}" data-symbol="{{ $walletItem['symbol'] }}"
+                    data-address="{{ $walletItem['wallet_address'] }}" data-label="{{ $walletItem['label'] }}"
+                    data-active="{{ $walletItem['active'] }}"
+                    data-balance="{{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}"
+                    data-network="{{ $assets->where('symbol', $walletItem['symbol'])->value('network') }}">
+                    Send Funds
+                  </button>
                 </div>
               </div>
             </div>
