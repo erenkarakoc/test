@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Blockchains\BSCApiController;
+use App\Http\Controllers\Blockchains\BscApiController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Models\Asset;
 use App\Models\User;
@@ -18,7 +18,7 @@ class WalletController extends Controller {
 
     public function __construct() {
         $this->tronApiController = new TronApiController;
-        $this->bscApiController  = new BSCApiController;
+        $this->bscApiController  = new BscApiController;
     }
 
     /**

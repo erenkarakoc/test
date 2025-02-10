@@ -13,7 +13,7 @@ use BaconQrCode\Writer;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\View;
 
-class BSCApiController {
+class BscApiController {
     protected $client;
     protected $endpoint;
 
