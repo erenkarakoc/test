@@ -739,7 +739,7 @@
 
   sendFundsSummaryForm.addEventListener('submit', async e => {
     e.preventDefault();
-    // sendFundsSummaryModalSubmit.setAttribute('disabled', true);
+    sendFundsSummaryModalSubmit.setAttribute('disabled', true);
 
     const res = await fetch('/complete-send-funds', {
       method: 'POST',
@@ -755,8 +755,7 @@
     });
     const response = await res.json();
 
-    console.log(response);
-    // window.location.href = '/transactions?tnx_id=' + response.tnx_id;
+    window.location.href = '/transactions?tnx_id=' + response.tnx_id;
   });
 
   document.querySelectorAll('[data-bs-toggle="tab"]').forEach(navLink => {

@@ -749,9 +749,8 @@ $userId = $user->id;
                     <div class="d-flex flex-column">
                       <div class="d-flex flex-column align-items-end text-right">
                         <h5 class="mb-1 lh-1 text-white">
-                          {{ number_format(convertAssetToUsd($walletItem['symbol'], $userBalances->where('wallet',
-                          $walletItem['symbol'])->value('balance')), 2) }}
-                          $
+                          {{ number_format($userBalances->where('wallet', $walletItem['symbol'])->value('balance') *
+                          $marketDataPrices[$walletItem['symbol']], 2) }}$
                         </h5>
                         <small class="text-light">
                           {{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}
@@ -761,7 +760,7 @@ $userId = $user->id;
                     </div>
                   </div>
                 </div>
-                <div class="d-flex mt-2">
+                <div class="d-flex mt-4">
                   <button type="button" class="btn btn-sm btn-primary w-100 wallet-item-send-button"
                     data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal" data-bs-target="#sendFundsModal"
                     data-title="{{ $walletItem['title'] }}" data-symbol="{{ $walletItem['symbol'] }}"
