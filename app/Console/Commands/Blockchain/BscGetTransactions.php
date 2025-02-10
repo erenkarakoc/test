@@ -88,5 +88,7 @@ class BscGetTransactions extends Command {
                 }
             }
         }
+
+        $this->info('Checked BNB transactions.');
     }
 }

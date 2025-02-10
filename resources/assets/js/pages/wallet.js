@@ -755,6 +755,7 @@
     });
     const response = await res.json();
 
+    console.log(response);
     // window.location.href = '/transactions?tnx_id=' + response.tnx_id;
   });
 

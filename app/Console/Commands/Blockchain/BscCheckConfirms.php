@@ -40,18 +40,48 @@ class BscCheckConfirms extends Command {
             ->get();
 
         foreach ($pendingTransactions as $transaction) {
-            $bscTransaction = $client->post("https://api-testnet.bscscan.com/api?module=proxy&action=eth_getTransactionByHash&txhash={$transaction->hash_id}&apikey={$this->bscScanApiKey}", [
-                'json'    => ['value' => $transaction->hash_id],
+            // Use GET instead of POST to call the BscScan API
+            $bscTransactionResponse = $client->get('https://api-testnet.bscscan.com/api', [
+                'query'   => [
+                    'module' => 'proxy',
+                    'action' => 'eth_getTransactionByHash',
+                    'txhash' => $transaction->hash_id,
+                    'apikey' => $this->bscScanApiKey,
+                ],
                 'headers' => [
-                    'Accept'       => 'application/json',
-                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
                 ],
             ]);
 
-            $blockNumberHex  = json_decode($bscTransaction->getBody(), true)['result']['blockNumber'];
-            $currentBlockHex = json_decode($client->post("https://api-testnet.bscscan.com/api?module=proxy&action=eth_blockNumber&apikey={$this->bscScanApiKey}")->getBody(), true)['result'];
+            $transactionData = json_decode($bscTransactionResponse->getBody(), true);
 
-            // Convert hexadecimal block numbers to decimal
+            // Make sure that we have a valid block number before proceeding
+            if (! isset($transactionData['result']['blockNumber'])) {
+                // Skip this transaction if blockNumber is not present (transaction might still be pending)
+                continue;
+            }
+            $blockNumberHex = $transactionData['result']['blockNumber'];
+
+            // Get the current block number using a GET request
+            $currentBlockResponse = $client->get('https://api-testnet.bscscan.com/api', [
+                'query'   => [
+                    'module' => 'proxy',
+                    'action' => 'eth_blockNumber',
+                    'apikey' => $this->bscScanApiKey,
+                ],
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            $currentBlockData = json_decode($currentBlockResponse->getBody(), true);
+            if (! isset($currentBlockData['result'])) {
+                // If for some reason the current block is not available, skip this iteration.
+                continue;
+            }
+            $currentBlockHex = $currentBlockData['result'];
+
+            // Convert hexadecimal block numbers to decimal values
             $blockNumber  = hexdec($blockNumberHex);
             $currentBlock = hexdec($currentBlockHex);
 
@@ -62,5 +92,7 @@ class BscCheckConfirms extends Command {
                 $transactionController->setTransactionStatus($transaction->tnx_id, 'completed');
             }
         }
+
+        $this->info('Checked BNB transaction confirms.');
     }
 }

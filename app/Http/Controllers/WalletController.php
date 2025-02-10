@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Blockchains\BSCApiController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Models\Asset;
 use App\Models\User;
@@ -11,6 +12,15 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class WalletController extends Controller {
+    protected $tronApiController;
+
+    protected $bscApiController;
+
+    public function __construct() {
+        $this->tronApiController = new TronApiController;
+        $this->bscApiController  = new BSCApiController;
+    }
+
     /**
      * Store a new wallet for the user.
      */
@@ -123,16 +133,18 @@ class WalletController extends Controller {
         ]);
     }
 
+    /**
+     * Send funds request to the selected wallet.
+     */
     public function sendFundsRequest(Request $request) {
         $request->validate([
             'wallet' => 'required|string',
             'amount' => 'required|numeric',
         ]);
 
-        $user              = Auth::user();
-        $requestedWallet   = collect($user->wallet)->where('symbol', $request->wallet)->first();
-        $userBalance       = UserBalances::where('user_id', $user->id)->where('wallet', $request->wallet)->first();
-        $tronApiController = new TronApiController;
+        $user            = Auth::user();
+        $requestedWallet = collect($user->wallet)->where('symbol', $request->wallet)->first();
+        $userBalance     = UserBalances::where('user_id', $user->id)->where('wallet', $request->wallet)->first();
 
         // Verify the requested asset exists
         $assetExists = Asset::where('symbol', $request->wallet)->exists();
@@ -154,11 +166,14 @@ class WalletController extends Controller {
         $sendFundsRequest = [];
 
         if ($request->wallet === 'TRX') {
-            $sendFundsRequest = $tronApiController->sendTrxFundsRequest($user->id, $request->amount, $requestedWallet['wallet_address']);
+            $sendFundsRequest = $this->tronApiController->sendTrxFundsRequest($user->id, $request->amount, $requestedWallet['wallet_address']);
+        }
+        if ($request->wallet === 'BNB') {
+            $sendFundsRequest = $this->bscApiController->sendFundsRequest($user->id, $request->amount, $requestedWallet['wallet_address']);
         }
 
         $marketDataPrices = View::getShared()['marketDataPrices'];
-        $fee              = $sendFundsRequest['fee'] / 1000;
+        $fee              = $sendFundsRequest['fee'];
 
         return response()->json([
             'success'         => true,
@@ -171,19 +186,26 @@ class WalletController extends Controller {
         ]);
     }
 
+    /**
+     * Complete the send funds request.
+     */
     public function completeSendFunds(Request $request) {
         $request->validate([
             'asset'       => 'string|required',
             'transaction' => 'array|required',
+            'amount'      => 'numeric|required',
         ]);
 
-        $tronApiController = new TronApiController;
-
         if ($request->asset === 'TRX') {
-            $broadcast = $tronApiController->broadcastTrxTransaction($request->transaction, Auth::user()->id);
+            $broadcast = $this->tronApiController->broadcastTrxTransaction($request->transaction, Auth::user()->id, $request->amount);
+
+            return response()->json($broadcast);
+        }
+
+        if ($request->asset === 'BNB') {
+            $broadcast = $this->bscApiController->broadcastBnbTransaction($request->transaction, Auth::user()->id, $request->amount);
 
             return response()->json($broadcast);
         }
     }
-
 }

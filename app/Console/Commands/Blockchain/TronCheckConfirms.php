@@ -72,6 +72,6 @@ class TronCheckConfirms extends Command {
             }
         }
 
-        $this->info('Checked transaction confirms.');
+        $this->info('Checked Tron transaction confirms.');
     }
 }
