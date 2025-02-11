@@ -8,91 +8,88 @@ class AlgorithmController extends Controller {
         $validated = $request->validate([
             'chosen_algorithms' => 'required|array',
             'amount'            => 'required|numeric',
-            'period'            => 'required|numeric',
+            'period'            => 'required|numeric', // period in days
         ]);
 
         $chosenAlgorithms = $validated['chosen_algorithms'];
         $amount           = $validated['amount'];
-        $period           = $validated['period'];
+        $period           = $validated['period']; // period represents the number of days
 
-        // Base rates
-        $baseAlgorithmCost = 1.8;
-        $baseIncomeRate    = 0.0015;
+                                    // Base rates
+        $baseAlgorithmCost = 1.5;   // cost per algorithm unit
+        $baseIncomeRate    = 0.004; // income per algorithm unit per day
 
-        // Conflict map
+        // Conflict map: key is a category whose algorithms conflict with the listed categories.
         $conflictMap = [
-            'MR'  => ['TF'],
-            'MLP' => ['MR'],
-            'MSE' => ['TF'],
+            'MR'  => ['TF'], // Mean Reversion conflicts with Trend-Following
+            'MLP' => ['MR'], // Machine Learning & Predictive conflicts with Mean Reversion
+            'MSE' => ['TF'], // Market Structure/Execution conflicts with Trend-Following
         ];
 
-        // Period map
-        $periodMap = [
-            'TF'  => 'long',
-            'MR'  => 'long',
-            'MSE' => 'short',
-        ];
+        // Initialize totals
+        $totalAlgorithmCost = 0;
+        $totalIncome        = 0;
+        $totalContribution  = 0;
 
-        // Adjust contribution rates based on conflicts
-        $adjustedAlgorithms = array_map(function ($algorithm) use ($chosenAlgorithms, $conflictMap) {
-            $adjustedAlgorithm = $algorithm;
+        // Loop over each chosen algorithm
+        foreach ($chosenAlgorithms as $index => $algo) {
+            // Normalize category: if given as "MS", convert it to "MSE" so it matches our maps.
+            $category = $algo['category'];
+            if ($category === 'MS') {
+                $category = 'MSE';
+            }
+            $contribution = $algo['contribution'];
 
-            foreach ($chosenAlgorithms as $otherAlgorithm) {
-                if ($algorithm !== $otherAlgorithm) {
-                    $conflicts = $conflictMap[$algorithm['category']] ?? [];
-                    if (in_array($otherAlgorithm['category'], $conflicts)) {
-                        $adjustedAlgorithm['contribution'] *= 0.5;
-                    }
+            // Base cost and income for this algorithm (without adjustments)
+            $cost = $baseAlgorithmCost * $contribution;
+            // Since income is per day, multiply by the number of days (period)
+            $income = $baseIncomeRate * $contribution * $period;
+
+            // Check for conflicts with any other chosen algorithm.
+            $conflictFound = false;
+            foreach ($chosenAlgorithms as $j => $other) {
+                if ($j === $index) {
+                    continue;
+                }
+                $otherCategory = $other['category'];
+                if ($otherCategory === 'MS') {
+                    $otherCategory = 'MSE';
+                }
+                // Check if current algorithm (by its category) conflicts with the other
+                if (isset($conflictMap[$category]) && in_array($otherCategory, $conflictMap[$category])) {
+                    $conflictFound = true;
+                    break;
+                }
+                // Also check the reverse: if the other algorithm’s category conflicts with the current one.
+                if (isset($conflictMap[$otherCategory]) && in_array($category, $conflictMap[$otherCategory])) {
+                    $conflictFound = true;
+                    break;
                 }
             }
 
-            return $adjustedAlgorithm;
-        }, $chosenAlgorithms);
-
-        // Calculate algorithm costs
-        $algorithmCostValues = array_map(function ($algorithm) use ($baseAlgorithmCost, $adjustedAlgorithms, $period) {
-            $cost = $baseAlgorithmCost * $algorithm['contribution'];
-
-            // Dynamic penalty based on number of algorithms
-            $algorithmCount = count($adjustedAlgorithms);
-            $penaltyFactor  = log($algorithmCount + 2);
-            $cost *= 1 + $penaltyFactor * 0.1;
-
-            // Period-based discount
-            $periodDiscount = log($period + 1) / 10;
-            $cost *= 1 - $periodDiscount;
-
-            return $cost;
-        }, $adjustedAlgorithms);
-
-        // Total algorithm cost
-        $totalAlgorithmCost = array_sum($algorithmCostValues);
-
-        // Calculate income
-        $totalIncome = array_reduce($adjustedAlgorithms, function ($sum, $algorithm) use ($baseIncomeRate, $periodMap, $period, $amount) {
-            $incomeRate = $baseIncomeRate * $algorithm['contribution'];
-
-            $preferredPeriod = $periodMap[$algorithm['category']] ?? null;
-            if ($preferredPeriod === 'long') {
-                $longPeriodBoost = log($period + 1) / 100;
-                $incomeRate *= 1 + $longPeriodBoost;
-            } elseif ($preferredPeriod === 'short') {
-                $shortPeriodPenalty = log($period + 1) / 100;
-                $incomeRate *= 1 - $shortPeriodPenalty;
+            if ($conflictFound) {
+                $income = 0;
             }
 
-            return $sum + $incomeRate * $amount;
-        }, 0);
+            // Add this algorithm's cost and income to the totals.
+            $totalAlgorithmCost += $cost;
+            $totalIncome += $income;
+            $totalContribution += $contribution;
+        }
 
-        // Calculate final values
+        // Calculate income rate per unit contribution
+        $incomeRatePerUnit = $totalIncome / $totalContribution;
+
+        // Calculate income based on the invested amount
+        $incomeValue = $incomeRatePerUnit * $amount;
+
+        // Final calculations:
+        // Deduct the algorithm unlocking cost from the initial amount.
         $amountAfterUnlockValue = $amount - $totalAlgorithmCost;
-        $incomeValue            = $totalIncome * $period;
         $finalBalance           = $amountAfterUnlockValue + $incomeValue;
         $finalPercentage        = (($finalBalance - $amount) / $amount) * 100;
 
-        sleep(0.5);
-
-        // Return results
+        // Return the computed summary as a JSON response.
         return response()->json([
             'totalAlgorithmCost'     => $totalAlgorithmCost,
             'totalIncome'            => $totalIncome,
