@@ -270,7 +270,7 @@ $configData = Helper::appClasses();
         <div class="row">
           <div class="col-lg-6">
             <div class="card-header pe-0">
-              <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center mb-0">
                   <svg width="34" height="34" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -299,7 +299,10 @@ $configData = Helper::appClasses();
                       </linearGradient>
                     </defs>
                   </svg>
-                  <h5 class="text-heading ms-3 mb-0">Gedzen Token</h5>
+                  <h5 class="text-heading ms-3 mb-0">
+                    Gedzen Token
+                  </h5>
+                  <span class="badge bg-label-primary bg-glow py-1 px-2 ms-3 fw-bolder"><small>SOON</small></span>
                 </div>
                 <span class="badge rounded-pill bg-label-primary bg-glow">
                   Current Price: <span class="text-dark fw-semibold">{{ number_format($marketDataPrices['GDZ'], 2)
@@ -367,8 +370,8 @@ $configData = Helper::appClasses();
                     <img src="{{ asset('assets/img/illustrations/gdz_3d.png') }}" alt="Gedzen Token"
                       class="gdz-token-3d-bg">
                     <p class="text-light">
-                      Use Gedzen Token to invest in strategy packs with higher profits. Benefit from promising price
-                      growth and more.
+                      Gedzen Token will be available soon, allowing you to benefit Gedzen at it's best,
+                      promising price growth and more.
                     </p>
                   </div>
                 </div>
@@ -380,7 +383,7 @@ $configData = Helper::appClasses();
     </div>
 
     <div class="col col-6 mt-7">
-      <div class="card text-white bg-light">
+      <div class="card text-white bg-light h-100">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-start">
@@ -551,7 +554,7 @@ $configData = Helper::appClasses();
     </div>
 
     <div class="col col-6 mt-7">
-      <div class="card text-white bg-light">
+      <div class="card text-white bg-light h-100">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-start">
@@ -567,7 +570,7 @@ $configData = Helper::appClasses();
               </span>
               <div class="d-flex flex-column">
                 <h5 class="d-flex align-items-center ms-2 mb-0">
-                  Trade
+                  Trades
                 </h5>
                 <small class="text-light ms-2">Latest trades executed</small>
               </div>
