@@ -16,8 +16,8 @@ class AlgorithmController extends Controller {
         $period           = $validated['period']; // period represents the number of days
 
                                     // Base rates
-        $baseAlgorithmCost = 1.5;   // cost per algorithm unit
-        $baseIncomeRate    = 0.004; // income per algorithm unit per day
+        $baseAlgorithmCost = 0.4;   // cost per algorithm unit
+        $baseIncomeRate    = 0.015; // income per algorithm unit per day
 
         // Conflict map: key is a category whose algorithms conflict with the listed categories.
         $conflictMap = [
@@ -67,12 +67,18 @@ class AlgorithmController extends Controller {
                 }
             }
 
+            // If any conflict is found, we assume that algorithm will not generate income,
+            // but you still incur its cost plus an extra penalty.
             if ($conflictFound) {
                 $income = 0;
+                // For example, add a penalty of 10% of the base algorithm cost
+                $penalty = 0.1 * $baseAlgorithmCost * $contribution;
+            } else {
+                $penalty = 0;
             }
 
-            // Add this algorithm's cost and income to the totals.
-            $totalAlgorithmCost += $cost;
+            // Add this algorithm's adjusted cost and income to the totals.
+            $totalAlgorithmCost += $cost + $penalty;
             $totalIncome += $income;
             $totalContribution += $contribution;
         }
