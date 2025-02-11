@@ -190,7 +190,11 @@ class BscApiController {
 
             $transactionController->createTransaction($newTransaction);
 
-            return $tnx_id;
+            return [
+                'status' => 'success',
+                'txID'   => $transactionHash,
+                'tnx_id' => $tnx_id,
+            ];
         }
     }
 }

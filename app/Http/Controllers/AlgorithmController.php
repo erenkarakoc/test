@@ -16,8 +16,8 @@ class AlgorithmController extends Controller {
         $period           = $validated['period']; // period represents the number of days
 
                                     // Base rates
-        $baseAlgorithmCost = 0.4;   // cost per algorithm unit
-        $baseIncomeRate    = 0.015; // income per algorithm unit per day
+        $baseAlgorithmCost = 0.7;   // cost per algorithm unit
+        $baseIncomeRate    = 0.005; // income per algorithm unit per day
 
         // Conflict map: key is a category whose algorithms conflict with the listed categories.
         $conflictMap = [
