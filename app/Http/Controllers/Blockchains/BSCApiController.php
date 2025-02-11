@@ -149,8 +149,6 @@ class BscApiController {
         $amount          = $amountWithoutGasFee;
         $tnx_id          = $this->createTransactionForBsc('sent', $user_id, $amount, $transactionHash);
 
-        dd($tnx_id);
-
         return $tnx_id;
     }
 

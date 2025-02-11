@@ -68,9 +68,9 @@
 
     transactionAmountInAsset.forEach(el => {
       if (transaction.type === 'sent') {
-        el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset}</span>`;
+        el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
       } else if (transaction.type === 'locked') {
-        el.innerHTML = `<span class="text-light">-${transaction.amount_in_asset}</span>`;
+        el.innerHTML = `<span class="text-light">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
       } else {
         el.innerHTML = `<span class="text-success">+${transaction.amount_in_asset} ${transaction.asset}</span>`;
       }

@@ -44,8 +44,8 @@
                   <path d="M10.5 17.5L17.5 10.5M17.5 10.5L17.5 15.75M17.5 10.5L12.25 10.5" stroke="currentColor"
                     stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <svg class="transaction-locked text-light d-none" width="36" height="36" viewBox="0 0 80 80"
-                  fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="transaction-locked text-light d-none" width="36" height="36" viewBox="0 0 80 80" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
                   <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
                     d="M40 9.16667C22.9712 9.16667 9.16667 22.9712 9.16667 40C9.16667 57.0288 22.9712 70.8333 40 70.8333C57.0288 70.8333 70.8333 57.0288 70.8333 40C70.8333 22.9712 57.0288 9.16667 40 9.16667ZM4.16667 40C4.16667 20.2098 20.2098 4.16667 40 4.16667C59.7902 4.16667 75.8333 20.2098 75.8333 40C75.8333 59.7902 59.7902 75.8333 40 75.8333C20.2098 75.8333 4.16667 59.7902 4.16667 40Z"
                     fill="currentColor" />
@@ -59,7 +59,7 @@
                     d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
                     fill="currentColor" />
                 </svg>
-                <svg class="transaction-earned text-success d-none" xmlns="http://www.w3.org/2000/svg" width="36"
+                <svg class="transaction-trade text-success d-none" xmlns="http://www.w3.org/2000/svg" width="36"
                   height="36" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-width="1.5">
                     <circle cx="12" cy="12" r="10" opacity=".5" />
@@ -77,7 +77,7 @@
 
               <h5 class="mb-0">
                 <span class="transaction-type-text" data-received-text="Received" data-sent-text="Sent"
-                  data-locked-text="Locked" data-earned-text="Earned" data-bonus-text="Bonus"></span>
+                  data-locked-text="Locked" data-trade-text="Trade" data-bonus-text="Bonus"></span>
                 via
                 <span class="transaction-asset"></span>
               </h5>

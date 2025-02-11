@@ -46,14 +46,14 @@ $configData = Helper::appClasses();
             </div>
             <div class="content-right">
               <span class="text-heading fw-medium mb-0">Total Income</span>
-              <h6 class="text-primary mb-0">{{ number_format($totalEarned, 2) }}$<small
+              <h6 class="text-primary mb-0">{{ number_format($totalTrade, 2) }}$<small
                   class="text-success fw-light ms-1">7.64%</small></h6>
             </div>
           </div>
 
           <div class="popover-trigger text-light cursor-pointer d-flex align-items-start" data-bs-toggle="popover"
             data-bs-trigger="hover" data-bs-placement="top" data-bs-custom-class="popover-dark"
-            data-bs-content="Total profit you've earned throughout your Gedzen journey.">
+            data-bs-content="Total profit you've trade throughout your Gedzen journey.">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
               <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                 opacity=".3" />
@@ -404,8 +404,8 @@ $configData = Helper::appClasses();
         </div>
         <div class="card-body">
           <div class="transaction-items">
-            @if (!$transactionsExceptEarned->isEmpty())
-            @foreach ($transactionsExceptEarned as $transaction)
+            @if (!$transactionsExceptTrade->isEmpty())
+            @foreach ($transactionsExceptTrade as $transaction)
             <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
               <div class="d-flex align-items-start">
                 <div class="transaction-item-icon">
@@ -442,7 +442,7 @@ $configData = Helper::appClasses();
                       d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
                       fill="currentColor" />
                   </svg>
-                  @elseif ($transaction->type === 'earned')
+                  @elseif ($transaction->type === 'trade')
                   <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                     viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" stroke-width="1.5">
@@ -468,8 +468,8 @@ $configData = Helper::appClasses();
                     Sent via {{ $transaction->asset }}
                     @elseif ($transaction->type === 'locked')
                     Locked via {{ $transaction->asset }}
-                    @elseif ($transaction->type === 'earned')
-                    Earned via {{ $transaction->asset }}
+                    @elseif ($transaction->type === 'trade')
+                    Trade via {{ $transaction->asset }}
                     @elseif ($transaction->type === 'bonus')
                     Bonus via {{ $transaction->asset }}
                     @endif
@@ -566,18 +566,18 @@ $configData = Helper::appClasses();
               </span>
               <div class="d-flex flex-column">
                 <h5 class="d-flex align-items-center ms-2 mb-0">
-                  Earned
+                  Trade
                 </h5>
-                <small class="text-light ms-2">Latest incomes you've earned</small>
+                <small class="text-light ms-2">Latest trades executed</small>
               </div>
             </div>
-            <a href="{{ route('page-transactions') }}?tab=earned" class="btn btn-sm btn-primary">View All</a>
+            <a href="{{ route('page-transactions') }}?tab=trade" class="btn btn-sm btn-primary">View All</a>
           </div>
         </div>
         <div class="card-body">
           <div class="transaction-items">
-            @if (!$transactionsEarned->isEmpty())
-            @foreach ($transactionsEarned as $transaction)
+            @if (!$transactionsTrade->isEmpty())
+            @foreach ($transactionsTrade as $transaction)
             <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
               <div class="d-flex align-items-start">
                 <div class="transaction-item-icon">
@@ -591,7 +591,7 @@ $configData = Helper::appClasses();
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-0">
-                    Earned via {{ $transaction->asset }}
+                    Traded via {{ $transaction->asset }}
                     @if (!empty(json_decode($transaction->notes, true)))
                     @php
                     $notesArray = json_decode($transaction->notes, true);
@@ -651,10 +651,10 @@ $configData = Helper::appClasses();
             @else
             <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
               <h6 class="text-light mt-4 mb-2 pb-0 px-0 fw-bolder">
-                You haven't earned any profits yet.
+                No executed trades yet.
               </h6>
               <small class="text-light pt-0 px-0">
-                The transactions related to your incomes from strategies will be listed here.
+                The transactions related to executed trades will be listed here.
               </small>
             </div>
             @endif

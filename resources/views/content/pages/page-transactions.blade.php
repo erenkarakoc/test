@@ -93,10 +93,10 @@ $configData = Helper::appClasses();
           <div class="d-flex justify-content-between align-items-start">
             <div class="d-flex flex-column align-items-start gap-2 text-white">
               <h6 class="d-flex align-items-center mb-0 text-white total-transaction-item-title">
-                Total Earned
+                Total Income
                 <span class="popover-trigger cursor-pointer ms-1" data-bs-toggle="popover" data-bs-trigger="hover"
                   data-bs-placement="top" data-bs-custom-class="popover-dark"
-                  data-bs-content="Total amount you've earned from strategies.">
+                  data-bs-content="Total summary of executed trades.">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                     <path fill="currentColor"
                       d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
@@ -108,10 +108,10 @@ $configData = Helper::appClasses();
             </div>
             <div class="d-flex flex-column align-items-end text-right">
               <h5 class="mb-0 text-white">
-                {{ number_format($totalEarned) }}$
+                {{ number_format($totalTrade) }}$
               </h5>
               <small class="text-dark">
-                {{ number_format($totalEarned * MarketData::where('asset', 'EUR')->value('price'), 2) }}€
+                {{ number_format($totalTrade * MarketData::where('asset', 'EUR')->value('price'), 2) }}€
               </small>
             </div>
           </div>
@@ -167,6 +167,21 @@ $configData = Helper::appClasses();
         </button>
       </li>
       <li class="nav-item">
+        <button type="button" class="nav-link" role="tab" data-bs-target="#trade" aria-controls="trade"
+          aria-selected="false">
+          <svg class="me-2" width="24" height="24" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.5"
+              d="M40 6.66666C21.59 6.66666 6.66666 21.59 6.66666 40C6.66666 58.41 21.59 73.3333 40 73.3333C58.41 73.3333 73.3333 58.41 73.3333 40C73.3333 21.59 58.41 6.66666 40 6.66666Z"
+              fill="currentColor" />
+            <path opacity="0.5"
+              d="M44.375 53.9998H47.4821C52.2816 53.9895 54.8523 53.8714 56.7456 52.6037C57.6505 51.9996 58.4275 51.2233 59.0324 50.3189C60.4286 48.2268 60.4286 45.3185 60.4286 39.4998C60.4286 33.6812 60.4286 30.7729 59.0324 28.6828C58.4275 27.7785 57.6505 27.0021 56.7456 26.3981C54.8502 25.1303 52.2816 25.0123 47.4821 25.0019H44.375V33.2856H45.9286C47.5767 33.2856 49.1573 33.9403 50.3227 35.1057C51.4881 36.2711 52.1429 37.8517 52.1429 39.4998C52.1429 41.148 51.4881 42.7286 50.3227 43.894C49.1573 45.0594 47.5767 45.7141 45.9286 45.7141H44.375V53.9998ZM35.0536 53.9998V45.7141H33.5C31.8519 45.7141 30.2712 45.0594 29.1058 43.894C27.9404 42.7286 27.2857 41.148 27.2857 39.4998C27.2857 37.8517 27.9404 36.2711 29.1058 35.1057C30.2712 33.9403 31.8519 33.2856 33.5 33.2856H35.0536V25.0019H31.9464C27.1469 25.0123 24.5784 25.1303 22.683 26.3981C21.7781 27.0021 21.001 27.7785 20.3961 28.6828C19 30.7729 19 33.6833 19 39.4998C19 45.3206 19 48.2288 20.3961 50.3189C21.001 51.2233 21.7781 51.9996 22.683 52.6037C24.5784 53.8714 27.1469 53.9895 31.9464 53.9998H35.0536Z"
+              fill="currentColor" />
+            <path opacity="0.8" d="M35.0536 54H44.375V25H35.0536V54Z" fill="currentColor" />
+          </svg>
+          Trades
+        </button>
+      </li>
+      <li class="nav-item">
         <button type="button" class="nav-link" role="tab" data-bs-target="#received" aria-controls="received"
           aria-selected="false">
           <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -205,21 +220,6 @@ $configData = Helper::appClasses();
               fill="currentColor" />
           </svg>
           Locked
-        </button>
-      </li>
-      <li class="nav-item">
-        <button type="button" class="nav-link" role="tab" data-bs-target="#earned" aria-controls="earned"
-          aria-selected="false">
-          <svg class="me-2" width="24" height="24" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path opacity="0.5"
-              d="M40 6.66666C21.59 6.66666 6.66666 21.59 6.66666 40C6.66666 58.41 21.59 73.3333 40 73.3333C58.41 73.3333 73.3333 58.41 73.3333 40C73.3333 21.59 58.41 6.66666 40 6.66666Z"
-              fill="currentColor" />
-            <path opacity="0.5"
-              d="M44.375 53.9998H47.4821C52.2816 53.9895 54.8523 53.8714 56.7456 52.6037C57.6505 51.9996 58.4275 51.2233 59.0324 50.3189C60.4286 48.2268 60.4286 45.3185 60.4286 39.4998C60.4286 33.6812 60.4286 30.7729 59.0324 28.6828C58.4275 27.7785 57.6505 27.0021 56.7456 26.3981C54.8502 25.1303 52.2816 25.0123 47.4821 25.0019H44.375V33.2856H45.9286C47.5767 33.2856 49.1573 33.9403 50.3227 35.1057C51.4881 36.2711 52.1429 37.8517 52.1429 39.4998C52.1429 41.148 51.4881 42.7286 50.3227 43.894C49.1573 45.0594 47.5767 45.7141 45.9286 45.7141H44.375V53.9998ZM35.0536 53.9998V45.7141H33.5C31.8519 45.7141 30.2712 45.0594 29.1058 43.894C27.9404 42.7286 27.2857 41.148 27.2857 39.4998C27.2857 37.8517 27.9404 36.2711 29.1058 35.1057C30.2712 33.9403 31.8519 33.2856 33.5 33.2856H35.0536V25.0019H31.9464C27.1469 25.0123 24.5784 25.1303 22.683 26.3981C21.7781 27.0021 21.001 27.7785 20.3961 28.6828C19 30.7729 19 33.6833 19 39.4998C19 45.3206 19 48.2288 20.3961 50.3189C21.001 51.2233 21.7781 51.9996 22.683 52.6037C24.5784 53.8714 27.1469 53.9895 31.9464 53.9998H35.0536Z"
-              fill="currentColor" />
-            <path opacity="0.8" d="M35.0536 54H44.375V25H35.0536V54Z" fill="currentColor" />
-          </svg>
-          Earned
         </button>
       </li>
       <li class="nav-item">
@@ -286,7 +286,7 @@ $configData = Helper::appClasses();
                         d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
                         fill="currentColor" />
                     </svg>
-                    @elseif ($transaction->type === 'earned')
+                    @elseif ($transaction->type === 'trade')
                     <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                       viewBox="0 0 24 24">
                       <g fill="none" stroke="currentColor" stroke-width="1.5">
@@ -312,8 +312,8 @@ $configData = Helper::appClasses();
                       Sent via {{ $transaction->asset }}
                       @elseif ($transaction->type === 'locked')
                       Locked via {{ $transaction->asset }}
-                      @elseif ($transaction->type === 'earned')
-                      Earned via {{ $transaction->asset }}
+                      @elseif ($transaction->type === 'trade')
+                      Traded via {{ $transaction->asset }}
                       @elseif ($transaction->type === 'bonus')
                       Bonus via {{ $transaction->asset }}
                       @endif
@@ -785,17 +785,17 @@ $configData = Helper::appClasses();
         </div>
       </div>
 
-      <div class="tab-pane fade" id="earned" role="tabpanel" aria-labelledby="earned" tabindex="0">
-        <h6 class="mb-2 lh-1">Earned</h6>
+      <div class="tab-pane fade" id="trade" role="tabpanel" aria-labelledby="trade" tabindex="0">
+        <h6 class="mb-2 lh-1">Trades</h6>
         <small class="lh-1 mb-7">
-          View all transactions related to your incomes from strategies
+          View all transactions related to executed trades
         </small>
 
         <div class="card bg-light mt-7">
           <div class="card-body">
             <div class="transaction-items">
-              @if (!$earnedTransactions->isEmpty())
-              @foreach ($earnedTransactions as $transaction)
+              @if (!$tradeTransactions->isEmpty())
+              @foreach ($tradeTransactions as $transaction)
               <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
                 <div class="d-flex align-items-start">
                   <div class="transaction-item-icon">
@@ -809,7 +809,7 @@ $configData = Helper::appClasses();
                   </div>
                   <div class="d-flex flex-column">
                     <h6 class="mb-0">
-                      Earned via {{ $transaction->asset }}
+                      Trade via {{ $transaction->asset }}
                       @if (!empty(json_decode($transaction->notes, true)))
                       @php
                       $notesArray = json_decode($transaction->notes, true);
@@ -883,10 +883,10 @@ $configData = Helper::appClasses();
                   <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid4)" />
                 </svg>
                 <h6 class="mb-2 pb-0 px-0 fw-bolder">
-                  You haven't earned any profits yet.
+                  No executed trades yet.
                 </h6>
                 <small class="pt-0 px-0">
-                  Transactions related to your incomes from strategies will be listed here.
+                  The transactions related to executed trades will be listed here.
                 </small>
                 <a href="{{ route('page-strategy-packs') }}"
                   class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">
@@ -907,7 +907,7 @@ $configData = Helper::appClasses();
               @endif
             </div>
 
-            <x-paginator :paginator="$earnedTransactions" :tab="'earned'" />
+            <x-paginator :paginator="$tradeTransactions" :tab="'trade'" />
           </div>
         </div>
       </div>
