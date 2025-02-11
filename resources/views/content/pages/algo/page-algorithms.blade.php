@@ -140,7 +140,8 @@ $configData = Helper::appClasses();
                       ≈{{ $strategyPack->total_contribution_rate }}%
                     </small>
                   </div>
-                  <a href="#" class="strategy-pack-btn">
+                  <a href="{{ route('page-strategy-packs', ['strategy_pack' => $strategyPack->title]) }}"
+                    class="strategy-pack-btn">
                     View
                   </a>
                 </div>

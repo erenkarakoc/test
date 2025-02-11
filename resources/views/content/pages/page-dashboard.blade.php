@@ -168,7 +168,8 @@ $configData = Helper::appClasses();
                         d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
                     </svg>
                   </span>
-                  <a href="#" class="strategy-pack-btn ms-2">
+                  <a href="{{ route('page-strategy-packs', ['strategy_pack' => $strategyPack->title]) }}"
+                    class="strategy-pack-btn ms-2">
                     View
                   </a>
                 </div>

@@ -846,14 +846,10 @@
     calculateSummary();
   };
 
-  strategyPackButtons.forEach(button => button.addEventListener('click', () => setChosenStrategyPack(button)));
-  document.addEventListener('DOMContentLoaded', () => {
-    setChosenStrategyPack(document.querySelector('.strategy-pack-btn[data-title="Momentum"]'));
-  });
-
   const strategyPacks = document.querySelector('#strategy-packs');
+  let strategyPacksSwiper = null;
   if (strategyPacks) {
-    const strategyPacksSwiper = new Swiper(strategyPacks, {
+    strategyPacksSwiper = new Swiper(strategyPacks, {
       loop: true,
       spaceBetween: 10,
       autoplay: {
@@ -877,4 +873,19 @@
       setCurrentStrategyPack(title, description, algorithms);
     });
   }
+
+  strategyPackButtons.forEach(button => button.addEventListener('click', () => setChosenStrategyPack(button)));
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const strategyParam = urlParams.get('strategy_pack');
+
+    if (strategyParam) {
+      const index = document
+        .querySelector(`.strategy-pack-btn[data-title="${strategyParam}"]`)
+        .getAttribute('data-index');
+
+      setChosenStrategyPack(document.querySelector(`.strategy-pack-btn[data-title="${strategyParam}"]`));
+      strategyPacksSwiper.slideTo(index);
+    }
+  });
 })();
