@@ -2,8 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\LockedPack;
+use App\Models\UserBalances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class AlgorithmController extends Controller {
     public function calculateAlgorithmSummary(Request $request) {
@@ -108,7 +110,7 @@ class AlgorithmController extends Controller {
         ]);
     }
 
-    public function lockAmountWithChosenAlgorithms(Request $request) {
+    public function lockPack(Request $request) {
         $validated = $request->validate([
             'strategy_pack_id'  => 'nullable|numeric',
             'chosen_algorithms' => 'required|array',
@@ -116,27 +118,66 @@ class AlgorithmController extends Controller {
             'period'            => 'required|numeric',
         ]);
 
-        $user = Auth::user();
+        $user              = Auth::user();
+        $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
 
-        $chosenAlgorithms = $validated['chosen_algorithms'];
-        $amount           = $validated['amount'];
-        $period           = $validated['period'];
+        $userBalances     = UserBalances::where('user_id', $user->id)->get();
+        $marketDataPrices = View::getShared('marketDataPrices');
+        $amountNeeded     = $validated['amount'];
+        $amountCollected  = 0;
 
-        $calculatedSummary = $this->calculateAlgorithmSummary($request);
+        foreach ($userBalances as $balance) {
+            if ($balance->wallet === 'USD') {
+                continue;
+            }
+
+            if ($amountCollected >= $amountNeeded) {
+                break;
+            }
+
+            if ($balance->balance > 0) {
+                $asset      = $balance->wallet;
+                $assetPrice = $marketDataPrices[$asset] ?? 1;
+
+                $amountToTakeUSD = $amountNeeded - $amountCollected;
+
+                $maxAssetValueInUSD = $balance->balance * $assetPrice;
+                $usdAmount          = min($amountToTakeUSD, $maxAssetValueInUSD);
+
+                $amountToTake = $usdAmount / $assetPrice;
+
+                $balance->balance -= $amountToTake;
+                $balance->save();
+
+                $usdBalance = UserBalances::where('user_id', $user->id)
+                    ->where('wallet', 'USD')
+                    ->first();
+
+                $usdBalance->locked_balance += $usdAmount;
+                $usdBalance->save();
+
+                $amountCollected += $usdAmount;
+            }
+        }
+
+        if ($amountCollected < $amountNeeded) {
+            throw new \Exception('Insufficient balance to cover the requested amount');
+        }
 
         $lockedPack = LockedPack::create([
             'user_id'               => $user->id,
             'strategy_pack_id'      => $validated['strategy_pack_id'] ?? null,
-            'chosen_algorithms'     => $chosenAlgorithms,
-            'amount'                => $amount,
-            'period'                => $period,
+            'chosen_algorithms'     => $validated['chosen_algorithms'],
+            'amount'                => $validated['amount'],
+            'period'                => $validated['period'],
             'algorithms_cost'       => $calculatedSummary['totalAlgorithmCost'],
             'estimated_profit_rate' => $calculatedSummary['finalPercentage'],
             'status'                => 'pending',
         ]);
 
         return response()->json([
-            'message' => 'Amount locked with chosen algorithms',
+            'message'     => 'Amount locked with chosen algorithms',
+            'locked_pack' => $lockedPack,
         ]);
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('strategy_pack_id')->constrained('strategy_packs')->nullable();
-            $table->array('chosen_algorithms');
+            $table->json('chosen_algorithms');
             $table->decimal('amount');
             $table->integer('period');
             $table->decimal('algorithms_cost');

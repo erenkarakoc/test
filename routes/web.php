@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Algorithms
     Route::post('/calculate-algorithm-summary', [AlgorithmController::class, 'calculateAlgorithmSummary']);
-    Route::post('/lock-amount-with-chosen-algorithms', [AlgorithmController::class, 'lockAmountWithChosenAlgorithms']);
+    Route::post('/lock-pack', [AlgorithmController::class, 'lockPack']);
 
     // Tron API
     Route::post('/create-transaction-for-tron', [TronApiController::class, 'createTransactionForTron'])->name('create-transaction-for-tron');

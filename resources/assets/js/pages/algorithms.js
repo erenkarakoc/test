@@ -96,7 +96,6 @@
     conflictWarnings.innerHTML = '';
 
     const conflictSet = new Set();
-    console.log(chosenAlgorithms)
 
     chosenAlgorithms.forEach(algorithm => {
       const conflict = conflictMap.find(map => Object.keys(map)[0] === algorithm.category);
@@ -920,39 +919,22 @@
 
   lockAmountButton.addEventListener('click', () => {
     if (calculated && chosenAlgorithms.length) {
-      lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+      // lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
 
-      setTimeout(() => {
-        toastr.info(
-          `<div class="d-flex flex-column" id="lockAmountToast">
-                <span>Are you sure you want to lock ${amount.toFixed(2)}$ on the built algorithm pack?</span>
-                <div class="d-flex justify-content-end mt-4">
-                <button type="button" class="btn btn-label-danger btn-sm" id="lockAmountButtonToastCancel">Cancel</button>
-                <button type="button" class="btn btn-primary btn-sm ms-2" id="lockAmountButtonToastContinue">Lock Amount</button>
-                </div>
-            </div>`,
-          'Lock Amount?',
-          {
-            timeOut: 0,
-            extendedTimeOut: 0,
-            onShown: () => {
-              const lockAmountToast = document.querySelector('#lockAmountToast');
-              const lockAmountButtonToastContinue = lockAmountToast.querySelector('#lockAmountButtonToastContinue');
-              const lockAmountButtonToastCancel = lockAmountToast.querySelector('#lockAmountButtonToastCancel');
+      amount = Number(amountInput.value);
+      period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+      const data = { chosen_algorithms: chosenAlgorithms, amount, period };
 
-              lockAmountButtonToastCancel.addEventListener('click', () => {
-                lockAmountButton.querySelector('svg').classList.add('loading-hidden');
-                toastr.clear();
-              });
-              lockAmountButtonToastContinue.addEventListener('click', () => {
-                lockAmountButton.querySelector('svg').classList.add('loading-hidden');
-
-                window.location.reload();
-              });
-            }
-          }
-        );
-      }, 1000);
+      fetch('/lock-pack', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+        }
+      }).then(res => {
+        console.log(res);
+      });
     }
   });
 
