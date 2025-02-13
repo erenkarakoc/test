@@ -121,17 +121,14 @@ class AlgorithmController extends Controller {
         $user              = Auth::user();
         $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
 
+        $totalAmountNeeded = $validated['amount'];
+
         $userBalances     = UserBalances::where('user_id', $user->id)->get();
         $marketDataPrices = View::getShared('marketDataPrices');
-        $amountNeeded     = $validated['amount'];
         $amountCollected  = 0;
 
         foreach ($userBalances as $balance) {
-            if ($balance->wallet === 'USD') {
-                continue;
-            }
-
-            if ($amountCollected >= $amountNeeded) {
+            if ($amountCollected >= $totalAmountNeeded) {
                 break;
             }
 
@@ -139,29 +136,34 @@ class AlgorithmController extends Controller {
                 $asset      = $balance->wallet;
                 $assetPrice = $marketDataPrices[$asset] ?? 1;
 
-                $amountToTakeUSD = $amountNeeded - $amountCollected;
-
+                $amountToTakeUSD    = $totalAmountNeeded - $amountCollected;
                 $maxAssetValueInUSD = $balance->balance * $assetPrice;
                 $usdAmount          = min($amountToTakeUSD, $maxAssetValueInUSD);
 
                 $amountToTake = $usdAmount / $assetPrice;
 
+                // Deduct from the asset's balance
                 $balance->balance -= $amountToTake;
                 $balance->save();
 
+                // Add to USD locked balance
                 $usdBalance = UserBalances::where('user_id', $user->id)
                     ->where('wallet', 'USD')
                     ->first();
 
-                $usdBalance->locked_balance += $usdAmount;
-                $usdBalance->save();
+                if ($usdBalance) {
+                    // Only lock the investment amount, not the algorithm cost
+                    $investmentUSD = min($usdAmount, $validated['amount'] - ($totalAmountNeeded - $usdAmount - $calculatedSummary['totalAlgorithmCost']));
+                    $usdBalance->locked_balance += $investmentUSD;
+                    $usdBalance->save();
+                }
 
                 $amountCollected += $usdAmount;
             }
         }
 
-        if ($amountCollected < $amountNeeded) {
-            throw new \Exception('Insufficient balance to cover the requested amount');
+        if ($amountCollected < $totalAmountNeeded) {
+            throw new \Exception('Insufficient balance to cover the requested amount and algorithm cost');
         }
 
         $lockedPack = LockedPack::create([

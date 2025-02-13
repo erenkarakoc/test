@@ -248,7 +248,7 @@ $configData = Helper::appClasses();
               Build Guide
             </span>
           </button>
-          <button type="button" class="btn btn-sm btn-label-primary rounded w-100 justify-content-start">
+          <button type="button" class="d-none btn btn-sm btn-label-primary rounded w-100 justify-content-start">
             <svg class="me-2 ms-2" width="22" height="22" viewBox="0 0 250 227" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
