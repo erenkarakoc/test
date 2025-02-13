@@ -259,9 +259,9 @@ $userId = $user->id;
               </div>
               @if ($wallet['wallet'] === 'GDZ')
               <div class="d-flex justify-content-start p-4">
-                <a href="javascript:;" class="btn btn-icon btn-transparent ms-n2 mb-n2" data-bs-toggle="popover"
-                  data-bs-trigger="hover" data-bs-custom-class="popover-dark" data-bs-placement="right"
-                  data-bs-content="Swap {{ $wallet['wallet'] }}">
+                <a href="javascript:;" class="btn btn-icon btn-transparent ms-n2 mb-n2 opacity-0 pointer-events-none"
+                  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-custom-class="popover-dark"
+                  data-bs-placement="right" data-bs-content="Swap {{ $wallet['wallet'] }}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                     <path fill="currentColor"
                       d="M20.536 20.536C22 19.07 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465"
@@ -744,32 +744,17 @@ $userId = $user->id;
                       <small class="wallet-item-address text-light">{{ $walletItem['wallet_address'] }}</small>
                     </div>
                   </label>
-
                   <div class="d-flex justify-content-end w-50">
-                    <div class="d-flex flex-column">
-                      <div class="d-flex flex-column align-items-end text-right">
-                        <h5 class="mb-1 lh-1 text-white">
-                          {{ number_format($userBalances->where('wallet', $walletItem['symbol'])->value('balance') *
-                          $marketDataPrices[$walletItem['symbol']], 2) }}$
-                        </h5>
-                        <small class="text-light">
-                          {{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}
-                          {{ $walletItem['symbol'] }}
-                        </small>
-                      </div>
-                    </div>
+                    <button type="button" class="btn btn-sm btn-primary wallet-item-send-button"
+                      data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal" data-bs-target="#sendFundsModal"
+                      data-title="{{ $walletItem['title'] }}" data-symbol="{{ $walletItem['symbol'] }}"
+                      data-address="{{ $walletItem['wallet_address'] }}" data-label="{{ $walletItem['label'] }}"
+                      data-active="{{ $walletItem['active'] }}"
+                      data-balance="{{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}"
+                      data-network="{{ $assets->where('symbol', $walletItem['symbol'])->value('network') }}">
+                      Send Funds
+                    </button>
                   </div>
-                </div>
-                <div class="d-flex mt-4">
-                  <button type="button" class="btn btn-sm btn-primary w-100 wallet-item-send-button"
-                    data-id="{{ $walletItem['id'] }}" data-bs-toggle="modal" data-bs-target="#sendFundsModal"
-                    data-title="{{ $walletItem['title'] }}" data-symbol="{{ $walletItem['symbol'] }}"
-                    data-address="{{ $walletItem['wallet_address'] }}" data-label="{{ $walletItem['label'] }}"
-                    data-active="{{ $walletItem['active'] }}"
-                    data-balance="{{ @formatBalance($userBalances->where('wallet', $walletItem['symbol'])->value('balance')) }}"
-                    data-network="{{ $assets->where('symbol', $walletItem['symbol'])->value('network') }}">
-                    Send Funds
-                  </button>
                 </div>
               </div>
             </div>

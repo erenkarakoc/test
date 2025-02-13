@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\LockedPack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlgorithmController extends Controller {
     public function calculateAlgorithmSummary(Request $request) {
@@ -108,14 +110,30 @@ class AlgorithmController extends Controller {
 
     public function lockAmountWithChosenAlgorithms(Request $request) {
         $validated = $request->validate([
+            'strategy_pack_id'  => 'nullable|numeric',
             'chosen_algorithms' => 'required|array',
             'amount'            => 'required|numeric',
             'period'            => 'required|numeric',
         ]);
 
+        $user = Auth::user();
+
         $chosenAlgorithms = $validated['chosen_algorithms'];
         $amount           = $validated['amount'];
         $period           = $validated['period'];
+
+        $calculatedSummary = $this->calculateAlgorithmSummary($request);
+
+        $lockedPack = LockedPack::create([
+            'user_id'               => $user->id,
+            'strategy_pack_id'      => $validated['strategy_pack_id'] ?? null,
+            'chosen_algorithms'     => $chosenAlgorithms,
+            'amount'                => $amount,
+            'period'                => $period,
+            'algorithms_cost'       => $calculatedSummary['totalAlgorithmCost'],
+            'estimated_profit_rate' => $calculatedSummary['finalPercentage'],
+            'status'                => 'pending',
+        ]);
 
         return response()->json([
             'message' => 'Amount locked with chosen algorithms',
