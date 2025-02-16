@@ -8,11 +8,13 @@ $configData = Helper::appClasses();
 @section('title', 'Team')
 
 @section('page-style')
-@vite(['resources/assets/vendor/scss/pages/team.scss'])
+@vite(['resources/assets/vendor/scss/pages/team.scss',
+'resources/assets/vendor/scss/_components/_transaction-modal.scss'])
 @endsection
 
 @section('page-script')
-@vite(['resources/assets/js/pages/team.js', 'resources/assets/js/ui-popover.js'])
+@vite(['resources/assets/js/pages/team.js', 'resources/assets/js/ui-popover.js',
+'resources/assets/js/components/transaction-modal.js'])
 @endsection
 
 @section('content')
@@ -160,9 +162,9 @@ $configData = Helper::appClasses();
             <div class="card-body p-0">
               <div class="transaction-items">
                 @foreach ($transactions as $transaction)
-                <a href="#" class="transaction-item transaction-item-bonus">
+                <div class="transaction-item transaction-item-bonus" data-tnx-id="{{ $transaction->tnx_id }}">
                   <div class="d-flex align-items-start">
-                    <div class="transaction-item-icon">
+                    <div class="transaction-item-icon text-primary">
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-width="1.5">
                           <circle cx="12" cy="12" r="10" opacity=".5" />
@@ -196,11 +198,11 @@ $configData = Helper::appClasses();
                   </div>
                   <div class="d-flex align-items-center">
                     <div class="d-flex flex-column align-items-end text-right">
-                      <div class="d-flex flex-column align-items-end text-right">
+                      <div class="d-flex flex-column align-items-end text-right text-primary">
                         <span class="transaction-usd-amount">+{{ number_format($transaction->amount_in_usd, 2)
                           }}$</span>
                         <span class="transaction-asset-amount text-light">
-                          {{ $transaction->amount_in_asset }}
+                          {{ @formatBalance($transaction->amount_in_asset) }}
                           {{ $transaction->asset }}
                         </span>
                       </div>
@@ -212,9 +214,11 @@ $configData = Helper::appClasses();
                       </svg>
                     </span>
                   </div>
-                </a>
+                </div>
                 @endforeach
               </div>
+
+              <x-paginator :paginator="$transactions" :tab="'all'" />
             </div>
             @else
             <div class="table-responsive">
@@ -269,4 +273,6 @@ $configData = Helper::appClasses();
     </div>
   </div>
 </div>
+
+@include('components.transaction-modal')
 @endsection

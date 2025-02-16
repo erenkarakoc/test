@@ -66,7 +66,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
                   </g>
                 </svg>
-                <svg class="transaction-bonus text-success d-none" xmlns="http://www.w3.org/2000/svg" width="36"
+                <svg class="transaction-bonus text-primary d-none" xmlns="http://www.w3.org/2000/svg" width="36"
                   height="36" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-width="1.5">
                     <circle cx="12" cy="12" r="10" opacity=".5" />

@@ -9,6 +9,7 @@ use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageAlgorithms;
 use App\Http\Controllers\pages\PageDashboard;
 use App\Http\Controllers\pages\PageStrategyPacks;
+use App\Http\Controllers\pages\PageSwap;
 use App\Http\Controllers\pages\PageTeam;
 use App\Http\Controllers\pages\PageTransactions;
 use App\Http\Controllers\pages\PageWallet;
@@ -49,6 +50,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('page-add-funds');
     // Pages - Transactions
     Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
+    // Pages - Swap
+    Route::get('/swap', [PageSwap::class, 'index'])->name('page-swap');
     // Pages - Team
     Route::get('/team', [PageTeam::class, 'index'])->name('page-team');
     // Pages - User - Profile

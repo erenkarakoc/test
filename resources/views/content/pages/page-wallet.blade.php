@@ -232,7 +232,19 @@ $userId = $user->id;
         </small>
 
         <div class="row row-gap-4 mt-7">
-          @foreach ($userBalances as $wallet)
+          @php
+          $sortedMainAssetsByBalance = collect($userBalances)
+          ->filter(function($wallet) {
+          return $wallet['wallet'] === 'GDZ' ||
+          $wallet['wallet'] === 'USD' ||
+          $wallet['wallet'] === 'USDT';
+          })
+          ->sortByDesc(function($wallet) use ($marketDataPrices) {
+          return $wallet['balance'] * $marketDataPrices[$wallet['wallet']];
+          });
+          @endphp
+
+          @foreach ($sortedMainAssetsByBalance as $wallet)
           @if ($wallet['wallet'] === 'GDZ' || $wallet['wallet'] === 'USD' || $wallet['wallet'] === 'USDT')
           <div class="col col-4">
             <div class="card bg-light wallet-item wallet-item-{{ $wallet['wallet'] }}">
@@ -299,12 +311,24 @@ $userId = $user->id;
           @endif
           @endforeach
 
-          @foreach ($userBalances as $wallet)
-          @if (
-          $wallet['wallet'] !== 'Total' &&
+          <div class="col col-12">
+            <div class="border border-bottom-0"></div>
+          </div>
+
+          @php
+          $sortedAssetsByBalance = collect($userBalances)
+          ->filter(function($wallet) {
+          return $wallet['wallet'] !== 'Total' &&
           $wallet['wallet'] !== 'GDZ' &&
           $wallet['wallet'] !== 'USD' &&
-          $wallet['wallet'] !== 'USDT')
+          $wallet['wallet'] !== 'USDT';
+          })
+          ->sortByDesc(function($wallet) use ($marketDataPrices) {
+          return $wallet['balance'] * $marketDataPrices[$wallet['wallet']];
+          });
+          @endphp
+
+          @foreach ($sortedAssetsByBalance as $wallet)
           <div class="col col-4">
             <div class="card bg-light wallet-item wallet-item-{{ $wallet['wallet'] }}">
               <div class="p-4 pb-0">
@@ -339,7 +363,6 @@ $userId = $user->id;
               </div>
             </div>
           </div>
-          @endif
           @endforeach
         </div>
 
