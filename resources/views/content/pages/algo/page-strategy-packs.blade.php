@@ -476,6 +476,29 @@ $configData = Helper::appClasses();
       </div>
     </div>
   </div>
+
+  <div class="modal fade modal-sm" id="balanceSummaryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="d-flex">
+
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="divider my-6 border border-top-1 border-bottom-0"></div>
+
+        <div class="modal-body pt-0">
+          <div class="row">
+            <div class="col col-12">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

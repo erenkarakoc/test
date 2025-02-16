@@ -812,6 +812,9 @@
     const packTitle = button.getAttribute('data-title');
     const packAlgorithms = JSON.parse(button.getAttribute('data-algorithms'));
 
+    lockAmountButton.querySelector('.loading-hidden').classList.add('loading-hidden');
+    lockAmountButton.removeAttribute('disabled');
+
     const chosenPackImgs = document.querySelector('#chosen-pack-img');
     const chosenPackImg = chosenPackImgs.querySelector('#' + packTitle + '-img');
     const chosenPackTitle = document.querySelector('#chosen-pack-title');
@@ -819,29 +822,26 @@
     chosenPackTitle.innerHTML = packTitle;
     chosenPackImgs.querySelectorAll('img').forEach(img => img.classList.add('d-none'));
     chosenPackImg.classList.remove('d-none');
+    // Reset chosenAlgorithms array before processing new pack
+    chosenAlgorithms = [];
 
     packAlgorithms.forEach(algorithm => {
-      let gemCount = 0;
-
       const title = algorithm.title;
       const contribution = algorithm.profit_contribution;
 
-      chosenAlgorithms = [];
       chosenAlgorithms.push({
         title: title,
         contribution: Number(contribution),
         icon: Number(algorithm.icon),
         category: algorithm.category
       });
-
-      const algoWithHighestIcon = chosenAlgorithms.reduce((prev, current) =>
-        prev.icon > current.icon ? prev : current
-      );
-
-      gemCount = algoWithHighestIcon.icon;
-
-      calculateGlow(gemCount);
     });
+
+    // Calculate gem count based on highest icon value
+    const algoWithHighestIcon = chosenAlgorithms.reduce((prev, current) => (prev.icon > current.icon ? prev : current));
+
+    const gemCount = algoWithHighestIcon.icon;
+    calculateGlow(gemCount);
 
     calculateSummary();
   };
@@ -886,6 +886,35 @@
 
       setChosenStrategyPack(document.querySelector(`.strategy-pack-btn[data-title="${strategyParam}"]`));
       strategyPacksSwiper.slideTo(index);
+    } else {
+      const index = document.querySelector('.strategy-pack-btn[data-title="Momentum"]').getAttribute('data-index');
+
+      setChosenStrategyPack(document.querySelector('.strategy-pack-btn[data-title="Momentum"]'));
+      strategyPacksSwiper.slideTo(index);
+    }
+  });
+
+  lockAmountButton.addEventListener('click', () => {
+    const submitted = lockAmountButton.hasAttribute('disabled');
+
+    if (calculated && chosenAlgorithms.length && !submitted) {
+      lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+      lockAmountButton.setAttribute('disabled', true);
+
+      amount = Number(amountInput.value);
+      period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+      const data = { chosen_algorithms: chosenAlgorithms, amount, period };
+
+      fetch('/lock-pack', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+        }
+      }).then(res => {
+        console.log(res);
+      });
     }
   });
 })();

@@ -110,6 +110,19 @@ class AlgorithmController extends Controller {
         ]);
     }
 
+    public function checkBalancesForLock(Request $request) {
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+        ]);
+
+        $userTotalBalance = View::getShared('userTotalBalance');
+        dd($userTotalBalance);
+
+        if ($userTotalBalance < $validated['amount']) {
+            return response()->json(['status' => 'error', 'message' => 'Insufficient balance']);
+        }
+    }
+
     public function lockPack(Request $request) {
         $validated = $request->validate([
             'strategy_pack_id'  => 'nullable|numeric',
@@ -120,49 +133,11 @@ class AlgorithmController extends Controller {
 
         $user              = Auth::user();
         $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
-
-        $totalAmountNeeded = $validated['amount'];
-
-        $userBalances     = UserBalances::where('user_id', $user->id)->get();
-        $marketDataPrices = View::getShared('marketDataPrices');
-        $amountCollected  = 0;
+        $userBalances      = UserBalances::where('user_id', $user->id)->get();
+        $marketDataPrices  = View::getShared('marketDataPrices');
 
         foreach ($userBalances as $balance) {
-            if ($amountCollected >= $totalAmountNeeded) {
-                break;
-            }
 
-            if ($balance->balance > 0) {
-                $asset      = $balance->wallet;
-                $assetPrice = $marketDataPrices[$asset] ?? 1;
-
-                $amountToTakeUSD    = $totalAmountNeeded - $amountCollected;
-                $maxAssetValueInUSD = $balance->balance * $assetPrice;
-                $usdAmount          = min($amountToTakeUSD, $maxAssetValueInUSD);
-
-                $amountToTake = $usdAmount / $assetPrice;
-
-                // Deduct from the asset's balance
-                $balance->balance -= $amountToTake;
-                $balance->save();
-
-                // Add to USD locked balance
-                $usdBalance = UserBalances::where('user_id', $user->id)
-                    ->where('wallet', 'USD')
-                    ->first();
-
-                if ($usdBalance) {
-                    $investmentUSD = min($usdAmount, $validated['amount'] - ($totalAmountNeeded - $usdAmount - $calculatedSummary['totalAlgorithmCost']));
-                    $usdBalance->locked_balance += $investmentUSD;
-                    $usdBalance->save();
-                }
-
-                $amountCollected += $usdAmount;
-            }
-        }
-
-        if ($amountCollected < $totalAmountNeeded) {
-            throw new \Exception('Insufficient balance to cover the requested amount and algorithm cost');
         }
 
         $lockedPack = LockedPack::create([
@@ -177,6 +152,7 @@ class AlgorithmController extends Controller {
         ]);
 
         return response()->json([
+            'status'      => 'success',
             'message'     => 'Amount locked with chosen algorithms',
             'locked_pack' => $lockedPack,
         ]);
