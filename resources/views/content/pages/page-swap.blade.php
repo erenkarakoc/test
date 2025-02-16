@@ -47,8 +47,8 @@ $configData = Helper::appClasses();
               <label for="addWalletAssetSelect" class="form-label required">From</label>
               <select id="addWalletAssetSelect" class="selectpicker w-100" data-style="btn-default" name="symbol">
                 @foreach ($assets as $asset)
-                <option value="{{ $asset->symbol }}" data-show-subtext='true' data-subtext='{{ $asset->symbol }}'
-                  data-title={{ $asset->title }}>
+                <option value="{{ $asset->symbol }}" data-show-subtext='true' data-subtext="{{ $asset->symbol }}"
+                  data-title="{{ $asset->title }}">
                   {{ $asset->title }}
                 </option>
                 @endforeach
@@ -58,12 +58,12 @@ $configData = Helper::appClasses();
             <div class="swap-item">
               <label for="addWalletAssetSelect" class="form-label required">To</label>
               <select id="addWalletAssetSelect" class="selectpicker w-100" data-style="btn-default" name="symbol">
-                @foreach ($swappables as $swappable)
-                <option value="{{ $swappable->symbol }}" data-show-subtext='true'
-                  data-subtext='{{ $swappable->symbol }}' data-title={{ $swappable->title }}>
-                  {{ $swappable->title }}
+                <option value="USD" data-show-subtext='true' data-subtext='USD' data-title='US Dollar'>
+                  US Dollar
                 </option>
-                @endforeach
+                <option value="USDT" data-show-subtext='true' data-subtext='USDT' data-title='Tether'>
+                  Tether
+                </option>
               </select>
             </div>
           </div>

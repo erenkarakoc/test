@@ -19,9 +19,8 @@ class AlgorithmController extends Controller {
         $amount           = $validated['amount'];
         $period           = $validated['period']; // period represents the number of days
 
-                                    // Base rates
-        $baseAlgorithmCost = 0.7;   // cost per algorithm unit
-        $baseIncomeRate    = 0.005; // income per algorithm unit per day
+        $baseAlgorithmCost = 0.7;
+        $baseIncomeRate    = 0.005;
 
         // Conflict map: key is a category whose algorithms conflict with the listed categories.
         $conflictMap = [
@@ -87,14 +86,10 @@ class AlgorithmController extends Controller {
             $totalContribution += $contribution;
         }
 
-        // Calculate income rate per unit contribution
         $incomeRatePerUnit = $totalIncome / $totalContribution;
 
-        // Calculate income based on the invested amount
         $incomeValue = $incomeRatePerUnit * $amount;
 
-        // Final calculations:
-        // Deduct the algorithm unlocking cost from the initial amount.
         $amountAfterUnlockValue = $amount - $totalAlgorithmCost;
         $finalBalance           = $amountAfterUnlockValue + $incomeValue;
         $finalPercentage        = (($finalBalance - $amount) / $amount) * 100;
