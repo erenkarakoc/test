@@ -152,7 +152,6 @@ class AlgorithmController extends Controller {
                     ->first();
 
                 if ($usdBalance) {
-                    // Only lock the investment amount, not the algorithm cost
                     $investmentUSD = min($usdAmount, $validated['amount'] - ($totalAmountNeeded - $usdAmount - $calculatedSummary['totalAlgorithmCost']));
                     $usdBalance->locked_balance += $investmentUSD;
                     $usdBalance->save();
