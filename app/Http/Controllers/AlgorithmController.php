@@ -102,20 +102,20 @@ class AlgorithmController extends Controller {
 
         foreach ($categoryContributions as $category => $totalContribution) {
             if (isset($conflictingCategoryContributions[$category])) {
-                if ($totalContribution < $conflictingCategoryContributions[$category]) {
+                if ($totalContribution <= $conflictingCategoryContributions[$category]) {
                     $conflictedContribution += $totalContribution;
                 }
             }
         }
 
-        $totalContributionRate - $conflictedContribution;
+        $totalContributionRate = $totalContributionRate - $conflictedContribution;
 
         // Günlük Kâr Oranı
         $dailyIncome = 0.01 * $totalContributionRate * $baseIncomeRate + $baseIncomeRate;
 
         $income                    = ($dailyIncome * $amount) * $period;
         $totalAmountAfterUnlock    = $income + $amount;
-        $totalAmountAfterUnlockPct = $income + $amount;
+        $totalAmountAfterUnlockPct = (($income + $amount) / $amount - 1) * 100;
 
         return response()->json([
             'algorithmCost'             => $algorithmCost,
