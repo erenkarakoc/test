@@ -38,7 +38,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Mean Reversion',
                 'description'         => 'Identifies when an asset\'s price deviates significantly from its historical average, assuming it will revert to the mean over time.',
                 'icon'                => '2',
-                'profit_contribution' => 0.8,
+                'profit_contribution' => 8.0,
                 'category'            => 'MR',
             ]);
         }
@@ -48,7 +48,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Bollinger Bands',
                 'description'         => 'Trades based on price movements relative to Bollinger Bands. Buys when the price touches the lower band and sells when it touches the upper band.',
                 'icon'                => '2',
-                'profit_contribution' => 0.6,
+                'profit_contribution' => 6.0,
                 'category'            => 'MR',
             ]);
         }
@@ -58,7 +58,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Fibonacci Retracement',
                 'description'         => 'Uses Fibonacci retracement levels to identify potential support and resistance levels for buying and selling.',
                 'icon'                => '2',
-                'profit_contribution' => 0.6,
+                'profit_contribution' => 6.0,
                 'category'            => 'MR',
             ]);
         }
@@ -68,7 +68,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Market Making',
                 'description'         => 'Places both buy and sell orders around the current market price to profit from the bid-ask spread.',
                 'icon'                => '3',
-                'profit_contribution' => 1.4,
+                'profit_contribution' => 14.0,
                 'category'            => 'MSE',
             ]);
         }
@@ -78,7 +78,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Grid Trading',
                 'description'         => 'Places buy and sell orders at regular intervals above and below a set price level to profit from market fluctuations within a range.',
                 'icon'                => '3',
-                'profit_contribution' => 1,
+                'profit_contribution' => 10.0,
                 'category'            => 'MSE',
             ]);
         }
@@ -88,7 +88,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Volume-Weighted Average Price',
                 'description'         => 'Executes trades gradually to ensure the average trade price is close to the VWAP, often used by institutional traders to minimize market impact.',
                 'icon'                => '3',
-                'profit_contribution' => 1.2,
+                'profit_contribution' => 12.0,
                 'category'            => 'MSE',
             ]);
         }
@@ -98,7 +98,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Time-Weighted Average Price',
                 'description'         => 'Splits orders into smaller portions and executes them over a specific time to minimize market impact.',
                 'icon'                => '3',
-                'profit_contribution' => 1.1,
+                'profit_contribution' => 11.0,
                 'category'            => 'MSE',
             ]);
         }
@@ -108,7 +108,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Neural Network Prediction',
                 'description'         => 'Uses our machine learning model using all other algorithms to predict future price movements based on historical data, volume, sentiment, and other factors.',
                 'icon'                => '4',
-                'profit_contribution' => 2.1,
+                'profit_contribution' => 21.0,
                 'category'            => 'MLP',
             ]);
         }
@@ -118,7 +118,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Mean Variance Optimization',
                 'description'         => 'Allocates capital to a portfolio of cryptocurrencies by optimizing for maximum returns and minimum risk based on historical data.',
                 'icon'                => '4',
-                'profit_contribution' => 1.6,
+                'profit_contribution' => 16.0,
                 'category'            => 'MLP',
             ]);
         }
@@ -128,7 +128,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Breakout Trading',
                 'description'         => 'Identifies breakout levels based on resistance or support zones and trades in the direction of the breakout.',
                 'icon'                => '2',
-                'profit_contribution' => 0.9,
+                'profit_contribution' => 9.0,
                 'category'            => 'TF',
             ]);
         }
@@ -138,7 +138,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Momentum Trading',
                 'description'         => 'Identifies cryptocurrencies showing strong upward or downward trends and trades in the direction of the momentum.',
                 'icon'                => '2',
-                'profit_contribution' => 1,
+                'profit_contribution' => 10.0,
                 'category'            => 'TF',
             ]);
         }
@@ -148,7 +148,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Moving Average Crossover',
                 'description'         => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
                 'icon'                => '2',
-                'profit_contribution' => 0.7,
+                'profit_contribution' => 7.0,
                 'category'            => 'TF',
             ]);
         }
@@ -158,7 +158,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Moving Average Convergence Divergence',
                 'description'         => 'Uses short-term and long-term moving averages. A buy signal is generated when the short-term moving average crosses above the long-term moving average, and vice versa for a sell signal.',
                 'icon'                => '2',
-                'profit_contribution' => 0.8,
+                'profit_contribution' => 8.0,
                 'category'            => 'TF',
             ]);
         }
@@ -168,7 +168,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'News Sentiment Analysis',
                 'description'         => 'Analyzes news articles, social media, and other sources to gauge market sentiment and make trades based on positive or negative trends.',
                 'icon'                => '1',
-                'profit_contribution' => 0.3,
+                'profit_contribution' => 3.0,
                 'category'            => 'BASIC',
             ]);
         }
@@ -178,7 +178,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Arbitrage',
                 'description'         => 'Exploits price differences for the same cryptocurrency across multiple exchanges by buying low on one exchange and selling high on another.',
                 'icon'                => '1',
-                'profit_contribution' => 0.4,
+                'profit_contribution' => 4.0,
                 'category'            => 'BASIC',
             ]);
         }
@@ -188,7 +188,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'High-Frequency Trading',
                 'description'         => 'Executes trades at extremely high speeds to capitalize on small price discrepancies and liquidity imbalances in milliseconds.',
                 'icon'                => '1',
-                'profit_contribution' => 0.4,
+                'profit_contribution' => 4.0,
                 'category'            => 'BASIC',
             ]);
         }
@@ -198,7 +198,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Scalping',
                 'description'         => 'Executes numerous small trades within short time frames to capitalize on minor price fluctuations.',
                 'icon'                => '1',
-                'profit_contribution' => 0.4,
+                'profit_contribution' => 4.0,
                 'category'            => 'BASIC',
             ]);
         }
@@ -208,7 +208,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Liquidity Mining',
                 'description'         => 'Participates in decentralized finance (DeFi) liquidity pools to earn rewards while dynamically balancing impermanent loss risks.',
                 'icon'                => '2',
-                'profit_contribution' => 0.8,
+                'profit_contribution' => 8.0,
                 'category'            => 'BASIC',
             ]);
         }
@@ -218,7 +218,7 @@ class SeedAlgorithms extends Command {
                 'subtitle'            => 'Pair Trading',
                 'description'         => 'Trades correlated cryptocurrency pairs. Buys the underperforming asset and sells the outperforming one, assuming they will revert to their historical correlation.',
                 'icon'                => '2',
-                'profit_contribution' => 0.8,
+                'profit_contribution' => 8.0,
                 'category'            => 'BASIC',
             ]);
         }

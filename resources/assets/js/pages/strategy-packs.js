@@ -20,11 +20,13 @@
   const maxButton = document.querySelector('#max_button');
   const unlockDate = document.querySelector('#unlock_date');
   const unlockAfter = document.querySelector('#unlock_after');
+
   const algorithmCost = document.querySelector('#algorithm_cost');
-  const amountAfterUnlock = document.querySelector('#amount_after_purchase');
+  const amountAfterPurchase = document.querySelector('#amount_after_purchase');
   const income = document.querySelector('#income');
   const totalAmountAfterUnlock = document.querySelector('#total_amount_after_unlock');
   const totalAmountAfterUnlockPct = document.querySelector('#total_amount_after_unlock_percentage');
+
   const lockAmountButton = document.querySelector('#lock-amount-button');
   const calculatingIcon = `<svg class="text-primary mt-1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><circle cx="4" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale0" attributeName="r" begin="0;svgSpinners3DotsScale1.end-0.25s" dur="0.75s" values="3;.2;3"/></circle><circle cx="12" cy="12" r="3" fill="currentColor"><animate attributeName="r" begin="svgSpinners3DotsScale0.end-0.6s" dur="0.75s" values="3;.2;3"/></circle><circle cx="20" cy="12" r="3" fill="currentColor"><animate id="svgSpinners3DotsScale1" attributeName="r" begin="svgSpinners3DotsScale0.end-0.45s" dur="0.75s" values="3;.2;3"/></circle></svg>`;
 
@@ -725,7 +727,7 @@
     controller = new AbortController();
 
     algorithmCost.innerHTML = calculatingIcon;
-    amountAfterUnlock.innerHTML = calculatingIcon;
+    amountAfterPurchase.innerHTML = calculatingIcon;
     income.innerHTML = calculatingIcon;
     totalAmountAfterUnlock.innerHTML = calculatingIcon;
     totalAmountAfterUnlockPct.innerHTML = calculatingIcon;
@@ -749,17 +751,17 @@
           }
         })
         .then(data => {
-          algorithmCost.innerHTML = `<span class="${data.totalAlgorithmCost > 0 ? 'text-danger' : ''}">${data.totalAlgorithmCost.toFixed(2)}$</span>`;
-          amountAfterUnlock.innerHTML = `<span class="text-danger">${data.amountAfterUnlockValue.toFixed(2)}$</span>`;
-          income.innerHTML = `<span class="${data.incomeValue < 0 ? 'text-danger' : 'text-success'}">≈${data.incomeValue.toFixed(2)}$</span>`;
-          totalAmountAfterUnlock.innerHTML = `<span class="${data.finalBalance < amount ? 'text-danger' : 'text-success'}">≈${data.finalBalance.toFixed(2)}$</span>`;
-          totalAmountAfterUnlockPct.innerHTML = `<span class="${data.finalPercentage < 0 ? 'text-danger' : 'text-success'}">≈${data.finalPercentage.toFixed(2)}%</span>`;
+          algorithmCost.innerHTML = `<span class="${data.algorithmCost > 0 ? 'text-danger' : ''}">${data.algorithmCost.toFixed(2)}$</span>`;
+          amountAfterPurchase.innerHTML = `<span class="text-danger">${data.amountAfterPurchase.toFixed(2)}$</span>`;
+          income.innerHTML = `<span class="${data.income < 0 ? 'text-danger' : 'text-success'}">≈${data.income.toFixed(2)}$</span>`;
+          totalAmountAfterUnlock.innerHTML = `<span class="${data.totalAmountAfterUnlock < amount ? 'text-danger' : 'text-success'}">≈${data.totalAmountAfterUnlock.toFixed(2)}$</span>`;
+          totalAmountAfterUnlockPct.innerHTML = `<span class="${data.totalAmountAfterUnlockPct < 0 ? 'text-danger' : 'text-success'}">≈${data.totalAmountAfterUnlockPct.toFixed(2)}%</span>`;
           calculated = true;
           lockAmountButton.removeAttribute('disabled');
         });
     } else {
       algorithmCost.innerHTML = '0.00$';
-      amountAfterUnlock.innerHTML = '0.00$';
+      amountAfterPurchase.innerHTML = '0.00$';
       income.innerHTML = '0.00$';
       totalAmountAfterUnlock.innerHTML = '0.00$';
       totalAmountAfterUnlockPct.innerHTML = '0.00%';
@@ -822,7 +824,7 @@
     chosenPackTitle.innerHTML = packTitle;
     chosenPackImgs.querySelectorAll('img').forEach(img => img.classList.add('d-none'));
     chosenPackImg.classList.remove('d-none');
-    // Reset chosenAlgorithms array before processing new pack
+
     chosenAlgorithms = [];
 
     packAlgorithms.forEach(algorithm => {
