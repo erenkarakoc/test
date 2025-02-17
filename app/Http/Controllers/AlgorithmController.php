@@ -22,26 +22,21 @@ class AlgorithmController extends Controller {
         $baseIncomeRate    = 0.001017683;
         $baseAlgorithmCost = 0.004147923;
 
-        // Algoritma Kâr Oranı
         $totalContributionRate = 0;
         foreach ($chosenAlgorithms as $algorithm) {
             $totalContributionRate += $algorithm['contribution'];
         }
 
-        // Algoritma Maliyeti
         $algorithmCost = $amount * ($totalContributionRate * $baseAlgorithmCost) * ($period / 365);
 
-        // Uzun Dönem Algoritma Ödülü
         foreach ($chosenAlgorithms as $algorithm) {
             if ($algorithm['category'] === 'TF' || $algorithm['category'] === 'MR') {
                 $totalContributionRate += ($period * 0.02);
             }
         }
 
-        // Maliyet Sonrası Bakiye
         $amountAfterPurchase = $amount - $algorithmCost;
 
-        // Çakışma Kontrolü
         $conflictMap = [
             'MR'  => ['TF'],
             'MLP' => ['MR'],
