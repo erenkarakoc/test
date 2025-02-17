@@ -33,40 +33,76 @@ $configData = Helper::appClasses();
 
 @section('content')
 <div class="page-swap">
-  <h5 class="mb-3 lh-1">Swap</h5>
-  <small class="lh-1 mb-7">
-    Convert an asset to USD, USDT or GDZ
-  </small>
-
-  <div class="row">
+  <div class="row mt-7">
     <div class="col col-lg-6 mx-auto">
-      <div class="card mt-7 mx-auto bg-light">
+      <h5 class="mb-3 lh-1">Swap</h5>
+      <small class="lh-1 mb-7">
+        Convert an asset between USD-asset pair
+      </small>
+    </div>
+
+    <div class="col col-lg-6 mx-auto">
+      <div class="card mx-auto">
         <div class="card-body">
-          <div class="swap-wrapper">
-            <div class="swap-item">
-              <label for="addWalletAssetSelect" class="form-label required">From</label>
-              <select id="addWalletAssetSelect" class="selectpicker w-100" data-style="btn-default" name="symbol">
-                @foreach ($assets as $asset)
-                <option value="{{ $asset->symbol }}" data-show-subtext='true' data-subtext="{{ $asset->symbol }}"
-                  data-title="{{ $asset->title }}">
-                  {{ $asset->title }}
-                </option>
-                @endforeach
-              </select>
+          <form id="swapForm">
+            @csrf
+
+            <div class="swap-wrapper">
+              <div class="swap-row">
+                <div class="swap-item">
+                  <div class="swap-select">
+                    <span class="swap-label">From</span>
+                    <select id="swapFrom" name="swapFrom">
+                      <option value="USD">
+                        USD
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="swap-input">
+                    <input type="text" id="swapFromAmount" name="swapFromAmount" value="0.00">
+                    <span class="swap-price swap-price-from">≈1.00$</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="swap-invert-wrapper swap-inverted">
+                <button type="button" class="swap-invert">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="M20 10.25a.75.75 0 0 0 .507-1.303l-6-5.5A.75.75 0 0 0 13.25 4v16a.75.75 0 0 0 1.5 0v-9.75z" />
+                    <path fill="currentColor"
+                      d="M4 13.75h5.25V4a.75.75 0 1 1 1.5 0v16a.75.75 0 0 1-1.257.553l-6-5.5A.75.75 0 0 1 4 13.75"
+                      opacity=".5" />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="swap-row">
+                <div class="swap-item">
+                  <div class="swap-select">
+                    <span class="swap-label">To</span>
+                    <select id="swapToAsset" name="swapToAsset">
+                      <option value="USD">
+                        USD
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="swap-input">
+                    <input type="text" id="swapToAmount" name="swapToAmount" value="0.00">
+                    <span class="swap-price swap-price-to">≈1.00$</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="swap-item">
-              <label for="addWalletAssetSelect" class="form-label required">To</label>
-              <select id="addWalletAssetSelect" class="selectpicker w-100" data-style="btn-default" name="symbol">
-                <option value="USD" data-show-subtext='true' data-subtext='USD' data-title='US Dollar'>
-                  US Dollar
-                </option>
-                <option value="USDT" data-show-subtext='true' data-subtext='USDT' data-title='Tether'>
-                  Tether
-                </option>
-              </select>
+            <div class="d-flex">
+              <button class="btn btn-primary mt-4 w-100" style="border-radius: 16px">
+                Swap
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

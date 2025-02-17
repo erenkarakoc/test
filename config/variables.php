@@ -5,7 +5,7 @@ return [
     'creatorName'         => 'Gedzen',
     'creatorUrl'          => 'https://pixinvent.com',
     'templateName'        => 'Gedzen',
-    'templateSuffix'      => 'Algo-trading-as-a-service',
+    'templateSuffix'      => 'Algo-Trading as a Service',
     'templateVersion'     => '2.0.0',
     'templateFree'        => false,
     'templateDescription' => 'Start your development with a Dashboard for Bootstrap 5',
