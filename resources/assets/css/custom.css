@@ -411,9 +411,10 @@
 #swapModal .swap-wrapper .swap-row .swap-item {
   position: relative;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   height: 100px;
-  padding: 2rem;
+  padding: 0 2rem;
   border: 1px solid #181818;
   border-radius: 16px;
   background-color: #121212;
@@ -462,10 +463,7 @@
 #swapModal .swap-wrapper .swap-row .swap-item .swap-select {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
+  width: fit-content;
   border-radius: 0.3rem;
   z-index: 2;
 }

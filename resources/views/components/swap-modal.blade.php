@@ -23,11 +23,28 @@
                 <div class="swap-select">
                   <span class="swap-label">From</span>
 
-                  <div class="swap-selector disabled">
+                  <div class="swap-selector">
                     <span class="swap-selector-title">
                       <span class="swap-selector-icon">{!! $walletIcons['USD'] !!}</span>
                       <span class="text-dark">USD</span>
                     </span>
+
+                    <ul class="swap-selector-dropdown">
+                      @foreach ($assets as $asset)
+                        <li>
+                          <div class="d-flex align-items-center">
+                            <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
+                            <div class="d-flex flex-column">
+                              <span class="text-dark mb-1">{{ $asset->symbol }}</span>
+                              <small class="text-light">{{ $asset->title }}</small>
+                            </div>
+                          </div>
+                          <small class="swap-selector-price text-light">
+                            ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
+                          </small>
+                        </li>
+                      @endforeach
+                    </ul>
                   </div>
                 </div>
 
@@ -55,27 +72,11 @@
                 <div class="swap-select">
                   <span class="swap-label">To</span>
 
-                  <div class="swap-selector">
+                  <div class="swap-selector disabled">
                     <span class="swap-selector-title">
                       <span class="swap-selector-icon">{!! $walletIcons['TRX'] !!}</span>
                       <span class="text-dark">TRX</span>
                     </span>
-                    <ul class="swap-selector-dropdown">
-                      @foreach ($assets as $asset)
-                        <li>
-                          <div class="d-flex align-items-center">
-                            <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
-                            <div class="d-flex flex-column">
-                              <span class="text-dark mb-1">{{ $asset->symbol }}</span>
-                              <small class="text-light">{{ $asset->title }}</small>
-                            </div>
-                          </div>
-                          <small class="swap-selector-price text-light">
-                            ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
-                          </small>
-                        </li>
-                      @endforeach
-                    </ul>
                   </div>
                 </div>
 
