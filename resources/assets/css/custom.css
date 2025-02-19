@@ -406,6 +406,7 @@
 #swapModal .swap-wrapper .swap-row {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 #swapModal .swap-wrapper .swap-row .swap-item {
@@ -498,27 +499,19 @@
   padding: 0 14px;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-icon {
+#swapModal .swap-selector-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 10px;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-icon svg {
+#swapModal .swap-selector-icon svg {
   height: 30px;
   width: 30px;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-dropdown {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-60px) scale(0);
-  cursor: default;
-  position: absolute;
-  top: 80px;
-  left: 0;
+#swapModal .swap-selector-modal {
   padding: 10px 0;
   border-radius: 10px;
   background-color: #161616;
@@ -526,9 +519,10 @@
   text-align: left;
   box-shadow: 0 0 0 2px #7367f0;
   transition: all 0.15s ease-out;
+  z-index: 9;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-dropdown li {
+#swapModal .swap-selector-modal li {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -536,50 +530,36 @@
   padding: 10px 20px;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-dropdown li span {
+#swapModal .swap-selector-modal li span {
   white-space: nowrap;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-dropdown li small {
+#swapModal .swap-selector-modal li small {
   white-space: nowrap;
   font-size: 10px;
 }
 
-#swapModal
-  .swap-wrapper
-  .swap-row
-  .swap-item
-  .swap-select
-  .swap-selector
-  .swap-selector-dropdown
-  li
-  .swap-selector-price {
+#swapModal .swap-selector-modal li .swap-selector-price {
   margin-left: 40px;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-dropdown li:hover {
+#swapModal .swap-selector-modal li:hover {
   background-color: #121212;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector:not(.disabled) {
+#swapModal:not(.disabled) {
   cursor: pointer;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector:hover:not(.disabled) {
+#swapModal .swap-selector:hover:not(.disabled) {
   box-shadow: 0 0 0 2px #7367f0;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector.active:not(.disabled) {
+#swapModal.swap-selector-modal-active .swap-selector:not(.disabled) {
   box-shadow: 0 0 0 2px #7367f0;
 }
 
-#swapModal
-  .swap-wrapper
-  .swap-row
-  .swap-item
-  .swap-select
-  .swap-selector.active:not(.disabled)
-  .swap-selector-dropdown {
+#swapModal.swap-selector-modal-active .swap-selector-modal {
   opacity: 1;
   visibility: visible;
   pointer-events: all;

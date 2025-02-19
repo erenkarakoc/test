@@ -512,17 +512,15 @@ document.addEventListener('DOMContentLoaded', () => {
     swapInvertWrapper.classList.toggle('swap-inverted');
   });
 
-  const swapSelectors = document.querySelectorAll('.swap-selector');
-  document.addEventListener('click', e => {
-    swapSelectors.forEach(selector => {
-      const withinBoundaries = e.composedPath().includes(selector);
-      if (withinBoundaries && !selector.classList.contains('disabled')) {
-        selector.classList.toggle('active');
-      } else {
-        selector.classList.remove('active');
-      }
-    });
-  });
+  // const swapSelectors = document.querySelectorAll('.swap-selector');
+  // const swapModal = document.querySelector('#swapModal');
+  // swapSelectors.forEach(selector => {
+  //   selector.addEventListener('click', () => {
+  //     if (!selector.classList.contains('disabled')) {
+  //       swapModal.classList.toggle('swap-selector-modal-active');
+  //     }
+  //   });
+  // });
 })();
 
 // ! Removed following code if you do't wish to use jQuery. Remember that navbar search functionality will stop working on removal.

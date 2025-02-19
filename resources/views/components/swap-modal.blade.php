@@ -1,4 +1,4 @@
-<div class="modal fade modal-md" id="swapModal" tabindex="-1" aria-hidden="true">
+<div class="modal modal-md fade" id="swapModal" aria-labelledby="swapModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -23,28 +23,11 @@
                 <div class="swap-select">
                   <span class="swap-label">From</span>
 
-                  <div class="swap-selector">
+                  <div class="swap-selector" data-bs-target="swapSelectorModal" data-bs-toggle="modal">
                     <span class="swap-selector-title">
                       <span class="swap-selector-icon">{!! $walletIcons['USD'] !!}</span>
                       <span class="text-dark">USD</span>
                     </span>
-
-                    <ul class="swap-selector-dropdown">
-                      @foreach ($assets as $asset)
-                        <li>
-                          <div class="d-flex align-items-center">
-                            <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
-                            <div class="d-flex flex-column">
-                              <span class="text-dark mb-1">{{ $asset->symbol }}</span>
-                              <small class="text-light">{{ $asset->title }}</small>
-                            </div>
-                          </div>
-                          <small class="swap-selector-price text-light">
-                            ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
-                          </small>
-                        </li>
-                      @endforeach
-                    </ul>
                   </div>
                 </div>
 
@@ -95,6 +78,30 @@
           Swap
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-md fade" id="swapSelectorModal" aria-labelledby="swapSelectorModal" tabindex="-1"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <ul class="swap-selector-modal">
+        @foreach ($assets as $asset)
+          <li>
+            <div class="d-flex align-items-center">
+              <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
+              <div class="d-flex flex-column">
+                <span class="text-dark mb-1 lh-1">{{ $asset->symbol }}</span>
+                <small class="text-light">{{ $asset->title }}</small>
+              </div>
+            </div>
+            <small class="swap-selector-price text-light">
+              ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
+            </small>
+          </li>
+        @endforeach
+      </ul>
     </div>
   </div>
 </div>
