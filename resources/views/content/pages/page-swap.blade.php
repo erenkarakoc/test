@@ -48,11 +48,13 @@ $configData = Helper::appClasses();
             <div class="swap-item">
               <div class="swap-select">
                 <span class="swap-label">From</span>
-                <select id="swapFrom" name="swapFrom">
-                  <option value="USD">
-                    USD
-                  </option>
-                </select>
+
+                <div class="swap-selector disabled">
+                  <span class="swap-selector-title">
+                    <span class="swap-selector-icon">{!! $walletIcons['USD'] !!}</span>
+                    <span class="text-dark">USD</span>
+                  </span>
+                </div>
               </div>
 
               <div class="swap-input">
@@ -78,6 +80,48 @@ $configData = Helper::appClasses();
             <div class="swap-item">
               <div class="swap-select">
                 <span class="swap-label">To</span>
+
+                <div class="swap-selector">
+                  <span class="swap-selector-title">
+                    <span class="swap-selector-icon">{!! $walletIcons['TRX'] !!}</span>
+                    <span class="text-dark">TRX</span>
+                  </span>
+                  <ul class="swap-selector-dropdown">
+                    <li>
+                      <div class="d-flex align-items-center">
+                        <span class="swap-selector-icon">{!! $walletIcons['USDT'] !!}</span>
+                        <div class="d-flex flex-column">
+                          <span class="text-dark mb-1">USDT</span>
+                          <small class="text-light">Tether</small>
+                        </div>
+                      </div>
+                      <small class="swap-selector-price text-light">≈1.00$</small>
+                    </li>
+                    <li>
+                      <div class="d-flex align-items-center">
+                        <span class="swap-selector-icon">{!! $walletIcons['BNB'] !!}</span>
+                        <div class="d-flex flex-column">
+                          <span class="text-dark mb-1">BNB</span>
+                          <small class="text-light">Binance Coin</small>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-column align-items-end">
+                        <small class="swap-selector-price text-light">≈1.00$</small>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-flex align-items-center">
+                        <span class="swap-selector-icon">{!! $walletIcons['BTC'] !!}</span>
+                        <div class="d-flex flex-column">
+                          <span class="text-dark mb-1">BTC</span>
+                          <small class="text-light">Bitcoin</small>
+                        </div>
+                      </div>
+                      <small class="swap-selector-price text-light">≈1.00$</small>
+                    </li>
+                  </ul>
+                </div>
+
                 <select id="swapToAsset" name="swapToAsset">
                   <option value="USD">
                     USD
