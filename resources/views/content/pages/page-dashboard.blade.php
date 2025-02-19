@@ -683,5 +683,5 @@
     </div>
   </div>
 
-  @include('components.transaction-modal')
+  <x-transaction-modal />
 @endsection

@@ -44,8 +44,8 @@
                   <path d="M10.5 17.5L17.5 10.5M17.5 10.5L17.5 15.75M17.5 10.5L12.25 10.5" stroke="currentColor"
                     stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <svg class="transaction-locked text-light d-none" width="36" height="36" viewBox="0 0 80 80" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                <svg class="transaction-locked text-light d-none" width="36" height="36" viewBox="0 0 80 80"
+                  fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
                     d="M40 9.16667C22.9712 9.16667 9.16667 22.9712 9.16667 40C9.16667 57.0288 22.9712 70.8333 40 70.8333C57.0288 70.8333 70.8333 57.0288 70.8333 40C70.8333 22.9712 57.0288 9.16667 40 9.16667ZM4.16667 40C4.16667 20.2098 20.2098 4.16667 40 4.16667C59.7902 4.16667 75.8333 20.2098 75.8333 40C75.8333 59.7902 59.7902 75.8333 40 75.8333C20.2098 75.8333 4.16667 59.7902 4.16667 40Z"
                     fill="currentColor" />

@@ -568,15 +568,17 @@
 
   const walletAccountModalAddress = document.querySelector('#walletAccountModalAddress');
   walletAccountModalAddress.addEventListener('click', () => {
-    const walletAddressPopover = walletAccountModalAddress.querySelector('.wallet-address-popover');
-    const walletAddress = wrapper.querySelector('.wallet-address');
-    navigator.clipboard.writeText(walletAddress.value.trim());
+    if (wrapper) {
+      const walletAddressPopover = walletAccountModalAddress.querySelector('.wallet-address-popover');
+      const walletAddress = wrapper.querySelector('.wallet-address');
+      navigator.clipboard.writeText(walletAddress.value.trim());
 
-    walletAddressPopover.style.left = '12px';
-    walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
-    walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
+      walletAddressPopover.style.left = '12px';
+      walletAddressPopover.querySelector('.popover-body').textContent = 'Copied';
+      walletAddressPopover.querySelector('.popover-arrow').style.transform = 'translate(23px, 0px)';
 
-    walletAddress.select();
+      walletAddress.select();
+    }
   });
 
   const walletAddressToggleBtn = document.querySelectorAll('.wallet-address-toggle-btn');
@@ -657,8 +659,16 @@
       value = parts[0] + '.' + parts.slice(1).join('');
     }
 
-    // Limit to 8 decimal places
-    if (parts[1]) {
+    // Limit to 8 digits before the decimal point
+    if (parts[0].length > 8) {
+      value = parts[0].slice(0, 8);
+      if (parts[1]) {
+        value += '.' + parts[1]; // Keep the decimal part if it exists
+      }
+    }
+
+    // Limit to 8 digits after the decimal point
+    if (parts[1] && parts[1].length > 8) {
       value = parts[0] + '.' + parts[1].slice(0, 8);
     }
 

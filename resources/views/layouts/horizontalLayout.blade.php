@@ -263,9 +263,6 @@
           @endif
           <!-- / Footer -->
           <div class="content-backdrop fade"></div>
-
-          {{-- Swap Modal --}}
-          <x-swap-modal />
         </div>
         <!--/ Content wrapper -->
       </div>
@@ -279,7 +276,8 @@
     @endif
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
     <div class="drag-target"></div>
-
   </div>
   <!-- / Layout wrapper -->
+
+  <x-swap-modal />
 @endsection

@@ -376,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Assets
   const symbols = [
     { title: 'TRX', data: [] },
     { title: 'BTC', data: [] },
@@ -502,6 +503,26 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   addAssetDataToSession();
+
+  // Swap Modal
+  const swapInvertWrapper = document.querySelector('.swap-invert-wrapper');
+  const swapInvert = document.querySelector('.swap-invert');
+
+  swapInvert.addEventListener('click', () => {
+    swapInvertWrapper.classList.toggle('swap-inverted');
+  });
+
+  const swapSelectors = document.querySelectorAll('.swap-selector');
+  document.addEventListener('click', e => {
+    swapSelectors.forEach(selector => {
+      const withinBoundaries = e.composedPath().includes(selector);
+      if (withinBoundaries && !selector.classList.contains('disabled')) {
+        selector.classList.toggle('active');
+      } else {
+        selector.classList.remove('active');
+      }
+    });
+  });
 })();
 
 // ! Removed following code if you do't wish to use jQuery. Remember that navbar search functionality will stop working on removal.
