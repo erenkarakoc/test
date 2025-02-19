@@ -160,6 +160,7 @@ $configData = Helper::appClasses();
               <div id="algorithm-glow" class="ms-auto"></div>
             </div>
 
+            @if (!$userUsdBalance > 0)
             <div class="bg-light border rounded p-5 mt-6">
               <div class="d-flex align-items-center">
                 <div class="d-flex flex-column w-100">
@@ -211,7 +212,7 @@ $configData = Helper::appClasses();
               </label>
             </div>
 
-            <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Summary</h6>
+            <h6 class="lh-1 fw-normal mt-8 mb-4">Summary</h6>
 
             <div class="table-responsive border rounded overflow-hidden">
               <table class="table">
@@ -292,6 +293,23 @@ $configData = Helper::appClasses();
                 <span>Lock</span>
               </button>
             </div>
+            @else
+            <div class="d-flex flex-column align-items-center text-center bg-light border rounded p-5 mt-6">
+              <span class="h6 mb-1">Insufficient USD balance</span>
+              <small>Swap balances to USD in order to start</small>
+              <button type="button" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal"
+                data-bs-target="#swapModal">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M20.536 20.536C22 19.07 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465"
+                    opacity=".4" />
+                  <path fill="currentColor"
+                    d="M7 10.75a.75.75 0 0 1-.493-1.315l3.437-3a.75.75 0 0 1 .987 1.13L9 9.25h8a.75.75 0 0 1 0 1.5zm6.07 5.685a.75.75 0 0 0 .986 1.13l3.437-3A.75.75 0 0 0 17 13.25H7a.75.75 0 0 0 0 1.5h8z" />
+                </svg>
+                <span>Swap Tool</span>
+              </button>
+            </div>
+            @endif
           </div>
         </div>
       </div>

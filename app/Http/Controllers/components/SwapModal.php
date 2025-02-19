@@ -6,13 +6,13 @@ use App\Models\Asset;
 use App\Models\UserBalances;
 use Illuminate\Support\Facades\Auth;
 
-class PageSwap extends Controller {
+class SwapModal extends Controller {
     public function index() {
         $user = Auth::user();
 
         $assets       = Asset::all();
         $userBalances = UserBalances::where('user_id', $user->id)->get();
 
-        return view('content.pages.page-swap', compact('assets', 'userBalances'));
+        return view('components.swap-modal', compact('assets', 'userBalances'));
     }
 }

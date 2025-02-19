@@ -770,20 +770,26 @@
     }
   };
 
-  maxButton.addEventListener('click', calculateSummary);
-  amountInput.addEventListener('input', () => {
-    if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-      amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
-    }
-    calculateSummary();
-  });
+  if (maxButton && amountInput && unlockDate) {
+    maxButton.addEventListener('click', calculateSummary);
 
-  unlockDate.addEventListener('change', () => {
-    const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
-    unlockAfter.innerHTML = `${period} days`;
-    document.querySelector('.unlock_after_wrap').classList.remove('d-none');
-    calculateSummary();
-  });
+    amountInput.addEventListener('input', () => {
+      if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
+        amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
+      }
+      calculateSummary();
+    });
+
+    unlockDate.addEventListener('change', () => {
+      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      unlockAfter.innerHTML = `${period} days`;
+      document.querySelector('.unlock_after_wrap').classList.remove('d-none');
+
+      if (maxButton && amountInput) {
+        calculateSummary();
+      }
+    });
+  }
 
   const setCurrentStrategyPack = (title, description, algorithms) => {
     packTitle.innerHTML = title;
@@ -814,8 +820,10 @@
     const packTitle = button.getAttribute('data-title');
     const packAlgorithms = JSON.parse(button.getAttribute('data-algorithms'));
 
-    lockAmountButton.querySelector('.loading-hidden').classList.add('loading-hidden');
-    lockAmountButton.removeAttribute('disabled');
+    if (lockAmountButton) {
+      lockAmountButton.querySelector('.loading-hidden').classList.add('loading-hidden');
+      lockAmountButton.removeAttribute('disabled');
+    }
 
     const chosenPackImgs = document.querySelector('#chosen-pack-img');
     const chosenPackImg = chosenPackImgs.querySelector('#' + packTitle + '-img');
@@ -845,7 +853,9 @@
     const gemCount = algoWithHighestIcon.icon;
     calculateGlow(gemCount);
 
-    calculateSummary();
+    if (maxButton && amountInput & unlockDate) {
+      calculateSummary();
+    }
   };
 
   const strategyPacks = document.querySelector('#strategy-packs');
@@ -896,27 +906,29 @@
     }
   });
 
-  lockAmountButton.addEventListener('click', () => {
-    const submitted = lockAmountButton.hasAttribute('disabled');
+  if (maxButton && amountInput && unlockDate && lockAmountButton) {
+    lockAmountButton.addEventListener('click', () => {
+      const submitted = lockAmountButton.hasAttribute('disabled');
 
-    if (calculated && chosenAlgorithms.length && !submitted) {
-      lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
-      lockAmountButton.setAttribute('disabled', true);
+      if (calculated && chosenAlgorithms.length && !submitted) {
+        lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+        lockAmountButton.setAttribute('disabled', true);
 
-      amount = Number(amountInput.value);
-      period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
-      const data = { chosen_algorithms: chosenAlgorithms, amount, period };
+        amount = Number(amountInput.value);
+        period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+        const data = { chosen_algorithms: chosenAlgorithms, amount, period };
 
-      fetch('/lock-pack', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
-        }
-      }).then(res => {
-        console.log(res);
-      });
-    }
-  });
+        fetch('/lock-pack', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+          }
+        }).then(res => {
+          console.log(res);
+        });
+      }
+    });
+  }
 })();

@@ -1,5 +1,5 @@
 /**
- * Swap
+ * Swap Modal
  */
 
 ('use strict');

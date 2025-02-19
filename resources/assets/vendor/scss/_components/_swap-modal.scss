@@ -1,10 +1,7 @@
-// * Swap
+// * Swap Modal
 // *******************************************************************************
 
-@import '../_bootstrap-extended/include';
-@import '../_custom-variables/pages';
-
-.page-swap {
+#swapModal {
   .swap-wrapper {
     position: relative;
     display: flex;
