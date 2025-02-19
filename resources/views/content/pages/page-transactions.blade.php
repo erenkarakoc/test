@@ -34,7 +34,7 @@ $configData = Helper::appClasses();
                 Total Received
                 <span class="popover-trigger cursor-pointer ms-1" data-bs-toggle="popover" data-bs-trigger="hover"
                   data-bs-placement="top" data-bs-custom-class="popover-dark"
-                  data-bs-content="Total amount you've deposited in your account.">
+                  data-bs-content="Total amount you've cashed-in to your account.">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                     <path fill="currentColor"
                       d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
@@ -96,7 +96,7 @@ $configData = Helper::appClasses();
                 Total Income
                 <span class="popover-trigger cursor-pointer ms-1" data-bs-toggle="popover" data-bs-trigger="hover"
                   data-bs-placement="top" data-bs-custom-class="popover-dark"
-                  data-bs-content="Total summary of executed trades.">
+                  data-bs-content="Total amount of incomes from executed trades.">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                     <path fill="currentColor"
                       d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3" />
