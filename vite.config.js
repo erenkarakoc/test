@@ -70,6 +70,7 @@ export default defineConfig({
       refresh: true
     }),
     html(),
+    console.log('Page JS Files:', pageJsFiles),
     libsWindowAssignment()
   ]
 });

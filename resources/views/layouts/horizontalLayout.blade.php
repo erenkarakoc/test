@@ -48,8 +48,7 @@ $containerNav = $configData['contentLayout'] === 'compact' ? 'container-xxl' : '
 @endsection
 
 @section('page-script')
-@vite(['resources/assets/js/helpers/gdzhelpers.js', 'resources/assets/js/ui-popover.js',
-'resources/assets/js/components/swap-modal.js'])
+@vite(['resources/assets/js/helpers/gdzhelpers.js', 'resources/assets/js/ui-popover.js'])
 @endsection
 
 @section('layoutContent')
