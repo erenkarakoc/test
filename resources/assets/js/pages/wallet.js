@@ -279,7 +279,7 @@
   /// Charts ///
   //////////////
 
-  // Total Profit Chart
+  // Wallet Asset Chart
   // --------------------------------------------------------------------
   const walletAssetChartConfig = {
     chart: {

@@ -6,6 +6,7 @@
 
 .page-swap {
   .swap-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     row-gap: 4px;
@@ -79,7 +80,7 @@
           .swap-label {
             user-select: none;
             pointer-events: none;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             margin-bottom: 4px;
           }
@@ -135,6 +136,81 @@
       }
 
       z-index: 3;
+    }
+  }
+
+  .wallet-item {
+    position: relative;
+    overflow: hidden;
+
+    .wallet-item-icon {
+      height: 24px;
+      width: 24px;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    .wallet-item-title {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    & > div:not(.wallet-item-current-price):not(#walletAssetChart) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .wallet-asset-chart {
+      min-height: 60px;
+    }
+
+    .wallet-item-current-price {
+      pointer-events: none;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+
+      div {
+        position: relative;
+        z-index: 1;
+      }
+
+      span {
+        font-size: 12px;
+
+        small {
+          font-size: 10px;
+        }
+
+        transition: all 0.15s ease-out;
+      }
+
+      &.price-hidden span {
+        transform: translateY(100px);
+      }
+
+      &:not(.price-hidden)::before {
+        content: '';
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        height: 60px;
+        width: 200px;
+        background: linear-gradient(to left, #121212, #12121270, #12121200);
+        z-index: 1;
+        transition: all 0.2s ease-out;
+      }
+    }
+
+    &.wallet-item-Total {
+      .wallet-item-title {
+        line-height: 1.25;
+        font-size: 16px;
+        font-weight: 600;
+      }
     }
   }
 }
