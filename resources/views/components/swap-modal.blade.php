@@ -1,7 +1,3 @@
-@section('page-style')
-@vite(['resources/assets/vendor/scss/_components/_swap-modal.scss'])
-@endsection
-
 <div class="modal fade modal-md" id="swapModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -66,18 +62,18 @@
                     </span>
                     <ul class="swap-selector-dropdown">
                       @foreach ($assets as $asset)
-                      <li>
-                        <div class="d-flex align-items-center">
-                          <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
-                          <div class="d-flex flex-column">
-                            <span class="text-dark mb-1">{{ $asset->symbol }}</span>
-                            <small class="text-light">{{ $asset->title }}</small>
+                        <li>
+                          <div class="d-flex align-items-center">
+                            <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
+                            <div class="d-flex flex-column">
+                              <span class="text-dark mb-1">{{ $asset->symbol }}</span>
+                              <small class="text-light">{{ $asset->title }}</small>
+                            </div>
                           </div>
-                        </div>
-                        <small class="swap-selector-price text-light">
-                          ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
-                        </small>
-                      </li>
+                          <small class="swap-selector-price text-light">
+                            ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
+                          </small>
+                        </li>
                       @endforeach
                     </ul>
                   </div>
