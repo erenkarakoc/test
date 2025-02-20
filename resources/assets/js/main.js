@@ -505,25 +505,28 @@ document.addEventListener('DOMContentLoaded', () => {
   addAssetDataToSession();
 
   let canSwap = false;
+  let isSwapFirstInvert = true;
+  const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
   const swapModalEl = document.querySelector('#swapModal');
   const swapModal = new bootstrap.Modal(swapModalEl);
-  const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
   const swapFromAmount = document.querySelector('#swapFromAmount');
   const swapInvertWrapper = document.querySelector('.swap-invert-wrapper');
   const swapInvert = document.querySelector('.swap-invert');
-
-  swapInvert.addEventListener('click', () => {
-    swapInvertWrapper.classList.toggle('swap-inverted');
-  });
+  const swapInputs = document.querySelectorAll('.swap-input input');
+  const swapFromInput = document.querySelector('#swapFromAmount');
+  const swapToInput = document.querySelector('#swapToAmount');
+  const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
+  const swapErrorMessageEl = document.querySelector('.swap-error-message');
+  const swapButton = document.querySelector('#swapButton');
 
   swapSelector.forEach(selector => {
-    if (!selector.classList.contains('disabled')) {
-      selector.addEventListener('click', () => {
+    selector.addEventListener('click', () => {
+      if (!selector.classList.contains('disabled')) {
         const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
         const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
         swapSelectorModal.show();
-      });
-    }
+      }
+    });
   });
 
   swapModal.show();
@@ -535,12 +538,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 350);
   });
 
-  const swapInputs = document.querySelectorAll('.swap-input input');
-  const swapFromInput = document.querySelector('#swapFromAmount');
-  const swapToInput = document.querySelector('#swapToAmount');
-  const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
-  const swapErrorMessageEl = document.querySelector('.swap-error-message');
-
   let swapAsset = 'TRX';
   let swapToAsset = false;
 
@@ -548,10 +545,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (msg) {
       swapErrorMessageEl.classList.remove('d-none');
       swapErrorMessageEl.querySelector('small').innerHTML = msg;
-      canSwap = false;
     } else {
       swapErrorMessageEl.classList.add('d-none');
-      canSwap = true;
     }
   };
 
@@ -582,8 +577,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (Number(value) > Number(e.target.getAttribute('data-max'))) {
+        canSwap = false;
+        swapButton.setAttribute('disabled', true);
+
         toggleSwapErrorMessage('Insufficient balance!');
+      } else if (Number(value) <= 0) {
+        canSwap = false;
+        swapButton.setAttribute('disabled', true);
       } else {
+        canSwap = true;
+        swapButton.removeAttribute('disabled');
+
         toggleSwapErrorMessage();
       }
 
@@ -595,33 +599,69 @@ document.addEventListener('DOMContentLoaded', () => {
         swapFromInput.value = parseFloat(Number(value / assetPrice).toFixed(8));
       }
 
-      // Convert empty or invalid input to '0.00'
-      // if (!value || isNaN(Number(value))) {
-      //   value = '0.00';
-      //   sendFundsSubmitButton.setAttribute('disabled', true);
-      // } else {
-      //   sendFundsSubmitButton.removeAttribute('disabled');
-      // }
-
-      // Update input value
       e.target.value = value;
     });
   });
 
   swapBalances.forEach(el => {
-    el.addEventListener('click', e => {
-      const input = e.target.closest('.swap-item').querySelector('input');
-      input.value = e.target.innerText;
-    });
+    const input = el.closest('.swap-item').querySelector('input');
+
+    if (Number(el.innerHTML) > 0) {
+      el.addEventListener('click', e => {
+        input.value = e.target.innerText;
+        swapButton.removeAttribute('disabled');
+        canSwap = true;
+      });
+    }
   });
 
-  const swapSelectorAssets = document.querySelectorAll('.swap-selector-asset');
-  swapSelectorAssets.forEach(asset => {
-    asset.addEventListener('click', () => {
-      const symbol = asset.getAttribute('data-symbol');
-      const title = asset.getAttribute('data-title');
-    });
-  });
+  const invertSwap = () => {
+    if (isSwapFirstInvert) {
+      isSwapFirstInvert = false;
+    } else {
+      const rows = document.querySelectorAll('.swap-row');
+
+      const swapFromAmount = rows[0].querySelector('input').value;
+      const swapToAmount = rows[1].querySelector('input').value;
+      rows[0].querySelector('input').value = swapToAmount;
+      rows[1].querySelector('input').value = swapFromAmount;
+
+      const swapFromBalance = rows[0].querySelector('.swap-balance').innerHTML;
+      const swapToBalance = rows[1].querySelector('.swap-balance').innerHTML;
+      rows[0].querySelector('.swap-balance').innerHTML = swapToBalance;
+      rows[1].querySelector('.swap-balance').innerHTML = swapFromBalance;
+
+      const swapFromInputLabel = rows[0].querySelector('.swap-input-label-wrapper').innerHTML;
+      const swapToInputLabel = rows[1].querySelector('.swap-input-label-wrapper').innerHTML;
+      rows[0].querySelector('.swap-input-label-wrapper').innerHTML = swapToInputLabel;
+      rows[1].querySelector('.swap-input-label-wrapper').innerHTML = swapFromInputLabel;
+
+      const swapFromSelector = rows[0].querySelector('.swap-selector').innerHTML;
+      const swapToSelector = rows[1].querySelector('.swap-selector').innerHTML;
+      rows[0].querySelector('.swap-selector').innerHTML = swapToSelector;
+      rows[0].querySelector('.swap-selector').classList.add('disabled');
+      rows[1].querySelector('.swap-selector').innerHTML = swapFromSelector;
+      rows[1].querySelector('.swap-selector').classList.remove('disabled');
+
+      if (swapInvertWrapper.classList.contains('swap-inverted')) {
+        swapInvertWrapper.classList.remove('swap-inverted');
+        swapToAsset = false;
+      } else {
+        swapInvertWrapper.classList.add('swap-inverted');
+        swapToAsset = true;
+      }
+    }
+  };
+  invertSwap();
+  swapInvert.addEventListener('click', invertSwap);
+
+  // const swapSelectorAssets = document.querySelectorAll('.swap-selector-asset');
+  // swapSelectorAssets.forEach(asset => {
+  //   asset.addEventListener('click', () => {
+  //     const symbol = asset.getAttribute('data-symbol');
+  //     const title = asset.getAttribute('data-title');
+  //   });
+  // });
 })();
 
 // ! Removed following code if you do't wish to use jQuery. Remember that navbar search functionality will stop working on removal.

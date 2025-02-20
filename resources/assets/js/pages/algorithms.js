@@ -184,30 +184,34 @@
     }
   };
 
-  maxButton.addEventListener('click', () => {
-    calculateSummary();
-    toggleErrorMessage();
-  });
-  amountInput.addEventListener('input', () => {
-    if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-      console.log(Number(amountInput.getAttribute('data-max')));
-      toggleErrorMessage('Insufficient USD balance!');
-    } else {
+  if (maxButton && amountInput && unlockDate) {
+    maxButton.addEventListener('click', () => {
+      calculateSummary();
       toggleErrorMessage();
-    }
-    calculateSummary();
-  });
+    });
 
-  unlockDate.addEventListener('change', () => {
-    const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
-    unlockAfter.innerHTML = `${period} days`;
-    document.querySelector('.unlock_after_wrap').classList.remove('d-none');
-    calculateSummary();
-  });
+    amountInput.addEventListener('input', () => {
+      if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
+        console.log(Number(amountInput.getAttribute('data-max')));
+        toggleErrorMessage('Insufficient USD balance!');
+      } else {
+        toggleErrorMessage();
+      }
+      calculateSummary();
+    });
+
+    unlockDate.addEventListener('change', () => {
+      const period = Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24));
+      unlockAfter.innerHTML = `${period} days`;
+      document.querySelector('.unlock_after_wrap').classList.remove('d-none');
+      calculateSummary();
+    });
+  }
 
   const algorithmGlow = document.querySelector('#algorithm-glow');
-  for (let i = 0; i < 4; i++) {
-    algorithmGlow.innerHTML += `<svg width="37" height="45" viewBox="0 0 37 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+  if (algorithmGlow) {
+    for (let i = 0; i < 4; i++) {
+      algorithmGlow.innerHTML += `<svg width="37" height="45" viewBox="0 0 37 45" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g filter="url(#algo_glow_id_${i})"> <path d="M10.1898 22.4895L18.5504 34.5999L26.6765 22.4895L18.5504 10.504L10.1898 22.4895Z"fill="#8783F0" />
                 <path d="M18.1957 10.1868C18.3258 10.0628 18.4701 9.92159 18.6664 10.052C18.6557 10.0853 18.6316 10.0928 18.6022 10.0947C18.5915 10.0947 18.5808 10.0928 18.5701 10.091C18.48 10.0701 18.4052 10.1061 18.3356 10.1622C18.2937 10.1954 18.2518 10.2372 18.1965 10.1887L18.1957 10.1868Z" fill="#D3DAF4" />
                 <path d="M19.2654 10.711C19.4589 10.9236 19.6122 11.1715 19.7816 11.405C20.6677 12.6298 21.5102 13.8898 22.3562 15.1459C22.9472 16.0232 23.5302 16.9072 24.115 17.7883C24.1864 17.8965 24.2702 17.9962 24.3272 18.1149C24.3433 18.1481 24.3441 18.188 24.3682 18.2184C24.5046 18.3893 24.6018 18.5887 24.7266 18.7691C24.8015 18.8773 24.8452 19.0064 24.9272 19.1128C24.9887 19.1925 24.9495 19.278 24.8888 19.3482C24.8505 19.3644 24.8291 19.3368 24.8095 19.3102C24.6606 19.1061 24.5287 18.8896 24.395 18.6741C24.3593 18.6171 24.3094 18.5735 24.2746 18.5174C24.2532 18.4804 24.2274 18.4481 24.2024 18.4149C24.0928 18.1975 23.9376 18.0142 23.8084 17.812C23.6051 17.493 23.3823 17.1882 23.179 16.8692C23.1121 16.7638 23.0453 16.6556 22.9659 16.5578C22.8144 16.3356 22.6486 16.122 22.5077 15.8941C22.4221 15.7564 22.3321 15.6225 22.2456 15.4868C22.0789 15.2238 21.9042 14.9655 21.7312 14.7082C21.4424 14.279 21.1723 13.8356 20.8763 13.4112C20.7524 13.2327 20.6178 13.0628 20.5019 12.8776C20.4859 12.852 20.4716 12.8264 20.4609 12.7979C20.411 12.6906 20.3325 12.6051 20.2675 12.5092C20.2363 12.4798 20.2157 12.4418 20.1997 12.402C20.0794 12.2149 19.9599 12.0279 19.8315 11.8465C19.8048 11.8095 19.7718 11.7715 19.7254 11.7839C19.6497 11.8038 19.5864 11.7829 19.5249 11.7373C19.5052 11.7221 19.4794 11.7089 19.458 11.7345C19.4446 11.7497 19.4509 11.7706 19.458 11.7886C19.565 12.0336 19.6497 12.2861 19.7263 12.5444C19.7852 12.7419 19.8422 12.9432 19.8841 13.1425C19.9189 13.3058 19.9652 13.4768 19.9563 13.6505C19.9421 13.6733 19.9189 13.6837 19.8966 13.6942C19.7985 13.7417 19.7914 13.7379 19.7709 13.6249C19.7664 13.5983 19.7682 13.5688 19.729 13.5878C19.6318 13.603 19.6033 13.5793 19.6033 13.4843C19.6033 13.454 19.614 13.4255 19.6078 13.3951C19.6033 13.3742 19.5971 13.3533 19.5917 13.3324C19.5739 13.2593 19.5596 13.1862 19.5685 13.1103C19.5873 13.0542 19.5685 13.0011 19.5614 12.9451C19.5338 12.7324 19.458 12.5292 19.4518 12.3127C19.45 12.2424 19.4188 12.1817 19.4018 12.1171C19.3599 11.9548 19.3385 11.782 19.3457 11.6253C19.3555 11.4335 19.2859 11.2892 19.212 11.1392C19.1701 11.0547 19.2155 10.9702 19.1861 10.8914C19.1718 10.8667 19.1585 10.8429 19.1709 10.8126C19.277 10.8126 19.3171 10.9075 19.3769 10.974C19.4125 11.01 19.442 11.0518 19.4705 11.0936C19.5534 11.1952 19.6176 11.3129 19.704 11.4117C19.7914 11.537 19.8841 11.6595 19.9724 11.7848C19.8859 11.6557 19.7914 11.5332 19.7032 11.4069C19.6158 11.3091 19.5525 11.1914 19.4696 11.0898C19.442 11.048 19.4108 11.0081 19.3769 10.9711C19.3296 10.8914 19.244 10.8382 19.2298 10.7347C19.2351 10.7186 19.2432 10.7053 19.2628 10.7138L19.2654 10.711Z" fill="#859AED" />
@@ -872,6 +876,7 @@
               </g><defs><filter id="algo_glow_id_${i}" x="0" y="0" width="37" height="45"filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix" /><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" /><feOffset /><feGaussianBlur stdDeviation="5" /><feComposite in2="hardAlpha" operator="out" /><feColorMatrix type="matrix" values="0 0 0 0 0.45098 0 0 0 0 0.403922 0 0 0 0 0.941176 0 0 0 0.5 0" /><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_986_715" /><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_986_715" result="shape" /></filter></defs>
             </svg>
     `;
+    }
   }
 
   document.addEventListener('click', event => {
@@ -936,26 +941,28 @@
     }
   });
 
-  lockAmountButton.addEventListener('click', () => {
-    if (calculated && chosenAlgorithms.length) {
-      // lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+  if (lockAmountButton) {
+    lockAmountButton.addEventListener('click', () => {
+      if (calculated && chosenAlgorithms.length) {
+        // lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
 
-      amount = Number(amountInput.value);
-      period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
-      const data = { chosen_algorithms: chosenAlgorithms, amount, period };
+        amount = Number(amountInput.value);
+        period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+        const data = { chosen_algorithms: chosenAlgorithms, amount, period };
 
-      fetch('/lock-pack', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
-        }
-      }).then(res => {
-        console.log(res);
-      });
-    }
-  });
+        fetch('/lock-pack', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+          }
+        }).then(res => {
+          console.log(res);
+        });
+      }
+    });
+  }
 
   const swiperWithPagination = document.querySelector('#gdzStrategiesCard');
   if (swiperWithPagination) {

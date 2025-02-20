@@ -1,6 +1,7 @@
 <div class="modal modal-md fade" id="swapModal" aria-labelledby="swapModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <form class="modal-content">
+      @csrf
       <div class="modal-header">
         <div class="d-flex flex-column">
           <h5 class="mb-3 lh-1">Swap Tool</h5>
@@ -13,8 +14,7 @@
       </div>
 
       <div class="modal-body pt-0">
-        <form id="swapForm">
-          @csrf
+        <div>
           <input type="hidden" name="swapFrom" id="swapFrom" value="TRX">
           <input type="hidden" name="swapTo" id="swapTo" value="USD">
 
@@ -37,7 +37,7 @@
                     data-max="{{ $userBalances->where('wallet', 'TRX')->value('balance') }}"
                     data-price="{{ $marketDataPrices['TRX'] }}">
                   <div class="swap-input-label-wrapper">
-                    <small class="swap-input-label">Amount in TRX</small>
+                    <small class="swap-input-label">Amount in <span class="swap-asset">TRX</span></small>
                     <small class="swap-price">≈<span>{{ number_format($marketDataPrices['TRX'], 2) }}</span>$</small>
                   </div>
                 </div>
@@ -45,9 +45,18 @@
                 <div class="swap-balance">
                   <small>Balance:</small>
                   <small>
-                    <span
-                      class="swap-asset-balance">{{ @formatBalance($userBalances->where('wallet', 'TRX')->value('balance')) }}</span>
-                    <span class="swap-asset-symbol">TRX</span>
+                    @php
+                      $assetBalances = [];
+                      foreach ($assets as $asset) {
+                          $assetBalances[] = [
+                              'symbol' => $asset->symbol,
+                              'balance' => $userBalances->where('wallet', $asset->symbol)->value('balance'),
+                          ];
+                      }
+                    @endphp
+                    <span class="swap-asset-balance"
+                      data-asset-balances="{{ json_encode($assetBalances) }}">{{ @formatBalance($userBalances->where('wallet', 'TRX')->value('balance')) }}</span>
+                    <span class="swap-asset">TRX</span>
                   </small>
                 </div>
               </div>
@@ -98,7 +107,7 @@
               </div>
             </div>
           </div>
-        </form>
+        </div>
 
         <div class="swap-error-message text-danger mt-2 text-center d-none">
           <small></small>
@@ -106,11 +115,11 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn rounded-pill btn-primary mt-4 w-100">
+        <button type="submit" class="btn rounded-pill btn-primary mt-4 w-100" disabled id="swapButton">
           Swap
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 

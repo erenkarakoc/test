@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PageAlgorithms extends Controller {
     public function index() {
-        $algorithms    = Algorithm::all();
-        $userBalances  = UserBalances::where('user_id', Auth::user()->id)->get();
-        $strategyPacks = StrategyPacks::all();
+        $algorithms     = Algorithm::all();
+        $userBalances   = UserBalances::where('user_id', Auth::user()->id)->get();
+        $strategyPacks  = StrategyPacks::all();
+        $userUsdBalance = UserBalances::where('wallet', 'USD')->value('balance');
 
-        return view('content.pages.algo.page-algorithms', compact('algorithms', 'userBalances', 'strategyPacks'));
+        return view('content.pages.algo.page-algorithms', compact('algorithms', 'userBalances', 'strategyPacks', 'userUsdBalance'));
     }
 }
