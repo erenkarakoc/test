@@ -16,11 +16,11 @@
 @endsection
 
 @section('page-style')
-  @vite(['resources/assets/vendor/scss/pages/algorithms.scss', 'resources/assets/vendor/scss/_components/_swap-modal.scss'])
+  @vite(['resources/assets/vendor/scss/pages/algorithms.scss'])
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/algorithms.js', 'resources/assets/js/ui-popover.js', 'resources/assets/js/components/swap-modal.js'])
+  @vite(['resources/assets/js/pages/algorithms.js', 'resources/assets/js/ui-popover.js'])
 @endsection
 
 @section('content')

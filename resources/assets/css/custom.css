@@ -414,8 +414,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 100px;
-  padding: 0 2rem;
+  height: 140px;
+  padding: 1rem 2rem;
   border: 1px solid #181818;
   border-radius: 16px;
   background-color: #121212;
@@ -442,7 +442,7 @@
   right: 0;
   height: 100%;
   width: 100%;
-  padding: 0 2rem 1.3rem;
+  padding: 0 2rem;
   border: none;
   outline: none;
   background-color: transparent;
@@ -452,16 +452,33 @@
   z-index: 1;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-input .swap-price {
+#swapModal .swap-wrapper .swap-row .swap-item .swap-input .swap-input-label-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  height: 100%;
+  padding: 1.3rem 2rem;
+}
+
+#swapModal .swap-wrapper .swap-row .swap-item .swap-input .swap-input-label-wrapper .swap-input-label {
+  font-size: 12px;
+  color: #737488;
+}
+
+#swapModal .swap-wrapper .swap-row .swap-item .swap-input .swap-input-label-wrapper .swap-price {
   pointer-events: none;
   position: absolute;
+  bottom: 1.3rem;
   right: 2rem;
-  bottom: 1.5rem;
   font-size: 12px;
+  color: #737488;
   z-index: 2;
 }
 
 #swapModal .swap-wrapper .swap-row .swap-item .swap-select {
+  position: absolute;
+  top: 1.3rem;
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -492,6 +509,7 @@
 }
 
 #swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-title {
+  position: relative;
   display: flex;
   align-items: center;
   font-weight: 600;
@@ -499,55 +517,21 @@
   padding: 0 14px;
 }
 
-#swapModal .swap-selector-icon {
+#swapModal .swap-selector-icon,
+#swapSelectorModal .swap-selector-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 10px;
 }
 
-#swapModal .swap-selector-icon svg {
+#swapModal .swap-selector-icon svg,
+#swapSelectorModal .swap-selector-icon svg {
   height: 30px;
   width: 30px;
 }
 
-#swapModal .swap-selector-modal {
-  padding: 10px 0;
-  border-radius: 10px;
-  background-color: #161616;
-  list-style-type: none;
-  text-align: left;
-  box-shadow: 0 0 0 2px #7367f0;
-  transition: all 0.15s ease-out;
-  z-index: 9;
-}
-
-#swapModal .swap-selector-modal li {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-}
-
-#swapModal .swap-selector-modal li span {
-  white-space: nowrap;
-}
-
-#swapModal .swap-selector-modal li small {
-  white-space: nowrap;
-  font-size: 10px;
-}
-
-#swapModal .swap-selector-modal li .swap-selector-price {
-  margin-left: 40px;
-}
-
-#swapModal .swap-selector-modal li:hover {
-  background-color: #121212;
-}
-
-#swapModal:not(.disabled) {
+#swapModal .swap-selector:not(.disabled) {
   cursor: pointer;
 }
 
@@ -555,19 +539,15 @@
   box-shadow: 0 0 0 2px #7367f0;
 }
 
-#swapModal.swap-selector-modal-active .swap-selector:not(.disabled) {
-  box-shadow: 0 0 0 2px #7367f0;
-}
-
-#swapModal.swap-selector-modal-active .swap-selector-modal {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: all;
-  transform: none;
-}
-
 #swapModal .swap-wrapper .swap-row .swap-item .swap-input select {
   display: none;
+}
+
+#swapModal .swap-wrapper .swap-row .swap-item .swap-balance {
+  position: absolute;
+  bottom: 1.3rem;
+  padding-top: 10px;
+  color: #737488;
 }
 
 #swapModal .swap-wrapper .swap-row:nth-of-type(3) .swap-item {
@@ -604,4 +584,40 @@
 
 #swapModal .swap-wrapper .swap-invert-wrapper.swap-inverted .swap-invert {
   transform: translate(-50%, -50%) rotate(180deg);
+}
+
+#swapSelectorModal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#swapSelectorModal ul {
+  padding: 0;
+  list-style-type: none;
+  text-align: left;
+  transition: all 0.15s ease-out;
+}
+
+#swapSelectorModal li {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+#swapSelectorModal li span {
+  white-space: nowrap;
+}
+
+#swapSelectorModal li small {
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+#swapSelectorModal li:hover {
+  background-color: #121212;
 }

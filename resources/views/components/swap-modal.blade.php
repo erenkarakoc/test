@@ -4,8 +4,8 @@
       <div class="modal-header">
         <div class="d-flex flex-column">
           <h5 class="mb-3 lh-1">Swap Tool</h5>
-          <small class="lh-1 mb-7">
-            Convert an asset to USD or convert USD to any asset
+          <small class="mb-7">
+            Convert an asset to USD or convert USD to any asset without incurring any fees
           </small>
         </div>
 
@@ -23,17 +23,29 @@
                 <div class="swap-select">
                   <span class="swap-label">From</span>
 
-                  <div class="swap-selector" data-bs-target="swapSelectorModal" data-bs-toggle="modal">
+                  <div class="swap-selector" data-swap-selector="swapSelectorModal">
                     <span class="swap-selector-title">
-                      <span class="swap-selector-icon">{!! $walletIcons['USD'] !!}</span>
-                      <span class="text-dark">USD</span>
+                      <span class="swap-selector-icon">{!! $walletIcons['TRX'] !!}</span>
+                      <span class="swap-asset text-dark">TRX</span>
                     </span>
                   </div>
                 </div>
 
                 <div class="swap-input">
                   <input type="text" id="swapFromAmount" name="swapFromAmount" value="0.00" placeholder="0.00">
-                  <span class="swap-price swap-price-from">≈1.00$</span>
+                  <div class="swap-input-label-wrapper">
+                    <small class="swap-input-label">Amount in TRX</small>
+                    <small class="swap-price">≈<span>{{ number_format($marketDataPrices['TRX'], 2) }}</span>$</small>
+                  </div>
+                </div>
+
+                <div class="swap-balance">
+                  <small>Balance:</small>
+                  <small>
+                    <span
+                      class="swap-asset-balance">{{ @formatBalance($userBalances->where('wallet', 'TRX')->value('balance')) }}</span>
+                    <span class="swap-asset-symbol">TRX</span>
+                  </small>
                 </div>
               </div>
             </div>
@@ -55,17 +67,28 @@
                 <div class="swap-select">
                   <span class="swap-label">To</span>
 
-                  <div class="swap-selector disabled">
+                  <div class="swap-selector disabled" data-swap-selector="swapSelectorModal">
                     <span class="swap-selector-title">
-                      <span class="swap-selector-icon">{!! $walletIcons['TRX'] !!}</span>
-                      <span class="text-dark">TRX</span>
+                      <span class="swap-selector-icon">{!! $walletIcons['USD'] !!}</span>
+                      <span class="text-dark">USD</span>
                     </span>
                   </div>
                 </div>
 
                 <div class="swap-input">
                   <input type="text" id="swapToAmount" name="swapToAmount" value="0.00" placeholder="0.00">
-                  <span class="swap-price swap-price-to">≈1.00$</span>
+                  <div class="swap-input-label-wrapper">
+                    <small class="swap-input-label">Amount in USD</small>
+                  </div>
+                </div>
+
+                <div class="swap-balance">
+                  <small>Balance:</small>
+                  <small>
+                    <span
+                      class="swap-asset-balance">{{ @formatBalance($userBalances->where('wallet', 'USD')->value('balance')) }}</span>
+                    <span class="swap-asset-symbol">USD</span>
+                  </small>
                 </div>
               </div>
             </div>
@@ -82,26 +105,54 @@
   </div>
 </div>
 
-<div class="modal modal-md fade" id="swapSelectorModal" aria-labelledby="swapSelectorModal" tabindex="-1"
+<div class="modal modal-sm fade" id="swapSelectorModal" aria-labelledby="swapSelectorModal" tabindex="-1"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <ul class="swap-selector-modal">
-        @foreach ($assets as $asset)
-          <li>
-            <div class="d-flex align-items-center">
-              <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
-              <div class="d-flex flex-column">
-                <span class="text-dark mb-1 lh-1">{{ $asset->symbol }}</span>
-                <small class="text-light">{{ $asset->title }}</small>
+      <div class="modal-header">
+        <div class="d-flex flex-column">
+          <h6 class="mb-3 lh-1">Choose an Asset</h6>
+          <small class="lh-1 mb-7">
+            The asset you want to swap with USD
+          </small>
+        </div>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body pt-0">
+        <ul class="swap-selector-content">
+          @foreach ($assets as $asset)
+            <li>
+              <div class="row">
+                <div class="col col-6">
+                  <div class="d-flex">
+                    <span class="swap-selector-icon">{!! $walletIcons[$asset->symbol] ?? '' !!}</span>
+                    <div class="d-flex flex-column">
+                      <span class="text-dark lh-1 mb-1">
+                        {{ $asset->symbol }}
+                      </span>
+                      <small class="text-light">{{ $asset->title }}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="d-flex justify-content-end align-items-start h-100 text-end">
+                    <div class="d-flex flex-column">
+                      <span
+                        class="text-dark lh-1 mb-1">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2) }}$</span>
+                      <small class="text-light">
+                        {{ @formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')) }}
+                        {{ $asset->symbol }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <small class="swap-selector-price text-light">
-              ≈{{ $marketDataPrices[$asset->title] ?? '0.00' }}$
-            </small>
-          </li>
-        @endforeach
-      </ul>
+            </li>
+          @endforeach
+        </ul>
+      </div>
     </div>
   </div>
 </div>

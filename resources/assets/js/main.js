@@ -504,7 +504,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addAssetDataToSession();
 
-  // Swap Modal
+  const swapModalEl = document.querySelector('#swapModal');
+  const swapModal = new bootstrap.Modal(swapModalEl);
+  const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
+  const swapFromAmount = document.querySelector('#swapFromAmount');
   const swapInvertWrapper = document.querySelector('.swap-invert-wrapper');
   const swapInvert = document.querySelector('.swap-invert');
 
@@ -512,15 +515,67 @@ document.addEventListener('DOMContentLoaded', () => {
     swapInvertWrapper.classList.toggle('swap-inverted');
   });
 
-  // const swapSelectors = document.querySelectorAll('.swap-selector');
-  // const swapModal = document.querySelector('#swapModal');
-  // swapSelectors.forEach(selector => {
-  //   selector.addEventListener('click', () => {
-  //     if (!selector.classList.contains('disabled')) {
-  //       swapModal.classList.toggle('swap-selector-modal-active');
-  //     }
-  //   });
-  // });
+  swapSelector.forEach(selector => {
+    if (!selector.classList.contains('disabled')) {
+      selector.addEventListener('click', () => {
+        const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
+        const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
+        swapSelectorModal.show();
+      });
+    }
+  });
+
+  swapModal.show();
+
+  swapModalEl.addEventListener('show.bs.modal', () => {
+    swapFromAmount.focus({ focusVisible: true });
+  });
+
+  const swapInputs = document.querySelectorAll('.swap-input input');
+  const swapFromInput = document.querySelector('#swapFromInput');
+  const swapToInput = document.querySelector('#swapToInput');
+  swapInputs.forEach(input => {
+    input.addEventListener('input', e => {
+      let value = e.target.value;
+
+      // Remove all non-numeric characters except the dot
+      value = value.replace(/[^0-9.]/g, '');
+
+      // Ensure only one decimal point
+      const parts = value.split('.');
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('');
+      }
+
+      // Limit to 8 digits before the decimal point
+      if (parts[0].length > 8) {
+        value = parts[0].slice(0, 8);
+        if (parts[1]) {
+          value += '.' + parts[1]; // Keep the decimal part if it exists
+        }
+      }
+
+      // Limit to 8 digits after the decimal point
+      if (parts[1] && parts[1].length > 8) {
+        value = parts[0] + '.' + parts[1].slice(0, 8);
+      }
+
+      if (e.target.id === 'swapFromAmount') {
+        const marketData = localStorage.getItem('assets-data');
+      }
+
+      // Convert empty or invalid input to '0.00'
+      // if (!value || isNaN(Number(value))) {
+      //   value = '0.00';
+      //   sendFundsSubmitButton.setAttribute('disabled', true);
+      // } else {
+      //   sendFundsSubmitButton.removeAttribute('disabled');
+      // }
+
+      // Update input value
+      e.target.value = value;
+    });
+  });
 })();
 
 // ! Removed following code if you do't wish to use jQuery. Remember that navbar search functionality will stop working on removal.
