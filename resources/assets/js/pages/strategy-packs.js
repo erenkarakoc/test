@@ -5,6 +5,7 @@
 ('use strict');
 
 (function () {
+  let canCalculate = false;
   let calculated = false;
   let controller = new AbortController();
   let chosenAlgorithms = [];
@@ -732,7 +733,7 @@
     totalAmountAfterUnlock.innerHTML = calculatingIcon;
     totalAmountAfterUnlockPct.innerHTML = calculatingIcon;
 
-    if (chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
+    if (canCalculate && chosenAlgorithms.length && Number(amountInput.value) && unlockDate.value) {
       amount = Number(amountInput.value);
       period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
       const data = { chosen_algorithms: chosenAlgorithms, amount, period };
@@ -770,12 +771,30 @@
     }
   };
 
+  const errorMessageEl = document.querySelector('.error-message');
+  const toggleErrorMessage = msg => {
+    if (msg) {
+      errorMessageEl.classList.remove('d-none');
+      errorMessageEl.querySelector('small').innerHTML = msg;
+      canCalculate = false;
+    } else {
+      errorMessageEl.classList.add('d-none');
+      canCalculate = true;
+    }
+  };
+
   if (maxButton && amountInput && unlockDate) {
-    maxButton.addEventListener('click', calculateSummary);
+    maxButton.addEventListener('click', () => {
+      calculateSummary();
+      toggleErrorMessage();
+    });
 
     amountInput.addEventListener('input', () => {
       if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-        amountInput.value = Number(amountInput.getAttribute('data-max')).toFixed(2);
+        console.log(Number(amountInput.getAttribute('data-max')));
+        toggleErrorMessage('Insufficient USD balance!');
+      } else {
+        toggleErrorMessage();
       }
       calculateSummary();
     });

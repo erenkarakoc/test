@@ -669,6 +669,10 @@
                     </div>
                   </label>
 
+                  <div class="error-message text-danger mt-2 d-none">
+                    <small></small>
+                  </div>
+
                   <div class="d-flex flex-column row-gap-2 mt-8" id="algorithm-sm-items">
                     <small class="d-flex justify-content-center align-items-center text-center border rounded p-2 w-100"
                       id="algorithms-empty-text">

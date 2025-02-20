@@ -504,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addAssetDataToSession();
 
+  let canSwap = false;
   const swapModalEl = document.querySelector('#swapModal');
   const swapModal = new bootstrap.Modal(swapModalEl);
   const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
@@ -528,12 +529,32 @@ document.addEventListener('DOMContentLoaded', () => {
   swapModal.show();
 
   swapModalEl.addEventListener('show.bs.modal', () => {
-    swapFromAmount.focus({ focusVisible: true });
+    setTimeout(() => {
+      swapFromAmount.focus();
+      swapFromAmount.value.select();
+    }, 350);
   });
 
   const swapInputs = document.querySelectorAll('.swap-input input');
-  const swapFromInput = document.querySelector('#swapFromInput');
-  const swapToInput = document.querySelector('#swapToInput');
+  const swapFromInput = document.querySelector('#swapFromAmount');
+  const swapToInput = document.querySelector('#swapToAmount');
+  const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
+  const swapErrorMessageEl = document.querySelector('.swap-error-message');
+
+  let swapAsset = 'TRX';
+  let swapToAsset = false;
+
+  const toggleSwapErrorMessage = msg => {
+    if (msg) {
+      swapErrorMessageEl.classList.remove('d-none');
+      swapErrorMessageEl.querySelector('small').innerHTML = msg;
+      canSwap = false;
+    } else {
+      swapErrorMessageEl.classList.add('d-none');
+      canSwap = true;
+    }
+  };
+
   swapInputs.forEach(input => {
     input.addEventListener('input', e => {
       let value = e.target.value;
@@ -560,8 +581,18 @@ document.addEventListener('DOMContentLoaded', () => {
         value = parts[0] + '.' + parts[1].slice(0, 8);
       }
 
+      if (Number(value) > Number(e.target.getAttribute('data-max'))) {
+        toggleSwapErrorMessage('Insufficient balance!');
+      } else {
+        toggleSwapErrorMessage();
+      }
+
       if (e.target.id === 'swapFromAmount') {
-        const marketData = localStorage.getItem('assets-data');
+        const assetPrice = Number(e.target.getAttribute('data-price'));
+        swapToInput.value = parseFloat(Number(value * assetPrice).toFixed(8));
+      } else {
+        const assetPrice = Number(e.target.getAttribute('data-price'));
+        swapFromInput.value = parseFloat(Number(value / assetPrice).toFixed(8));
       }
 
       // Convert empty or invalid input to '0.00'
@@ -574,6 +605,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Update input value
       e.target.value = value;
+    });
+  });
+
+  swapBalances.forEach(el => {
+    el.addEventListener('click', e => {
+      const input = e.target.closest('.swap-item').querySelector('input');
+      input.value = e.target.innerText;
+    });
+  });
+
+  const swapSelectorAssets = document.querySelectorAll('.swap-selector-asset');
+  swapSelectorAssets.forEach(asset => {
+    asset.addEventListener('click', () => {
+      const symbol = asset.getAttribute('data-symbol');
+      const title = asset.getAttribute('data-title');
     });
   });
 })();

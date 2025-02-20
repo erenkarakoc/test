@@ -548,6 +548,16 @@
   bottom: 1.3rem;
   padding-top: 10px;
   color: #737488;
+  z-index: 2;
+}
+
+#swapModal .swap-wrapper .swap-row .swap-item .swap-balance span:first-of-type {
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+#swapModal .swap-wrapper .swap-row .swap-item .swap-balance span:first-of-type:hover {
+  text-decoration: underline;
 }
 
 #swapModal .swap-wrapper .swap-row:nth-of-type(3) .swap-item {
@@ -593,7 +603,7 @@
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 #swapSelectorModal ul {

@@ -17,6 +17,7 @@
           @csrf
           <input type="hidden" name="swapFrom" id="swapFrom" value="TRX">
           <input type="hidden" name="swapTo" id="swapTo" value="USD">
+
           <div class="swap-wrapper">
             <div class="swap-row">
               <div class="swap-item">
@@ -32,7 +33,9 @@
                 </div>
 
                 <div class="swap-input">
-                  <input type="text" id="swapFromAmount" name="swapFromAmount" value="0.00" placeholder="0.00">
+                  <input type="text" id="swapFromAmount" name="swapFromAmount" value="0.00" placeholder="0.00"
+                    data-max="{{ $userBalances->where('wallet', 'TRX')->value('balance') }}"
+                    data-price="{{ $marketDataPrices['TRX'] }}">
                   <div class="swap-input-label-wrapper">
                     <small class="swap-input-label">Amount in TRX</small>
                     <small class="swap-price">≈<span>{{ number_format($marketDataPrices['TRX'], 2) }}</span>$</small>
@@ -76,7 +79,9 @@
                 </div>
 
                 <div class="swap-input">
-                  <input type="text" id="swapToAmount" name="swapToAmount" value="0.00" placeholder="0.00">
+                  <input type="text" id="swapToAmount" name="swapToAmount" value="0.00" placeholder="0.00"
+                    data-max="{{ $userBalances->where('wallet', 'TRX')->value('balance') * $marketDataPrices['TRX'] }}"
+                    data-price="{{ $marketDataPrices['TRX'] }}">
                   <div class="swap-input-label-wrapper">
                     <small class="swap-input-label">Amount in USD</small>
                   </div>
@@ -86,14 +91,18 @@
                   <small>Balance:</small>
                   <small>
                     <span
-                      class="swap-asset-balance">{{ @formatBalance($userBalances->where('wallet', 'USD')->value('balance')) }}</span>
-                    <span class="swap-asset-symbol">USD</span>
+                      class="swap-usd-balance">{{ @formatBalance($userBalances->where('wallet', 'USD')->value('balance')) }}</span>
+                    <span class="swap-usd-symbol">USD</span>
                   </small>
                 </div>
               </div>
             </div>
           </div>
         </form>
+
+        <div class="swap-error-message text-danger mt-2 text-center d-none">
+          <small></small>
+        </div>
       </div>
 
       <div class="modal-footer">
@@ -123,7 +132,7 @@
       <div class="modal-body pt-0">
         <ul class="swap-selector-content">
           @foreach ($assets as $asset)
-            <li>
+            <li class="swap-selector-asset" data-symbol="{{ $asset->symbol }}">
               <div class="row">
                 <div class="col col-6">
                   <div class="d-flex">

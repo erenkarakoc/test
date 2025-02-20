@@ -158,7 +158,7 @@
                 <div id="algorithm-glow" class="ms-auto"></div>
               </div>
 
-              @if (!$userUsdBalance > 0)
+              @if (true)
                 <div class="bg-light border rounded p-5 mt-6">
                   <div class="d-flex align-items-center">
                     <div class="d-flex flex-column w-100">
@@ -208,6 +208,10 @@
                         pattern="\d{2}.\d{2}.\d{4}" placeholder="mm.dd.yyyy">
                     </div>
                   </label>
+                </div>
+
+                <div class="error-message text-danger mt-2 d-none">
+                  <small></small>
                 </div>
 
                 <h6 class="lh-1 fw-normal mt-8 mb-4">Summary</h6>
