@@ -505,7 +505,7 @@
   font-weight: 500;
   text-align: center;
   line-height: 1;
-  transition: box-shadow 0.15s ease-out;
+  transition: all 0.15s ease-out;
 }
 
 #swapModal .swap-wrapper .swap-row .swap-item .swap-select .swap-selector .swap-selector-title {
@@ -616,7 +616,13 @@
 #swapSelectorModal li {
   cursor: pointer;
   padding: 10px;
+  border: 2px solid #141414;
   border-radius: 6px;
+  transition: all 0.1s ease-out;
+}
+
+#swapSelectorModal li:not(:first-of-type) {
+  margin-top: 6px;
 }
 
 #swapSelectorModal li span {
@@ -629,5 +635,6 @@
 }
 
 #swapSelectorModal li:hover {
-  background-color: #121212;
+  border-color: #7367f0;
+  background-color: #141414;
 }

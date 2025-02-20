@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
       iconSm:
         '<svg width="24" height="24" viewBox="0 0 186 186" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M186 93C186 144.362 144.362 186 93 186C41.6375 186 0 144.362 0 93C0 41.6375 41.6375 0 93 0C144.362 0 186 41.6375 186 93Z" fill="gray"opacity="0.5" /><path d="M92.5 38L59 94.3415L92.5 114.463L126 94.3415L92.5 38ZM59 101.049L92.5 148L126 101.049L92.5 121.171L59 101.049Z" fill="white" /></svg>',
       iconLg:
-        '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.2" d="M25.9293 12.9998C25.9293 20.1417 20.1397 25.9314 12.9979 25.9314C5.856 25.9314 0.0664062 20.1417 0.0664062 12.9998C0.0664062 5.85795 5.856 0.0683594 12.9979 0.0683594C20.1397 0.0683594 25.9293 5.85795 25.9293 12.9998" fill="#505050"/><g opacity="0.8"><path d="M12.9563 7L12.8765 7.27148V15.1493L12.9563 15.229L16.6131 13.0675L12.9563 7Z" fill="white"/><path d="M12.9566 7L9.2998 13.0675L12.9566 15.229V11.4054V7Z" fill="white"/><path d="M12.9566 16.4182L12.9116 16.4731V19.2794L12.9566 19.4108L16.6156 14.2578L12.9566 16.4182Z" fill="white"/><path d="M12.9566 19.4108V16.4182L9.2998 14.2578L12.9566 19.4108Z" fill="white"/><path d="M12.9565 15.2298L16.6133 13.0684L12.9565 11.4062V15.2298Z" fill="white"/><path d="M9.2998 13.0684L12.9565 15.2299V11.4062L9.2998 13.0684Z" fill="white"/></g></svg>'
+        '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.2" d="M25.9293 12.9998C25.9293 20.1417 20.1397 25.9314 12.9979 25.9314C5.856 25.9314 0.0664062 20.1417 0.0664062 12.9998C0.0664062 5.85795 5.856 0.0683594 12.9979 0.0683594C20.1397 0.0683594 25.9293 5.85795 25.9293 12.9998" fill="#505050"/><g opacity="0.8"><path d="M12.9563 7L12.8765 7.27148V15.1493L12.9563 15.229L16.6131 13.0675L12.9563 7ZM12.9566 7L9.2998 13.0675L12.9566 15.229V11.4054V7ZM12.9566 16.4182L12.9116 16.4731V19.2794L12.9566 19.4108L16.6156 14.2578L12.9566 16.4182ZM12.9566 19.4108V16.4182L9.2998 14.2578L12.9566 19.4108ZM12.9565 15.2298L16.6133 13.0684L12.9565 11.4062V15.2298ZM9.2998 13.0684L12.9565 15.2299V11.4062L9.2998 13.0684Z" fill="#F7931A"/></svg>'
     },
     ETC: {
       placeholder: 'eg. 0xde0B2...',
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
       iconSm:
         '<svg width="24" height="24" viewBox="0 0 186 186" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M186 93C186 144.362 144.362 186 93 186C41.6375 186 0 144.362 0 93C0 41.6375 41.6375 0 93 0C144.362 0 186 41.6375 186 93Z" fill="gray" fill-opacity="0.5"/><path fill-rule="evenodd" clip-rule="evenodd" d="M72.0341 84.3801L93.01 63.4132L113.995 84.397L126.194 72.1907L93.01 39L59.8271 72.1822L72.0341 84.3801ZM39 93.0015L51.2025 80.7999L63.4051 93.0015L51.2025 105.204L39 93.0015ZM93.01 122.595L72.0341 101.62L59.81 113.809L59.8271 113.826L93.01 147L126.202 113.801L113.995 101.611L93.01 122.595ZM122.595 93.0046L134.798 80.8029L147 93.0046L134.798 105.207L122.595 93.0046ZM93.01 80.6101L105.388 92.9954H105.397L105.388 93.0046L93.01 105.39L80.6325 93.0216L80.6155 92.9954L82.7994 90.8122L83.857 89.7631L93.01 80.6101Z" fill="white"/></svg>',
       iconLg:
-        '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_873_2)"><path opacity="0.2" d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="#F3BA2F"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2822 11.8826L13.0013 9.16468L15.7216 11.8848L17.3029 10.3025L13.0013 6L8.69981 10.3014L10.2822 11.8826ZM6 13.0002L7.58181 11.4185L9.16362 13.0002L7.58181 14.582L6 13.0002ZM13.0013 16.8364L10.2822 14.1174L8.69759 15.6975L8.69981 15.6997L13.0013 20L17.3029 15.6975L17.304 15.6964L15.7216 14.1163L13.0013 16.8364ZM16.8364 13.0006L18.4182 11.4189L20 13.0006L18.4182 14.5824L16.8364 13.0006ZM13.0013 11.3939L14.6058 12.9994H14.607L14.6058 13.0006L13.0013 14.6061L11.3968 13.0028L11.3946 12.9994L11.3968 12.9972L11.6777 12.7164L11.8148 12.5804L13.0013 11.3939Z" fill="#F3BA2F"/></g><defs><clipPath id="clip0_873_2"><rect width="26" height="26" fill="white"/></clipPath></defs></svg>'
+        '<svg width="36" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_873_2)"><path opacity="0.2" d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="#F3BA2F"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2822 11.8826L13.0013 9.16468L15.7216 11.8848L17.3029 10.3025L13.0013 6L8.69981 10.3014L10.2822 11.8826ZM6 13.0002L7.58181 11.4185L9.16362 13.0002L7.58181 14.582L6 13.0002ZM13.0013 16.8364L10.2822 14.1174L8.69759 15.6975L8.69981 15.6997L13.0013 20L17.3029 15.6975L17.304 15.6964L15.7216 14.1163L13.0013 16.8364ZM16.8364 13.0006L18.4182 11.4189L20 13.0006L18.4182 14.5824L16.8364 13.0006ZM13.0013 11.3939L14.6058 12.9994H14.607L14.6058 13.0006L13.0013 14.6061L11.3968 13.0028L11.3946 12.9994L11.3968 12.9972L11.6777 12.7164L11.8148 12.5804L13.0013 11.3939Z" fill="#F7931A"/></g><defs><clipPath id="clip0_873_2"><rect width="26" height="26" fill="white"/></clipPath></defs></svg>'
     }
   };
 
@@ -506,6 +506,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let canSwap = false;
   let isSwapFirstInvert = true;
+
+  const swapAmount = document.querySelector('input[name="swapAmount"]');
+  const swapAsset = document.querySelector('input[name="swapAsset"]');
+  const isSwapToAsset = document.querySelector('input[name="isSwapToAsset"]');
+
+  const swapForm = document.querySelector('#swapForm');
   const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
   const swapModalEl = document.querySelector('#swapModal');
   const swapModal = new bootstrap.Modal(swapModalEl);
@@ -513,33 +519,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapInvertWrapper = document.querySelector('.swap-invert-wrapper');
   const swapInvert = document.querySelector('.swap-invert');
   const swapInputs = document.querySelectorAll('.swap-input input');
-  const swapFromInput = document.querySelector('#swapFromAmount');
-  const swapToInput = document.querySelector('#swapToAmount');
-  const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
   const swapErrorMessageEl = document.querySelector('.swap-error-message');
   const swapButton = document.querySelector('#swapButton');
 
-  swapSelector.forEach(selector => {
-    selector.addEventListener('click', () => {
-      if (!selector.classList.contains('disabled')) {
-        const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
-        const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
-        swapSelectorModal.show();
-      }
-    });
-  });
+  const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
+  const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
 
   swapModal.show();
-
-  swapModalEl.addEventListener('show.bs.modal', () => {
-    setTimeout(() => {
-      swapFromAmount.focus();
-      swapFromAmount.value.select();
-    }, 350);
-  });
-
-  let swapAsset = 'TRX';
-  let swapToAsset = false;
 
   const toggleSwapErrorMessage = msg => {
     if (msg) {
@@ -591,77 +577,167 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleSwapErrorMessage();
       }
 
-      if (e.target.id === 'swapFromAmount') {
-        const assetPrice = Number(e.target.getAttribute('data-price'));
-        swapToInput.value = parseFloat(Number(value * assetPrice).toFixed(8));
+      const assetPrice = Number(e.target.getAttribute('data-price'));
+
+      if (e.target.closest('.swap-row').classList.contains('swap-row-asset')) {
+        const swapUsdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
+        swapUsdInput.value = parseFloat(Number(value * assetPrice).toFixed(8));
+        swapAmount.value = value;
       } else {
-        const assetPrice = Number(e.target.getAttribute('data-price'));
-        swapFromInput.value = parseFloat(Number(value / assetPrice).toFixed(8));
+        const swapAssetInput = document.querySelector('.swap-row-asset input');
+        swapAssetInput.value = parseFloat(Number(value / assetPrice).toFixed(8));
+        swapAmount.value = parseFloat(Number(value / assetPrice).toFixed(8));
       }
 
       e.target.value = value;
     });
   });
 
-  swapBalances.forEach(el => {
-    const input = el.closest('.swap-item').querySelector('input');
-
-    if (Number(el.innerHTML) > 0) {
-      el.addEventListener('click', e => {
-        input.value = e.target.innerText;
-        swapButton.removeAttribute('disabled');
-        canSwap = true;
-      });
-    }
-  });
-
   const invertSwap = () => {
-    if (isSwapFirstInvert) {
-      isSwapFirstInvert = false;
-    } else {
+    if (!isSwapFirstInvert) {
       const rows = document.querySelectorAll('.swap-row');
 
-      const swapFromAmount = rows[0].querySelector('input').value;
-      const swapToAmount = rows[1].querySelector('input').value;
-      rows[0].querySelector('input').value = swapToAmount;
-      rows[1].querySelector('input').value = swapFromAmount;
+      const swapFromInput = rows[0].querySelector('input');
+      const swapToInput = rows[1].querySelector('input');
+      const swapFromAmount = swapFromInput.value;
+      const swapToAmount = swapToInput.value;
+      swapFromInput.value = swapToAmount;
+      swapToInput.value = swapFromAmount;
 
-      const swapFromBalance = rows[0].querySelector('.swap-balance').innerHTML;
-      const swapToBalance = rows[1].querySelector('.swap-balance').innerHTML;
-      rows[0].querySelector('.swap-balance').innerHTML = swapToBalance;
-      rows[1].querySelector('.swap-balance').innerHTML = swapFromBalance;
+      const swapFromBalance = rows[0].querySelector('.swap-balance');
+      const swapToBalance = rows[1].querySelector('.swap-balance');
+      const fromBalanceValue = swapFromBalance.innerHTML;
+      swapFromBalance.innerHTML = swapToBalance.innerHTML;
+      swapToBalance.innerHTML = fromBalanceValue;
 
-      const swapFromInputLabel = rows[0].querySelector('.swap-input-label-wrapper').innerHTML;
-      const swapToInputLabel = rows[1].querySelector('.swap-input-label-wrapper').innerHTML;
-      rows[0].querySelector('.swap-input-label-wrapper').innerHTML = swapToInputLabel;
-      rows[1].querySelector('.swap-input-label-wrapper').innerHTML = swapFromInputLabel;
+      const swapFromInputLabel = rows[0].querySelector('.swap-input-label-wrapper');
+      const swapToInputLabel = rows[1].querySelector('.swap-input-label-wrapper');
+      const fromLabelValue = swapFromInputLabel.innerHTML;
+      swapFromInputLabel.innerHTML = swapToInputLabel.innerHTML;
+      swapToInputLabel.innerHTML = fromLabelValue;
 
-      const swapFromSelector = rows[0].querySelector('.swap-selector').innerHTML;
-      const swapToSelector = rows[1].querySelector('.swap-selector').innerHTML;
-      rows[0].querySelector('.swap-selector').innerHTML = swapToSelector;
-      rows[0].querySelector('.swap-selector').classList.add('disabled');
-      rows[1].querySelector('.swap-selector').innerHTML = swapFromSelector;
-      rows[1].querySelector('.swap-selector').classList.remove('disabled');
+      const swapFromSelector = rows[0].querySelector('.swap-selector');
+      const swapToSelector = rows[1].querySelector('.swap-selector');
+      const fromSelectorValue = swapFromSelector.innerHTML;
 
-      if (swapInvertWrapper.classList.contains('swap-inverted')) {
-        swapInvertWrapper.classList.remove('swap-inverted');
-        swapToAsset = false;
+      swapFromSelector.innerHTML = swapToSelector.innerHTML;
+      swapToSelector.innerHTML = fromSelectorValue;
+
+      if (swapFromSelector.classList.contains('disabled')) {
+        swapFromSelector.classList.remove('disabled');
+        swapToSelector.classList.add('disabled');
+
+        isSwapToAsset.value = false;
       } else {
-        swapInvertWrapper.classList.add('swap-inverted');
-        swapToAsset = true;
+        swapFromSelector.classList.add('disabled');
+        swapToSelector.classList.remove('disabled');
+
+        isSwapToAsset.value = true;
       }
+
+      swapInvertWrapper.classList.toggle('swap-inverted');
+
+      rows[0].classList.toggle('swap-row-asset');
+      rows[1].classList.toggle('swap-row-asset');
     }
+
+    const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
+    swapBalances.forEach(el => {
+      el.addEventListener('click', e => {
+        if (Number(el.innerHTML) > 0) {
+          const usdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
+          const assetInput = document.querySelector('.swap-row-asset input');
+
+          if (el.classList.contains('swap-asset-balance')) {
+            const price = el.getAttribute('data-price');
+            assetInput.value = e.target.innerText;
+            usdInput.value = parseFloat((Number(e.target.innerText) * Number(price)).toFixed(8));
+            swapAmount.value = e.target.innerText;
+          } else {
+            const price = el.getAttribute('data-price');
+            assetInput.value = parseFloat((Number(e.target.innerText) / Number(price)).toFixed(8));
+            usdInput.value = e.target.innerText;
+            swapAmount.value = parseFloat((Number(e.target.innerText) / Number(price)).toFixed(8));
+          }
+
+          canSwap = true;
+          toggleSwapErrorMessage();
+          swapButton.removeAttribute('disabled');
+        }
+      });
+    });
+
+    swapSelector.forEach(selector => {
+      selector.addEventListener('click', () => {
+        if (!selector.classList.contains('disabled')) {
+          swapSelectorModal.show();
+        }
+      });
+    });
+
+    swapModalEl.addEventListener('show.bs.modal', () => {
+      setTimeout(() => {
+        swapFromAmount.focus();
+        swapFromAmount.value.select();
+      }, 350);
+    });
+
+    isSwapFirstInvert = false;
   };
+
+  // Initial call and event listener
   invertSwap();
   swapInvert.addEventListener('click', invertSwap);
 
-  // const swapSelectorAssets = document.querySelectorAll('.swap-selector-asset');
-  // swapSelectorAssets.forEach(asset => {
-  //   asset.addEventListener('click', () => {
-  //     const symbol = asset.getAttribute('data-symbol');
-  //     const title = asset.getAttribute('data-title');
-  //   });
-  // });
+  const swapSelectorAssets = document.querySelectorAll('.swap-selector-asset');
+  swapSelectorAssets.forEach(asset => {
+    asset.addEventListener('click', () => {
+      const symbol = asset.getAttribute('data-symbol');
+      const balance = asset.getAttribute('data-balance');
+      const price = asset.getAttribute('data-price');
+      const icon = asset.querySelector('.swap-selector-icon').innerHTML;
+
+      const swapAssetRow = document.querySelector('.swap-row-asset');
+      const swapUsdRow = document.querySelector('.swap-row:not(.swap-row-asset)');
+
+      const swapAssetEls = swapAssetRow.querySelectorAll('.swap-asset');
+      swapAssetEls.forEach(el => (el.innerHTML = symbol));
+
+      const priceEl = swapAssetRow.querySelector('.swap-price span');
+      priceEl.innerHTML = Number(price).toFixed(2);
+      swapAssetRow.querySelector('.swap-asset-balance').setAttribute('data-price', Number(price).toFixed(2));
+      swapUsdRow.querySelector('.swap-usd-balance').setAttribute('data-price', Number(price).toFixed(2));
+
+      const balanceEl = swapAssetRow.querySelector('.swap-asset-balance');
+      balanceEl.innerHTML = balance;
+
+      const iconEl = swapAssetRow.querySelector('.swap-selector-icon');
+      iconEl.innerHTML = icon;
+
+      swapAssetRow.querySelector('input').value = '0.00';
+      swapUsdRow.querySelector('input').value = '0.00';
+
+      swapAmount.value = '';
+      swapAsset.value = symbol;
+
+      canSwap = false;
+      swapButton.setAttribute('disabled', true);
+
+      swapSelectorModal.hide();
+    });
+  });
+
+  swapForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    if (canSwap) {
+      const form = new FormData(swapForm);
+
+      console.log(isSwapToAsset.value);
+      console.log(swapAmount.value);
+      console.log(swapAsset.value);
+    }
+  });
 })();
 
 // ! Removed following code if you do't wish to use jQuery. Remember that navbar search functionality will stop working on removal.

@@ -1,6 +1,6 @@
 <div class="modal modal-md fade" id="swapModal" aria-labelledby="swapModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <form class="modal-content">
+    <form class="modal-content" id="swapForm">
       @csrf
       <div class="modal-header">
         <div class="d-flex flex-column">
@@ -15,11 +15,12 @@
 
       <div class="modal-body pt-0">
         <div>
-          <input type="hidden" name="swapFrom" id="swapFrom" value="TRX">
-          <input type="hidden" name="swapTo" id="swapTo" value="USD">
+          <input type="hidden" name="swapAmount" id="swapAmount">
+          <input type="hidden" name="swapAsset" id="swapAsset" value="TRX">
+          <input type="hidden" name="isSwapToAsset" id="isSwapToAsset" value="false">
 
           <div class="swap-wrapper">
-            <div class="swap-row">
+            <div class="swap-row swap-row-asset">
               <div class="swap-item">
                 <div class="swap-select">
                   <span class="swap-label">From</span>
@@ -45,17 +46,8 @@
                 <div class="swap-balance">
                   <small>Balance:</small>
                   <small>
-                    @php
-                      $assetBalances = [];
-                      foreach ($assets as $asset) {
-                          $assetBalances[] = [
-                              'symbol' => $asset->symbol,
-                              'balance' => $userBalances->where('wallet', $asset->symbol)->value('balance'),
-                          ];
-                      }
-                    @endphp
                     <span class="swap-asset-balance"
-                      data-asset-balances="{{ json_encode($assetBalances) }}">{{ @formatBalance($userBalances->where('wallet', 'TRX')->value('balance')) }}</span>
+                      data-price="{{ $marketDataPrices['TRX'] }}">{{ @formatBalance($userBalances->where('wallet', 'TRX')->value('balance')) }}</span>
                     <span class="swap-asset">TRX</span>
                   </small>
                 </div>
@@ -99,8 +91,8 @@
                 <div class="swap-balance">
                   <small>Balance:</small>
                   <small>
-                    <span
-                      class="swap-usd-balance">{{ @formatBalance($userBalances->where('wallet', 'USD')->value('balance')) }}</span>
+                    <span class="swap-usd-balance"
+                      data-price="{{ $marketDataPrices['TRX'] }}">{{ @formatBalance($userBalances->where('wallet', 'USD')->value('balance')) }}</span>
                     <span class="swap-usd-symbol">USD</span>
                   </small>
                 </div>
@@ -141,7 +133,9 @@
       <div class="modal-body pt-0">
         <ul class="swap-selector-content">
           @foreach ($assets as $asset)
-            <li class="swap-selector-asset" data-symbol="{{ $asset->symbol }}">
+            <li class="swap-selector-asset" data-symbol="{{ $asset->symbol }}"
+              data-balance="{{ @formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')) }}"
+              data-price="{{ $marketDataPrices[$asset->symbol] }}">
               <div class="row">
                 <div class="col col-6">
                   <div class="d-flex">
