@@ -527,6 +527,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   swapModal.show();
 
+  swapModalEl.addEventListener('show.bs.modal', () => {
+    setTimeout(() => {
+      swapFromAmount.focus();
+    }, 350);
+  });
+
   const toggleSwapErrorMessage = msg => {
     if (msg) {
       swapErrorMessageEl.classList.remove('d-none');
@@ -562,7 +568,17 @@ document.addEventListener('DOMContentLoaded', () => {
         value = parts[0] + '.' + parts[1].slice(0, 8);
       }
 
-      if (Number(value) > Number(e.target.getAttribute('data-max'))) {
+      let maxBalance = 0;
+      const isAssetInput = e.target.closest('.swap-row').classList.contains('swap-row-asset');
+      const assetPrice = Number(e.target.getAttribute('data-price'));
+
+      if (isAssetInput) {
+        maxBalance = Number(e.target.getAttribute('data-max'));
+      } else {
+        maxBalance = Number(e.target.getAttribute('data-max'));
+      }
+
+      if (Number(value) > maxBalance) {
         canSwap = false;
         swapButton.setAttribute('disabled', true);
 
@@ -576,8 +592,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toggleSwapErrorMessage();
       }
-
-      const assetPrice = Number(e.target.getAttribute('data-price'));
 
       if (e.target.closest('.swap-row').classList.contains('swap-row-asset')) {
         const swapUsdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
@@ -663,6 +677,10 @@ document.addEventListener('DOMContentLoaded', () => {
           canSwap = true;
           toggleSwapErrorMessage();
           swapButton.removeAttribute('disabled');
+
+          const isFromBalance = el.closest('.swap-row').querySelector('input').id === 'swapFromAmount';
+
+          console.log(isFromBalance);
         }
       });
     });
@@ -673,13 +691,6 @@ document.addEventListener('DOMContentLoaded', () => {
           swapSelectorModal.show();
         }
       });
-    });
-
-    swapModalEl.addEventListener('show.bs.modal', () => {
-      setTimeout(() => {
-        swapFromAmount.focus();
-        swapFromAmount.value.select();
-      }, 350);
     });
 
     isSwapFirstInvert = false;
@@ -705,8 +716,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const priceEl = swapAssetRow.querySelector('.swap-price span');
       priceEl.innerHTML = Number(price).toFixed(2);
-      swapAssetRow.querySelector('.swap-asset-balance').setAttribute('data-price', Number(price).toFixed(2));
-      swapUsdRow.querySelector('.swap-usd-balance').setAttribute('data-price', Number(price).toFixed(2));
 
       const balanceEl = swapAssetRow.querySelector('.swap-asset-balance');
       balanceEl.innerHTML = balance;
@@ -714,8 +723,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const iconEl = swapAssetRow.querySelector('.swap-selector-icon');
       iconEl.innerHTML = icon;
 
+      swapAssetRow.querySelector('.swap-asset-balance').setAttribute('data-price', Number(price));
+      swapUsdRow.querySelector('.swap-usd-balance').setAttribute('data-price', Number(price));
+
       swapAssetRow.querySelector('input').value = '0.00';
       swapUsdRow.querySelector('input').value = '0.00';
+      swapAssetRow.querySelector('input').setAttribute('data-price', Number(price));
+      swapUsdRow.querySelector('input').setAttribute('data-price', Number(price));
+      swapAssetRow.querySelector('input').setAttribute('data-max', balance);
+      swapUsdRow.querySelector('input').setAttribute('data-max', Number(balance) * Number(price));
 
       swapAmount.value = '';
       swapAsset.value = symbol;
@@ -727,15 +743,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  swapForm.addEventListener('submit', e => {
+  swapForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     if (canSwap) {
       const form = new FormData(swapForm);
 
-      console.log(isSwapToAsset.value);
-      console.log(swapAmount.value);
-      console.log(swapAsset.value);
+      const data = {
+        swapAmount: Number(swapAmount.value),
+        isSwapToAsset: isSwapToAsset.value === 'true',
+        swapAsset: swapAsset.value
+      };
+
+      const response = await fetch('/swap-usd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log(await response.json());
     }
   });
 })();

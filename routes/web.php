@@ -18,6 +18,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use App\Http\Middleware\AdminMiddleware;
+use App\View\Components\SwapModal;
 use Illuminate\Support\Facades\Route;
 
 // locale
@@ -72,6 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/get-transaction-by-id', [TransactionController::class, 'getTransactionById']);
     Route::post('/create-transaction', [TransactionController::class, 'createTransaction']);
     Route::post('/cancel-transaction', [TransactionController::class, 'cancelTransaction']);
+
+    // Swap
+    Route::post('/swap-usd', [SwapModal::class, 'swap']);
 
     // Algorithms
     Route::post('/calculate-algorithm-summary', [AlgorithmController::class, 'calculateAlgorithmSummary']);
