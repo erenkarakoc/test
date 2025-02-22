@@ -26,14 +26,33 @@ class SwapModal extends Component {
             'swapAsset'     => 'string|required',
         ]);
 
-        $assetPrice = MarketData::where('asset', $validated['swapAsset'])->value('price');
+        $swapAmount    = $validated['swapAmount'];
+        $isSwapToAsset = $validated['isSwapToAsset'];
+        $swapAsset     = $validated['swapAsset'];
 
-        dd($assetPrice);
+        $assetPrice       = MarketData::where('asset', $swapAsset)->value('price');
+        $userAssetBalance = UserBalances::where('user_id', Auth::user()->id)->where('wallet', $swapAsset)->first();
+        $userUsdBalance   = UserBalances::where('user_id', Auth::user()->id)->where('wallet', 'USD')->first();
 
-        if ($validated['isSwapToAsset']) {
-            $userUsdBalance = UserBalances::where('user_id', Auth::user()->id)->where('wallet', 'USD')->first();
+        $amountInUsd = $swapAmount * $assetPrice;
 
-            if ($userUsdBalance->balance >= $validated['swapAmount']) {
+        if ($isSwapToAsset) {
+            if ($userUsdBalance->balance >= $amountInUsd) {
+                $userUsdBalance->balance -= $amountInUsd;
+                $userUsdBalance->save();
+
+                if ($userAssetBalance) {
+                    $userAssetBalance->balance += $swapAmount;
+                    $userAssetBalance->save();
+                } else {
+                    UserBalances::create([
+                        'user_id' => Auth::user()->id,
+                        'wallet'  => $swapAsset,
+                        'balance' => $swapAmount,
+                    ]);
+                }
+
+                sleep(1);
 
                 return response()->json([
                     'status' => 'success',
@@ -45,11 +64,26 @@ class SwapModal extends Component {
                 ]);
             }
         } else {
-            $userAssetBalance = UserBalances::where('user_id', Auth::user()->id)->where('wallet', $validated['swapAsset'])->first();
+            if ($userAssetBalance->balance >= $swapAmount) {
+                $userAssetBalance->balance -= $swapAmount;
+                $userAssetBalance->save();
 
-            if ($userAssetBalance->balance >= $validated['swapAmount']) {
+                if ($userUsdBalance) {
+                    $userUsdBalance->balance += $amountInUsd;
+                    $userUsdBalance->save();
+                } else {
+                    UserBalances::create([
+                        'user_id' => Auth::user()->id,
+                        'wallet'  => 'USD',
+                        'balance' => $amountInUsd,
+                    ]);
+                }
+
+                sleep(1);
+
                 return response()->json([
-                    'status' => 'success',
+                    'status'  => 'success',
+                    'message' => 'Swapped successfully!',
                 ]);
             } else {
                 return response()->json([

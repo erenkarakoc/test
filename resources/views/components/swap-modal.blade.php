@@ -105,6 +105,10 @@
           <small></small>
         </div>
 
+        <div class="swap-success-message text-success mt-2 text-center d-none">
+          <small></small>
+        </div>
+
         <small class="d-flex align-items-center text-primary gap-2 mt-4">
           <svg class="flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
             viewBox="0 0 24 24">
@@ -123,6 +127,21 @@
 
       <div class="modal-footer">
         <button type="submit" class="btn rounded-pill btn-primary mt-4 w-100" disabled id="swapButton">
+          <svg class="loading-hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+            viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="4">
+              <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0" />
+                <animateTransform attributeName="transform" dur="1s" repeatCount="indefinite" type="rotate"
+                  values="0 12 12;360 12 12" />
+              </path>
+              <path stroke-dasharray="64" stroke-dashoffset="64" stroke-opacity=".3"
+                d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0" />
+              </path>
+            </g>
+          </svg>
           Swap
         </button>
       </div>

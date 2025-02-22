@@ -596,6 +596,16 @@
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
+#swapModal #swapButton svg {
+  margin-right: 0.75rem;
+}
+
+#swapModal #swapButton svg.loading-hidden {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
 #swapSelectorModal::before {
   content: '';
   position: absolute;

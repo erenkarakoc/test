@@ -520,7 +520,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapInvert = document.querySelector('.swap-invert');
   const swapInputs = document.querySelectorAll('.swap-input input');
   const swapErrorMessageEl = document.querySelector('.swap-error-message');
+  const swapSuccessMessageEl = document.querySelector('.swap-success-message');
   const swapButton = document.querySelector('#swapButton');
+  const swapButtonLoadingIcon = document.querySelector('#swapButton svg');
 
   const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
   const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
@@ -539,6 +541,15 @@ document.addEventListener('DOMContentLoaded', () => {
       swapErrorMessageEl.querySelector('small').innerHTML = msg;
     } else {
       swapErrorMessageEl.classList.add('d-none');
+    }
+  };
+
+  const toggleSwapSuccessMessage = msg => {
+    if (msg) {
+      swapSuccessMessageEl.querySelector('small').innerHTML = msg;
+      swapSuccessMessageEl.classList.remove('d-none');
+    } else {
+      swapSuccessMessageEl.classList.add('d-none');
     }
   };
 
@@ -694,6 +705,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     isSwapFirstInvert = false;
+
+    console.log(isSwapToAsset.value);
   };
 
   // Initial call and event listener
@@ -747,7 +760,9 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     if (canSwap) {
-      const form = new FormData(swapForm);
+      canSwap = false;
+      swapButtonLoadingIcon.classList.remove('loading-hidden');
+      swapButton.setAttribute('disabled', true);
 
       const data = {
         swapAmount: Number(swapAmount.value),
@@ -764,7 +779,21 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(data)
       });
 
-      console.log(await response.json());
+      const result = await response.json();
+
+      console.log(result);
+      console.log(result.message);
+
+      if (result.status === 'success') {
+        toggleSwapSuccessMessage(result.message);
+        // setTimeout(() => window.location.reload(), 500);
+      } else {
+        toggleSwapErrorMessage(result.message);
+        swapButton.setAttribute('disabled', false);
+        canSwap = true;
+      }
+
+      swapButtonLoadingIcon.classList.add('loading-hidden');
     }
   });
 })();
