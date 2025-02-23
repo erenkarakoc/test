@@ -551,12 +551,12 @@
   z-index: 2;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-balance span:first-of-type {
+#swapModal .swap-wrapper .swap-row .swap-item .swap-balance:not(.disabled) span:first-of-type {
   cursor: pointer;
   transition: all 0.15s ease-out;
 }
 
-#swapModal .swap-wrapper .swap-row .swap-item .swap-balance span:first-of-type:hover {
+#swapModal .swap-wrapper .swap-row .swap-item .swap-balance:not(.disabled) span:first-of-type:hover {
   text-decoration: underline;
 }
 

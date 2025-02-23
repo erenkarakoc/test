@@ -257,12 +257,10 @@
                         </div>
                       </div>
                     </div>
-                    @if ($wallet['wallet'] === 'GDZ')
+                    @if ($wallet['wallet'] === 'GDZ' || $wallet['wallet'] === 'USDT')
                       <div class="d-flex justify-content-start p-4">
-                        <a href="javascript:;"
-                          class="btn btn-icon btn-transparent ms-n2 mb-n2 opacity-0 pointer-events-none"
-                          data-bs-toggle="popover" data-bs-trigger="hover" data-bs-custom-class="popover-dark"
-                          data-bs-placement="right" data-bs-content="Swap {{ $wallet['wallet'] }}">
+                        <button class="btn btn-icon btn-transparent ms-n2 mb-n2"
+                          style="pointer-events: none; opacity: 0; cursor: default; user-select: none;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                             <path fill="currentColor"
                               d="M20.536 20.536C22 19.07 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465"
@@ -270,19 +268,19 @@
                             <path fill="currentColor"
                               d="M7 10.75a.75.75 0 0 1-.493-1.315l3.437-3a.75.75 0 0 1 .987 1.13L9 9.25h8a.75.75 0 0 1 0 1.5zm6.07 5.685a.75.75 0 0 0 .986 1.13l3.437-3A.75.75 0 0 0 17 13.25H7a.75.75 0 0 0 0 1.5h8z" />
                           </svg>
-                        </a>
+                        </button>
                       </div>
                       <div class="wallet-item-current-price">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span class="d-flex flex-column align-items-end text-heading">
                             <small class="text-light">Price</small>
-                            {{ number_format($marketDataPrices['GDZ'], 2) }}$
+                            {{ number_format($marketDataPrices[$wallet['wallet']], 2) }}$
                           </span>
                         </div>
                       </div>
                     @else
                       <div class="d-flex justify-content-end p-4">
-                        <a href="javascript:;" class="btn btn-icon btn-transparent me-n2 mb-n2"
+                        <button class="btn btn-icon btn-transparent me-n2 mb-n2 swap-modal-toggle"
                           data-bs-toggle="popover" data-bs-trigger="hover" data-bs-custom-class="popover-dark"
                           data-bs-placement="left" data-bs-content="Swap {{ $wallet['wallet'] }}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
@@ -292,7 +290,7 @@
                             <path fill="currentColor"
                               d="M7 10.75a.75.75 0 0 1-.493-1.315l3.437-3a.75.75 0 0 1 .987 1.13L9 9.25h8a.75.75 0 0 1 0 1.5zm6.07 5.685a.75.75 0 0 0 .986 1.13l3.437-3A.75.75 0 0 0 17 13.25H7a.75.75 0 0 0 0 1.5h8z" />
                           </svg>
-                        </a>
+                        </button>
                       </div>
                     @endif
                   </div>

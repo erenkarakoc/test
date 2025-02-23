@@ -52,10 +52,11 @@ class SwapModal extends Component {
                     ]);
                 }
 
-                sleep(1);
+                sleep(2);
 
                 return response()->json([
-                    'status' => 'success',
+                    'status'  => 'success',
+                    'message' => 'Swapped successfully!',
                 ]);
             } else {
                 return response()->json([
@@ -79,7 +80,7 @@ class SwapModal extends Component {
                     ]);
                 }
 
-                sleep(1);
+                sleep(2);
 
                 return response()->json([
                     'status'  => 'success',

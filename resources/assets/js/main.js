@@ -515,6 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapSelector = document.querySelectorAll('[data-swap-selector="swapSelectorModal"]');
   const swapModalEl = document.querySelector('#swapModal');
   const swapModal = new bootstrap.Modal(swapModalEl);
+  const swapModalToggle = document.querySelectorAll('.swap-modal-toggle');
   const swapFromAmount = document.querySelector('#swapFromAmount');
   const swapInvertWrapper = document.querySelector('.swap-invert-wrapper');
   const swapInvert = document.querySelector('.swap-invert');
@@ -527,7 +528,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
   const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
 
-  swapModal.show();
+  swapModalToggle.forEach(toggle => {
+    if (toggle) toggle.addEventListener('click', () => swapModal.show());
+  });
 
   swapModalEl.addEventListener('show.bs.modal', () => {
     setTimeout(() => {
@@ -619,9 +622,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const invertSwap = () => {
-    if (!isSwapFirstInvert) {
-      const rows = document.querySelectorAll('.swap-row');
+    const rows = document.querySelectorAll('.swap-row');
 
+    if (!isSwapFirstInvert) {
       const swapFromInput = rows[0].querySelector('input');
       const swapToInput = rows[1].querySelector('input');
       const swapFromAmount = swapFromInput.value;
@@ -666,10 +669,15 @@ document.addEventListener('DOMContentLoaded', () => {
       rows[1].classList.toggle('swap-row-asset');
     }
 
+    const swapFromBalance = rows[0].querySelector('.swap-balance');
+    const swapToBalance = rows[1].querySelector('.swap-balance');
+    swapFromBalance.classList.remove('disabled');
+    swapToBalance.classList.add('disabled');
+
     const swapBalances = document.querySelectorAll('.swap-balance span:first-of-type');
     swapBalances.forEach(el => {
       el.addEventListener('click', e => {
-        if (Number(el.innerHTML) > 0) {
+        if (Number(el.innerHTML) > 0 && !el.closest('.swap-balance').classList.contains('disabled')) {
           const usdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
           const assetInput = document.querySelector('.swap-row-asset input');
 
@@ -686,12 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           canSwap = true;
-          toggleSwapErrorMessage();
           swapButton.removeAttribute('disabled');
-
-          const isFromBalance = el.closest('.swap-row').querySelector('input').id === 'swapFromAmount';
-
-          console.log(isFromBalance);
         }
       });
     });
@@ -705,8 +708,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     isSwapFirstInvert = false;
-
-    console.log(isSwapToAsset.value);
   };
 
   // Initial call and event listener
@@ -781,12 +782,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const result = await response.json();
 
-      console.log(result);
-      console.log(result.message);
-
       if (result.status === 'success') {
         toggleSwapSuccessMessage(result.message);
-        // setTimeout(() => window.location.reload(), 500);
+        setTimeout(() => window.location.reload(), 500);
       } else {
         toggleSwapErrorMessage(result.message);
         swapButton.setAttribute('disabled', false);
