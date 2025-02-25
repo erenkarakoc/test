@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Actions\Fortify;
 
 use App\Http\Controllers\UserBalancesController;
@@ -10,8 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
-class CreateNewUser implements CreatesNewUsers
-{
+class CreateNewUser implements CreatesNewUsers {
     use PasswordValidationRules;
 
     /**
@@ -19,18 +17,17 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
-    {
+    public function create(array $input): User {
         Validator::make($input, [
-            'username' => ['required', 'string', 'max:255'],
-            'email' => [
+            'username'    => ['required', 'string', 'max:255'],
+            'email'       => [
                 'required',
                 'string',
                 'email',
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'password' => $this->passwordRules(),
+            'password'    => $this->passwordRules(),
             'invite_code' => ['nullable', 'string', 'exists:users,ref_code'],
         ])->validate();
 
@@ -47,15 +44,14 @@ class CreateNewUser implements CreatesNewUsers
 
         // Create the user with ref_user_id if applicable
         $user = User::create([
-            'username' => $input['username'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-            'ref_code' => $refCode,
+            'username'    => $input['username'],
+            'email'       => $input['email'],
+            'password'    => Hash::make($input['password']),
+            'ref_code'    => $refCode,
             'ref_user_id' => $refUserId,
         ]);
 
         $userBalancesController = new UserBalancesController;
-        $userBalancesController->generateAssets();
         $userBalancesController->generateUserBalances($user->id);
 
         return $user;

@@ -5,7 +5,8 @@
 ('use strict');
 
 (function () {
-  const transactionDetailModal = new bootstrap.Modal(document.querySelector('#transactionDetailModal'));
+  const transactionDetailModalEl = document.querySelector('#transactionDetailModal');
+  const transactionDetailModal = new bootstrap.Modal(transactionDetailModalEl);
   const transactionItems = document.querySelectorAll('.transaction-item');
 
   const postRequest = async (url, data) => {
@@ -58,6 +59,12 @@
     transactionAmountInUsd.forEach(el => {
       if (transaction.type === 'sent') {
         el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+      } else if (transaction.type === 'swap') {
+        if (transaction.swap_to_asset) {
+          el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+        } else {
+          el.innerHTML = `<span class="text-success">+${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+        }
       } else if (transaction.type === 'locked') {
         el.innerHTML = `<span class="text-light">${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
       } else {
@@ -69,6 +76,12 @@
     transactionAmountInAsset.forEach(el => {
       if (transaction.type === 'sent') {
         el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
+      } else if (transaction.type === 'swap') {
+        if (transaction.swap_to_asset) {
+          el.innerHTML = `<span class="text-success">+${transaction.amount_in_asset} ${transaction.asset}</span>`;
+        } else {
+          el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
+        }
       } else if (transaction.type === 'locked') {
         el.innerHTML = `<span class="text-light">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
       } else {
@@ -103,9 +116,8 @@
       hour: 'numeric',
       minute: 'numeric'
     });
+
     const confirmedDate = new Date(transaction.updated_at);
-    console.log(createdDate);
-    console.log(confirmedDate);
     if (createdDate.getTime() !== confirmedDate.getTime()) {
       transactionConfirmedDate.innerHTML = confirmedDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -125,6 +137,22 @@
       transactionNotesWrapper.classList.remove('d-none');
       transactionNotes.innerHTML = notesPopover.getAttribute('data-bs-content');
     }
+
+    transactionDetailModalEl.addEventListener('hide.bs.modal', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.delete('tnx_id');
+
+      const newUrl = window.location.pathname + '?' + urlParams.toString();
+      window.history.replaceState({}, '', newUrl);
+    });
+
+    transactionDetailModalEl.addEventListener('show.bs.modal', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('tnx_id', transaction.tnx_id);
+
+      const newUrl = window.location.pathname + '?' + urlParams.toString();
+      window.history.replaceState({}, '', newUrl);
+    });
   };
 
   transactionItems.forEach(item => {

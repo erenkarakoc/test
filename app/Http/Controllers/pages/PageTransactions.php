@@ -16,10 +16,11 @@ class PageTransactions extends Controller {
 
         $receivedTransactions = Transaction::where('user_id', Auth::user()->id)->where('type', 'received')->orderBy('created_at', 'desc')->paginate(10);
         $sentTransactions     = Transaction::where('user_id', Auth::user()->id)->where('type', 'sent')->orderBy('created_at', 'desc')->paginate(10);
+        $swapTransactions     = Transaction::where('user_id', Auth::user()->id)->where('type', 'swap')->orderBy('created_at', 'desc')->paginate(10);
         $lockedTransactions   = Transaction::where('user_id', Auth::user()->id)->where('type', 'locked')->orderBy('created_at', 'desc')->paginate(10);
         $tradeTransactions    = Transaction::where('user_id', Auth::user()->id)->where('type', 'trade')->orderBy('created_at', 'desc')->paginate(10);
         $bonusTransactions    = Transaction::where('user_id', Auth::user()->id)->where('type', 'bonus')->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('content.pages.page-transactions', compact('totalReceived', 'totalSent', 'totalTrade', 'totalBonus', 'transactions', 'receivedTransactions', 'sentTransactions', 'lockedTransactions', 'tradeTransactions', 'bonusTransactions'));
+        return view('content.pages.page-transactions', compact('totalReceived', 'totalSent', 'totalTrade', 'totalBonus', 'transactions', 'receivedTransactions', 'sentTransactions', 'swapTransactions', 'lockedTransactions', 'tradeTransactions', 'bonusTransactions'));
     }
 }

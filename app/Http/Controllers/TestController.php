@@ -1,24 +1,29 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Blockchains\GeneratedBitcoinWallet;
-use App\Services\BitcoinRPC;
-use App\Services\BNBService;
-use BaconQrCode\Renderer\GDLibRenderer;
-use BaconQrCode\Writer;
-use GuzzleHttp\Client;
+class TestController extends Controller {
+    protected $fullNode;
+    protected $solidityNode;
+    protected $eventServer;
+    protected $tron;
 
-class TestController extends Controller
-{
+    public function __construct() {
+        $this->fullNode     = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
+        $this->solidityNode = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
+        $this->tron         = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
+    }
 
+    public function test() {
+        $mainWallets            = config('blockchains.main_tron_addresses');
+        $mainWalletsWithBalance = [];
 
-  public function __construct()
-  {
-  }
+        foreach ($mainWallets as $wallet) {
+            $mainWalletsWithBalance[] = [
+                'address' => $wallet['hex'],
+                'balance' => $this->tron->getBalance($wallet['hex']),
+            ];
+        }
 
-  public function test()
-  {
-
-  }
+        dd($mainWalletsWithBalance);
+    }
 }

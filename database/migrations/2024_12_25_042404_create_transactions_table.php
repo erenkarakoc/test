@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ref_user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->enum('type', ['received', 'sent', 'locked', 'trade', 'swap', 'bonus']);
+            $table->boolean('swap_to_asset')->nullable();
             $table->decimal('amount_in_asset', 16, 8)->nullable();
             $table->decimal('amount_in_usd', 16, 8);
             $table->string('asset')->nullable();

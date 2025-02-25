@@ -205,6 +205,21 @@
           </button>
         </li>
         <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-target="#swap" aria-controls="swap"
+            aria-selected="false">
+            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"
+                fill="currentColor" />
+              <path
+                d="M7.12111 10.6375C6.97812 10.6374 6.83856 10.5937 6.72105 10.5122C6.60355 10.4306 6.5137 10.3152 6.4635 10.1812C6.41331 10.0472 6.40516 9.90104 6.44015 9.76229C6.47514 9.62354 6.5516 9.49877 6.65931 9.40466L9.87876 6.59218C10.0191 6.46948 10.2024 6.40761 10.3884 6.42018C10.5743 6.43275 10.7477 6.51873 10.8703 6.65921C10.9929 6.7997 11.0547 6.98317 11.0421 7.16926C11.0296 7.35536 10.9436 7.52885 10.8033 7.65155L8.99451 9.23123H16.4881C16.6744 9.23123 16.8531 9.3053 16.9849 9.43716C17.1166 9.56903 17.1906 9.74787 17.1906 9.93434C17.1906 10.1208 17.1166 10.2997 16.9849 10.4315C16.8531 10.5634 16.6744 10.6375 16.4881 10.6375H7.12111ZM12.8069 15.9671C12.6708 16.0909 12.5886 16.2631 12.5779 16.4468C12.5673 16.6306 12.629 16.8111 12.7499 16.9498C12.8708 17.0885 13.0412 17.1742 13.2246 17.1885C13.4079 17.2028 13.5895 17.1447 13.7305 17.0265L16.9499 14.214C17.0576 14.1199 17.1341 13.9951 17.1691 13.8564C17.2041 13.7176 17.1959 13.5715 17.1457 13.4375C17.0955 13.3035 17.0057 13.188 16.8882 13.1065C16.7707 13.0249 16.6311 12.9812 16.4881 12.9812H7.12111C6.93478 12.9812 6.75609 13.0553 6.62434 13.1871C6.49259 13.319 6.41858 13.4978 6.41858 13.6843C6.41858 13.8708 6.49259 14.0496 6.62434 14.1815C6.75609 14.3134 6.93478 14.3874 7.12111 14.3874H14.6147L12.8069 15.9671Z"
+                fill="currentColor" />
+            </svg>
+            Swapped
+          </button>
+        </li>
+        <li class="nav-item">
           <button type="button" class="nav-link" role="tab" data-bs-target="#locked" aria-controls="locked"
             aria-selected="false">
             <svg class="me-2" width="24" height="24" viewBox="0 0 80 80" fill="none"
@@ -287,6 +302,16 @@
                                 d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
                                 fill="currentColor" />
                             </svg>
+                          @elseif ($transaction->type === 'swap')
+                            <svg class="text-primary" width="28" height="28" viewBox="0 0 28 28"
+                              fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                d="M8.75522 12.5353C8.60151 12.5353 8.45148 12.4883 8.32516 12.4006C8.19884 12.313 8.10225 12.1888 8.04829 12.0448C7.99434 11.9007 7.98558 11.7437 8.02319 11.5945C8.0608 11.4453 8.143 11.3112 8.25879 11.21L11.7197 8.18663C11.8706 8.05472 12.0677 7.98821 12.2675 8.00172C12.4674 8.01523 12.6538 8.10767 12.7856 8.25868C12.9174 8.4097 12.9838 8.60693 12.9703 8.80699C12.9568 9.00705 12.8645 9.19354 12.7136 9.32545L10.7691 11.0236H18.8248C19.0251 11.0236 19.2172 11.1032 19.3588 11.245C19.5004 11.3867 19.58 11.579 19.58 11.7795C19.58 11.9799 19.5004 12.1722 19.3588 12.3139C19.2172 12.4557 19.0251 12.5353 18.8248 12.5353H8.75522ZM14.8674 18.2647C14.7211 18.3977 14.6328 18.5829 14.6213 18.7804C14.6099 18.9779 14.6763 19.172 14.8062 19.3211C14.9362 19.4702 15.1194 19.5623 15.3165 19.5777C15.5135 19.5931 15.7088 19.5306 15.8603 19.4035L19.3212 16.3801C19.437 16.2789 19.5192 16.1448 19.5568 15.9956C19.5944 15.8465 19.5857 15.6894 19.5317 15.5453C19.4777 15.4013 19.3812 15.2772 19.2548 15.1895C19.1285 15.1019 18.9785 15.0549 18.8248 15.0548H8.75522C8.55492 15.0548 8.36283 15.1345 8.2212 15.2762C8.07957 15.418 8 15.6102 8 15.8107C8 16.0111 8.07957 16.2034 8.2212 16.3452C8.36283 16.4869 8.55492 16.5665 8.75522 16.5665H16.8109L14.8674 18.2647Z"
+                                fill="currentColor" />
+                              <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M1 13.5417C1 6.6151 6.6151 1 13.5417 1C20.4682 1 26.0834 6.6151 26.0834 13.5417C26.0834 20.4682 20.4682 26.0834 13.5417 26.0834C6.6151 26.0834 1 20.4682 1 13.5417ZM13.5417 2.75C7.5816 2.75 2.75 7.5816 2.75 13.5417C2.75 19.5017 7.5816 24.3334 13.5417 24.3334C19.5017 24.3334 24.3334 19.5017 24.3334 13.5417C24.3334 7.5816 19.5017 2.75 13.5417 2.75Z"
+                                fill="currentColor" />
+                            </svg>
                           @elseif ($transaction->type === 'trade')
                             <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                               viewBox="0 0 24 24">
@@ -315,6 +340,8 @@
                               Locked via {{ $transaction->asset }}
                             @elseif ($transaction->type === 'trade')
                               Traded via {{ $transaction->asset }}
+                            @elseif ($transaction->type === 'swap')
+                              Swapped via {{ $transaction->asset }}
                             @elseif ($transaction->type === 'bonus')
                               Bonus via {{ $transaction->asset }}
                             @endif
@@ -365,16 +392,34 @@
                       </div>
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
-                          <span @class([
-                              'transaction-usd-amount',
-                              'text-danger' => $transaction->type === 'sent',
-                              'text-success' =>
-                                  $transaction->type !== 'sent' || $transaction->type !== 'locked',
-                              'text-light' => $transaction->type === 'locked',
-                          ])
-                            class="transaction-usd-amount">{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
-                            {{ $transaction->asset }}</span>
+                          @if ($transaction->type === 'swap')
+                            @if ($transaction->swap_to_asset)
+                              <span class="transaction-usd-amount text-danger">
+                                -{{ number_format($transaction->amount_in_usd, 2) }}$
+                              </span>
+                              <span class="transaction-asset-amount text-success">
+                                +{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                              </span>
+                            @else
+                              <span class="transaction-usd-amount text-success">
+                                +{{ number_format($transaction->amount_in_usd, 2) }}$
+                              </span>
+                              <span class="transaction-asset-amount text-danger">
+                                -{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                              </span>
+                            @endif
+                          @else
+                            <span
+                              @class([
+                                  'transaction-usd-amount',
+                                  'text-danger' => $transaction->type === 'sent',
+                                  'text-success' =>
+                                      $transaction->type !== 'sent' || $transaction->type !== 'locked',
+                                  'text-light' => $transaction->type === 'locked',
+                              ])>{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                            <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                              {{ $transaction->asset }}</span>
+                          @endif
                         </div>
                         <span class="transaction-item-view">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -390,7 +435,7 @@
                     <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                       viewBox="0 0 48 48">
                       <defs>
-                        <mask id="ipTForbid0">
+                        <mask id="ipTForbid7">
                           <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="4">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -400,7 +445,7 @@
                           </g>
                         </mask>
                       </defs>
-                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid0)" />
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid7)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You don't have any transactions yet.
@@ -675,6 +720,137 @@
           </div>
         </div>
 
+        <div class="tab-pane fade" id="swap" role="tabpanel" aria-labelledby="swap" tabindex="0">
+          <h6 class="mb-2 lh-1">Swap</h6>
+          <small class="lh-1 mb-7">
+            View all transactions related to the funds you've swapped
+          </small>
+
+          <div class="card bg-light mt-7">
+            <div class="card-body">
+              <div class="transaction-items">
+                @if (!$swapTransactions->isEmpty())
+                  @foreach ($swapTransactions as $transaction)
+                    <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
+                      <div class="d-flex align-items-start">
+                        <div class="transaction-item-icon">
+                          <svg class="text-primary" width="28" height="28" viewBox="0 0 28 28" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M8.75522 12.5353C8.60151 12.5353 8.45148 12.4883 8.32516 12.4006C8.19884 12.313 8.10225 12.1888 8.04829 12.0448C7.99434 11.9007 7.98558 11.7437 8.02319 11.5945C8.0608 11.4453 8.143 11.3112 8.25879 11.21L11.7197 8.18663C11.8706 8.05472 12.0677 7.98821 12.2675 8.00172C12.4674 8.01523 12.6538 8.10767 12.7856 8.25868C12.9174 8.4097 12.9838 8.60693 12.9703 8.80699C12.9568 9.00705 12.8645 9.19354 12.7136 9.32545L10.7691 11.0236H18.8248C19.0251 11.0236 19.2172 11.1032 19.3588 11.245C19.5004 11.3867 19.58 11.579 19.58 11.7795C19.58 11.9799 19.5004 12.1722 19.3588 12.3139C19.2172 12.4557 19.0251 12.5353 18.8248 12.5353H8.75522ZM14.8674 18.2647C14.7211 18.3977 14.6328 18.5829 14.6213 18.7804C14.6099 18.9779 14.6763 19.172 14.8062 19.3211C14.9362 19.4702 15.1194 19.5623 15.3165 19.5777C15.5135 19.5931 15.7088 19.5306 15.8603 19.4035L19.3212 16.3801C19.437 16.2789 19.5192 16.1448 19.5568 15.9956C19.5944 15.8465 19.5857 15.6894 19.5317 15.5453C19.4777 15.4013 19.3812 15.2772 19.2548 15.1895C19.1285 15.1019 18.9785 15.0549 18.8248 15.0548H8.75522C8.55492 15.0548 8.36283 15.1345 8.2212 15.2762C8.07957 15.418 8 15.6102 8 15.8107C8 16.0111 8.07957 16.2034 8.2212 16.3452C8.36283 16.4869 8.55492 16.5665 8.75522 16.5665H16.8109L14.8674 18.2647Z"
+                              fill="currentColor" />
+                            <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M1 13.5417C1 6.6151 6.6151 1 13.5417 1C20.4682 1 26.0834 6.6151 26.0834 13.5417C26.0834 20.4682 20.4682 26.0834 13.5417 26.0834C6.6151 26.0834 1 20.4682 1 13.5417ZM13.5417 2.75C7.5816 2.75 2.75 7.5816 2.75 13.5417C2.75 19.5017 7.5816 24.3334 13.5417 24.3334C19.5017 24.3334 24.3334 19.5017 24.3334 13.5417C24.3334 7.5816 19.5017 2.75 13.5417 2.75Z"
+                              fill="currentColor" />
+                          </svg>
+                        </div>
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-0">
+                            Swapped via {{ $transaction->asset }}
+                            @if (!empty(json_decode($transaction->notes, true)))
+                              @php
+                                $notesArray = json_decode($transaction->notes, true);
+                              @endphp
+                              <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
+                                data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
+                                data-bs-custom-class="popover-dark"
+                                data-bs-content="<div class='d-flex flex-column row-gap-2'>
+@foreach ($notesArray as $index => $note)
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
+@endforeach
+</div>"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                                  opacity=".3" />
+                                <path fill="currentColor"
+                                  d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                              </svg>
+                            @endif
+                          </h6>
+                          <div class="d-flex align-items-center">
+                            <small
+                              class="text-light">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y') }}</small>
+                            <small @class([
+                                'transaction-status',
+                                'text-success' => $transaction->status === 'completed',
+                                'text-danger' =>
+                                    $transaction->status === 'rejected' ||
+                                    $transaction->status === 'cancelled',
+                                'text-warning' => $transaction->status === 'pending',
+                            ])>
+                              @if ($transaction->status === 'completed')
+                                Completed
+                              @elseif ($transaction->status === 'rejected')
+                                Rejected
+                              @elseif ($transaction->status === 'cancelled')
+                                Cancelled
+                              @else
+                                Pending
+                              @endif
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="d-flex flex-column align-items-end text-right">
+                          <span
+                            class="transaction-usd-amount text-danger">-{{ number_format($transaction->amount_in_usd, 2) }}$</span>
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            {{ $transaction->asset }}</span>
+                        </div>
+                        <span class="transaction-item-view">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2.5" d="m9 5l6 7l-6 7" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  @endforeach
+                @else
+                  <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">
+                    <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                      viewBox="0 0 48 48">
+                      <defs>
+                        <mask id="ipTForbid3">
+                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20"
+                              clip-rule="evenodd" opacity="0.5" />
+                            <path d="m15 15l18 18" />
+                          </g>
+                        </mask>
+                      </defs>
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid3)" />
+                    </svg>
+                    <h6 class="mb-2 pb-0 px-0 fw-bolder">
+                      You haven't swapped any funds yet.
+                    </h6>
+                    <small class="pt-0 px-0">Transactions related to swapped funds will be listed here.</small>
+                    <button class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2"
+                      data-bs-toggle="modal" data-bs-target="#swapModal">
+                      <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M20.536 20.536C22 19.07 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465"
+                          opacity=".4"></path>
+                        <path fill="currentColor"
+                          d="M7 10.75a.75.75 0 0 1-.493-1.315l3.437-3a.75.75 0 0 1 .987 1.13L9 9.25h8a.75.75 0 0 1 0 1.5zm6.07 5.685a.75.75 0 0 0 .986 1.13l3.437-3A.75.75 0 0 0 17 13.25H7a.75.75 0 0 0 0 1.5h8z">
+                        </path>
+                      </svg>
+                      <span>Swap</span>
+                    </button>
+                  </div>
+                @endif
+              </div>
+
+              <x-paginator :paginator="$swapTransactions" :tab="'sent'" />
+            </div>
+          </div>
+        </div>
+
         <div class="tab-pane fade" id="locked" role="tabpanel" aria-labelledby="locked" tabindex="0">
           <h6 class="mb-2 lh-1">Locked</h6>
           <small class="lh-1 mb-7">
@@ -774,7 +950,7 @@
                     <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                       viewBox="0 0 48 48">
                       <defs>
-                        <mask id="ipTForbid3">
+                        <mask id="ipTForbid4">
                           <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="4">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -784,7 +960,7 @@
                           </g>
                         </mask>
                       </defs>
-                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid3)" />
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid4)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't locked any funds yet.
@@ -906,7 +1082,7 @@
                     <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                       viewBox="0 0 48 48">
                       <defs>
-                        <mask id="ipTForbid4">
+                        <mask id="ipTForbid5">
                           <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="4">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -916,7 +1092,7 @@
                           </g>
                         </mask>
                       </defs>
-                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid4)" />
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid5)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       No executed trades yet.
@@ -1040,7 +1216,7 @@
                     <svg class="mt-4 mb-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                       viewBox="0 0 48 48">
                       <defs>
-                        <mask id="ipTForbid5">
+                        <mask id="ipTForbid6">
                           <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="4">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -1050,7 +1226,7 @@
                           </g>
                         </mask>
                       </defs>
-                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid5)" />
+                      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTForbid6)" />
                     </svg>
                     <h6 class="mb-2 pb-0 px-0 fw-bolder">
                       You haven't earned any bonuses yet.

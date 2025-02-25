@@ -81,7 +81,7 @@
 
                 <div class="swap-input">
                   <input type="text" id="swapToAmount" name="swapToAmount" value="0.00" placeholder="0.00"
-                    data-max="{{ $userBalances->where('wallet', 'TRX')->value('balance') * $marketDataPrices['TRX'] }}"
+                    data-max="{{ $userBalances->where('wallet', 'USD')->value('balance') }}"
                     data-price="{{ $marketDataPrices['TRX'] }}">
                   <div class="swap-input-label-wrapper">
                     <small class="swap-input-label">Amount in USD</small>
@@ -120,7 +120,7 @@
             </path>
           </svg>
           <span>
-            Received amount after swap might change slightly due to market fluctuations.
+            Received amount after swap might change slightly due to market fluctuations and blockchain fees.
           </span>
         </small>
       </div>
@@ -165,6 +165,19 @@
       </div>
 
       <div class="modal-body pt-0">
+        <div class="row mb-2 px-3">
+          <div class="col col-6">
+            <span class="text-light">
+              <small>Asset</small>
+            </span>
+          </div>
+          <div class="col col-6">
+            <span class="text-light d-flex justify-content-end">
+              <small>Balance</small>
+            </span>
+          </div>
+        </div>
+
         <ul class="swap-selector-content">
           @foreach ($assets as $asset)
             <li class="swap-selector-asset" data-symbol="{{ $asset->symbol }}"

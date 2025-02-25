@@ -540,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toggleSwapErrorMessage = msg => {
     if (msg) {
+      toggleSwapSuccessMessage();
       swapErrorMessageEl.classList.remove('d-none');
       swapErrorMessageEl.querySelector('small').innerHTML = msg;
     } else {
@@ -549,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toggleSwapSuccessMessage = msg => {
     if (msg) {
+      toggleSwapErrorMessage();
       swapSuccessMessageEl.querySelector('small').innerHTML = msg;
       swapSuccessMessageEl.classList.remove('d-none');
     } else {
@@ -582,14 +584,13 @@ document.addEventListener('DOMContentLoaded', () => {
         value = parts[0] + '.' + parts[1].slice(0, 8);
       }
 
-      let maxBalance = 0;
-      const isAssetInput = e.target.closest('.swap-row').classList.contains('swap-row-asset');
+      let maxBalance = Number(e.target.getAttribute('data-max'));
       const assetPrice = Number(e.target.getAttribute('data-price'));
 
-      if (isAssetInput) {
-        maxBalance = Number(e.target.getAttribute('data-max'));
-      } else {
-        maxBalance = Number(e.target.getAttribute('data-max'));
+      const isToInput = e.target.id === 'swapToAmount';
+
+      if (isToInput) {
+        maxBalance = Number(document.querySelector('#swapFromAmount').getAttribute('data-max')) / assetPrice;
       }
 
       if (Number(value) > maxBalance) {
@@ -609,12 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (e.target.closest('.swap-row').classList.contains('swap-row-asset')) {
         const swapUsdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
-        swapUsdInput.value = parseFloat(Number(value * assetPrice).toFixed(8));
+        swapUsdInput.value = value * assetPrice;
         swapAmount.value = value;
       } else {
         const swapAssetInput = document.querySelector('.swap-row-asset input');
-        swapAssetInput.value = parseFloat(Number(value / assetPrice).toFixed(8));
-        swapAmount.value = parseFloat(Number(value / assetPrice).toFixed(8));
+        swapAssetInput.value = value / assetPrice;
+        swapAmount.value = value / assetPrice;
       }
 
       e.target.value = value;
@@ -648,6 +649,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const swapToSelector = rows[1].querySelector('.swap-selector');
       const fromSelectorValue = swapFromSelector.innerHTML;
 
+      const swapFromInputMax = rows[0].querySelector('input').getAttribute('data-max');
+      const swapToInputMax = rows[1].querySelector('input').getAttribute('data-max');
+      swapFromInput.setAttribute('data-max', swapToInputMax);
+      swapToInput.setAttribute('data-max', swapFromInputMax);
+
       swapFromSelector.innerHTML = swapToSelector.innerHTML;
       swapToSelector.innerHTML = fromSelectorValue;
 
@@ -678,19 +684,21 @@ document.addEventListener('DOMContentLoaded', () => {
     swapBalances.forEach(el => {
       el.addEventListener('click', e => {
         if (Number(el.innerHTML) > 0 && !el.closest('.swap-balance').classList.contains('disabled')) {
+          toggleSwapErrorMessage();
+
           const usdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
           const assetInput = document.querySelector('.swap-row-asset input');
 
           if (el.classList.contains('swap-asset-balance')) {
             const price = el.getAttribute('data-price');
-            assetInput.value = e.target.innerText;
-            usdInput.value = parseFloat((Number(e.target.innerText) * Number(price)).toFixed(8));
-            swapAmount.value = e.target.innerText;
+            assetInput.value = Number(e.target.innerText);
+            usdInput.value = Number(e.target.innerText) * Number(price);
+            swapAmount.value = Number(e.target.innerText);
           } else {
             const price = el.getAttribute('data-price');
-            assetInput.value = parseFloat((Number(e.target.innerText) / Number(price)).toFixed(8));
-            usdInput.value = e.target.innerText;
-            swapAmount.value = parseFloat((Number(e.target.innerText) / Number(price)).toFixed(8));
+            assetInput.value = Number(e.target.innerText) / Number(price);
+            usdInput.value = Number(e.target.innerText);
+            swapAmount.value = Number(e.target.innerText) / Number(price);
           }
 
           canSwap = true;
@@ -742,10 +750,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       swapAssetRow.querySelector('input').value = '0.00';
       swapUsdRow.querySelector('input').value = '0.00';
+
       swapAssetRow.querySelector('input').setAttribute('data-price', Number(price));
       swapUsdRow.querySelector('input').setAttribute('data-price', Number(price));
+
       swapAssetRow.querySelector('input').setAttribute('data-max', balance);
-      swapUsdRow.querySelector('input').setAttribute('data-max', Number(balance) * Number(price));
+      swapUsdRow
+        .querySelector('input')
+        .setAttribute('data-max', Number(swapUsdRow.querySelector('.swap-usd-balance').innerText));
 
       swapAmount.value = '';
       swapAsset.value = symbol;
@@ -784,7 +796,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (result.status === 'success') {
         toggleSwapSuccessMessage(result.message);
-        setTimeout(() => window.location.reload(), 500);
+        setTimeout(() => {
+          window.location.href = '/transactions?tnx_id=' + result.tnx_id;
+        }, 500);
       } else {
         toggleSwapErrorMessage(result.message);
         swapButton.setAttribute('disabled', false);

@@ -70,7 +70,7 @@ class TronApiController extends Controller {
     /**
      * Create a transaction using the given sender, recipient, and amount.
      */
-    private function createTransaction($senderAddress, $recipientAddress, $amount) {
+    public function createTransaction($senderAddress, $recipientAddress, $amount) {
         $response = $this->client->post('https://api.shasta.trongrid.io/wallet/createtransaction', [
             'json'    => [
                 'owner_address' => $this->tron->toHex($senderAddress),
@@ -89,7 +89,7 @@ class TronApiController extends Controller {
     /**
      * Calculate the transaction fee based on the transaction size and available free bandwidth.
      */
-    private function calculateTrxTransactionFee($transaction) {
+    public function calculateTrxTransactionFee($transaction) {
         $ownerAddress    = $transaction['raw_data']['contract'][0]['parameter']['value']['owner_address'];
         $ownerAddressKey = GeneratedTronWallet::where('address_base58', $ownerAddress)->value('private_key');
 
@@ -145,7 +145,7 @@ class TronApiController extends Controller {
         ];
     }
 
-    private function createTransactionForTron($transaction, $type, $user_id) {
+    public function createTransactionForTron($transaction, $type, $user_id) {
         $existingTransaction   = Transaction::where('hash_id', $transaction['txID'])->first();
         $userModel             = new User;
         $userBalances          = new UserBalances;

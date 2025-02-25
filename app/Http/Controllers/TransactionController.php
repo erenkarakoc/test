@@ -12,6 +12,7 @@ class TransactionController extends Controller {
             'user_id'                    => $newTransaction['user_id'],
             'ref_user_id'                => $newTransaction['ref_user_id'],
             'type'                       => $newTransaction['type'],
+            'swap_to_asset'              => $newTransaction['swap_to_asset'] ?? null,
             'amount_in_asset'            => $newTransaction['amount_in_asset'],
             'amount_in_usd'              => $newTransaction['amount_in_usd'],
             'asset'                      => $newTransaction['asset'],

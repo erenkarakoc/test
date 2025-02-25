@@ -1,24 +1,24 @@
 <?php
-
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-class Kernel extends ConsoleKernel
-{
+class Kernel extends ConsoleKernel {
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
     protected $commands = [
-        Commands\TronCheckWallets::class,
+        Commands\Blockchain\TronCheckWallets::class,
+        Commands\SwapCheck\SwapTronCheck::class,
         Commands\AddReceivedTronBalanceToUser::class,
         Commands\SendReceivedTronBalanceToMainWallet::class,
         Commands\UpdateMarketData::class,
         Commands\SeedCountries::class,
         Commands\SeedAlgorithms::class,
+        Commands\SeedAssets::class,
         Commands\SeedStrategyPacks::class,
     ];
 
@@ -27,8 +27,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
+    protected function schedule(Schedule $schedule) {
         //
     }
 
@@ -37,9 +36,8 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
-    {
-        $this->load(__DIR__.'/Commands'); // Load commands from the /Commands directory
+    protected function commands() {
+        $this->load(__DIR__ . '/Commands'); // Load commands from the /Commands directory
         require base_path('routes/console.php');
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace App\Console\Commands\Blockchain;
 
-use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
 use App\Models\UserBalances;
 use App\Services\UserBalancesService;
@@ -23,30 +22,22 @@ class TronCheckConfirms extends Command {
      */
     protected $description = 'Check transaction statuses and if confirmed, sets status as "completed".';
 
-    protected $fullNode;
-
-    protected $solidityNode;
-
-    protected $eventServer;
-
     protected $userBalancesService;
+    protected $client;
 
     public function __construct() {
         parent::__construct();
 
-        $this->fullNode            = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
-        $this->solidityNode        = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
         $this->userBalancesService = new UserBalancesService;
+        $this->client              = new Client;
+
     }
 
-    public function handle(TransactionController $transactionController) {
-        $client              = new Client;
-        $pendingTransactions = Transaction::where('status', 'pending')
-            ->where('asset', 'TRX')
-            ->get();
+    public function handle() {
+        $pendingTransactions = Transaction::where('type', '!=', 'swap')->where('status', 'pending')->where('asset', 'TRX')->get();
 
         foreach ($pendingTransactions as $transaction) {
-            $response = $client->post('https://api.shasta.trongrid.io/walletsolidity/gettransactionbyid', [
+            $response = $this->client->post('https://api.shasta.trongrid.io/walletsolidity/gettransactionbyid', [
                 'json'    => ['value' => $transaction->hash_id],
                 'headers' => [
                     'Accept'       => 'application/json',
@@ -58,8 +49,6 @@ class TronCheckConfirms extends Command {
                 $responseData = json_decode($response->getBody(), true);
 
                 if (! empty($responseData)) {
-                    $transactionController->setTransactionStatus($transaction->tnx_id, 'completed');
-
                     $userBalancesService = new UserBalancesService;
 
                     $totalBalance = $userBalancesService->calculateUserTotalBalance($transaction->user_id)[0];
@@ -67,7 +56,9 @@ class TronCheckConfirms extends Command {
 
                     $transaction->total_balance_after = $totalBalance;
                     $transaction->asset_balance_after = $trxBalance;
+                    $transaction->status              = 'completed';
                     $transaction->save();
+
                 }
             }
         }

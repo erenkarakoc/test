@@ -6,7 +6,7 @@ use App\Models\Blockchains\GeneratedBSCWallet;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBalances;
-use App\Services\Blockchains\BSCService;
+use App\Services\Blockchains\BscService;
 use App\Services\UserBalancesService;
 use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
@@ -23,7 +23,7 @@ class BscApiController {
     }
 
     public function generateBSCWalletForUser($user_id) {
-        $bscService      = new BSCService;
+        $bscService      = new BscService;
         $generatedWallet = $bscService->createWallet();
 
         $renderer = new GDLibRenderer(130);

@@ -44,30 +44,4 @@ class UserBalancesController extends Controller {
         $tronApi->generateTronWalletForUser($user_id);
         $bscApi->generateBSCWalletForUser($user_id);
     }
-
-    /**
-     * Generate assets if they don't exist
-     */
-    public function generateAssets() {
-        $assets           = Asset::all();
-        $assetsToGenerate = [
-            ['title' => 'Tether', 'symbol' => 'USDT', 'network' => 'TRC-20'],
-            ['title' => 'Tron', 'symbol' => 'TRX', 'network' => 'TRC-20'],
-            ['title' => 'Bitcoin', 'symbol' => 'BTC', 'network' => 'Bitcoin'],
-            ['title' => 'Ethereum', 'symbol' => 'ETH', 'network' => 'ERC-20'],
-            ['title' => 'Ethereum Classic', 'symbol' => 'ETC', 'network' => 'ERC-20'],
-            ['title' => 'Binance Coin', 'symbol' => 'BNB', 'network' => 'BEP-20'],
-            ['title' => 'Litecoin', 'symbol' => 'LTC', 'network' => 'Litecoin'],
-        ];
-
-        if ($assets->isEmpty()) {
-            foreach ($assetsToGenerate as $newAsset) {
-                Asset::create([
-                    'title'   => $newAsset['title'],
-                    'symbol'  => $newAsset['symbol'],
-                    'network' => $newAsset['network'],
-                ]);
-            }
-        }
-    }
 }
