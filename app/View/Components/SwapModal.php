@@ -4,12 +4,14 @@ namespace App\View\Components;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Asset;
+use App\Models\Blockchains\GeneratedBscWallet;
 use App\Models\Blockchains\GeneratedTronWallet;
 use App\Models\MarketData;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBalances;
 use App\Services\UserBalancesService;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -19,20 +21,30 @@ class SwapModal extends Component {
     public $assets;
     public $userBalances;
 
+    protected $client;
+
     protected $fullNode;
     protected $solidityNode;
     protected $eventServer;
     protected $tron;
     protected $tronApiController;
 
+    protected $bscScanApiKey;
+
     public function __construct() {
-        $user                    = Auth::user();
-        $this->assets            = Asset::all();
-        $this->userBalances      = UserBalances::where('user_id', $user->id)->get();
+        $user = Auth::user();
+
+        $this->assets       = Asset::all();
+        $this->userBalances = UserBalances::where('user_id', $user->id)->get();
+
+        $this->client = new Client;
+
         $this->fullNode          = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
         $this->solidityNode      = new \IEXBase\TronAPI\Provider\HttpProvider('https://api.shasta.trongrid.io');
         $this->tron              = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
         $this->tronApiController = new TronApiController;
+
+        $this->bscScanApiKey = config('blockchains.bscscan_api_key');
     }
 
     public function swap(Request $request) {
@@ -198,6 +210,27 @@ class SwapModal extends Component {
             } else {
                 return [
                     'success' => false,
+                ];
+            }
+        } else if ($swapAmount === 'BNB') {
+            $userBscAddress = GeneratedBscWallet::wher('user_id', $user_id)->first()->value('address');
+
+            $mainWallets = config('blockchains.main_bsc_addresses');
+            $addresses   = [];
+
+            foreach ($mainWallets as $wallet) {
+                $response     = json_decode($this->client->get("https://api-testnet.bscscan.com/api?module=account&action=balance&address={$wallet['hex']}&apikey={$this->bscScanApiKey}")->getBody(), true);
+                $balanceInBnb = 0;
+
+                if (isset($response['status']) && $response['status'] == '1') {
+                    $balanceInWei = $response['result'];
+                    $balanceInBnb = bcdiv($balanceInWei, '1000000000000000000', 18);
+                }
+
+                $addresses[] = [
+                    'address' => $wallet['hex'],
+                    'balance' => $balanceInBnb,
+                    'pk'      => $wallet['pk'],
                 ];
             }
         } else {
