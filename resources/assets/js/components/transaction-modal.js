@@ -142,7 +142,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete('tnx_id');
 
-      const newUrl = window.location.pathname + '?' + urlParams.toString();
+      const newUrl = window.location.pathname + (urlParams.toString() ? '?' : '') + urlParams.toString();
       window.history.replaceState({}, '', newUrl);
     });
 

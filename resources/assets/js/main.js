@@ -528,6 +528,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
   const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
 
+  const formatUsdAmount = amount => {
+    amount = parseFloat(amount);
+    return amount.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      roundingMode: 'trunc',
+      useGrouping: false
+    });
+  };
+
+  const formatSwapAmount = (value, isAsset) => {
+    // Remove all non-numeric characters except the dot
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Ensure only one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    // Limit to 8 digits before the decimal point
+    if (parts[0].length > 8) {
+      value = parts[0].slice(0, 8);
+      if (parts[1]) {
+        value += '.' + parts[1]; // Keep the decimal part if it exists
+      }
+    }
+
+    // Limit to 8 digits after the decimal point
+    if (parts[1] && parts[1].length > 8) {
+      value = parts[0] + '.' + parts[1].slice(0, 8);
+    }
+
+    return value;
+  };
+
   swapModalToggle.forEach(toggle => {
     if (toggle) toggle.addEventListener('click', () => swapModal.show());
   });
@@ -562,27 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', e => {
       let value = e.target.value;
 
-      // Remove all non-numeric characters except the dot
-      value = value.replace(/[^0-9.]/g, '');
-
-      // Ensure only one decimal point
-      const parts = value.split('.');
-      if (parts.length > 2) {
-        value = parts[0] + '.' + parts.slice(1).join('');
-      }
-
-      // Limit to 8 digits before the decimal point
-      if (parts[0].length > 8) {
-        value = parts[0].slice(0, 8);
-        if (parts[1]) {
-          value += '.' + parts[1]; // Keep the decimal part if it exists
-        }
-      }
-
-      // Limit to 8 digits after the decimal point
-      if (parts[1] && parts[1].length > 8) {
-        value = parts[0] + '.' + parts[1].slice(0, 8);
-      }
+      value = formatAssetAmount(value);
 
       let maxBalance = Number(e.target.getAttribute('data-max'));
       const assetPrice = Number(e.target.getAttribute('data-price'));
@@ -608,7 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleSwapErrorMessage();
       }
 
-      if (e.target.closest('.swap-row').classList.contains('swap-row-asset')) {
+      const isAssetInput = e.target.closest('.swap-row').classList.contains('swap-row-asset');
+
+      if (isAssetInput) {
         const swapUsdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
         swapUsdInput.value = value * assetPrice;
         swapAmount.value = value;

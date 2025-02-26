@@ -61,17 +61,9 @@ class SwapTronCheck extends Command {
                         $usdBalance = UserBalances::where('user_id', $transaction['user_id'])->where('wallet', 'USD')->first();
 
                         if ($transaction->swap_to_asset) {
-                            $trxBalance->balance += $transaction->amount_in_asset;
-                            $trxBalance->save();
-
-                            $usdBalance->balance -= $transaction->ammount_in_usd;
+                            $usdBalance->balance -= $transaction->amount_in_usd;
                             $usdBalance->save();
-
-                            $this->info('usd amount: ' . $usdBalance->balance);
                         } else {
-                            $trxBalance->balance -= $transaction->amount_in_asset;
-                            $trxBalance->save();
-
                             $usdBalance->balance += $transaction->amount_in_usd;
                             $usdBalance->save();
                         }

@@ -27,6 +27,7 @@ class TronRunAllCommands extends Command {
         $this->call('tron:check-wallets');
         $this->call('tron:get-transactions');
         $this->call('tron:check-confirms');
+        $this->call('swap-check:tron');
         $this->info('All Tron commands executed successfully.');
 
         return 0;
