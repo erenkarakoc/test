@@ -232,6 +232,8 @@ class SwapModal extends Component {
                     'balance' => $balanceInBnb,
                     'pk'      => $wallet['pk'],
                 ];
+
+                // devam
             }
         } else {
             return [
