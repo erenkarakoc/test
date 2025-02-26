@@ -528,16 +528,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapSelectorModalEl = document.querySelector('#swapSelectorModal');
   const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
 
-  const formatUsdAmount = amount => {
-    amount = parseFloat(amount);
-    return amount.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      roundingMode: 'trunc',
-      useGrouping: false
-    });
+  const formatSwapUsdAmount = value => {
+    value = value.toString();
+
+    // Remove all non-numeric characters except the dot
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Ensure only one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    // Limit to 8 digits before the decimal point
+    if (parts[0].length > 8) {
+      value = parts[0].slice(0, 8);
+      if (parts[1]) {
+        value += '.' + parts[1]; // Keep the decimal part if it exists
+      }
+    }
+
+    // Limit to 2 digits after the decimal point
+    if (parts[1] && parts[1].length > 2) {
+      value = parts[0] + '.' + parts[1].slice(0, 2);
+    }
+
+    return value;
   };
 
-  const formatSwapAmount = (value, isAsset) => {
+  const formatSwapAssetAmount = value => {
+    value = value.toString();
+
     // Remove all non-numeric characters except the dot
     value = value.replace(/[^0-9.]/g, '');
 
@@ -597,15 +618,20 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', e => {
       let value = e.target.value;
 
-      value = formatAssetAmount(value);
-
       let maxBalance = Number(e.target.getAttribute('data-max'));
       const assetPrice = Number(e.target.getAttribute('data-price'));
 
       const isToInput = e.target.id === 'swapToAmount';
+      const isAssetInput = e.target.closest('.swap-row').classList.contains('swap-row-asset');
 
       if (isToInput) {
         maxBalance = Number(document.querySelector('#swapFromAmount').getAttribute('data-max')) / assetPrice;
+      }
+
+      if (isAssetInput) {
+        value = formatSwapAssetAmount(value);
+      } else {
+        value = formatSwapUsdAmount(value);
       }
 
       if (Number(value) > maxBalance) {
@@ -623,16 +649,14 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleSwapErrorMessage();
       }
 
-      const isAssetInput = e.target.closest('.swap-row').classList.contains('swap-row-asset');
-
       if (isAssetInput) {
         const swapUsdInput = document.querySelector('.swap-row:not(.swap-row-asset) input');
-        swapUsdInput.value = value * assetPrice;
-        swapAmount.value = value;
+        swapUsdInput.value = formatSwapUsdAmount(value * assetPrice);
+        swapAmount.value = formatSwapAssetAmount(value);
       } else {
         const swapAssetInput = document.querySelector('.swap-row-asset input');
-        swapAssetInput.value = value / assetPrice;
-        swapAmount.value = value / assetPrice;
+        swapAssetInput.value = formatSwapAssetAmount(value / assetPrice);
+        swapAmount.value = formatSwapAssetAmount(value / assetPrice);
       }
 
       e.target.value = value;
@@ -708,14 +732,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (el.classList.contains('swap-asset-balance')) {
             const price = el.getAttribute('data-price');
-            assetInput.value = Number(e.target.innerText);
-            usdInput.value = Number(e.target.innerText) * Number(price);
-            swapAmount.value = Number(e.target.innerText);
+            assetInput.value = formatSwapAssetAmount(Number(e.target.innerText));
+            usdInput.value = formatSwapUsdAmount(Number(e.target.innerText) * Number(price));
+            swapAmount.value = formatSwapAssetAmount(Number(e.target.innerText));
           } else {
             const price = el.getAttribute('data-price');
-            assetInput.value = Number(e.target.innerText) / Number(price);
-            usdInput.value = Number(e.target.innerText);
-            swapAmount.value = Number(e.target.innerText) / Number(price);
+            assetInput.value = formatSwapAssetAmount(Number(e.target.innerText) / Number(price));
+            usdInput.value = formatSwapUsdAmount(Number(e.target.innerText));
+            swapAmount.value = formatSwapAssetAmount(Number(e.target.innerText) / Number(price));
           }
 
           canSwap = true;

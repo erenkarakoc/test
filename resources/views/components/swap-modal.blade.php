@@ -81,7 +81,7 @@
 
                 <div class="swap-input">
                   <input type="text" id="swapToAmount" name="swapToAmount" value="0.00" placeholder="0.00"
-                    data-max="{{ number_format($userBalances->where('wallet', 'USD')->value('balance'), 2) }}"
+                    data-max="{{ $userBalances->where('wallet', 'USD')->value('balance') }}"
                     data-price="{{ $marketDataPrices['TRX'] }}">
                   <div class="swap-input-label-wrapper">
                     <small class="swap-input-label">Amount in USD</small>
@@ -92,7 +92,7 @@
                   <small>Balance:</small>
                   <small>
                     <span class="swap-usd-balance"
-                      data-price="{{ $marketDataPrices['TRX'] }}">{{ number_format(@formatBalance($userBalances->where('wallet', 'USD')->value('balance')), 2) }}</span>
+                      data-price="{{ $marketDataPrices['TRX'] }}">{{ bcdiv($userBalances->where('wallet', 'USD')->value('balance'), 1, 2) }}</span>
                     <span class="swap-usd-symbol">USD</span>
                   </small>
                 </div>

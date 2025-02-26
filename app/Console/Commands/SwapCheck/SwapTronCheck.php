@@ -68,8 +68,8 @@ class SwapTronCheck extends Command {
                             $usdBalance->save();
                         }
 
-                        $transaction->total_balance_after = $totalBalance;
                         $transaction->asset_balance_after = $trxBalance->balance;
+                        $transaction->total_balance_after = $totalBalance;
                         $transaction->status              = 'completed';
                         $transaction->save();
                     }
