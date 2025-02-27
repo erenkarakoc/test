@@ -43,14 +43,16 @@ class SeedAssets extends Command {
             ['title' => 'Litecoin', 'symbol' => 'LTC', 'network' => 'Litecoin'],
         ];
 
-        if ($assets->isEmpty()) {
-            foreach ($assetsToGenerate as $newAsset) {
-                Asset::create([
-                    'title'   => $newAsset['title'],
-                    'symbol'  => $newAsset['symbol'],
-                    'network' => $newAsset['network'],
-                ]);
+        foreach ($assetsToGenerate as $newAsset) {
+            if ($assets->where('symbol', $newAsset['symbol'])->first()) {
+                continue;
             }
+
+            Asset::create([
+                'title'   => $newAsset['title'],
+                'symbol'  => $newAsset['symbol'],
+                'network' => $newAsset['network'],
+            ]);
         }
 
         $this->info('Assets seeded successfully!');
