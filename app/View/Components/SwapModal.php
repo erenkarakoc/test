@@ -1,6 +1,7 @@
 <?php
 namespace App\View\Components;
 
+use App\Http\Controllers\Blockchains\BscApiController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Asset;
@@ -30,6 +31,7 @@ class SwapModal extends Component {
     protected $tronApiController;
 
     protected $bscScanApiKey;
+    protected $bscApiController;
 
     public function __construct() {
         $user = Auth::user();
@@ -44,7 +46,8 @@ class SwapModal extends Component {
         $this->tron              = new \IEXBase\TronAPI\Tron($this->fullNode, $this->solidityNode, $this->eventServer);
         $this->tronApiController = new TronApiController;
 
-        $this->bscScanApiKey = config('blockchains.bscscan_api_key');
+        $this->bscScanApiKey    = config('blockchains.bscscan_api_key');
+        $this->bscApiController = new BscApiController;
     }
 
     public function swap(Request $request) {
@@ -78,7 +81,7 @@ class SwapModal extends Component {
 
         if ($isSwapToAsset) {
             if ($userUsdBalance->balance >= $amountInUsd) {
-                $receiveToMain = $this->receiveToMain($swapAsset, $swapAmount);
+                $receiveToMain = $this->sendToUser($swapAsset, $swapAmount);
 
                 if ($receiveToMain['success']) {
                     return response()->json([
@@ -175,7 +178,7 @@ class SwapModal extends Component {
         }
     }
 
-    private function receiveToMain($swapAsset, $swapAmount) {
+    private function sendToUser($swapAsset, $swapAmount) {
         $user_id = Auth::user()->id;
 
         if ($swapAsset === 'TRX') {
@@ -219,21 +222,29 @@ class SwapModal extends Component {
             $addresses   = [];
 
             foreach ($mainWallets as $wallet) {
-                $response     = json_decode($this->client->get("https://api-testnet.bscscan.com/api?module=account&action=balance&address={$wallet['hex']}&apikey={$this->bscScanApiKey}")->getBody(), true);
-                $balanceInBnb = 0;
-
-                if (isset($response['status']) && $response['status'] == '1') {
-                    $balanceInWei = $response['result'];
-                    $balanceInBnb = bcdiv($balanceInWei, '1000000000000000000', 18);
-                }
-
                 $addresses[] = [
                     'address' => $wallet['hex'],
-                    'balance' => $balanceInBnb,
+                    'balance' => $this->bscApiController->getBalance($wallet['hex']),
                     'pk'      => $wallet['pk'],
                 ];
+            }
 
-                // devam
+            $addressWithHighestBalanceIdx = array_search(max(array_column($addresses, 'balance')), array_column($addresses, 'balance'));
+            $addressWithHighestBalance    = $addresses[$addressWithHighestBalanceIdx]['address'];
+            $addressWithHighestBalancePk  = $addresses[$addressWithHighestBalanceIdx]['pk'];
+
+            $broadcastedTransaction = $this->bscApiController->sendFundsRequest($user_id, $swapAmount, $addressWithHighestBalance);
+
+            if ($broadcastedTransaction['success']) {
+                $tnx_id = $this->createSwapTransactionForBsc($broadcastedTransaction, $user_id, true);
+                return [
+                    'success' => true,
+                    'tnx_id'  => $tnx_id,
+                ];
+            } else {
+                return [
+                    'success' => false,
+                ];
             }
         } else {
             return [
@@ -295,6 +306,11 @@ class SwapModal extends Component {
 
             return $transaction['tnx_id'];
         }
+    }
+
+    private function createSwapTransactionForBsc($transaction, $user_id, $isSwapToAsset) {
+        $tnx_id = mt_rand(10000000, 99999999);
+        return $tnx_id;
     }
 
     public function render() {
