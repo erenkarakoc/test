@@ -172,30 +172,41 @@
     }
   };
 
-  const errorMessageEl = document.querySelector('.error-message');
-  const toggleErrorMessage = msg => {
+  const lockErrorMessageEl = document.querySelector('.lock-error-message');
+  const lockSuccessMessageEl = document.querySelector('.lock-success-message');
+
+  const toggleLockErrorMessage = msg => {
     if (msg) {
-      errorMessageEl.classList.remove('d-none');
-      errorMessageEl.querySelector('small').innerHTML = msg;
+      lockErrorMessageEl.classList.remove('d-none');
+      lockErrorMessageEl.querySelector('small').innerHTML = msg;
       canCalculate = false;
     } else {
-      errorMessageEl.classList.add('d-none');
+      lockErrorMessageEl.classList.add('d-none');
       canCalculate = true;
+    }
+  };
+
+  const toggleLockSuccessMessage = msg => {
+    if (msg) {
+      toggleLockErrorMessage();
+      lockSuccessMessageEl.querySelector('small').innerHTML = msg;
+      lockSuccessMessageEl.classList.remove('d-none');
+    } else {
+      lockSuccessMessageEl.classList.add('d-none');
     }
   };
 
   if (maxButton && amountInput && unlockDate) {
     maxButton.addEventListener('click', () => {
       calculateSummary();
-      toggleErrorMessage();
+      toggleLockErrorMessage();
     });
 
     amountInput.addEventListener('input', () => {
       if (Number(amountInput.value) > Number(amountInput.getAttribute('data-max'))) {
-        console.log(Number(amountInput.getAttribute('data-max')));
-        toggleErrorMessage('Insufficient USD balance!');
+        toggleLockErrorMessage('Insufficient USD balance!');
       } else {
-        toggleErrorMessage();
+        toggleLockErrorMessage();
       }
       calculateSummary();
     });
@@ -944,7 +955,7 @@
   if (lockAmountButton) {
     lockAmountButton.addEventListener('click', () => {
       if (calculated && chosenAlgorithms.length) {
-        // lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+        lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
 
         amount = Number(amountInput.value);
         period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
@@ -957,9 +968,15 @@
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
           }
-        }).then(res => {
-          console.log(res);
-        });
+        })
+          .then(response => response.json())
+          .then(res => {
+            if (res.status === 'error') toggleLockErrorMessage(res.message);
+            else {
+              toggleLockSuccessMessage(res.message);
+              setTimeout(() => window.location.reload(), 500);
+            }
+          });
       }
     });
   }

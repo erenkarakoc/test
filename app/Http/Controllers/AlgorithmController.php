@@ -2,10 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\LockedPack;
+use App\Models\StrategyPacks;
 use App\Models\UserBalances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 
 class AlgorithmController extends Controller {
     public function calculateAlgorithmSummary(Request $request) {
@@ -121,19 +121,6 @@ class AlgorithmController extends Controller {
         ]);
     }
 
-    public function checkBalancesForLock(Request $request) {
-        $validated = $request->validate([
-            'amount' => 'required|numeric',
-        ]);
-
-        $userTotalBalance = View::getShared('userTotalBalance');
-        dd($userTotalBalance);
-
-        if ($userTotalBalance < $validated['amount']) {
-            return response()->json(['status' => 'error', 'message' => 'Insufficient balance']);
-        }
-    }
-
     public function lockPack(Request $request) {
         $validated = $request->validate([
             'strategy_pack_id'  => 'nullable|numeric',
@@ -142,29 +129,44 @@ class AlgorithmController extends Controller {
             'period'            => 'required|numeric',
         ]);
 
+        $strategyPackId   = $validated['strategy_pack_id'] ?? null;
+        $chosenAlgorithms = $validated['chosen_algorithms'];
+        $amount           = $validated['amount'];
+        $period           = $validated['period'];
+
+        if ($strategyPackId) {
+            $strategyPack = StrategyPacks::where('id', $strategyPackId)->first();
+
+            if ($strategyPack) {
+                $chosenAlgorithms = $strategyPack->algorithms;
+            }
+        }
+
         $user              = Auth::user();
         $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
-        $userBalances      = UserBalances::where('user_id', $user->id)->get();
-        $marketDataPrices  = View::getShared('marketDataPrices');
 
-        foreach ($userBalances as $balance) {
-
+        $userBalance = UserBalances::where('user_id', $user->id)->where('wallet', 'USD')->value('balance');
+        if ($userBalance < $amount) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Insufficient balance!',
+            ]);
         }
 
         $lockedPack = LockedPack::create([
             'user_id'               => $user->id,
-            'strategy_pack_id'      => $validated['strategy_pack_id'] ?? null,
-            'chosen_algorithms'     => $validated['chosen_algorithms'],
-            'amount'                => $validated['amount'],
-            'period'                => $validated['period'],
-            'algorithms_cost'       => $calculatedSummary['totalAlgorithmCost'],
-            'estimated_profit_rate' => $calculatedSummary['finalPercentage'],
+            'strategy_pack_id'      => $strategyPackId ?? null,
+            'chosen_algorithms'     => json_encode($chosenAlgorithms),
+            'amount'                => $amount,
+            'period'                => $period,
+            'algorithms_cost'       => $calculatedSummary['algorithmCost'],
+            'estimated_profit_rate' => $calculatedSummary['totalAmountAfterUnlockPct'],
             'status'                => 'pending',
         ]);
 
         return response()->json([
             'status'      => 'success',
-            'message'     => 'Amount locked with chosen algorithms',
+            'message'     => 'Amount locked with chosen algorithms.',
             'locked_pack' => $lockedPack,
         ]);
     }

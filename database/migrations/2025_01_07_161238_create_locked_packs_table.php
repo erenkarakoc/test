@@ -12,12 +12,12 @@ return new class extends Migration {
         Schema::create('locked_packs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('strategy_pack_id')->constrained('strategy_packs')->nullable();
+            $table->foreignId('strategy_pack_id')->nullable()->constrained('strategy_packs');
             $table->json('chosen_algorithms');
-            $table->decimal('amount');
+            $table->decimal('amount', 18, 8);
             $table->integer('period');
-            $table->decimal('algorithms_cost');
-            $table->decimal('estimated_profit_rate');
+            $table->decimal('algorithms_cost', 18, 8);
+            $table->decimal('estimated_profit_rate', 18, 8);
             $table->enum('status', ['executing', 'completed', 'cancelled']);
             $table->timestamps();
         });

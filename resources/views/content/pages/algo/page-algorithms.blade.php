@@ -671,10 +671,6 @@
                       </div>
                     </label>
 
-                    <div class="error-message text-danger mt-2 d-none">
-                      <small></small>
-                    </div>
-
                     <div class="d-flex flex-column row-gap-2 mt-8" id="algorithm-sm-items">
                       <small
                         class="d-flex justify-content-center align-items-center text-center border rounded p-2 w-100"
@@ -695,7 +691,7 @@
                   </div>
                 </div>
 
-                <h6 class="mb-0 lh-1 fw-normal mt-8 mb-4">Summary</h6>
+                <h6 class="lh-1 fw-normal mt-8 mb-4">Summary</h6>
 
                 <div class="table-responsive border rounded overflow-hidden">
                   <table class="table">
@@ -745,6 +741,14 @@
                     depending on market fluctuation.
                   </span>
                 </small>
+
+                <div class="lock-error-message text-danger mt-2 text-center d-none">
+                  <small></small>
+                </div>
+
+                <div class="lock-success-message text-success mt-2 text-center d-none">
+                  <small></small>
+                </div>
 
                 <div class="d-flex justify-content-end mt-4">
                   <button type="button" class="btn btn-sm btn-primary" id="lock-amount-button" disabled>

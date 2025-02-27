@@ -529,59 +529,61 @@ document.addEventListener('DOMContentLoaded', () => {
   const swapSelectorModal = new bootstrap.Modal(swapSelectorModalEl);
 
   const formatSwapUsdAmount = value => {
-    value = value.toString();
+    // Convert to a proper decimal string representation first
+    let decimalStr = typeof value === 'number' ? value.toFixed(2) : value.toString();
 
     // Remove all non-numeric characters except the dot
-    value = value.replace(/[^0-9.]/g, '');
+    decimalStr = decimalStr.replace(/[^0-9.]/g, '');
 
     // Ensure only one decimal point
-    const parts = value.split('.');
+    const parts = decimalStr.split('.');
     if (parts.length > 2) {
-      value = parts[0] + '.' + parts.slice(1).join('');
+      decimalStr = parts[0] + '.' + parts.slice(1).join('');
     }
 
     // Limit to 8 digits before the decimal point
     if (parts[0].length > 8) {
-      value = parts[0].slice(0, 8);
-      if (parts[1]) {
-        value += '.' + parts[1]; // Keep the decimal part if it exists
+      decimalStr = parts[0].slice(0, 8);
+      if (parts.length > 1) {
+        decimalStr += '.' + parts[1]; // Keep the decimal part if it exists
       }
     }
 
     // Limit to 2 digits after the decimal point
-    if (parts[1] && parts[1].length > 2) {
-      value = parts[0] + '.' + parts[1].slice(0, 2);
+    if (parts.length > 1 && parts[1].length > 2) {
+      decimalStr = parts[0] + '.' + parts[1].slice(0, 2);
     }
 
-    return value;
+    return decimalStr;
   };
 
   const formatSwapAssetAmount = value => {
-    value = value.toString();
+    // Convert to a proper decimal string representation first
+    let decimalStr = typeof value === 'number' ? value.toFixed(8) : value.toString();
 
     // Remove all non-numeric characters except the dot
-    value = value.replace(/[^0-9.]/g, '');
+    decimalStr = decimalStr.replace(/[^0-9.]/g, '');
 
     // Ensure only one decimal point
-    const parts = value.split('.');
+    const parts = decimalStr.split('.');
     if (parts.length > 2) {
-      value = parts[0] + '.' + parts.slice(1).join('');
+      decimalStr = parts[0] + '.' + parts.slice(1).join('');
     }
 
     // Limit to 8 digits before the decimal point
     if (parts[0].length > 8) {
-      value = parts[0].slice(0, 8);
-      if (parts[1]) {
-        value += '.' + parts[1]; // Keep the decimal part if it exists
+      decimalStr = parts[0].slice(0, 8);
+      if (parts.length > 1) {
+        decimalStr += '.' + parts[1]; // Keep the decimal part if it exists
       }
     }
 
     // Limit to 8 digits after the decimal point
-    if (parts[1] && parts[1].length > 8) {
-      value = parts[0] + '.' + parts[1].slice(0, 8);
+    if (parts.length > 1 && parts[1].length > 8) {
+      decimalStr = parts[0] + '.' + parts[1].slice(0, 8);
     }
 
-    return value;
+    return decimalStr;
   };
 
   swapModalToggle.forEach(toggle => {
@@ -735,6 +737,10 @@ document.addEventListener('DOMContentLoaded', () => {
             assetInput.value = formatSwapAssetAmount(Number(e.target.innerText));
             usdInput.value = formatSwapUsdAmount(Number(e.target.innerText) * Number(price));
             swapAmount.value = formatSwapAssetAmount(Number(e.target.innerText));
+
+            // actual: 0.00000001
+            console.log(Number(e.target.innerHTML)); // output 1e-8
+            console.log(formatSwapAssetAmount(Number(e.target.innerHTML))); // output 18 but should be 0.00000001
           } else {
             const price = el.getAttribute('data-price');
             assetInput.value = formatSwapAssetAmount(Number(e.target.innerText) / Number(price));

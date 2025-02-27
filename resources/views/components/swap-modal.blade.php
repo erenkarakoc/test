@@ -199,7 +199,7 @@
                   <div class="d-flex justify-content-end align-items-start h-100 text-end">
                     <div class="d-flex flex-column">
                       <span
-                        class="text-dark lh-1 mb-1">{{ bcdiv($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 1, 2) }}$</span>
+                        class="text-dark lh-1 mb-1">{{ number_format($userBalances->where('wallet', $asset->symbol)->value('balance') * $marketDataPrices[$asset->symbol], 2) }}$</span>
                       <small class="text-light">
                         {{ @formatBalance($userBalances->where('wallet', $asset->symbol)->value('balance')) }}
                         {{ $asset->symbol }}
