@@ -5,5 +5,19 @@
 @import '../_custom-variables/pages';
 
 .page-running-packs {
-  //
+  .running-pack-spin {
+    position: absolute;
+    bottom: 3px;
+    right: 1px;
+    animation: runningPackSpin 4s linear infinite;
+  }
+
+  @keyframes runningPackSpin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
 }
