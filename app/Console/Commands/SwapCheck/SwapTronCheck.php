@@ -1,7 +1,6 @@
 <?php
 namespace App\Console\Commands\SwapCheck;
 
-use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
 use App\Models\UserBalances;
 use App\Services\UserBalancesService;
@@ -24,26 +23,23 @@ class SwapTronCheck extends Command {
     protected $description = 'Checks swap transactions, marks as completed if completed, adjusts balance accordingly.';
 
     protected $client;
-    protected $transactionController;
-    protected $userBalancesService;
 
     public function __construct() {
         parent::__construct();
-
-        $this->client                = new Client;
-        $this->transactionController = new TransactionController;
-        $this->userBalancesService   = new UserBalancesService;
     }
 
     /**
      * Execute the console command.
      */
     public function handle() {
+        $client              = new Client();
+        $userBalancesService = new UserBalancesService;
+
         $pendingSwapTransactions = Transaction::where('type', 'swap')->where('status', 'pending')->get();
 
         if ($pendingSwapTransactions->isNotEmpty()) {
             foreach ($pendingSwapTransactions as $transaction) {
-                $response = $this->client->post('https://api.shasta.trongrid.io/walletsolidity/gettransactionbyid', [
+                $response = $client->post('https://api.shasta.trongrid.io/walletsolidity/gettransactionbyid', [
                     'json'    => ['value' => $transaction->hash_id],
                     'headers' => [
                         'Accept'       => 'application/json',
@@ -55,7 +51,7 @@ class SwapTronCheck extends Command {
                     $responseData = json_decode($response->getBody(), true);
 
                     if (! empty($responseData)) {
-                        $totalBalance = $this->userBalancesService->calculateUserTotalBalance($transaction->user_id)[0];
+                        $totalBalance = $userBalancesService->calculateUserTotalBalance($transaction->user_id)[0];
 
                         $trxBalance = UserBalances::where('user_id', $transaction['user_id'])->where('wallet', 'TRX')->first();
                         $usdBalance = UserBalances::where('user_id', $transaction['user_id'])->where('wallet', 'USD')->first();

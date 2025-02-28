@@ -567,7 +567,7 @@
                       You haven't received any funds yet.
                     </h6>
                     <small class="pt-0 px-0">Transactions related to received funds will be listed here.</small>
-                    <a href="{{ route('page-add-funds') }}"
+                    <a href="{{ route('page-wallet') }}?tab=add-funds"
                       class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">
                       <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24">
@@ -698,7 +698,7 @@
                       You haven't sent any funds yet.
                     </h6>
                     <small class="pt-0 px-0">Transactions related to sent funds will be listed here.</small>
-                    <a href="{{ route('page-add-funds') }}"
+                    <a href="{{ route('page-wallet') }}?tab=send"
                       class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">
                       <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24">
@@ -966,7 +966,7 @@
                       You haven't locked any funds yet.
                     </h6>
                     <small class="pt-0 px-0">Transactions related to locked funds will be listed here.</small>
-                    <a href="{{ route('page-add-funds') }}"
+                    <a href="{{ route('page-strategy-packs') }}"
                       class="btn btn-sm btn-primary bg-primary text-white py-2 px-3 mt-6 mb-2">
                       <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24">

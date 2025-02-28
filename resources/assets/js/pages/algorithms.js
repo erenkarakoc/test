@@ -955,7 +955,8 @@
   if (lockAmountButton) {
     lockAmountButton.addEventListener('click', () => {
       if (calculated && chosenAlgorithms.length) {
-        lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
+        lockAmountButton.querySelector('svg').classList.remove('loading-hidden');
+        lockAmountButton.setAttribute('disabled', true);
 
         amount = Number(amountInput.value);
         period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
@@ -971,8 +972,11 @@
         })
           .then(response => response.json())
           .then(res => {
-            if (res.status === 'error') toggleLockErrorMessage(res.message);
-            else {
+            if (res.status === 'error') {
+              toggleLockErrorMessage(res.message);
+              lockAmountButton.querySelector('svg').classList.add('loading-hidden');
+              lockAmountButton.removeAttribute('disabled');
+            } else {
               toggleLockSuccessMessage(res.message);
               setTimeout(() => window.location.reload(), 500);
             }

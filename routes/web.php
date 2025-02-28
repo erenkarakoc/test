@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\Assets\AssetsController;
 use App\Http\Controllers\AlgorithmController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Http\Controllers\language\LanguageController;
-use App\Http\Controllers\pages\PageAddFunds;
 use App\Http\Controllers\pages\PageAlgorithms;
 use App\Http\Controllers\pages\PageDashboard;
+use App\Http\Controllers\pages\PageRunningPacks;
 use App\Http\Controllers\pages\PageStrategyPacks;
 use App\Http\Controllers\pages\PageTeam;
 use App\Http\Controllers\pages\PageTransactions;
@@ -46,8 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/algorithms', [PageAlgorithms::class, 'index'])->name('page-algorithms');
     // Pages - Wallet
     Route::get('/wallet', [PageWallet::class, 'index'])->name('page-wallet');
-    // Pages - Add Funds
-    Route::get('/add-funds', [PageAddFunds::class, 'index'])->name('page-add-funds');
+    // Pages - Running Packs
+    Route::get('/running-packs', [PageRunningPacks::class, 'index'])->name('page-running-packs');
     // Pages - Transactions
     Route::get('/transactions', [PageTransactions::class, 'index'])->name('page-transactions');
     // Pages - Team

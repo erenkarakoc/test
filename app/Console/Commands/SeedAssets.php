@@ -44,15 +44,14 @@ class SeedAssets extends Command {
         ];
 
         foreach ($assetsToGenerate as $newAsset) {
-            if ($assets->where('symbol', $newAsset['symbol'])->first()) {
-                continue;
+            if (! $assets->where('symbol', $newAsset['symbol'])->first()) {
+                Asset::create([
+                    'title'   => $newAsset['title'],
+                    'symbol'  => $newAsset['symbol'],
+                    'network' => $newAsset['network'],
+                ]);
             }
 
-            Asset::create([
-                'title'   => $newAsset['title'],
-                'symbol'  => $newAsset['symbol'],
-                'network' => $newAsset['network'],
-            ]);
         }
 
         $this->info('Assets seeded successfully!');

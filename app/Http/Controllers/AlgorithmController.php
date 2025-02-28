@@ -145,8 +145,9 @@ class AlgorithmController extends Controller {
         $user              = Auth::user();
         $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
 
-        $userBalance = UserBalances::where('user_id', $user->id)->where('wallet', 'USD')->value('balance');
-        if ($userBalance < $amount) {
+        $userUsdBalance = UserBalances::where('user_id', $user->id)->where('wallet', 'USD')->first();
+
+        if ($userUsdBalance->balance < $amount) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Insufficient balance!',
@@ -164,9 +165,13 @@ class AlgorithmController extends Controller {
             'status'                => 'pending',
         ]);
 
+        $userUsdBalance->balance -= $amount;
+        $userUsdBalance->locked_balance += $amount;
+        $userUsdBalance->save();
+
         return response()->json([
             'status'      => 'success',
-            'message'     => 'Amount locked with chosen algorithms.',
+            'message'     => 'Pack locked successfully!',
             'locked_pack' => $lockedPack,
         ]);
     }

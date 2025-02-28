@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->integer('period');
             $table->decimal('algorithms_cost', 18, 8);
             $table->decimal('estimated_profit_rate', 18, 8);
-            $table->enum('status', ['executing', 'completed', 'cancelled']);
+            $table->enum('status', ['executing', 'completed', 'cancelled', 'pending']);
             $table->timestamps();
         });
     }
