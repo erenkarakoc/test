@@ -610,7 +610,7 @@
 
       <div class="col col-md-5">
         <div class="d-flex flex-column" id="build-algorithm">
-          <h6 class="mb-2 lh-1">Build Strategy</h6>
+          <h6 class="mb-2 lh-1">Bundle Pack</h6>
           <small class="mb-7">
             View costs and estimated income at the end of the strategy period
           </small>

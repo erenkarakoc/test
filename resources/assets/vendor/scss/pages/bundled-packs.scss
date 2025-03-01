@@ -1,23 +1,23 @@
-// * Running Packs
+// * Bundled Packs
 // *******************************************************************************
 
 @import '../_bootstrap-extended/include';
 @import '../_custom-variables/pages';
 
-.page-running-packs {
+.page-bundled-packs {
   .running-pack-spin {
     position: absolute;
-    bottom: 3px;
-    right: 1px;
-    animation: runningPackSpin 4s linear infinite;
+    bottom: 0;
+    right: 0;
+    animation: runningPackSpin 3s linear infinite;
   }
 
   @keyframes runningPackSpin {
     0% {
-      transform: rotate(0deg);
+      transform: rotate(-360deg);
     }
     100% {
-      transform: rotate(-360deg);
+      transform: rotate(0deg);
     }
   }
 }

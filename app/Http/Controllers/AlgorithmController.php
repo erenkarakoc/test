@@ -158,11 +158,12 @@ class AlgorithmController extends Controller {
             'user_id'               => $user->id,
             'strategy_pack_id'      => $strategyPackId ?? null,
             'chosen_algorithms'     => json_encode($chosenAlgorithms),
-            'amount'                => $amount,
+            'amount'                => $amount - $calculatedSummary['algorithmCost'],
             'period'                => $period,
             'algorithms_cost'       => $calculatedSummary['algorithmCost'],
             'estimated_profit_rate' => $calculatedSummary['totalAmountAfterUnlockPct'],
             'status'                => 'pending',
+            'trade_info'            => null,
         ]);
 
         $userUsdBalance->balance -= $amount;

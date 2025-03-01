@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->decimal('algorithms_cost', 18, 8);
             $table->decimal('estimated_profit_rate', 18, 8);
             $table->enum('status', ['executing', 'completed', 'cancelled', 'pending']);
+            $table->json('trade_info')->nullable();
             $table->timestamps();
         });
     }
