@@ -51,7 +51,7 @@ class CheckLockedPacks extends Command {
             );
 
             // Generate divisions and dates
-            $numDivisions = rand($pendingPack->period * 4, $pendingPack->period * 13);
+            $numDivisions = rand($pendingPack->period * 40, $pendingPack->period * 130);
             $startDate    = Carbon::parse($pendingPack->created_at);
             $endDate      = $startDate->copy()->addDays($pendingPack->period);
 
@@ -134,23 +134,45 @@ class CheckLockedPacks extends Command {
 
             $now              = Carbon::now();
             $latestPastProfit = null;
+            $latestPastIndex  = null;
 
-            // Loop through dates
-            foreach ($profitSchedule as $key => $profit) {
+            // Get the original profit schedule
+            $originalSchedule = $tradeInfo['profit_schedule'];
+
+            // Filter to get only unchecked profits
+            $uncheckedProfits = array_values(array_filter($originalSchedule, function ($profit) {
+                return empty($profit['checked']) || $profit['checked'] === false;
+            }));
+
+            // Sort unchecked profits by date (oldest first for processing chronologically)
+            usort($uncheckedProfits, function ($a, $b) {
+                return strtotime($a['date']) - strtotime($b['date']);
+            });
+
+            // Find the first past date
+            foreach ($uncheckedProfits as $profit) {
                 $profitDate = Carbon::parse($profit['date']);
 
-                // Check if this profit is in the past and hasn't been processed yet
                 if ($profitDate->lessThanOrEqualTo($now)) {
-                    $latestPastProfit                = $profit;
-                    $profitSchedule[$key]['checked'] = true;
+                    $latestPastProfit = $profit;
                     break;
                 }
             }
 
-            // Process only the latest past profit if found
+            // Process only if we found a past profit
             if ($latestPastProfit !== null) {
                 $currentProfitRate   = bcadd($currentProfitRate, $latestPastProfit['amount'], 8);
                 $remainingProfitRate = bcsub($remainingProfitRate, $latestPastProfit['amount'], 8);
+
+                // Update the checked status in the original schedule
+                foreach ($tradeInfo['profit_schedule'] as $key => $profit) {
+                    if ($profit['date'] === $latestPastProfit['date'] &&
+                        $profit['amount'] === $latestPastProfit['amount'] &&
+                        empty($profit['checked'])) {
+                        $tradeInfo['profit_schedule'][$key]['checked'] = true;
+                        break;
+                    }
+                }
 
                 [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($executingPack->user_id);
 
@@ -174,6 +196,7 @@ class CheckLockedPacks extends Command {
                     'hash_id'                    => null,
                 ]);
 
+                // Update trade info with modified profit schedule
                 $tradeInfo['current_profit_rate']   = $currentProfitRate;
                 $tradeInfo['remaining_profit_rate'] = $remainingProfitRate;
                 $executingPack->trade_info          = json_encode($tradeInfo);
