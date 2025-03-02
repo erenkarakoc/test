@@ -128,7 +128,9 @@ class CheckLockedPacks extends Command {
 
             $currentProfitRate   = $tradeInfo['current_profit_rate'];
             $remainingProfitRate = $tradeInfo['remaining_profit_rate'];
-            $profitSchedule      = $tradeInfo['profit_schedule'];
+            $profitSchedule      = array_values(array_filter($tradeInfo['profit_schedule'], function ($profit) {
+                return $profit['checked'] === false;
+            }));
 
             $now              = Carbon::now();
             $latestPastProfit = null;
@@ -144,10 +146,9 @@ class CheckLockedPacks extends Command {
                 $profitDate = Carbon::parse($profit['date']);
 
                 // Check if this profit is in the past and hasn't been processed yet
-                if ($profitDate->lessThanOrEqualTo($now) && ! $profit['checked']) {
-                    $latestPastProfit = $profit;
-                    $latestPastIndex  = $key;
-                    // Mark as checked in the original array
+                if ($profitDate->lessThanOrEqualTo($now)) {
+                    $latestPastProfit                = $profit;
+                    $latestPastIndex                 = $key;
                     $profitSchedule[$key]['checked'] = true;
                     break;
                 }
