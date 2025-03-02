@@ -362,26 +362,6 @@
                           @endif
                           <span class="text-muted ms-1">→</span>
                           <span class="text-muted ms-1">Pack {{ $transaction->strategy_pack_id }}</span>
-                          @if (!empty(json_decode($transaction->notes, true)))
-                            @php
-                              $notesArray = json_decode($transaction->notes, true);
-                            @endphp
-                            <svg class="popover-trigger text-light cursor-pointer ms-1 mb-1" data-bs-toggle="popover"
-                              data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
-                              data-bs-custom-class="popover-dark"
-                              data-bs-content="<div class='d-flex flex-column row-gap-2'>
-@foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
-@endforeach
-</div>"
-                              xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                                opacity=".3" />
-                              <path fill="currentColor"
-                                d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
-                            </svg>
-                          @endif
                         </h6>
                         <div class="d-flex align-items-center">
                           <small class="text-light">
@@ -393,20 +373,16 @@
                           </small>
                           <small @class([
                               'transaction-status',
-                              'text-success' => $transaction->status === 'completed',
-                              'text-danger' =>
-                                  $transaction->status === 'rejected' ||
-                                  $transaction->status === 'cancelled',
+                              'text-success' => $transaction->amount_in_usd > 0,
+                              'text-danger' => $transaction->amount_in_usd < 0,
                               'text-primary' => $transaction->status === 'pending',
                           ])>
-                            @if ($transaction->status === 'completed')
-                              Completed
-                            @elseif ($transaction->status === 'rejected')
-                              Rejected
-                            @elseif ($transaction->status === 'cancelled')
-                              Cancelled
-                            @else
+                            @if ($transaction->status === 'pending')
                               Trading
+                            @elseif ($transaction->amount_in_usd > 0)
+                              Success
+                            @else
+                              Failed
                             @endif
                           </small>
                         </div>
@@ -424,7 +400,7 @@
                           @if ($transaction->status === 'pending')
                             0.00$
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
                           @endif
                         </span>
                         <span style="font-size: 12px" @class([
