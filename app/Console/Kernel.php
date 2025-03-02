@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel {
         Commands\Blockchain\TronCheckWallets::class,
         Commands\SwapCheck\SwapTronCheck::class,
         Commands\LockedPacks\CheckLockedPacks::class,
+        Commands\LockedPacks\CheckPendingTradeTransactions::class,
         Commands\UpdateMarketData::class,
         Commands\SeedCountries::class,
         Commands\SeedAlgorithms::class,
