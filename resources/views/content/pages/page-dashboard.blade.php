@@ -583,7 +583,7 @@
                   <small class="text-light ms-2">Latest trades executed</small>
                 </div>
               </div>
-              <a href="{{ route('page-transactions') }}?tab=trade" class="btn btn-sm btn-primary">View All</a>
+              <a href="{{ route('page-bundled-packs') }}" class="btn btn-sm btn-primary">View All</a>
             </div>
           </div>
           <div class="card-body">

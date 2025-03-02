@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel {
     protected $commands = [
         Commands\Blockchain\TronCheckWallets::class,
         Commands\SwapCheck\SwapTronCheck::class,
-        Commands\CheckLockedPacks::class,
+        Commands\LockedPacks\CheckLockedPacks::class,
         Commands\UpdateMarketData::class,
         Commands\SeedCountries::class,
         Commands\SeedAlgorithms::class,

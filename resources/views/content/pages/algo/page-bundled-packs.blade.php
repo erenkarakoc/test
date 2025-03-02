@@ -169,7 +169,7 @@
 
                         <div class="d-flex flex-wrap align-items-center gap-2 rounded p-2"
                           style="background-color: #191919;">
-                          @foreach (array_slice(json_decode($pack->chosen_algorithms, true), 0, 3) as $algorithm)
+                          @foreach (json_decode($pack->chosen_algorithms, true) as $algorithm)
                             <span class="badge bg-primary" style="color: #f5f4fb;">{{ $algorithm['title'] }}</span>
                           @endforeach
                         </div>
@@ -413,14 +413,19 @@
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="d-flex flex-column align-items-end text-right">
-                        <span
-                          @class([
-                              'transaction-usd-amount',
-                              'text-danger' => $transaction->amount_in_usd < 0,
-                              'text-success' => $transaction->amount_in_usd > 0,
-                              'text-light' =>
-                                  $transaction->status === 'pending' || $transaction->amount_in_usd == 0,
-                          ])>{{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$</span>
+                        <span @class([
+                            'transaction-usd-amount',
+                            'text-danger' => $transaction->amount_in_usd < 0,
+                            'text-success' => $transaction->amount_in_usd > 0,
+                            'text-light' =>
+                                $transaction->status === 'pending' || $transaction->amount_in_usd == 0,
+                        ])>
+                          @if ($transaction->status === 'pending')
+                            0.00$
+                          @else
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                          @endif
+                        </span>
                         <span style="font-size: 12px" @class([
                             'transaction-asset-amount',
                             'text-danger' => $transaction->amount_in_usd < 0,
@@ -428,7 +433,11 @@
                             'text-light' =>
                                 $transaction->status === 'pending' || $transaction->amount_in_usd == 0,
                         ])>
-                          {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ @formatBalance($transaction->amount_in_asset) }}
+                          @if ($transaction->status === 'pending')
+                            0.00
+                          @else
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ @formatBalance($transaction->amount_in_asset) }}
+                          @endif
                           {{ $transaction->asset }}
                         </span>
                       </div>
