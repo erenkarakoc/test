@@ -18,7 +18,7 @@ class PageBundledPacks extends Controller {
 
         $pnl = [];
         foreach ($trades as $trade) {
-            $packAmount = $allBundledPacks->where('id', $trade->strategy_pack_id)->where('status', 'completed')->value('amount');
+            $packAmount = $allBundledPacks->where('id', $trade->strategy_pack_id)->value('amount');
 
             if (! isset($pnl[$trade->strategy_pack_id])) {
                 $pnl[$trade->strategy_pack_id] = [
@@ -28,10 +28,7 @@ class PageBundledPacks extends Controller {
             }
 
             $pnl[$trade->strategy_pack_id]['amount'] += $trade->amount_in_usd;
-
-            if ($packAmount > 0) {
-                $pnl[$trade->strategy_pack_id]['percentage'] += ($pnl[$trade->strategy_pack_id]['amount'] / $packAmount) * 100;
-            }
+            $pnl[$trade->strategy_pack_id]['percentage'] += ($trade->amount_in_usd / $packAmount) * 100;
         }
 
         return view('content.pages.algo.page-bundled-packs', compact('allBundledPacks', 'runningBundledPacks', 'inactiveBundledPacks', 'pnl', 'transactions'));

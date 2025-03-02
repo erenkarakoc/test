@@ -95,8 +95,8 @@ class CheckLockedPacks extends Command {
                 ];
             }, $profitParts);
 
-            // Sort by date
-            usort($profitSchedule, fn($a, $b) => strtotime($a['date']) - strtotime($b['date']));
+            // Sort by date (newest first)
+            usort($profitSchedule, fn($a, $b) => strtotime($b['date']) - strtotime($a['date']));
 
             // Save trade info
             $pendingPack->trade_info = json_encode([
@@ -134,21 +134,14 @@ class CheckLockedPacks extends Command {
 
             $now              = Carbon::now();
             $latestPastProfit = null;
-            $latestPastIndex  = null;
 
-            // Sort profit schedule by date in descending order (newest first)
-            usort($profitSchedule, function ($a, $b) {
-                return strtotime($b['date']) - strtotime($a['date']);
-            });
-
-            // Loop through dates newest to oldest
+            // Loop through dates
             foreach ($profitSchedule as $key => $profit) {
                 $profitDate = Carbon::parse($profit['date']);
 
                 // Check if this profit is in the past and hasn't been processed yet
                 if ($profitDate->lessThanOrEqualTo($now)) {
                     $latestPastProfit                = $profit;
-                    $latestPastIndex                 = $key;
                     $profitSchedule[$key]['checked'] = true;
                     break;
                 }
@@ -162,7 +155,7 @@ class CheckLockedPacks extends Command {
                 [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($executingPack->user_id);
 
                 // Create transaction for this profit
-                $transaction = [
+                $transactionController->createTransaction([
                     'tnx_id'                     => mt_rand(10000000, 99999999),
                     'user_id'                    => $executingPack->user_id,
                     'ref_user_id'                => User::where('id', $executingPack->user_id)->value('ref_user_id'),
@@ -172,21 +165,15 @@ class CheckLockedPacks extends Command {
                     'amount_in_usd'              => $latestPastProfit['amount'],
                     'asset'                      => $randomAsset,
                     'asset_price'                => $randomAssetPrice,
-                    'asset_balance_after'        => UserBalances::where('user_id', $executingPack->user_id)
-                        ->where('wallet', $randomAsset)->value('balance'),
-                    'asset_locked_balance_after' => UserBalances::where('user_id', $executingPack->user_id)
-                        ->where('wallet', $randomAsset)->value('locked_balance'),
+                    'asset_balance_after'        => UserBalances::where('user_id', $executingPack->user_id)->where('wallet', $randomAsset)->value('balance'),
+                    'asset_locked_balance_after' => UserBalances::where('user_id', $executingPack->user_id)->where('wallet', $randomAsset)->value('locked_balance'),
                     'total_balance_after'        => $totalBalance,
                     'total_locked_balance_after' => $totalLockedBalance,
                     'strategy_pack_id'           => $executingPack->id,
                     'status'                     => 'pending',
                     'hash_id'                    => null,
-                ];
+                ]);
 
-                $transactionController->createTransaction($transaction);
-
-                // Update the trade info with the modified profit schedule
-                $tradeInfo['profit_schedule']       = $profitSchedule;
                 $tradeInfo['current_profit_rate']   = $currentProfitRate;
                 $tradeInfo['remaining_profit_rate'] = $remainingProfitRate;
                 $executingPack->trade_info          = json_encode($tradeInfo);
