@@ -71,20 +71,27 @@ class CheckLockedPacks extends Command {
                     continue;
                 }
 
-                // Generate part with variance
-                $factor = mt_rand(0, 1) ?
-                (string) (1.1 + (mt_rand(0, 200) / 1000) * $variance) :
-                (string) (-1.1 - (mt_rand(0, 200) / 1000) * $variance);
+                // Calculate positive factor base value
+                $positiveFactor = (string) (1.1 + (mt_rand(0, 200) / 1000) * $variance);
+
+                                                          // For negative values, make them 20%-40% of the positive value
+                $negativePercent = mt_rand(40, 60) / 100; // Random value between 0.2 and 0.4
+                $negativeFactor  = (string) (-1 * bcmul($positiveFactor, $negativePercent, 8));
+
+                // Choose positive or negative with equal probability
+                $factor = mt_rand(0, 1) ? $positiveFactor : $negativeFactor;
+
                 $profitParts[] = bcmul($baseAmount, $factor, 8);
             }
 
             // Create schedule with random dates
             $profitSchedule = array_map(function ($amount) use ($startDate, $endDate) {
                 return [
-                    'amount' => $amount,
-                    'date'   => Carbon::createFromTimestamp(
-                        mt_rand($startDate->timestamp, $endDate->timestamp)
+                    'amount'  => $amount,
+                    'date'    => Carbon::createFromTimestamp(
+                        mt_rand($startDate->timestamp + 300, $endDate->timestamp)
                     )->format('Y-m-d H:i:s'),
+                    'checked' => false,
                 ];
             }, $profitParts);
 
@@ -123,8 +130,7 @@ class CheckLockedPacks extends Command {
             $remainingProfitRate = $tradeInfo['remaining_profit_rate'];
             $profitSchedule      = $tradeInfo['profit_schedule'];
 
-            $now = Carbon::now();
-
+            $now              = Carbon::now();
             $latestPastProfit = null;
             $latestPastIndex  = null;
 
@@ -137,9 +143,12 @@ class CheckLockedPacks extends Command {
             foreach ($profitSchedule as $key => $profit) {
                 $profitDate = Carbon::parse($profit['date']);
 
-                if ($profitDate->lessThanOrEqualTo($now)) {
+                // Check if this profit is in the past and hasn't been processed yet
+                if ($profitDate->lessThanOrEqualTo($now) && ! $profit['checked']) {
                     $latestPastProfit = $profit;
                     $latestPastIndex  = $key;
+                    // Mark as checked in the original array
+                    $profitSchedule[$key]['checked'] = true;
                     break;
                 }
             }
@@ -175,11 +184,8 @@ class CheckLockedPacks extends Command {
 
                 $transactionController->createTransaction($transaction);
 
-                // Remove this profit from the schedule
-                unset($tradeInfo['profit_schedule'][$latestPastIndex]);
-
-                // Reindex the array and update the trade_info
-                $tradeInfo['profit_schedule']       = array_values($tradeInfo['profit_schedule']);
+                // Update the trade info with the modified profit schedule
+                $tradeInfo['profit_schedule']       = $profitSchedule;
                 $tradeInfo['current_profit_rate']   = $currentProfitRate;
                 $tradeInfo['remaining_profit_rate'] = $remainingProfitRate;
                 $executingPack->trade_info          = json_encode($tradeInfo);

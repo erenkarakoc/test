@@ -170,7 +170,8 @@
                         <div class="d-flex flex-wrap align-items-center gap-2 rounded p-2"
                           style="background-color: #191919;">
                           @foreach (json_decode($pack->chosen_algorithms, true) as $algorithm)
-                            <span class="badge bg-primary" style="color: #f5f4fb;">{{ $algorithm['title'] }}</span>
+                            <span class="badge bg-primary flex-grow-1"
+                              style="color: #f5f4fb;">{{ $algorithm['title'] }}</span>
                           @endforeach
                         </div>
                       </div>
