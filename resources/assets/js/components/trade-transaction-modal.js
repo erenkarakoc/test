@@ -229,9 +229,18 @@
     packPnlAmount.innerHTML = `${formatUsdBalance(newAmount)}$`;
     packPnlPercentage.innerHTML = `${newAmount > 0 ? '+' : ''}${newPercentage.toFixed(2)}%`;
 
-    // Update classes based on values
-    packPnlAmount.className = newAmount > 0 ? 'text-success' : newAmount < 0 ? 'text-danger' : '';
-    packPnlPercentage.className = newAmount > 0 ? 'text-success' : newAmount < 0 ? 'text-danger' : '';
+    // Toggle only text-success/text-danger classes
+    if (newAmount > 0) {
+      packPnlAmount.classList.remove('text-danger');
+      packPnlAmount.classList.add('text-success');
+      packPnlPercentage.classList.remove('text-danger');
+      packPnlPercentage.classList.add('text-success');
+    } else if (newAmount < 0) {
+      packPnlAmount.classList.remove('text-success');
+      packPnlAmount.classList.add('text-danger');
+      packPnlPercentage.classList.remove('text-success');
+      packPnlPercentage.classList.add('text-danger');
+    }
   }
 
   setInterval(async () => {
@@ -352,7 +361,7 @@
                   <div class="d-flex justify-content-between align-items-center column-gap-2 w-100 mt-4">
                     <div class="d-flex flex-column">
                       <small class="text-muted">Entry Price</small>
-                      <span class="text-heading">${tradeInfo.entry_price.toFixed(4)}$</span>
+                      <span class="text-heading">${formatBalance(tradeInfo.entry_price)}$</span>
                       <small class="text-muted" style="font-size: 11px;">
                         ${new Date(tradeInfo.entry_time).toLocaleDateString('en-GB', {
                           day: 'numeric',
@@ -371,7 +380,7 @@
                     </svg>
                     <div class="d-flex flex-column">
                       <small class="text-muted">Exit Price</small>
-                      <span class="text-heading">${tradeInfo.exit_price.toFixed(6)}$</span>
+                      <span class="text-heading">${formatBalance(tradeInfo.exit_price)}$</span>
                       <small class="text-muted" style="font-size: 11px;">
                         ${new Date(tradeInfo.exit_time).toLocaleDateString('en-GB', {
                           day: 'numeric',

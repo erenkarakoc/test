@@ -39,7 +39,7 @@
           Packs that are currently being executed
         </small>
 
-        <div class="row mt-7 row-gap-6">
+        <div class="row mt-7 row-gap-7">
           @if ($bundledPacks->count() > 0)
             @foreach ($bundledPacks as $pack)
               <div class="col col-6">
@@ -225,10 +225,14 @@
                             Bundled with <a
                               href="{{ route('page-strategy-packs') }}?strategy_pack={{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
                           </small>
+                        @else
+                          <small class="text-muted fw-medium mb-0 mt-2" style="font-size: 11px;">
+                            Custom bundle
+                          </small>
                         @endif
                       </div>
 
-                      <button type="button" class="btn btn-sm btn-default border mt-auto">
+                      <button type="button" class="btn btn-sm btn-default border mt-auto d-none">
                         View Trades
                       </button>
                     </div>
@@ -494,7 +498,7 @@
                           <div class="d-flex flex-column">
                             <small class="text-muted">Exit Price</small>
                             <span class="text-heading">
-                              {{ bcdiv(json_decode($transaction->trade_info, true)['exit_price'], 1, 6) }}$
+                              {{ formatBalance(json_decode($transaction->trade_info, true)['exit_price']) }}$
                             </span>
                             <small class="text-muted" style="font-size: 11px;">
                               {{ \Carbon\Carbon::parse(json_decode($transaction->trade_info, true)['exit_time'])->format('d M, Y, H:i') }}

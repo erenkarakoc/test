@@ -927,6 +927,9 @@
     }
   });
 
+  const lockErrorMessageEl = document.querySelector('.lock-error-message');
+  const lockSuccessMessageEl = document.querySelector('.lock-success-message');
+
   const toggleLockErrorMessage = msg => {
     if (msg) {
       lockErrorMessageEl.classList.remove('d-none');
