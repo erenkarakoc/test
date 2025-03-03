@@ -280,6 +280,14 @@
                   </span>
                 </small>
 
+                <div class="lock-error-message text-danger mt-2 text-center d-none">
+                  <small></small>
+                </div>
+
+                <div class="lock-success-message text-success mt-2 text-center d-none">
+                  <small></small>
+                </div>
+
                 <div class="d-flex justify-content-end mt-4">
                   <button type="button" class="btn btn-sm btn-primary" id="lock-amount-button" disabled>
                     <svg class="loading-hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14"

@@ -222,7 +222,8 @@
 
                         @if ($pack->strategy_pack_id)
                           <small class="text-muted fw-medium mb-0 mt-2" style="font-size: 11px;">
-                            Bundled with <a href="{{ route('page-strategy-packs') }}?strategy_pack={{$strategyPacks->where('id', $pack->strategy_pack_id)->value('title')}}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
+                            Bundled with <a
+                              href="{{ route('page-strategy-packs') }}?strategy_pack={{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
                           </small>
                         @endif
                       </div>
