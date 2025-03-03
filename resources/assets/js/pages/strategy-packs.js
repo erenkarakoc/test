@@ -927,6 +927,27 @@
     }
   });
 
+  const toggleLockErrorMessage = msg => {
+    if (msg) {
+      lockErrorMessageEl.classList.remove('d-none');
+      lockErrorMessageEl.querySelector('small').innerHTML = msg;
+      canCalculate = false;
+    } else {
+      lockErrorMessageEl.classList.add('d-none');
+      canCalculate = true;
+    }
+  };
+
+  const toggleLockSuccessMessage = msg => {
+    if (msg) {
+      toggleLockErrorMessage();
+      lockSuccessMessageEl.querySelector('small').innerHTML = msg;
+      lockSuccessMessageEl.classList.remove('d-none');
+    } else {
+      lockSuccessMessageEl.classList.add('d-none');
+    }
+  };
+
   if (maxButton && amountInput && unlockDate && lockAmountButton) {
     if (lockAmountButton) {
       lockAmountButton.addEventListener('click', () => {
