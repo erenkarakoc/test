@@ -5,14 +5,14 @@
 
 @extends('layouts/layoutMaster')
 
-@section('title', 'Running Packs')
+@section('title', 'Bundled Packs')
 
 @section('vendor-style')
-  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/swiper/swiper.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
+  @vite(['resources/assets/vendor/libs/apex-charts/apexcharts.scss', 'resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/swiper/swiper.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
 @endsection
 
 @section('vendor-script')
-  @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.js', 'resources/assets/vendor/libs/swiper/swiper.js', 'resources/assets/vendor/libs/toastr/toastr.js'])
+  @vite(['resources/assets/vendor/libs/apex-charts/apexcharts.js', 'resources/assets/vendor/libs/flatpickr/flatpickr.js', 'resources/assets/vendor/libs/swiper/swiper.js', 'resources/assets/vendor/libs/toastr/toastr.js'])
 @endsection
 
 @section('page-style')
@@ -40,12 +40,12 @@
         </small>
 
         <div class="row mt-7 row-gap-6">
-          @if ($allBundledPacks->count() > 0)
-            @foreach ($allBundledPacks as $pack)
+          @if ($bundledPacks->count() > 0)
+            @foreach ($bundledPacks as $pack)
               <div class="col col-6">
                 <div class="card bg-light border bg-glow">
                   <div class="card-body">
-                    <div class="d-flex flex-column row-gap-8">
+                    <div class="d-flex flex-column row-gap-6">
                       <div class="d-flex align-items-center">
                         <div class="border border-light rounded p-1">
                           <div class="position-relative">
@@ -108,7 +108,7 @@
                         <div class="col col-6">
                           <div class="d-flex flex-column">
                             <small>Locked Amount</small>
-                            <span class="h6 mb-0">{{ bcdiv($pack->amount, 1, 2) }}$</span>
+                            <span class="h6 mb-0">{{ @formatUsdBalance($pack->amount) }}$</span>
                           </div>
                         </div>
 
@@ -137,12 +137,12 @@
                                       'h6',
                                       'mb-0',
                                       'me-1',
-                                  ])>{{ $pnl[$pack->id]['amount'] > 0 ? '+' : '' }}{{ bcdiv($pnl[$pack->id]['amount'], 1, 2) }}$</span>
+                                  ])>{{ $pnl[$pack->id]['amount'] > 0 ? '+' : '' }}{{ @formatUsdBalance($pnl[$pack->id]['amount']) }}$</span>
                                 <small style="font-size: 11px;"
                                   @class([
                                       'text-danger' => $pnl[$pack->id]['amount'] < 0,
                                       'text-success' => $pnl[$pack->id]['amount'] > 0,
-                                  ])>{{ $pnl[$pack->id]['percentage'] > 0 ? '+' : '' }}{{ bcdiv($pnl[$pack->id]['percentage'], 1, 2) }}%</small>
+                                  ])>{{ $pnl[$pack->id]['percentage'] > 0 ? '+' : '' }}{{ @formatUsdBalance($pnl[$pack->id]['percentage']) }}%</small>
                               </div>
                             @else
                               <div class="d-flex align-items-start">
@@ -159,6 +159,7 @@
                             <span class="h6 mb-0">{{ $pack->period }} days</span>
                           </div>
                         </div>
+
                         <div class="col col-6">
                           <div class="d-flex flex-column">
                             <small>Remaining</small>
@@ -188,7 +189,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                           <span class="h6 fw-medium mb-0">Algorithms</span>
                           <div class="d-flex align-items-center">
-                            <small class="text-muted">{{ bcdiv($pack->algorithms_cost, 1, 2) }}$</small>
+                            <small class="text-muted">{{ @formatUsdBalance($pack->algorithms_cost) }}$</small>
                             <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
                               data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
                               data-bs-custom-class="popover-dark"
@@ -214,7 +215,7 @@
                       </div>
 
                       <button type="button" class="btn btn-sm btn-default border">
-                        Manage
+                        View Trades
                       </button>
                     </div>
                   </div>
@@ -264,12 +265,15 @@
           Monitor the real-time trading activity
         </small>
 
-        <div class="card text-white bg-light border mt-7 trande-transactions-wrapper">
+        <div class="card text-white bg-light border mt-7 trade-transactions-wrapper">
           <div class="card-body">
             <div class="transaction-items position-relative">
               @if (!$transactions->isEmpty())
                 @foreach ($transactions as $transaction)
-                  <div class="transaction-item active trade-transaction-item" data-tnx-id="{{ $transaction->tnx_id }}">
+                  <div
+                    class="transaction-item trade-transaction-item{{ $transaction->status === 'completed' ? ' trade-item-has-detail' : '' }}"
+                    data-tnx-id="{{ $transaction->tnx_id }}" data-trade-info="{{ $transaction->trade_info }}"
+                    data-status="{{ $transaction->status }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
                         @if ($transaction->status === 'completed')
@@ -424,7 +428,7 @@
                           @if ($transaction->status === 'pending')
                             0.00$
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ @formatUsdBalance($transaction->amount_in_usd) }}$
                           @endif
                         </span>
                         <span style="font-size: 12px" @class([
@@ -452,13 +456,43 @@
 
                     @if ($transaction->status === 'completed')
                       <div class="trade-transaction-item-detail">
-                        <div class="d-flex flex-column">
+                        <div class="trade-transaction-item-chart"></div>
+
+                        <div class="d-flex justify-content-between align-items-center column-gap-2 w-100 mt-4">
+                          <div class="d-flex flex-column">
+                            <small class="text-muted">Entry Price</small>
+                            <span class="text-heading">
+                              {{ bcdiv(json_decode($transaction->trade_info, true)['entry_price'], 1, 4) }}$
+                            </span>
+                            <small class="text-muted" style="font-size: 11px;">
+                              {{ \Carbon\Carbon::parse(json_decode($transaction->trade_info, true)['entry_time'])->format('d M, Y, H:i') }}
+                            </small>
+                          </div>
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5">
+                              <path d="m11 19l6-7l-6-7" opacity=".5" />
+                              <path d="m7 19l6-7l-6-7" opacity=".5" />
+                            </g>
+                          </svg>
+
+                          <div class="d-flex flex-column">
+                            <small class="text-muted">Exit Price</small>
+                            <span class="text-heading">
+                              {{ bcdiv(json_decode($transaction->trade_info, true)['exit_price'], 1, 6) }}$
+                            </span>
+                            <small class="text-muted" style="font-size: 11px;">
+                              {{ \Carbon\Carbon::parse(json_decode($transaction->trade_info, true)['exit_time'])->format('d M, Y, H:i') }}
+                            </small>
+                          </div>
+                        </div>
+
+                        <div class="d-flex justify-content-start w-100 text-start mt-3">
                           <small class="text-muted">
-                            {{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y, H:i') }}
+                            Realized P&L:
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ json_decode($transaction->trade_info, true)['profit_rate'] }}%
                           </small>
-                          <span class="text-heading">
-                            {{ @formatUsdBalance(json_decode($transaction->trade_info, true)['entry_price']) }}$
-                          </span>
                         </div>
                       </div>
                     @endif

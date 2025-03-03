@@ -39,7 +39,7 @@ class CheckPendingTradeTransactions extends Command {
 
         foreach ($transactions as $transaction) {
             $transactionCreatedAt = Carbon::parse($transaction->created_at);
-            $fiveMinutesAgo       = Carbon::now()->subMinutes(5);
+            $fiveMinutesAgo       = Carbon::now()->subMinutes(0);
 
             if ($transactionCreatedAt->lessThanOrEqualTo($fiveMinutesAgo)) {
                 // Get trade info or initialize if empty
@@ -52,7 +52,7 @@ class CheckPendingTradeTransactions extends Command {
                 $targetPercentage  = abs(floatval($tradeInfo['profit_rate']));
                 $success           = isset($tradeInfo['success']) ? $tradeInfo['success'] : ($transaction->amount_in_usd > 0);
                 $originalDirection = isset($tradeInfo['direction']) ? $tradeInfo['direction'] : mt_rand(0, 1);
-                $entryDirection    = $success ? $originalDirection : ! $originalDirection;
+                $entryDirection    = $originalDirection; // Use original direction directly
                 $directionText     = $entryDirection ? 'LONG' : 'SHORT';
 
                 try {
@@ -62,7 +62,7 @@ class CheckPendingTradeTransactions extends Command {
                     $response = Http::get('https://api.binance.com/api/v3/klines', [
                         'symbol'   => $symbol,
                         'interval' => '1m',
-                        'limit'    => 120, // Get more data to find a good match
+                        'limit'    => 300, // Get more data to find a good match
                     ]);
 
                     $klines = $response->json();
@@ -80,141 +80,121 @@ class CheckPendingTradeTransactions extends Command {
                     }
 
                     // Find a price movement matching the target percentage
-                    $foundMovement = false;
-                    $entryIndex    = null;
-                    $exitIndex     = null;
-                    $entryPrice    = null;
-                    $exitPrice     = null;
+                    $foundMovement     = false;
+                    $entryIndex        = null;
+                    $exitIndex         = null;
+                    $entryPrice        = null;
+                    $exitPrice         = null;
+                    $entryTimestamp    = null;
+                    $exitTimestamp     = null;
+                    $priceMovementData = [];
 
                     // Scan through price data to find matching movement
                     for ($i = 0; $i < count($prices) - 2; $i++) {
-                        $potentialEntryPrice = $prices[$i]['open'];
+                        // Get entry price from within the candle's range
+                        $entryHighLowRange   = $prices[$i]['high'] - $prices[$i]['low'];
+                        $potentialEntryPrice = $prices[$i]['low'] + (mt_rand() / mt_getrandmax()) * $entryHighLowRange;
 
-                        // Look forward up to 10 candles to find a matching exit
-                        for ($j = $i + 1; $j < min($i + 11, count($prices)); $j++) {
-                            $potentialExitPrice = $prices[$j]['close'];
-                            $percentageChange   = (($potentialExitPrice - $potentialEntryPrice) / $potentialEntryPrice) * 100;
-
-                            // For LONG trades
-                            if ($entryDirection) {
-                                // LONG + success = price increase of target%
-                                // LONG + failure = price decrease of target%
-                                $targetChange = $success ? $targetPercentage : -$targetPercentage;
-
-                                // Check if we found a close match
-                                if (abs($percentageChange - $targetChange) < 0.1) {
-                                    $entryIndex    = $i;
-                                    $exitIndex     = $j;
-                                    $entryPrice    = $potentialEntryPrice;
-                                    $exitPrice     = $potentialExitPrice;
-                                    $foundMovement = true;
-                                    break 2;
-                                }
+                        // Calculate target exit price based on entry price and target percentage
+                        $targetExitPrice = $potentialEntryPrice;
+                        if ($entryDirection) {
+                            // LONG trade
+                            if ($success) {
+                                // Successful LONG: price should increase by target%
+                                $targetExitPrice *= (1 + ($targetPercentage / 100));
+                            } else {
+                                // Failed LONG: price should decrease by target%
+                                $targetExitPrice *= (1 - ($targetPercentage / 100));
                             }
-                            // For SHORT trades
-                            else {
-                                // SHORT + success = price decrease of target%
-                                // SHORT + failure = price increase of target%
-                                $targetChange = $success ? -$targetPercentage : $targetPercentage;
+                        } else {
+                            // SHORT trade
+                            if ($success) {
+                                // Successful SHORT: price should decrease by target%
+                                $targetExitPrice *= (1 - ($targetPercentage / 100));
+                            } else {
+                                // Failed SHORT: price should increase by target%
+                                $targetExitPrice *= (1 + ($targetPercentage / 100));
+                            }
+                        }
 
-                                // Check if we found a close match
-                                if (abs($percentageChange - $targetChange) < 0.1) {
-                                    $entryIndex    = $i;
-                                    $exitIndex     = $j;
-                                    $entryPrice    = $potentialEntryPrice;
-                                    $exitPrice     = $potentialExitPrice;
-                                    $foundMovement = true;
-                                    break 2;
-                                }
+                        // Look forward to find if target price was reached
+                        for ($j = $i + 2; $j < min($i + 11, count($prices)); $j++) {
+                            // Check if target price falls within this candle's range
+                            if ($targetExitPrice >= $prices[$j]['low'] && $targetExitPrice <= $prices[$j]['high']) {
+                                $foundMovement  = true;
+                                $entryIndex     = $i;
+                                $exitIndex      = $j;
+                                $entryPrice     = $potentialEntryPrice;
+                                $exitPrice      = $targetExitPrice;
+                                $entryTimestamp = $prices[$i]['timestamp'];
+                                $exitTimestamp  = $prices[$j]['timestamp'];
+                                break 2;
                             }
                         }
                     }
 
-                    // If we couldn't find a natural movement, keep transaction as pending
-                    if (! $foundMovement) {
-                        $this->info("No matching price movement found for transaction #{$transaction->id} " .
-                            "with {$directionText} target of {$targetPercentage}%. Keeping as pending.");
+                    if ($foundMovement) {
+                        // Get price data for 5 minutes before entry and 5 minutes after exit
+                        $startIndex = max(0, $entryIndex - 5);
+                        $endIndex   = min(count($prices) - 1, $exitIndex + 5);
 
-                        // Store the search criteria for next attempt
-                        $pendingTradeInfo = [
-                            'direction'      => $originalDirection,
-                            'profit_rate'    => $targetPercentage,
-                            'success'        => $success,
-                            'symbol'         => $symbol,
-                            'attempted_at'   => Carbon::now()->format('Y-m-d H:i:s'),
-                            'pending_reason' => 'No matching price movement found',
+                        // Collect price movement data
+                        $priceMovementData = [];
+                        for ($i = $startIndex; $i <= $endIndex; $i++) {
+                            $priceMovementData[] = [
+                                'timestamp' => date('Y-m-d H:i:s', $prices[$i]['timestamp'] / 1000),
+                                'open'      => $prices[$i]['open'],
+                                'high'      => $prices[$i]['high'],
+                                'low'       => $prices[$i]['low'],
+                                'close'     => $prices[$i]['close'],
+                                'average'   => ($prices[$i]['high'] + $prices[$i]['low']) / 2,
+                                'is_entry'  => $i === $entryIndex,
+                                'is_exit'   => $i === $exitIndex,
+                            ];
+                        }
+
+                        $actualPercentage = (($exitPrice - $entryPrice) / $entryPrice) * 100;
+                        if (! $entryDirection) {
+                            $actualPercentage = -$actualPercentage;
+                        }
+
+                        $tradeInfo = [
+                            'direction'         => $originalDirection,
+                            'profit_rate'       => $targetPercentage,
+                            'success'           => $success,
+                            'symbol'            => $symbol,
+                            'entry_time'        => date('Y-m-d H:i:s', $entryTimestamp / 1000),
+                            'entry_price'       => $entryPrice,
+                            'exit_time'         => date('Y-m-d H:i:s', $exitTimestamp / 1000),
+                            'exit_price'        => $exitPrice,
+                            'actual_percentage' => $success ? abs($actualPercentage) : -abs($actualPercentage),
+                            'price_movement'    => $priceMovementData,
                         ];
 
-                        // Update transaction with search criteria but keep pending
-                        $transaction->trade_info = json_encode($pendingTradeInfo);
+                        // Update transaction
+                        $transaction->trade_info = json_encode($tradeInfo);
+
+                        // Update user balance if positive amount
+                        if ($transaction->amount_in_usd > 0) {
+                            $userBalance = UserBalances::where('user_id', $transaction->user_id)
+                                ->where('wallet', 'USD')
+                                ->first();
+
+                            if ($userBalance) {
+                                $userBalance->balance = bcadd($userBalance->balance, $transaction->amount_in_usd, 8);
+                                $userBalance->save();
+                            }
+                        }
+
+                        // Mark transaction as completed
+                        $transaction->status = 'completed';
                         $transaction->save();
 
-                        // Skip to next transaction
-                        continue;
+                        $this->info("Processed transaction #{$transaction->id} with {$directionText} " .
+                            ($success ? 'profit' : 'loss') . " of {$targetPercentage}%");
+                    } else {
+                        $this->info("Could not find suitable price movement for transaction #{$transaction->id}.");
                     }
-
-                    // Process transaction only if we found a natural movement
-                    $actualPercentage = (($exitPrice - $entryPrice) / $entryPrice) * 100;
-                    if (! $entryDirection) {
-                        // For SHORT, invert the percentage
-                        $actualPercentage = -$actualPercentage;
-                    }
-
-                                                                           // Get price data for 5 minutes before entry and 5 minutes after exit
-                    $startIndex = max(0, $entryIndex - 5);                 // 5 minutes before entry, but not before array start
-                    $endIndex   = min(count($prices) - 1, $exitIndex + 5); // 5 minutes after exit, but not past array end
-
-                    // Collect price movement data
-                    $priceMovementData = [];
-                    for ($i = $startIndex; $i <= $endIndex; $i++) {
-                        $priceMovementData[] = [
-                            'timestamp' => date('Y-m-d H:i:s', $prices[$i]['timestamp'] / 1000),
-                            'open'      => $prices[$i]['open'],
-                            'high'      => $prices[$i]['high'],
-                            'low'       => $prices[$i]['low'],
-                            'close'     => $prices[$i]['close'],
-                            'average'   => ($prices[$i]['high'] + $prices[$i]['low']) / 2,
-                            'is_entry'  => $i === $entryIndex,
-                            'is_exit'   => $i === $exitIndex,
-                        ];
-                    }
-
-                    $tradeInfo = [
-                        'direction'              => $originalDirection,
-                        'profit_rate'            => $targetPercentage,
-                        'success'                => $success,
-                        'symbol'                 => $symbol,
-                        'entry_time'             => date('Y-m-d H:i:s', $prices[$entryIndex]['timestamp'] / 1000),
-                        'entry_price'            => $entryPrice,
-                        'exit_time'              => date('Y-m-d H:i:s', $prices[$exitIndex]['timestamp'] / 1000),
-                        'exit_price'             => $exitPrice,
-                        'actual_percentage'      => $success ? abs($actualPercentage) : -abs($actualPercentage),
-                        'found_natural_movement' => $foundMovement,
-                        'price_movement'         => $priceMovementData, // Add complete price movement data
-                    ];
-
-                    // Update transaction
-                    $transaction->trade_info = json_encode($tradeInfo);
-
-                    // Update user balance if positive amount
-                    if ($transaction->amount_in_usd > 0) {
-                        $userBalance = UserBalances::where('user_id', $transaction->user_id)
-                            ->where('wallet', 'USD')
-                            ->first();
-
-                        if ($userBalance) {
-                            $userBalance->balance = bcadd($userBalance->balance, $transaction->amount_in_usd, 8);
-                            $userBalance->save();
-                        }
-                    }
-
-                    // Mark transaction as completed
-                    $transaction->status = 'completed';
-                    $transaction->save();
-
-                    $this->info("Processed transaction #{$transaction->id} with {$directionText} " .
-                        ($success ? 'profit' : 'loss') . " of {$targetPercentage}% " .
-                        ($foundMovement ? '(natural movement)' : '(synthetic movement)'));
 
                 } catch (\Exception $e) {
                     $this->error("Error processing transaction #{$transaction->id}: " . $e->getMessage());

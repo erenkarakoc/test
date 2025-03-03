@@ -44,8 +44,15 @@
               </div>
               <div class="content-right">
                 <span class="text-heading fw-medium mb-0">Total Income</span>
-                <h6 class="text-primary mb-0">{{ number_format($totalTrade, 2) }}$<small
-                    class="text-success fw-light ms-1">7.64%</small></h6>
+                <h6 class="text-primary mb-0">
+                  {{ @formatUsdBalance($totalTrade, 2) }}$
+                  <small class="text-success fw-light ms-1"
+                    @class([
+                        'fw-light ms-1',
+                        'text-success' => $totalTrade > 0,
+                        'text-danger' => $totalTrade < 0,
+                    ])>{{ number_format(($totalTrade / $totalReceived) * 100, 2) }}%</small>
+                </h6>
               </div>
             </div>
 
@@ -448,21 +455,25 @@
                               d="M42.7233 50.4871C42.0623 51.1481 41.1658 51.5194 40.231 51.5194C39.2962 51.5194 38.3996 51.1481 37.7386 50.4871C37.0776 49.8261 36.7063 48.9295 36.7063 47.9947C36.7063 47.0599 37.0776 46.1634 37.7386 45.5024C38.3996 44.8414 39.2962 44.47 40.231 44.47C41.1658 44.47 42.0623 44.8414 42.7233 45.5024C43.3843 46.1634 43.7557 47.0599 43.7557 47.9947C43.7557 48.9295 43.3843 49.8261 42.7233 50.4871Z"
                               fill="currentColor" />
                           </svg>
-                        @elseif ($transaction->type === 'trade')
-                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                            viewBox="0 0 24 24">
-                            <g fill="none" stroke="currentColor" stroke-width="1.5">
-                              <circle cx="12" cy="12" r="10" opacity=".5" />
-                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
-                            </g>
+                        @elseif ($transaction->type === 'swap')
+                          <svg class="text-primary" width="28" height="28" viewBox="0 0 28 28" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M8.75522 12.5353C8.60151 12.5353 8.45148 12.4883 8.32516 12.4006C8.19884 12.313 8.10225 12.1888 8.04829 12.0448C7.99434 11.9007 7.98558 11.7437 8.02319 11.5945C8.0608 11.4453 8.143 11.3112 8.25879 11.21L11.7197 8.18663C11.8706 8.05472 12.0677 7.98821 12.2675 8.00172C12.4674 8.01523 12.6538 8.10767 12.7856 8.25868C12.9174 8.4097 12.9838 8.60693 12.9703 8.80699C12.9568 9.00705 12.8645 9.19354 12.7136 9.32545L10.7691 11.0236H18.8248C19.0251 11.0236 19.2172 11.1032 19.3588 11.245C19.5004 11.3867 19.58 11.579 19.58 11.7795C19.58 11.9799 19.5004 12.1722 19.3588 12.3139C19.2172 12.4557 19.0251 12.5353 18.8248 12.5353H8.75522ZM14.8674 18.2647C14.7211 18.3977 14.6328 18.5829 14.6213 18.7804C14.6099 18.9779 14.6763 19.172 14.8062 19.3211C14.9362 19.4702 15.1194 19.5623 15.3165 19.5777C15.5135 19.5931 15.7088 19.5306 15.8603 19.4035L19.3212 16.3801C19.437 16.2789 19.5192 16.1448 19.5568 15.9956C19.5944 15.8465 19.5857 15.6894 19.5317 15.5453C19.4777 15.4013 19.3812 15.2772 19.2548 15.1895C19.1285 15.1019 18.9785 15.0549 18.8248 15.0548H8.75522C8.55492 15.0548 8.36283 15.1345 8.2212 15.2762C8.07957 15.418 8 15.6102 8 15.8107C8 16.0111 8.07957 16.2034 8.2212 16.3452C8.36283 16.4869 8.55492 16.5665 8.75522 16.5665H16.8109L14.8674 18.2647Z"
+                              fill="currentColor" />
+                            <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M1 13.5417C1 6.6151 6.6151 1 13.5417 1C20.4682 1 26.0834 6.6151 26.0834 13.5417C26.0834 20.4682 20.4682 26.0834 13.5417 26.0834C6.6151 26.0834 1 20.4682 1 13.5417ZM13.5417 2.75C7.5816 2.75 2.75 7.5816 2.75 13.5417C2.75 19.5017 7.5816 24.3334 13.5417 24.3334C19.5017 24.3334 24.3334 19.5017 24.3334 13.5417C24.3334 7.5816 19.5017 2.75 13.5417 2.75Z"
+                              fill="currentColor" />
                           </svg>
                         @elseif ($transaction->type === 'bonus')
-                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                            viewBox="0 0 24 24">
-                            <g fill="none" stroke="currentColor" stroke-width="1.5">
-                              <circle cx="12" cy="12" r="10" opacity=".5" />
-                              <path stroke-linecap="round" stroke-linejoin="round" d="m15 9l-6 6m0 0v-4.5M9 15h4.5" />
-                            </g>
+                          <svg class="text-success" width="28" height="28" viewBox="0 0 100 100"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M49.9987 11.4609C28.7127 11.4609 11.457 28.7166 11.457 50.0026C11.457 71.2886 28.7127 88.5443 49.9987 88.5443C71.2847 88.5443 88.5404 71.2886 88.5404 50.0026C88.5404 28.7166 71.2847 11.4609 49.9987 11.4609ZM5.20703 50.0026C5.20703 25.2648 25.2609 5.21094 49.9987 5.21094C74.7365 5.21094 94.7904 25.2648 94.7904 50.0026C94.7904 74.7404 74.7365 94.7943 49.9987 94.7943C25.2609 94.7943 5.20703 74.7404 5.20703 50.0026Z"
+                              fill="currentColor" />
+                            <path
+                              d="M58.545 44.7468C57.7827 44.7468 57.0516 44.4441 56.5126 43.9052C55.9735 43.3663 55.6707 42.6355 55.6707 41.8734C55.6707 41.1113 55.9735 40.3805 56.5126 39.8416C57.0516 39.3027 57.7827 39 58.545 39H68.1258C68.8881 39 69.6191 39.3027 70.1582 39.8416C70.6972 40.3805 71 41.1113 71 41.8734V51.4514C71 52.2135 70.6972 52.9444 70.1582 53.4832C69.6191 54.0221 68.8881 54.3249 68.1258 54.3249C67.3635 54.3249 66.6324 54.0221 66.0934 53.4832C65.5543 52.9444 65.2515 52.2135 65.2515 51.4514V48.8079L57.5371 56.5201C56.2795 57.7765 54.5743 58.4822 52.7965 58.4822C51.0186 58.4822 49.3135 57.7765 48.0559 56.5201L41.9778 50.4438C41.8888 50.3546 41.7831 50.2839 41.6667 50.2356C41.5503 50.1873 41.4255 50.1624 41.2995 50.1624C41.1735 50.1624 41.0487 50.1873 40.9323 50.2356C40.8159 50.2839 40.7102 50.3546 40.6212 50.4438L31.8337 59.2288C31.2888 59.7364 30.5682 60.0127 29.8235 59.9996C29.0789 59.9864 28.3685 59.6849 27.8418 59.1584C27.3152 58.6319 27.0136 57.9217 27.0004 57.1773C26.9873 56.4329 27.2637 55.7124 27.7714 55.1677L36.5589 46.3827C37.8165 45.1264 39.5216 44.4207 41.2995 44.4207C43.0774 44.4207 44.7825 45.1264 46.0401 46.3827L52.1182 52.459C52.2071 52.5482 52.3129 52.619 52.4293 52.6673C52.5457 52.7156 52.6705 52.7404 52.7965 52.7404C52.9225 52.7404 53.0473 52.7156 53.1637 52.6673C53.2801 52.619 53.3858 52.5482 53.4748 52.459L61.1854 44.7468H58.545Z"
+                              fill="currentColor" />
                           </svg>
                         @endif
                       </div>
@@ -474,8 +485,8 @@
                             Sent via {{ $transaction->asset }}
                           @elseif ($transaction->type === 'locked')
                             Locked via {{ $transaction->asset }}
-                          @elseif ($transaction->type === 'trade')
-                            Trade via {{ $transaction->asset }}
+                          @elseif ($transaction->type === 'swap')
+                            Swapped via {{ $transaction->asset }}
                           @elseif ($transaction->type === 'bonus')
                             Bonus via {{ $transaction->asset }}
                           @endif
@@ -487,10 +498,10 @@
                               data-bs-html='true' data-bs-trigger="hover" data-bs-placement="top"
                               data-bs-custom-class="popover-dark"
                               data-bs-content="<div class='d-flex flex-column row-gap-2'>
-                        @foreach ($notesArray as $index => $note)
-<span>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</span>
+                          @foreach ($notesArray as $index => $note)
+<small>{{ count($notesArray) > 1 ? $index + 1 . '. ' : '' }}{{ $note }}</small>
 @endforeach
-                        </div>"
+                          </div>"
                               xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                               <path fill="currentColor"
                                 d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
@@ -526,16 +537,35 @@
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="d-flex flex-column align-items-end text-right">
-                        <span @class([
-                            'transaction-usd-amount',
-                            'text-danger' => $transaction->type === 'sent',
-                            'text-success' =>
-                                $transaction->type !== 'sent' || $transaction->type !== 'locked',
-                            'text-light' => $transaction->type === 'locked',
-                        ])
-                          class="transaction-usd-amount">{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                        <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
-                          {{ $transaction->asset }}</span>
+                        @if ($transaction->type === 'swap')
+                          @if ($transaction->swap_to_asset)
+                            <span class="transaction-usd-amount text-danger">
+                              -{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            </span>
+                            <span class="transaction-asset-amount text-success">
+                              +{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                            </span>
+                          @else
+                            <span class="transaction-usd-amount text-success">
+                              +{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            </span>
+                            <span class="transaction-asset-amount text-danger">
+                              -{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                            </span>
+                          @endif
+                        @else
+                          <span
+                            @class([
+                                'transaction-usd-amount',
+                                'text-danger' =>
+                                    $transaction->type === 'sent' || $transaction->amount_in_usd < 0,
+                                'text-success' =>
+                                    $transaction->type !== 'sent' || $transaction->type !== 'locked',
+                                'text-light' => $transaction->type === 'locked',
+                            ])>{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$</span>
+                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            {{ $transaction->asset }}</span>
+                        @endif
                       </div>
                       <span class="transaction-item-view">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">

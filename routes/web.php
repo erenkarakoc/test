@@ -55,6 +55,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Pages - User - Profile
     Route::get('/user/profile', [PageUserProfile::class, 'index'])->name('page-user-profile');
 
+    // Functions
+    Route::get('/get-new-trades', [PageBundledPacks::class, 'getNewTrades'])->name('get-new-trades');
+
     // /////////////////
     // / POST Routes ///
     // /////////////////

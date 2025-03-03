@@ -6,11 +6,23 @@
   use Illuminate\Support\Facades\Route;
   use App\Models\UserBalances;
   use App\Models\MarketData;
+  use App\Models\Transaction;
 
   $configData = Helper::appClasses();
 
   $user = Auth::user();
   $userBalance = UserBalances::where('user_id', $user->id)->get();
+
+  $last7DaysPnl = Transaction::where('user_id', $user->id)
+      ->where('type', 'trade')
+      ->where('status', 'completed')
+      ->where('created_at', '>=', now()->subDays(7))
+      ->sum('amount_in_usd');
+  $totalReceived = Transaction::where('user_id', $user->id)
+      ->where('type', 'received')
+      ->where('status', 'completed')
+      ->where('created_at', '>=', now()->subDays(7))
+      ->sum('amount_in_usd');
 @endphp
 
 @extends('layouts/commonMaster')
@@ -85,8 +97,8 @@
                     <div class="gdz-main-balance-change">
                       <span class="text-primary-subtle">Last 7 days</span>
                       <div class="gdz-main-balance-change-amount">
-                        <span class="text-white">1.45$</span>
-                        <span class="text-success">7.64%</span>
+                        <span class="text-white">{{ @formatUsdBalance($last7DaysPnl, 2) }}$</span>
+                        <span class="text-success">{{ number_format(($last7DaysPnl / $totalReceived) * 100, 2) }}%</span>
                       </div>
                     </div>
                     <div id="gdzMainBalanceChangeChart"></div>
