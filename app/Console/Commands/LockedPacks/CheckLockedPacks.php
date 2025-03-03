@@ -50,8 +50,7 @@ class CheckLockedPacks extends Command {
                 8
             );
 
-            // Generate divisions and dates
-            $numDivisions = rand($pendingPack->period * 40, $pendingPack->period * 130);
+            $numDivisions = rand($pendingPack->period * 1, $pendingPack->period * 6); // extra zeros to be removed in prod.
             $startDate    = Carbon::parse($pendingPack->created_at);
             $endDate      = $startDate->copy()->addDays($pendingPack->period);
 
@@ -74,12 +73,12 @@ class CheckLockedPacks extends Command {
                 // Calculate positive factor base value
                 $positiveFactor = (string) (1.1 + (mt_rand(0, 200) / 1000) * $variance);
 
-                                                          // For negative values, make them 20%-40% of the positive value
-                $negativePercent = mt_rand(40, 60) / 100; // Random value between 0.2 and 0.4
+                                                          // For negative values, make them 40%-60% of the positive value
+                $negativePercent = mt_rand(40, 60) / 100; // Random value between 0.4 and 0.6
                 $negativeFactor  = (string) (-1 * bcmul($positiveFactor, $negativePercent, 8));
 
-                // Choose positive or negative with equal probability
-                $factor = mt_rand(0, 1) ? $positiveFactor : $negativeFactor;
+                // Choose with 65% probability for positive values
+                $factor = mt_rand(1, 100) <= 65 ? $positiveFactor : $negativeFactor;
 
                 $profitParts[] = bcmul($baseAmount, $factor, 8);
             }
@@ -176,13 +175,17 @@ class CheckLockedPacks extends Command {
 
                 [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($executingPack->user_id);
 
+                $tnxTradeInfo = [
+                    'profit_rate' => $currentProfitRate,
+                    'success'     => $latestPastProfit['amount'] > 0,
+                ];
+
                 // Create transaction for this profit
                 $transactionController->createTransaction([
                     'tnx_id'                     => mt_rand(10000000, 99999999),
                     'user_id'                    => $executingPack->user_id,
                     'ref_user_id'                => User::where('id', $executingPack->user_id)->value('ref_user_id'),
                     'type'                       => 'trade',
-                    'swap_to_asset'              => mt_rand(0, 1),
                     'amount_in_asset'            => bcdiv($latestPastProfit['amount'], $randomAssetPrice, 8),
                     'amount_in_usd'              => $latestPastProfit['amount'],
                     'asset'                      => $randomAsset,
@@ -194,6 +197,7 @@ class CheckLockedPacks extends Command {
                     'strategy_pack_id'           => $executingPack->id,
                     'status'                     => 'pending',
                     'hash_id'                    => null,
+                    'trade_info'                 => json_encode($tnxTradeInfo),
                 ]);
 
                 // Update trade info with modified profit schedule

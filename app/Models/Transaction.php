@@ -33,6 +33,7 @@ class Transaction extends Model {
         'strategy_pack_id',
         'status',
         'hash_id',
+        'trade_info',
     ];
 
     /**

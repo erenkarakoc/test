@@ -5,7 +5,7 @@
 
 @extends('layouts/layoutMaster')
 
-@section('title', 'Running Packs')
+@section('title', 'Bundled Packs')
 
 @section('vendor-style')
   @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/swiper/swiper.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
@@ -25,8 +25,6 @@
 
 @section('content')
   <div class="page-bundled-packs">
-
-
     <div class="row">
       <div class="col col-7">
         <h5 class="mb-3 lh-1">Bundled Packs</h5>
@@ -165,7 +163,24 @@
                       </div>
 
                       <div class="d-flex flex-column">
-                        <span class="h6 fw-medium mb-1">Algorithms</span>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                          <span class="h6 fw-medium mb-0">Algorithms</span>
+                          <div class="d-flex align-items-center">
+                            <small class="text-muted">{{ bcdiv($pack->algorithms_cost, 1, 2) }}$</small>
+                            <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
+                              data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                              data-bs-custom-class="popover-dark"
+                              data-bs-content="The amount you've spent on algorithms.">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                                  opacity=".3" />
+                                <path fill="currentColor"
+                                  d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
 
                         <div class="d-flex flex-wrap align-items-center gap-2 rounded p-2"
                           style="background-color: #191919;">
@@ -250,7 +265,7 @@
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
                         @if ($transaction->status === 'completed')
-                          @if ($transaction->swap_to_asset)
+                          @if (json_decode($transaction->trade_info, true)['direction'] === 1)
                             <svg class="text-success" width="28" height="28" viewBox="0 0 100 100"
                               fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd"
@@ -355,7 +370,8 @@
                         <h6 class="mb-0">
                           @if ($transaction->status === 'completed')
                             <span>
-                              {{ $transaction->swap_to_asset ? 'Long ' : 'Short ' }} {{ $transaction->asset }}
+                              {{ json_decode($transaction->trade_info, true)['direction'] === 1 ? 'Long ' : 'Short ' }}
+                              {{ $transaction->asset }}
                             </span>
                           @else
                             <span>Trading {{ $transaction->asset }}</span>
@@ -380,9 +396,9 @@
                             @if ($transaction->status === 'pending')
                               Trading
                             @elseif ($transaction->amount_in_usd > 0)
-                              Success
+                              Profit
                             @else
-                              Failed
+                              Loss
                             @endif
                           </small>
                         </div>
@@ -426,6 +442,29 @@
                       </span>
                     </div>
                   </div>
+
+
+
+                  @if ($transaction->status === 'completed')
+                    <div class="d-flex flex-column w-100">
+                      <span>
+                        entry:
+                        {{ json_decode($transaction->trade_info, true)['entry_time'] }}
+                        {{ json_decode($transaction->trade_info, true)['entry_price'] }}
+                      </span>
+                      <span>
+                        exit:
+                        {{ json_decode($transaction->trade_info, true)['exit_time'] }}
+                        {{ json_decode($transaction->trade_info, true)['exit_price'] }}
+                      </span>
+                      <span>
+                        {{ json_decode($transaction->trade_info, true)['profit_rate'] }}%
+                      </span>
+                      <span>
+                        {{ json_decode($transaction->trade_info, true)['actual_percentage'] }}%
+                      </span>
+                    </div>
+                  @endif
                 @endforeach
               @else
                 <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">

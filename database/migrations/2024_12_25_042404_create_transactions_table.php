@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->enum('status', ['completed', 'pending', 'cancelled', 'rejected']);
             $table->json('notes')->nullable();
             $table->string('hash_id')->nullable();
+            $table->json('trade_info')->nullable()->default('[]');
             $table->timestamps();
 
             $table->index(['user_id', 'type', 'status']);

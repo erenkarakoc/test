@@ -24,6 +24,7 @@ class TransactionController extends Controller {
             'strategy_pack_id'           => $newTransaction['strategy_pack_id'] ?? null,
             'status'                     => $newTransaction['status'],
             'hash_id'                    => $newTransaction['hash_id'] ?? null,
+            'trade_info'                 => $newTransaction['trade_info'] ?? [],
         ]);
 
         return $transaction;
