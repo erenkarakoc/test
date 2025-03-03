@@ -371,13 +371,106 @@
   transform: translateX(0);
 }
 
+.trande-transactions-wrapper {
+  max-height: 60vh;
+  overflow-y: auto;
+  --sb-track-color: #121212;
+  --sb-thumb-color: #252525;
+  --sb-size: 6px;
+}
+.trande-transactions-wrapper::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.trande-transactions-wrapper::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 1px;
+}
+
+.trande-transactions-wrapper::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 1px;
+  border: 1px solid #121212;
+}
+
+.trande-transactions-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trade-transaction-item {
+  position: relative;
+}
+
+.trade-transaction-item.active {
+  min-height: 120px;
+}
+
+.trade-transaction-item * {
+  user-select: none;
+}
+
+.trade-transaction-item .transaction-item-view {
+  z-index: 1;
+}
+
+.trade-transaction-item .transaction-item-view svg {
+  transition: all 0.1s ease-out;
+}
+
+.trade-transaction-item.active .transaction-item-view svg {
+  transform: rotate(270deg) !important;
+}
+
+.trade-transaction-item.active .transaction-item-view {
+  color: #5c5d6a;
+  opacity: 1;
+  transform: translate(5px, 0);
+}
+
+.trade-transaction-item-detail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 120px;
+  padding: 0 20px;
+  width: 100%;
+  background-color: #0e0e0e;
+  border-radius: 8px;
+  transition: all 0.15s ease-out;
+}
+
+.trade-transaction-item-detail * {
+  user-select: none;
+}
+
+.trade-transaction-item:not(.active) .trade-transaction-item-detail {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+}
+
 .transaction-item:hover .transaction-usd-amount,
 .transaction-item:hover .transaction-asset-amount {
   transform: translateX(-8px);
 }
 
-/* Pagination */
+.trade-transaction-item .transaction-item-view {
+  transform: translate(5px, 30px);
+}
 
+.trade-transaction-item:hover .transaction-item-view {
+  transform: translate(5px, 0);
+}
+
+.trade-transaction-item .transaction-item-view svg {
+  transform: rotate(90deg);
+}
+
+/* Pagination */
 .pagination .page-link-disabled {
   pointer-events: none !important;
   cursor: default !important;

@@ -157,12 +157,14 @@
 
   transactionItems.forEach(item => {
     item.addEventListener('click', async () => {
-      const tnx_id = item.getAttribute('data-tnx-id');
-      const transaction = await postRequest('/get-transaction-by-id', { tnx_id });
+      if (!item.classList.contains('.trade-transaction-item')) {
+        const tnx_id = item.getAttribute('data-tnx-id');
+        const transaction = await postRequest('/get-transaction-by-id', { tnx_id });
 
-      setTransactionModalContent(transaction);
+        setTransactionModalContent(transaction);
 
-      transactionDetailModal.show();
+        transactionDetailModal.show();
+      }
     });
   });
 

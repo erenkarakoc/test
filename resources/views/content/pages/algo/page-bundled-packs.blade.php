@@ -20,13 +20,11 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/strategy-packs.js', 'resources/assets/js/ui-popover.js'])
+  @vite(['resources/assets/js/pages/bundled-packs.js', 'resources/assets/js/ui-popover.js', 'resources/assets/js/components/trade-transaction-modal.js'])
 @endsection
 
 @section('content')
   <div class="page-bundled-packs">
-
-
     <div class="row">
       <div class="col col-7">
         <h5 class="mb-3 lh-1">Bundled Packs</h5>
@@ -83,6 +81,7 @@
                               'bg-primary' => $pack->status === 'executing',
                               'bg-dark' => $pack->status === 'completed',
                               'bg-warning' => $pack->status === 'pending',
+                              'bg-danger' => $pack->status === 'cancelled',
                           ])>
                             @if ($pack->status === 'executing')
                               <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
@@ -95,6 +94,10 @@
                             @elseif ($pack->status === 'pending')
                               <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
                                 Pending
+                              </small>
+                            @else
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                                Stopped
                               </small>
                             @endif
                           </span>
@@ -261,12 +264,12 @@
           Monitor the real-time trading activity
         </small>
 
-        <div class="card text-white bg-light border mt-7">
+        <div class="card text-white bg-light border mt-7 trande-transactions-wrapper">
           <div class="card-body">
-            <div class="transaction-items">
+            <div class="transaction-items position-relative">
               @if (!$transactions->isEmpty())
                 @foreach ($transactions as $transaction)
-                  <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
+                  <div class="transaction-item active trade-transaction-item" data-tnx-id="{{ $transaction->tnx_id }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
                         @if ($transaction->status === 'completed')
@@ -446,30 +449,20 @@
                         </svg>
                       </span>
                     </div>
+
+                    @if ($transaction->status === 'completed')
+                      <div class="trade-transaction-item-detail">
+                        <div class="d-flex flex-column">
+                          <small class="text-muted">
+                            {{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y, H:i') }}
+                          </small>
+                          <span class="text-heading">
+                            {{ @formatUsdBalance(json_decode($transaction->trade_info, true)['entry_price']) }}$
+                          </span>
+                        </div>
+                      </div>
+                    @endif
                   </div>
-
-
-
-                  @if ($transaction->status === 'completed')
-                    <div class="d-flex flex-column w-100">
-                      <span>
-                        entry:
-                        {{ json_decode($transaction->trade_info, true)['entry_time'] }}
-                        {{ json_decode($transaction->trade_info, true)['entry_price'] }}
-                      </span>
-                      <span>
-                        exit:
-                        {{ json_decode($transaction->trade_info, true)['exit_time'] }}
-                        {{ json_decode($transaction->trade_info, true)['exit_price'] }}
-                      </span>
-                      <span>
-                        {{ json_decode($transaction->trade_info, true)['profit_rate'] }}%
-                      </span>
-                      <span>
-                        {{ json_decode($transaction->trade_info, true)['actual_percentage'] }}%
-                      </span>
-                    </div>
-                  @endif
                 @endforeach
               @else
                 <div class="d-flex flex-column justify-content-center align-items-center text-center pb-4">

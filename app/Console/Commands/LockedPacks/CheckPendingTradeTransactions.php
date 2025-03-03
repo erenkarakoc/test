@@ -160,7 +160,25 @@ class CheckPendingTradeTransactions extends Command {
                         $actualPercentage = -$actualPercentage;
                     }
 
-                    // Final trade details
+                                                                           // Get price data for 5 minutes before entry and 5 minutes after exit
+                    $startIndex = max(0, $entryIndex - 5);                 // 5 minutes before entry, but not before array start
+                    $endIndex   = min(count($prices) - 1, $exitIndex + 5); // 5 minutes after exit, but not past array end
+
+                    // Collect price movement data
+                    $priceMovementData = [];
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $priceMovementData[] = [
+                            'timestamp' => date('Y-m-d H:i:s', $prices[$i]['timestamp'] / 1000),
+                            'open'      => $prices[$i]['open'],
+                            'high'      => $prices[$i]['high'],
+                            'low'       => $prices[$i]['low'],
+                            'close'     => $prices[$i]['close'],
+                            'average'   => ($prices[$i]['high'] + $prices[$i]['low']) / 2,
+                            'is_entry'  => $i === $entryIndex,
+                            'is_exit'   => $i === $exitIndex,
+                        ];
+                    }
+
                     $tradeInfo = [
                         'direction'              => $originalDirection,
                         'profit_rate'            => $targetPercentage,
@@ -172,6 +190,7 @@ class CheckPendingTradeTransactions extends Command {
                         'exit_price'             => $exitPrice,
                         'actual_percentage'      => $success ? abs($actualPercentage) : -abs($actualPercentage),
                         'found_natural_movement' => $foundMovement,
+                        'price_movement'         => $priceMovementData, // Add complete price movement data
                     ];
 
                     // Update transaction
