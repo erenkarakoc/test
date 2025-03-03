@@ -189,7 +189,7 @@ class CheckLockedPacks extends Command {
                     'asset_locked_balance_after' => UserBalances::where('user_id', $executingPack->user_id)->where('wallet', $randomAsset)->value('locked_balance'),
                     'total_balance_after'        => $totalBalance,
                     'total_locked_balance_after' => $totalLockedBalance,
-                    'strategy_pack_id'           => $executingPack->id,
+                    'locked_pack_id'             => $executingPack->id,
                     'status'                     => 'pending',
                     'hash_id'                    => null,
                     'trade_info'                 => json_encode($tnxTradeInfo),

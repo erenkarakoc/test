@@ -385,7 +385,7 @@
                             <span>Trading {{ $transaction->asset }}</span>
                           @endif
                           <span class="text-muted ms-1">→</span>
-                          <span class="text-muted ms-1">Pack {{ $transaction->strategy_pack_id }}</span>
+                          <span class="text-muted ms-1">Pack {{ $transaction->locked_pack_id }}</span>
                         </h6>
                         <div class="d-flex align-items-center">
                           <small class="text-light">
