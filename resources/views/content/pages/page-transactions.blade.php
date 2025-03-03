@@ -247,8 +247,8 @@
           <div class="card bg-light mt-7">
             <div class="card-body">
               <div class="transaction-items">
-                @if (!$transactionsExceptTrade->isEmpty())
-                  @foreach ($transactionsExceptTrade as $transaction)
+                @if (!$transactions->isEmpty())
+                  @foreach ($transactions as $transaction)
                     <div class="transaction-item transaction-item-in" data-tnx-id="{{ $transaction->tnx_id }}">
                       <div class="d-flex align-items-start">
                         <div class="transaction-item-icon">
@@ -371,17 +371,17 @@
                           @if ($transaction->type === 'swap')
                             @if ($transaction->swap_to_asset)
                               <span class="transaction-usd-amount text-danger">
-                                -{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                                -{{ @formatUsdBalance($transaction->amount_in_usd) }}$
                               </span>
                               <span class="transaction-asset-amount text-success">
-                                +{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                                +{{ @formatBalance($transaction->amount_in_asset) }} {{ $transaction->asset }}
                               </span>
                             @else
                               <span class="transaction-usd-amount text-success">
-                                +{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                                +{{ @formatUsdBalance($transaction->amount_in_usd) }}$
                               </span>
                               <span class="transaction-asset-amount text-danger">
-                                -{{ $transaction->amount_in_asset }} {{ $transaction->asset }}
+                                -{{ @formatBalance($transaction->amount_in_asset) }} {{ $transaction->asset }}
                               </span>
                             @endif
                           @else
@@ -393,8 +393,9 @@
                                   'text-success' =>
                                       $transaction->type !== 'sent' || $transaction->type !== 'locked',
                                   'text-light' => $transaction->type === 'locked',
-                              ])>{{ ($transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+')) }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$</span>
-                            <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                              ])>{{ $transaction->type === 'locked' ? '' : ($transaction->type === 'sent' ? '-' : '+') }}{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                            <span
+                              class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                               {{ $transaction->asset }}</span>
                           @endif
                         </div>
@@ -510,8 +511,9 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            class="transaction-usd-amount text-success">+{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -641,8 +643,9 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount text-danger">-{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            class="transaction-usd-amount text-danger">-{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -772,8 +775,9 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount text-danger">-{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            class="transaction-usd-amount text-danger">-{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -909,8 +913,9 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount text-light">{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            class="transaction-usd-amount text-light">{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">
@@ -1041,8 +1046,9 @@
                       <div class="d-flex align-items-center">
                         <div class="d-flex flex-column align-items-end text-right">
                           <span
-                            class="transaction-usd-amount text-success">+{{ number_format($transaction->amount_in_usd, 2) }}$</span>
-                          <span class="transaction-asset-amount text-light">{{ $transaction->amount_in_asset }}
+                            class="transaction-usd-amount text-success">+{{ @formatUsdBalance($transaction->amount_in_usd) }}$</span>
+                          <span
+                            class="transaction-asset-amount text-light">{{ @formatBalance($transaction->amount_in_asset) }}
                             {{ $transaction->asset }}</span>
                         </div>
                         <span class="transaction-item-view">

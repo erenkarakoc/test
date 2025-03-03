@@ -3,14 +3,16 @@ namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\LockedPack;
+use App\Models\StrategyPacks;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class PageBundledPacks extends Controller {
     public function index() {
-        $transactions = Transaction::where('user_id', Auth::user()->id)->where('type', 'trade')->orderBy('created_at', 'desc')->get();
-        $bundledPacks = LockedPack::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        $trades       = Transaction::where('user_id', Auth::user()->id)->where('type', 'trade')->get();
+        $transactions  = Transaction::where('user_id', Auth::user()->id)->where('type', 'trade')->orderBy('created_at', 'desc')->get();
+        $strategyPacks = StrategyPacks::all();
+        $bundledPacks  = LockedPack::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $trades        = Transaction::where('user_id', Auth::user()->id)->where('type', 'trade')->get();
 
         $pnl = [];
         foreach ($trades as $trade) {
@@ -27,7 +29,7 @@ class PageBundledPacks extends Controller {
             $pnl[$trade->locked_pack_id]['percentage'] += ($trade->amount_in_usd / $packAmount) * 100;
         }
 
-        return view('content.pages.algo.page-bundled-packs', compact('bundledPacks', 'pnl', 'transactions'));
+        return view('content.pages.algo.page-bundled-packs', compact('bundledPacks', 'strategyPacks', 'pnl', 'transactions'));
     }
 
     public function getNewTrades() {

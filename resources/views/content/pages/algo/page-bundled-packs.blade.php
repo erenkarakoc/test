@@ -43,9 +43,9 @@
           @if ($bundledPacks->count() > 0)
             @foreach ($bundledPacks as $pack)
               <div class="col col-6">
-                <div class="card bg-light border bg-glow">
+                <div class="card bg-light border bg-glow h-100" data-pack-id="{{ $pack->id }}">
                   <div class="card-body">
-                    <div class="d-flex flex-column row-gap-6">
+                    <div class="d-flex flex-column row-gap-6 h-100">
                       <div class="d-flex align-items-center">
                         <div class="border border-light rounded p-1">
                           <div class="position-relative">
@@ -75,7 +75,12 @@
                           </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center w-100 ms-4">
-                          <h5 class="mb-0">Pack {{ $pack->id }}</h5>
+                          <div class="d-flex flex-column">
+                            <h5 class="mb-1 lh-1">
+                              Pack {{ $pack->id }}
+                            </h5>
+                          </div>
+
                           <span @class([
                               'px-2 rounded ms-4',
                               'bg-primary' => $pack->status === 'executing',
@@ -137,17 +142,19 @@
                                       'h6',
                                       'mb-0',
                                       'me-1',
+                                      'pack-pnl-amount',
                                   ])>{{ $pnl[$pack->id]['amount'] > 0 ? '+' : '' }}{{ @formatUsdBalance($pnl[$pack->id]['amount']) }}$</span>
                                 <small style="font-size: 11px;"
                                   @class([
                                       'text-danger' => $pnl[$pack->id]['amount'] < 0,
                                       'text-success' => $pnl[$pack->id]['amount'] > 0,
+                                      'pack-pnl-percentage',
                                   ])>{{ $pnl[$pack->id]['percentage'] > 0 ? '+' : '' }}{{ @formatUsdBalance($pnl[$pack->id]['percentage']) }}%</small>
                               </div>
                             @else
                               <div class="d-flex align-items-start">
-                                <span class="h6 mb-0 me-1">0.00$</span>
-                                <small style="font-size: 11px;">0.00%</small>
+                                <span class="h6 mb-0 me-1 pack-pnl-amount">0.00$</span>
+                                <small style="font-size: 11px;" class="pack-pnl-percentage">0.00%</small>
                               </div>
                             @endif
                           </div>
@@ -212,9 +219,15 @@
                               style="color: #f5f4fb;">{{ $algorithm['title'] }}</span>
                           @endforeach
                         </div>
+
+                        @if ($pack->strategy_pack_id)
+                          <small class="text-muted fw-medium mb-0 mt-2" style="font-size: 11px;">
+                            Bundled with <a href="{{ route('page-strategy-packs') }}?strategy_pack={{$strategyPacks->where('id', $pack->strategy_pack_id)->value('title')}}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
+                          </small>
+                        @endif
                       </div>
 
-                      <button type="button" class="btn btn-sm btn-default border">
+                      <button type="button" class="btn btn-sm btn-default border mt-auto">
                         View Trades
                       </button>
                     </div>
@@ -273,7 +286,7 @@
                   <div
                     class="transaction-item trade-transaction-item{{ $transaction->status === 'completed' ? ' trade-item-has-detail' : '' }}"
                     data-tnx-id="{{ $transaction->tnx_id }}" data-trade-info="{{ $transaction->trade_info }}"
-                    data-status="{{ $transaction->status }}">
+                    data-status="{{ $transaction->status }}" data-pack-id="{{ $transaction->locked_pack_id }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
                         @if ($transaction->status === 'completed')

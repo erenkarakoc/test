@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\LockedPack;
-use App\Models\StrategyPacks;
 use App\Models\UserBalances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -135,10 +134,13 @@ class AlgorithmController extends Controller {
         $period           = $validated['period'];
 
         if ($strategyPackId) {
-            $strategyPack = StrategyPacks::where('id', $strategyPackId)->first();
-
-            if ($strategyPack) {
-                $chosenAlgorithms = $strategyPack->algorithms;
+            foreach ($chosenAlgorithms as $algorithm) {
+                $chosenAlgorithms[] = [
+                    'title'        => $algorithm['title'],
+                    'contribution' => $algorithm['contribution'],
+                    'icon'         => $algorithm['icon'],
+                    'category'     => $algorithm['category'],
+                ];
             }
         }
 

@@ -11,6 +11,7 @@
   let chosenAlgorithms = [];
   let amount = 0;
   let period = 0;
+  let chosenStrategyPack = null;
 
   const strategyPackButtons = document.querySelectorAll('.strategy-pack-btn');
   const packTitle = document.querySelector('#pack-title');
@@ -838,6 +839,7 @@
   const setChosenStrategyPack = button => {
     const packTitle = button.getAttribute('data-title');
     const packAlgorithms = JSON.parse(button.getAttribute('data-algorithms'));
+    chosenStrategyPack = button.getAttribute('data-strategy-pack-id');
 
     if (lockAmountButton) {
       lockAmountButton.querySelector('.loading-hidden').classList.add('loading-hidden');
@@ -872,7 +874,7 @@
     const gemCount = algoWithHighestIcon.icon;
     calculateGlow(gemCount);
 
-    if (maxButton && amountInput & unlockDate) {
+    if (maxButton && amountInput && unlockDate) {
       calculateSummary();
     }
   };
@@ -926,28 +928,37 @@
   });
 
   if (maxButton && amountInput && unlockDate && lockAmountButton) {
-    lockAmountButton.addEventListener('click', () => {
-      const submitted = lockAmountButton.hasAttribute('disabled');
+    if (lockAmountButton) {
+      lockAmountButton.addEventListener('click', () => {
+        if (calculated && chosenAlgorithms.length) {
+          lockAmountButton.querySelector('svg').classList.remove('loading-hidden');
+          lockAmountButton.setAttribute('disabled', true);
 
-      if (calculated && chosenAlgorithms.length && !submitted) {
-        lockAmountButton.querySelector('.loading-hidden').classList.remove('loading-hidden');
-        lockAmountButton.setAttribute('disabled', true);
+          amount = Number(amountInput.value);
+          period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
+          const data = { chosen_algorithms: chosenAlgorithms, amount, period, strategy_pack_id: chosenStrategyPack };
 
-        amount = Number(amountInput.value);
-        period = Number(Math.ceil((new Date(unlockDate.value) - new Date()) / (1000 * 3600 * 24)));
-        const data = { chosen_algorithms: chosenAlgorithms, amount, period };
-
-        fetch('/lock-pack', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
-          }
-        }).then(res => {
-          console.log(res);
-        });
-      }
-    });
+          fetch('/lock-pack', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+            }
+          })
+            .then(response => response.json())
+            .then(res => {
+              if (res.status === 'error') {
+                toggleLockErrorMessage(res.message);
+                lockAmountButton.querySelector('svg').classList.add('loading-hidden');
+                lockAmountButton.removeAttribute('disabled');
+              } else {
+                toggleLockSuccessMessage(res.message);
+                setTimeout(() => window.location.reload(), 500);
+              }
+            });
+        }
+      });
+    }
   }
 })();

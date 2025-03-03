@@ -46,12 +46,16 @@
                 <span class="text-heading fw-medium mb-0">Total Income</span>
                 <h6 class="text-primary mb-0">
                   {{ @formatUsdBalance($totalTrade, 2) }}$
-                  <small class="text-success fw-light ms-1"
-                    @class([
-                        'fw-light ms-1',
-                        'text-success' => $totalTrade > 0,
-                        'text-danger' => $totalTrade < 0,
-                    ])>{{ number_format(($totalTrade / $totalReceived) * 100, 2) }}%</small>
+                  @if ($totalReceived != 0)
+                    <small class="text-success fw-light ms-1"
+                      @class([
+                          'fw-light ms-1',
+                          'text-success' => $totalTrade > 0,
+                          'text-danger' => $totalTrade < 0,
+                      ])>{{ number_format(($totalTrade / $totalReceived) * 100, 2) }}%</small>
+                  @else
+                    <small class="text-success fw-light ms-1">0.00%</small>
+                  @endif
                 </h6>
               </div>
             </div>

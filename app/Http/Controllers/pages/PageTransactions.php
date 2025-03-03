@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PageTransactions extends Controller {
     public function index() {
-        $transactions            = Transaction::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
-        $transactionsExceptTrade = Transaction::where('user_id', Auth::user()->id)->where('type', '!=', 'trade')->orderBy('created_at', 'desc')->paginate(10);
+        $transactions = Transaction::where('user_id', Auth::user()->id)->where('type', '!=', 'trade')->orderBy('created_at', 'desc')->paginate(10);
 
         $totalReceived = $transactions->where('type', 'received')->where('status', 'completed')->sum('amount_in_usd');
         $totalSent     = $transactions->where('type', 'sent')->where('status', 'completed')->sum('amount_in_usd');
@@ -21,6 +20,6 @@ class PageTransactions extends Controller {
         $lockedTransactions   = Transaction::where('user_id', Auth::user()->id)->where('type', 'locked')->orderBy('created_at', 'desc')->paginate(10);
         $bonusTransactions    = Transaction::where('user_id', Auth::user()->id)->where('type', 'bonus')->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('content.pages.page-transactions', compact('totalReceived', 'totalSent', 'totalTrade', 'totalBonus', 'transactions', 'receivedTransactions', 'sentTransactions', 'swapTransactions', 'lockedTransactions', 'bonusTransactions', 'transactionsExceptTrade'));
+        return view('content.pages.page-transactions', compact('totalReceived', 'totalSent', 'totalTrade', 'totalBonus', 'transactions', 'receivedTransactions', 'sentTransactions', 'swapTransactions', 'lockedTransactions', 'bonusTransactions'));
     }
 }

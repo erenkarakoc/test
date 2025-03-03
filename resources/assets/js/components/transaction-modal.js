@@ -23,6 +23,60 @@
     return response.json();
   };
 
+  function formatBalance(balance) {
+    // Convert to float and check if zero
+    if (parseFloat(balance) === 0.0) {
+      return '0.00';
+    }
+
+    // Format the balance with 8 decimal places
+    const formattedBalance = parseFloat(balance).toFixed(8);
+
+    // Remove unnecessary trailing zeros but keep minimum 2 decimal places
+    const trimmed = formattedBalance.replace(/\.?0+$/, '');
+
+    // Check for decimal point
+    const decimalPos = trimmed.indexOf('.');
+    if (decimalPos === -1) {
+      return trimmed + '.00';
+    }
+
+    // Count decimal places
+    const decimalPlaces = trimmed.length - decimalPos - 1;
+    if (decimalPlaces < 2) {
+      return trimmed + '0'.repeat(2 - decimalPlaces);
+    }
+
+    return trimmed;
+  }
+
+  function formatUsdBalance(balance) {
+    // Convert to float and check if zero
+    if (parseFloat(balance) === 0.0) {
+      return '0.00';
+    }
+
+    // Format the balance with 2 decimal places
+    const formattedBalance = parseFloat(balance).toFixed(2);
+
+    // Remove unnecessary trailing zeros but keep minimum 2 decimal places
+    const trimmed = formattedBalance.replace(/\.?0+$/, '');
+
+    // Check for decimal point
+    const decimalPos = trimmed.indexOf('.');
+    if (decimalPos === -1) {
+      return trimmed + '.00';
+    }
+
+    // Count decimal places
+    const decimalPlaces = trimmed.length - decimalPos - 1;
+    if (decimalPlaces < 2) {
+      return trimmed + '0'.repeat(2 - decimalPlaces);
+    }
+
+    return trimmed;
+  }
+
   const setTransactionModalContent = async transaction => {
     const transactionDetailIcon = document.querySelector('.transaction-detail-icon');
     const transactionDetailStatus = document.querySelector('.transaction-detail-status');
@@ -58,40 +112,40 @@
 
     transactionAmountInUsd.forEach(el => {
       if (transaction.type === 'sent') {
-        el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+        el.innerHTML = `<span class="text-danger">-${formatUsdBalance(transaction.amount_in_usd) + el.getAttribute('data-symbol')}</span>`;
       } else if (transaction.type === 'swap') {
         if (transaction.swap_to_asset) {
-          el.innerHTML = `<span class="text-danger">-${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+          el.innerHTML = `<span class="text-danger">-${formatUsdBalance(transaction.amount_in_usd) + el.getAttribute('data-symbol')}</span>`;
         } else {
-          el.innerHTML = `<span class="text-success">+${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+          el.innerHTML = `<span class="text-success">+${formatUsdBalance(transaction.amount_in_usd) + el.getAttribute('data-symbol')}</span>`;
         }
       } else if (transaction.type === 'locked') {
-        el.innerHTML = `<span class="text-light">${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+        el.innerHTML = `<span class="text-light">${formatUsdBalance(transaction.amount_in_usd) + el.getAttribute('data-symbol')}</span>`;
       } else {
-        el.innerHTML = `<span class="text-success">+${Number(transaction.amount_in_usd).toFixed(2) + el.getAttribute('data-symbol')}</span>`;
+        el.innerHTML = `<span class="text-success">+${formatUsdBalance(transaction.amount_in_usd) + el.getAttribute('data-symbol')}</span>`;
       }
     });
-    transactionAmountInUsdPlain.forEach(el => (el.innerHTML = Number(transaction.amount_in_usd).toFixed(2)));
+    transactionAmountInUsdPlain.forEach(el => (el.innerHTML = formatUsdBalance(transaction.amount_in_usd)));
 
     transactionAmountInAsset.forEach(el => {
       if (transaction.type === 'sent') {
-        el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
+        el.innerHTML = `<span class="text-danger">-${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
       } else if (transaction.type === 'swap') {
         if (transaction.swap_to_asset) {
-          el.innerHTML = `<span class="text-success">+${transaction.amount_in_asset} ${transaction.asset}</span>`;
+          el.innerHTML = `<span class="text-success">+${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
         } else {
-          el.innerHTML = `<span class="text-danger">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
+          el.innerHTML = `<span class="text-danger">-${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
         }
       } else if (transaction.type === 'locked') {
-        el.innerHTML = `<span class="text-light">-${transaction.amount_in_asset} ${transaction.asset}</span>`;
+        el.innerHTML = `<span class="text-light">-${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
       } else {
-        el.innerHTML = `<span class="text-success">+${transaction.amount_in_asset} ${transaction.asset}</span>`;
+        el.innerHTML = `<span class="text-success">+${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
       }
     });
 
-    transactionAssetBalanceAfter.innerHTML = transaction.asset_balance_after + ' ' + transaction.asset;
+    transactionAssetBalanceAfter.innerHTML = formatBalance(transaction.asset_balance_after) + ' ' + transaction.asset;
     transactionTotalBalanceAfter.innerHTML =
-      Number(transaction.total_balance_after).toFixed(2) + transactionTotalBalanceAfter.getAttribute('data-symbol');
+      formatUsdBalance(transaction.total_balance_after) + transactionTotalBalanceAfter.getAttribute('data-symbol');
 
     transactionHashIdWrapper.classList.add('d-none');
     if (transaction.hash_id) {

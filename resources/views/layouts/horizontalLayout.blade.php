@@ -97,8 +97,18 @@
                     <div class="gdz-main-balance-change">
                       <span class="text-primary-subtle">Last 7 days</span>
                       <div class="gdz-main-balance-change-amount">
-                        <span class="text-white">{{ @formatUsdBalance($last7DaysPnl, 2) }}$</span>
-                        <span class="text-success">{{ number_format(($last7DaysPnl / $totalReceived) * 100, 2) }}%</span>
+                        @if ($totalReceived != 0)
+                          <span class="text-white">{{ @formatUsdBalance($last7DaysPnl) }}$</span>
+                          <span @class([
+                              'text-success' => $last7DaysPnl > 0,
+                              'text-danger' => $last7DaysPnl < 0,
+                          ])>
+                            {{ number_format(($last7DaysPnl / $totalReceived) * 100, 2) }}%
+                          </span>
+                        @else
+                          <span class="text-white">0.00$</span>
+                          <span class="text-success">0.00%</span>
+                        @endif
                       </div>
                     </div>
                     <div id="gdzMainBalanceChangeChart"></div>
