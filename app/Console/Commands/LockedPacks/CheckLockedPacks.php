@@ -43,12 +43,7 @@ class CheckLockedPacks extends Command {
         $executingPacks = LockedPack::where('status', 'executing')->get();
 
         foreach ($pendingPacks as $pendingPack) {
-            // Randomize profit rate with ±30% variation
-            $estimatedProfitRate = bcmul(
-                $pendingPack->estimated_profit_rate,
-                (string) (1 + mt_rand(-300, 200) / 1000),
-                8
-            );
+            $estimatedProfitRate = $pendingPack->estimated_profit_rate;
 
             $numDivisions = rand($pendingPack->period * 1, $pendingPack->period * 6); // extra zeros to be removed in prod.
             $startDate    = Carbon::parse($pendingPack->created_at);

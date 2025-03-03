@@ -416,7 +416,7 @@
                           @if ($transaction->status === 'pending')
                             0.00$
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
                           @endif
                         </span>
                         <span style="font-size: 12px" @class([
