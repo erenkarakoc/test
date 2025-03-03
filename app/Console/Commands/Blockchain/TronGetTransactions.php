@@ -86,6 +86,7 @@ class TronGetTransactions extends Command {
                             'strategy_pack_id'           => null,
                             'status'                     => 'pending',
                             'hash_id'                    => $transaction['txID'],
+                            'trade_info'                 => json_encode([]),
                         ];
 
                         $transactionController->createTransaction($newTransaction);

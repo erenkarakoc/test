@@ -5,7 +5,7 @@
 
 @extends('layouts/layoutMaster')
 
-@section('title', 'Bundled Packs')
+@section('title', 'Running Packs')
 
 @section('vendor-style')
   @vite(['resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/swiper/swiper.scss', 'resources/assets/vendor/libs/toastr/toastr.scss'])
@@ -25,6 +25,8 @@
 
 @section('content')
   <div class="page-bundled-packs">
+
+
     <div class="row">
       <div class="col col-7">
         <h5 class="mb-3 lh-1">Bundled Packs</h5>
@@ -40,8 +42,8 @@
         </small>
 
         <div class="row mt-7 row-gap-6">
-          @if ($runningBundledPacks->count() > 0)
-            @foreach ($runningBundledPacks as $pack)
+          @if ($allBundledPacks->count() > 0)
+            @foreach ($allBundledPacks as $pack)
               <div class="col col-6">
                 <div class="card bg-light border bg-glow">
                   <div class="card-body">
@@ -76,8 +78,25 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center w-100 ms-4">
                           <h5 class="mb-0">Pack {{ $pack->id }}</h5>
-                          <span class="bg-primary px-2 rounded text-white ms-4">
-                            <small class="lh-1" style="font-size: 11px;">Running</small>
+                          <span @class([
+                              'px-2 rounded ms-4',
+                              'bg-primary' => $pack->status === 'executing',
+                              'bg-dark' => $pack->status === 'completed',
+                              'bg-warning' => $pack->status === 'pending',
+                          ])>
+                            @if ($pack->status === 'executing')
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                                Running
+                              </small>
+                            @elseif ($pack->status === 'completed')
+                              <small class="text-black lh-1" style="font-size: 11px; font-weight: 600;">
+                                Completed
+                              </small>
+                            @elseif ($pack->status === 'pending')
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                                Pending
+                              </small>
+                            @endif
                           </span>
                         </div>
                       </div>
@@ -234,20 +253,6 @@
             </div>
           @endif
         </div>
-
-        @if ($inactiveBundledPacks->count() > 0)
-          <div class="col col-12 mt-7">
-            <h6 class="mb-2 lh-1">Inactive Packs</h6>
-            <small class="lh-1 mb-7">
-              Packs that are currently inactive
-            </small>
-
-            <div class="row mt-7 row-gap-2">
-              @foreach ($inactiveBundledPacks as $pack)
-              @endforeach
-            </div>
-          </div>
-        @endif
       </div>
 
       <div class="col col-5">
@@ -416,7 +421,7 @@
                           @if ($transaction->status === 'pending')
                             0.00$
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
+                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ bcdiv($transaction->amount_in_usd, 1, 2) }}$
                           @endif
                         </span>
                         <span style="font-size: 12px" @class([

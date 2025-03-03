@@ -13,12 +13,12 @@ use App\Http\Controllers\pages\PageTeam;
 use App\Http\Controllers\pages\PageTransactions;
 use App\Http\Controllers\pages\PageWallet;
 use App\Http\Controllers\pages\user\PageUserProfile;
+use App\Http\Controllers\SwapController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use App\Http\Middleware\AdminMiddleware;
-use App\View\Components\SwapModal;
 use Illuminate\Support\Facades\Route;
 
 // locale
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/cancel-transaction', [TransactionController::class, 'cancelTransaction']);
 
     // Swap
-    Route::post('/swap-usd', [SwapModal::class, 'swap']);
+    Route::post('/swap-usd', [SwapController::class, 'swap']);
 
     // Algorithms
     Route::post('/calculate-algorithm-summary', [AlgorithmController::class, 'calculateAlgorithmSummary']);
