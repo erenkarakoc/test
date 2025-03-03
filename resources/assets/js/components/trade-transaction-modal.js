@@ -582,18 +582,18 @@
     });
   }, 5000);
 
-  document.addEventListener('click', e => {
+  document.querySelector('.transaction-items').addEventListener('click', e => {
     const item = e.target.closest('.trade-transaction-item');
 
     if (item && item.classList.contains('trade-item-has-detail')) {
       const itemDetail = item.querySelector('.trade-transaction-item-detail');
 
-      if (item.classList.contains('active')) {
-        item.classList.add('active');
-        item.style.height = itemDetail.offsetHeight + 80 + 'px';
-      } else {
+      if (!item.classList.contains('active')) {
         item.classList.remove('active');
         item.style.height = '80px';
+      } else {
+        item.classList.add('active');
+        item.style.height = itemDetail.offsetHeight + 80 + 'px';
       }
     }
   });
