@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\LockedPack;
+
 class TestController extends Controller {
     protected $fullNode;
     protected $solidityNode;
@@ -14,16 +16,12 @@ class TestController extends Controller {
     }
 
     public function test() {
-        $mainWallets            = config('blockchains.main_tron_addresses');
-        $mainWalletsWithBalance = [];
+        $lockedPacks = LockedPack::all();
 
-        foreach ($mainWallets as $wallet) {
-            $mainWalletsWithBalance[] = [
-                'address' => $wallet['hex'],
-                'balance' => $this->tron->getBalance($wallet['hex']),
-            ];
+        foreach ($lockedPacks as $lockedPack) {
+            $lockedPack->trade_info = null;
+            $lockedPack->status     = 'pending';
+            $lockedPack->save();
         }
-
-        dd($mainWalletsWithBalance);
     }
 }

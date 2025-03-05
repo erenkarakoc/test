@@ -5,69 +5,57 @@ use Illuminate\Support\Facades\Http;
 if (! function_exists('formatBalance')) {
     /**
      * Format the balance to a string with up to 8 decimal places,
-     * keeping minimum 2 decimal places. Displays '0.00' if the balance is zero.
+     * truncating after 8 decimals and keeping minimum 2 decimal places.
      *
      * @param  float  $balance
      * @return string
      */
     function formatBalance($balance) {
-        // Check if the balance is zero
         if ((float) $balance === 0.0) {
             return '0.00';
         }
 
-        // Format the balance with 8 decimal places
-        $formattedBalance = number_format((float) $balance, 8, '.', '');
+        // Convert to string and split at decimal
+        $parts = explode('.', (string) $balance);
+
+        // Handle the decimal part
+        $decimals = isset($parts[1]) ? substr($parts[1], 0, 8) : '00';
 
         // Remove unnecessary trailing zeros but keep minimum 2 decimal places
-        $trimmed = rtrim($formattedBalance, '0');
-
-        // Count decimal places
-        $decimalPos = strpos($trimmed, '.');
-        if ($decimalPos === false) {
-            return $trimmed . '.00';
+        $trimmed = rtrim($decimals, '0');
+        if (strlen($trimmed) < 2) {
+            $trimmed .= str_repeat('0', 2 - strlen($trimmed));
         }
 
-        $decimalPlaces = strlen($trimmed) - $decimalPos - 1;
-        if ($decimalPlaces < 2) {
-            return $trimmed . str_repeat('0', 2 - $decimalPlaces);
-        }
-
-        return $trimmed;
+        return $parts[0] . '.' . $trimmed;
     }
 }
+
 if (! function_exists('formatUsdBalance')) {
     /**
-     * Format the balance to a string with up to 2 decimal places,
-     * keeping minimum 2 decimal places. Displays '0.00' if the balance is zero.
+     * Format the USD balance to a string with 2 decimal places,
+     * truncating after 2 decimals.
      *
      * @param  float  $balance
      * @return string
      */
     function formatUsdBalance($balance) {
-        // Check if the balance is zero
         if ((float) $balance === 0.0) {
             return '0.00';
         }
 
-        // Format the balance with 8 decimal places
-        $formattedBalance = number_format((float) $balance, 2, '.', '');
+        // Convert to string and split at decimal
+        $parts = explode('.', (string) $balance);
 
-        // Remove unnecessary trailing zeros but keep minimum 2 decimal places
-        $trimmed = rtrim($formattedBalance, '0');
+        // Handle the decimal part
+        $decimals = isset($parts[1]) ? substr($parts[1], 0, 2) : '00';
 
-        // Count decimal places
-        $decimalPos = strpos($trimmed, '.');
-        if ($decimalPos === false) {
-            return $trimmed . '.00';
+        // Pad with zeros if necessary
+        if (strlen($decimals) < 2) {
+            $decimals .= str_repeat('0', 2 - strlen($decimals));
         }
 
-        $decimalPlaces = strlen($trimmed) - $decimalPos - 1;
-        if ($decimalPlaces < 2) {
-            return $trimmed . str_repeat('0', 2 - $decimalPlaces);
-        }
-
-        return $trimmed;
+        return $parts[0] . '.' . $decimals;
     }
 }
 

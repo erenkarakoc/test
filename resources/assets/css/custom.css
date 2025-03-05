@@ -210,6 +210,18 @@
   margin-top: 10px;
 }
 
+.gdz-sidebar-trade-wrapper {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 400px;
+  padding: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: #121212;
+  z-index: 2147483647;
+}
+
 .gdz-loading {
   opacity: 0.5;
   height: 20px;

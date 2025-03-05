@@ -186,6 +186,15 @@ class CheckPendingTradeTransactions extends Command {
                             $userBalance->balance = bcadd($userBalance->balance, $transaction->amount_in_usd, 8);
                             $userBalance->save();
                         }
+                    } else {
+                        $userBalance = UserBalances::where('user_id', $transaction->user_id)
+                            ->where('wallet', 'USD')
+                            ->first();
+
+                        if ($userBalance) {
+                            $userBalance->balance = bcsub($userBalance->balance, $transaction->amount_in_usd, 8);
+                            $userBalance->save();
+                        }
                     }
 
                     // Mark transaction as completed

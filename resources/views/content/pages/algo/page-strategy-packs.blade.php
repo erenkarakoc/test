@@ -158,7 +158,6 @@
                 <span class="text-heading fw-bold ms-4" id="chosen-pack-title">Momentum</span>
                 <div id="algorithm-glow" class="ms-auto"></div>
               </div>
-
               @if ($userUsdBalance > 0)
                 <div class="bg-light border rounded p-5 mt-6">
                   <div class="d-flex align-items-center">
@@ -167,9 +166,9 @@
                       <div class="input-group flex-nowrap">
                         <small class="input-group-text text-white">$</small>
                         <input type="number" class="form-control w-100" placeholder="0.00" id="lock_amount"
-                          min="1" data-max="{{ $userUsdBalance }}" pattern="^\d*(\.\d{0,2})?$">
+                          min="1" data-max="{{ formatUsdBalance($userUsdBalance) }}" pattern="^\d*(\.\d{0,2})?$">
                         <button type="button" class="input-group-text"
-                          onclick="if ({{ $userUsdBalance }}) document.querySelector('#lock_amount').value = ({{ $userUsdBalance }}).toFixed(2)"
+                          onclick="if ({{ $userUsdBalance }}) document.querySelector('#lock_amount').value = ({{ formatUsdBalance($userUsdBalance) }})"
                           id="max_button">Max.</button>
                       </div>
                     </div>

@@ -74,28 +74,39 @@ window.convertUsdToEur = async usdAmount => {
 
 window.formatBalance = balance => {
   // Check if the balance is zero
-  if (parseFloat(balance).toFixed(8) === '0.00000000') {
+  if (parseFloat(balance) === 0) {
     return '0.00';
   }
 
-  // Format the balance with 8 decimal places
-  let formattedBalance = parseFloat(balance).toFixed(8);
+  // Convert to string and split at decimal
+  let [whole, decimal = ''] = balance.toString().split('.');
 
-  // Remove trailing zeros after decimal point but keep at least two decimal places
-  formattedBalance = formattedBalance.replace(/\.?0+$/, '');
+  // Truncate after 8 decimals
+  decimal = decimal.slice(0, 8);
 
-  // If no decimal part, add '.00'
-  if (!formattedBalance.includes('.')) {
-    formattedBalance += '.00';
-  } else {
-    // Ensure at least two decimal places
-    let parts = formattedBalance.split('.');
-    let decimals = parts[1].length;
-    if (decimals < 2) {
-      parts[1] = parts[1].padEnd(2, '0');
-      formattedBalance = parts.join('.');
-    }
+  // Remove trailing zeros but keep minimum 2 decimals
+  decimal = decimal.replace(/0+$/, '');
+  if (decimal.length < 2) {
+    decimal = decimal.padEnd(2, '0');
   }
 
-  return formattedBalance;
+  return `${whole}.${decimal}`;
+};
+
+window.formatUsdBalance = balance => {
+  // Check if the balance is zero
+  if (parseFloat(balance) === 0) {
+    return '0.00';
+  }
+
+  // Convert to string and split at decimal
+  let [whole, decimal = ''] = balance.toString().split('.');
+
+  // Truncate after 2 decimals
+  decimal = decimal.slice(0, 2);
+
+  // Ensure exactly 2 decimals
+  decimal = decimal.padEnd(2, '0');
+
+  return `${whole}.${decimal}`;
 };

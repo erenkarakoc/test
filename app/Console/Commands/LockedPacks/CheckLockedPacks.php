@@ -45,7 +45,7 @@ class CheckLockedPacks extends Command {
         foreach ($pendingPacks as $pendingPack) {
             $estimatedProfitRate = $pendingPack->estimated_profit_rate;
 
-            $numDivisions = rand($pendingPack->period * 1, $pendingPack->period * 6); // extra zeros to be removed in prod.
+            $numDivisions = rand($pendingPack->period * 12, $pendingPack->period * 19);
             $startDate    = Carbon::parse($pendingPack->created_at);
             $endDate      = $startDate->copy()->addDays($pendingPack->period);
 
@@ -73,7 +73,7 @@ class CheckLockedPacks extends Command {
                 $negativeFactor  = (string) (-1 * bcmul($positiveFactor, $negativePercent, 8));
 
                 // Choose with 65% probability for positive values
-                $factor = mt_rand(1, 100) <= 65 ? $positiveFactor : $negativeFactor;
+                $factor = mt_rand(1, 100) <= 55 ? $positiveFactor : $negativeFactor;
 
                 $profitParts[] = bcmul($baseAmount, $factor, 8);
             }
@@ -185,9 +185,15 @@ class CheckLockedPacks extends Command {
                     'amount_in_usd'              => $latestPastProfit['amount'],
                     'asset'                      => $randomAsset,
                     'asset_price'                => $randomAssetPrice,
-                    'asset_balance_after'        => UserBalances::where('user_id', $executingPack->user_id)->where('wallet', $randomAsset)->value('balance'),
+                    'asset_balance_after'        => bcadd(
+                        UserBalances::where('user_id', $executingPack->user_id)
+                            ->where('wallet', $randomAsset)
+                            ->value('balance'),
+                        bcdiv((string) $latestPastProfit['amount'], (string) $randomAssetPrice, 8),
+                        8
+                    ),
                     'asset_locked_balance_after' => UserBalances::where('user_id', $executingPack->user_id)->where('wallet', $randomAsset)->value('locked_balance'),
-                    'total_balance_after'        => $totalBalance,
+                    'total_balance_after'        => bcadd((string) $totalBalance, (string) $latestPastProfit['amount'], 8),
                     'total_locked_balance_after' => $totalLockedBalance,
                     'locked_pack_id'             => $executingPack->id,
                     'status'                     => 'pending',

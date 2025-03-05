@@ -13,16 +13,19 @@
   $user = Auth::user();
   $userBalance = UserBalances::where('user_id', $user->id)->get();
 
-  $last7DaysPnl = Transaction::where('user_id', $user->id)
+  $last7DaysTrades = Transaction::where('user_id', $user->id)
       ->where('type', 'trade')
       ->where('status', 'completed')
       ->where('created_at', '>=', now()->subDays(7))
-      ->sum('amount_in_usd');
+      ->get();
+  $last7DaysPnl = $last7DaysTrades->sum('amount_in_usd');
+
   $totalReceived = Transaction::where('user_id', $user->id)
       ->where('type', 'received')
       ->where('status', 'completed')
-      ->where('created_at', '>=', now()->subDays(7))
       ->sum('amount_in_usd');
+
+  $last7DaysPnlPercentage = $totalReceived != 0 ? ($last7DaysPnl / $totalReceived) * 100 : 0;
 @endphp
 
 @extends('layouts/commonMaster')
@@ -85,10 +88,10 @@
                     <span class="gdz-sidebar-title text-primary-subtle">Main Balance</span>
                     <div class="gdz-main-balance">
                       <h3 class="text-primary fw-bold mb-0">
-                        {{ number_format($userTotalBalance, 2) }}$
+                        {{ formatUsdBalance($userTotalBalance) }}$
                       </h3>
                       <h5 class="text-primary-subtle mb-0 lh-1">
-                        {{ number_format($userTotalBalance * MarketData::where('asset', 'EUR')->value('price'), 2) }}€
+                        {{ formatUsdBalance($userTotalBalance * MarketData::where('asset', 'EUR')->value('price')) }}€
                       </h5>
                     </div>
                   </div>
@@ -97,18 +100,21 @@
                     <div class="gdz-main-balance-change">
                       <span class="text-primary-subtle">Last 7 days</span>
                       <div class="gdz-main-balance-change-amount">
-                        @if ($totalReceived != 0)
-                          <span class="text-white">{{ @formatUsdBalance($last7DaysPnl) }}$</span>
-                          <span @class([
-                              'text-success' => $last7DaysPnl > 0,
-                              'text-danger' => $last7DaysPnl < 0,
-                          ])>
-                            {{ number_format(($last7DaysPnl / $totalReceived) * 100, 2) }}%
-                          </span>
-                        @else
-                          <span class="text-white">0.00$</span>
-                          <span class="text-success">0.00%</span>
-                        @endif
+
+                        <span
+                          @class([
+                              'text-success' => $last7DaysPnlPercentage > 0,
+                              'text-danger' => $last7DaysPnlPercentage < 0,
+                              'text-white' => $last7DaysPnlPercentage == 0,
+                          ])>{{ $last7DaysPnlPercentage > 0 ? '+' : '' }}{{ formatUsdBalance($last7DaysPnl) }}$</span>
+                        <span @class([
+                            'text-success' => $last7DaysPnlPercentage > 0,
+                            'text-danger' => $last7DaysPnlPercentage < 0,
+                            'text-white' => $last7DaysPnlPercentage == 0,
+                        ])>
+                          {{ formatUsdBalance($last7DaysPnlPercentage) }}%
+                        </span>
+
                       </div>
                     </div>
                     <div id="gdzMainBalanceChangeChart"></div>
@@ -299,6 +305,10 @@
       <!-- / Layout page -->
     </div>
     <!-- / Layout Container -->
+
+
+    <div class="gdz-sidebar-trade-wrapper">
+    </div>
 
     @if ($isMenu)
       <!-- Overlay -->

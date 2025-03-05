@@ -20,7 +20,7 @@
 @endsection
 
 @section('page-script')
-  @vite(['resources/assets/js/pages/bundled-packs.js', 'resources/assets/js/ui-popover.js', 'resources/assets/js/components/trade-transaction-modal.js'])
+  @vite(['resources/assets/js/pages/bundled-packs.js', 'resources/assets/js/ui-popover.js', 'resources/assets/js/components/trade-transaction-modal.js', 'resources/assets/js/helpers/gdzhelpers.js'])
 @endsection
 
 @section('content')
@@ -75,37 +75,37 @@
                           </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center w-100 ms-4">
-                          <div class="d-flex flex-column">
-                            <h5 class="mb-1 lh-1">
-                              Pack {{ $pack->id }}
-                            </h5>
-                          </div>
-
                           <span @class([
-                              'px-2 rounded ms-4',
+                              'px-2 rounded',
                               'bg-primary' => $pack->status === 'executing',
                               'bg-dark' => $pack->status === 'completed',
                               'bg-warning' => $pack->status === 'pending',
                               'bg-danger' => $pack->status === 'cancelled',
                           ])>
                             @if ($pack->status === 'executing')
-                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 500;">
                                 Running
                               </small>
                             @elseif ($pack->status === 'completed')
-                              <small class="text-black lh-1" style="font-size: 11px; font-weight: 600;">
+                              <small class="text-black lh-1" style="font-size: 11px; font-weight: 500;">
                                 Completed
                               </small>
                             @elseif ($pack->status === 'pending')
-                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 500;">
                                 Pending
                               </small>
                             @else
-                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 600;">
+                              <small class="text-white lh-1" style="font-size: 11px; font-weight: 500;">
                                 Stopped
                               </small>
                             @endif
                           </span>
+
+                          <div class="d-flex flex-column">
+                            <h5 class="mb-1 lh-1">
+                              Pack {{ $pack->id }}
+                            </h5>
+                          </div>
                         </div>
                       </div>
 
@@ -192,7 +192,7 @@
                         </div>
                       </div>
 
-                      <div class="d-flex flex-column">
+                      <div class="d-flex flex-column h-100">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                           <span class="h6 fw-medium mb-0">Algorithms</span>
                           <div class="d-flex align-items-center">
@@ -212,24 +212,29 @@
                           </div>
                         </div>
 
-                        <div class="d-flex flex-wrap align-items-center gap-2 rounded p-2"
-                          style="background-color: #191919;">
+                        <div class="d-flex flex-wrap align-items-center gap-2 rounded mb-4">
                           @foreach (json_decode($pack->chosen_algorithms, true) as $algorithm)
-                            <span class="badge bg-primary flex-grow-1"
-                              style="color: #f5f4fb;">{{ $algorithm['title'] }}</span>
+                            <span class="badge text-heading lh-1"
+                              style="background-color: #191919; font-size: 11px;">{{ $algorithm['title'] }}</span>
                           @endforeach
                         </div>
 
-                        @if ($pack->strategy_pack_id)
-                          <small class="text-muted fw-medium mb-0 mt-2" style="font-size: 11px;">
-                            Bundled with <a
-                              href="{{ route('page-strategy-packs') }}?strategy_pack={{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
-                          </small>
-                        @else
-                          <small class="text-muted fw-medium mb-0 mt-2" style="font-size: 11px;">
-                            Custom bundle
-                          </small>
-                        @endif
+                        <div class="d-flex align-items-center bg-light border rounded p-2 mt-auto">
+                          @if ($pack->strategy_pack_id)
+                            <img
+                              src="{{ asset('assets/img/illustrations/' . strtolower($strategyPacks->where('id', $pack->strategy_pack_id)->value('title')) . '.png') }}"
+                              alt="{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}"
+                              class="me-2" style="height: 26px; width: 26px;">
+                            <small class="text-muted fw-medium mb-0" style="font-size: 11px;">
+                              Bundled with <a
+                                href="{{ route('page-strategy-packs') }}?strategy_pack={{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}">{{ $strategyPacks->where('id', $pack->strategy_pack_id)->value('title') }}</a>
+                            </small>
+                          @else
+                            <small class="text-muted fw-medium mb-0" style="font-size: 11px;">
+                              Custom bundle
+                            </small>
+                          @endif
+                        </div>
                       </div>
 
                       <button type="button" class="btn btn-sm btn-default border mt-auto d-none">
@@ -278,24 +283,24 @@
       </div>
 
       <div class="col col-5">
-        <h6 class="mb-2 lh-1">Trades</h6>
+        <h6 class="mb-2 lh-1">Latest Trades</h6>
         <small class="lh-1 mb-7">
-          Monitor the real-time trading activity
+          Monitor the real-time recent trading activity
         </small>
 
         <div class="card text-white bg-light border mt-7 trade-transactions-wrapper">
           <div class="card-body">
             <div class="transaction-items position-relative">
-              @if (!$transactions->isEmpty())
-                @foreach ($transactions as $transaction)
+              @if (!$recentTrades->isEmpty())
+                @foreach ($recentTrades as $trade)
                   <div
-                    class="transaction-item trade-transaction-item{{ $transaction->status === 'completed' ? ' trade-item-has-detail' : '' }}"
-                    data-tnx-id="{{ $transaction->tnx_id }}" data-trade-info="{{ $transaction->trade_info }}"
-                    data-status="{{ $transaction->status }}" data-pack-id="{{ $transaction->locked_pack_id }}">
+                    class="transaction-item trade-transaction-item{{ $trade->status === 'completed' ? ' trade-item-has-detail' : '' }}"
+                    data-tnx-id="{{ $trade->tnx_id }}" data-trade-info="{{ $trade->trade_info }}"
+                    data-status="{{ $trade->status }}" data-pack-id="{{ $trade->locked_pack_id }}">
                     <div class="d-flex align-items-start">
                       <div class="transaction-item-icon">
-                        @if ($transaction->status === 'completed')
-                          @if (json_decode($transaction->trade_info, true)['direction'] === 1)
+                        @if ($trade->status === 'completed')
+                          @if (json_decode($trade->trade_info, true)['direction'] === 1)
                             <svg class="text-success" width="28" height="28" viewBox="0 0 100 100"
                               fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd"
@@ -325,70 +330,70 @@
                                 height="13" viewBox="0 0 24 24">
                                 <circle cx="4" cy="12" r="0" fill="currentColor">
                                   <animate fill="freeze" attributeName="r"
-                                    begin="0;{{ $transaction->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
+                                    begin="0;{{ $trade->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove0" fill="freeze"
-                                    attributeName="r" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove3.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove0" fill="freeze"
+                                    attributeName="r" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove3.end"
                                     calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove1" fill="freeze"
-                                    attributeName="cx" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove0.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove1" fill="freeze"
+                                    attributeName="cx" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove0.end"
                                     dur="0.001s" values="20;4" />
                                 </circle>
                                 <circle cx="4" cy="12" r="3" fill="currentColor">
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="0;{{ $transaction->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
+                                    begin="0;{{ $trade->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove2" fill="freeze"
-                                    attributeName="r" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove5.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove2" fill="freeze"
+                                    attributeName="r" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove5.end"
                                     calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove3" fill="freeze"
-                                    attributeName="cx" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove2.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove3" fill="freeze"
+                                    attributeName="cx" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove2.end"
                                     dur="0.001s" values="20;4" />
                                   <animate fill="freeze" attributeName="r"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" />
                                 </circle>
                                 <circle cx="12" cy="12" r="3" fill="currentColor">
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="0;{{ $transaction->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
+                                    begin="0;{{ $trade->tnx_id }}svgSpinners3DotsMove1.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove4" fill="freeze"
-                                    attributeName="r" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove7.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove4" fill="freeze"
+                                    attributeName="r" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove7.end"
                                     calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove5" fill="freeze"
-                                    attributeName="cx" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove4.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove5" fill="freeze"
+                                    attributeName="cx" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove4.end"
                                     dur="0.001s" values="20;4" />
                                   <animate fill="freeze" attributeName="r"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" />
                                 </circle>
                                 <circle cx="20" cy="12" r="3" fill="currentColor">
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove6" fill="freeze"
-                                    attributeName="r" begin="0;{{ $transaction->tnx_id }}svgSpinners3DotsMove1.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove6" fill="freeze"
+                                    attributeName="r" begin="0;{{ $trade->tnx_id }}svgSpinners3DotsMove1.end"
                                     calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" />
-                                  <animate id="{{ $transaction->tnx_id }}svgSpinners3DotsMove7" fill="freeze"
-                                    attributeName="cx" begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove6.end"
+                                  <animate id="{{ $trade->tnx_id }}svgSpinners3DotsMove7" fill="freeze"
+                                    attributeName="cx" begin="{{ $trade->tnx_id }}svgSpinners3DotsMove6.end"
                                     dur="0.001s" values="20;4" />
                                   <animate fill="freeze" attributeName="r"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove7.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove5.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" />
                                   <animate fill="freeze" attributeName="cx"
-                                    begin="{{ $transaction->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
+                                    begin="{{ $trade->tnx_id }}svgSpinners3DotsMove3.end" calcMode="spline"
                                     dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" />
                                 </circle>
                               </svg>
@@ -398,34 +403,34 @@
                       </div>
                       <div class="d-flex flex-column">
                         <h6 class="mb-0">
-                          @if ($transaction->status === 'completed')
+                          @if ($trade->status === 'completed')
                             <span>
-                              {{ json_decode($transaction->trade_info, true)['direction'] === 1 ? 'Long ' : 'Short ' }}
-                              {{ $transaction->asset }}
+                              {{ json_decode($trade->trade_info, true)['direction'] === 1 ? 'Long ' : 'Short ' }}
+                              {{ $trade->asset }}
                             </span>
                           @else
-                            <span>Trading {{ $transaction->asset }}</span>
+                            <span>Trading {{ $trade->asset }}</span>
                           @endif
                           <span class="text-muted ms-1">→</span>
-                          <span class="text-muted ms-1">Pack {{ $transaction->locked_pack_id }}</span>
+                          <span class="text-muted ms-1">Pack {{ $trade->locked_pack_id }}</span>
                         </h6>
                         <div class="d-flex align-items-center">
                           <small class="text-light">
-                            @if ($transaction->status === 'pending')
-                              {{ \Carbon\Carbon::parse($transaction->created_at)->format('d M, Y, H:i') }}
+                            @if ($trade->status === 'pending')
+                              {{ \Carbon\Carbon::parse($trade->created_at)->format('d M, Y, H:i') }}
                             @else
-                              {{ \Carbon\Carbon::parse($transaction->updated_at)->format('d M, Y, H:i') }}
+                              {{ \Carbon\Carbon::parse($trade->updated_at)->format('d M, Y, H:i') }}
                             @endif
                           </small>
                           <small @class([
                               'transaction-status',
-                              'text-success' => $transaction->amount_in_usd > 0,
-                              'text-danger' => $transaction->amount_in_usd < 0,
-                              'text-primary' => $transaction->status === 'pending',
+                              'text-success' => $trade->amount_in_usd > 0,
+                              'text-danger' => $trade->amount_in_usd < 0,
+                              'text-primary' => $trade->status === 'pending',
                           ])>
-                            @if ($transaction->status === 'pending')
+                            @if ($trade->status === 'pending')
                               Trading
-                            @elseif ($transaction->amount_in_usd > 0)
+                            @elseif ($trade->amount_in_usd > 0)
                               Profit
                             @else
                               Loss
@@ -438,30 +443,28 @@
                       <div class="d-flex flex-column align-items-end text-right">
                         <span @class([
                             'transaction-usd-amount',
-                            'text-danger' => $transaction->amount_in_usd < 0,
-                            'text-success' => $transaction->amount_in_usd > 0,
-                            'text-light' =>
-                                $transaction->status === 'pending' || $transaction->amount_in_usd == 0,
+                            'text-danger' => $trade->amount_in_usd < 0,
+                            'text-success' => $trade->amount_in_usd > 0,
+                            'text-light' => $trade->status === 'pending' || $trade->amount_in_usd == 0,
                         ])>
-                          @if ($transaction->status === 'pending')
+                          @if ($trade->status === 'pending')
                             0.00$
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ @formatUsdBalance($transaction->amount_in_usd) }}$
+                            {{ $trade->amount_in_usd > 0 ? '+' : '' }}{{ @formatUsdBalance($trade->amount_in_usd) }}$
                           @endif
                         </span>
                         <span style="font-size: 12px" @class([
                             'transaction-asset-amount',
-                            'text-danger' => $transaction->amount_in_usd < 0,
-                            'text-success' => $transaction->amount_in_usd > 0,
-                            'text-light' =>
-                                $transaction->status === 'pending' || $transaction->amount_in_usd == 0,
+                            'text-danger' => $trade->amount_in_usd < 0,
+                            'text-success' => $trade->amount_in_usd > 0,
+                            'text-light' => $trade->status === 'pending' || $trade->amount_in_usd == 0,
                         ])>
-                          @if ($transaction->status === 'pending')
+                          @if ($trade->status === 'pending')
                             0.00
                           @else
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '' }}{{ @formatBalance($transaction->amount_in_asset) }}
+                            {{ $trade->amount_in_usd > 0 ? '+' : '' }}{{ @formatBalance($trade->amount_in_asset) }}
                           @endif
-                          {{ $transaction->asset }}
+                          {{ $trade->asset }}
                         </span>
                       </div>
                       <span class="transaction-item-view">
@@ -472,7 +475,7 @@
                       </span>
                     </div>
 
-                    @if ($transaction->status === 'completed')
+                    @if ($trade->status === 'completed')
                       <div class="trade-transaction-item-detail">
                         <div class="trade-transaction-item-chart"></div>
 
@@ -480,10 +483,10 @@
                           <div class="d-flex flex-column">
                             <small class="text-muted">Entry Price</small>
                             <span class="text-heading">
-                              {{ bcdiv(json_decode($transaction->trade_info, true)['entry_price'], 1, 4) }}$
+                              {{ bcdiv(json_decode($trade->trade_info, true)['entry_price'], 1, 4) }}$
                             </span>
                             <small class="text-muted" style="font-size: 11px;">
-                              {{ \Carbon\Carbon::parse(json_decode($transaction->trade_info, true)['entry_time'])->format('d M, Y, H:i') }}
+                              {{ \Carbon\Carbon::parse(json_decode($trade->trade_info, true)['entry_time'])->format('d M, Y, H:i') }}
                             </small>
                           </div>
 
@@ -498,10 +501,10 @@
                           <div class="d-flex flex-column">
                             <small class="text-muted">Exit Price</small>
                             <span class="text-heading">
-                              {{ formatBalance(json_decode($transaction->trade_info, true)['exit_price']) }}$
+                              {{ formatBalance(json_decode($trade->trade_info, true)['exit_price']) }}$
                             </span>
                             <small class="text-muted" style="font-size: 11px;">
-                              {{ \Carbon\Carbon::parse(json_decode($transaction->trade_info, true)['exit_time'])->format('d M, Y, H:i') }}
+                              {{ \Carbon\Carbon::parse(json_decode($trade->trade_info, true)['exit_time'])->format('d M, Y, H:i') }}
                             </small>
                           </div>
                         </div>
@@ -509,7 +512,7 @@
                         <div class="d-flex justify-content-start w-100 text-start mt-3">
                           <small class="text-muted">
                             Realized P&L:
-                            {{ $transaction->amount_in_usd > 0 ? '+' : '-' }}{{ json_decode($transaction->trade_info, true)['profit_rate'] }}%
+                            {{ $trade->amount_in_usd > 0 ? '+' : '-' }}{{ json_decode($trade->trade_info, true)['profit_rate'] }}%
                           </small>
                         </div>
                       </div>
