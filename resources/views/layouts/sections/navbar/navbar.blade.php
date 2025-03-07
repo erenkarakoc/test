@@ -3,6 +3,7 @@
   use Illuminate\Support\Facades\Route;
   use App\Models\UserBalances;
   use App\Models\MarketData;
+  use App\Models\Notification;
 
   $containerNav = $configData['contentLayout'] === 'compact' ? 'container-xxl' : 'container-fluid';
   $navbarDetached = $navbarDetached ?? '';
@@ -10,6 +11,9 @@
   $user = Auth::user();
   $userId = $user->id;
   $userBalance = UserBalances::where('user_id', $userId)->get();
+
+  $userNotifications = Notification::where('user_id', $userId)->get();
+  $notificationsCount = $userNotifications->where('read', 0)->count();
 @endphp
 
 <!-- Navbar -->
@@ -43,6 +47,8 @@
 @endif
 
 <div class="gdz-navbar navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+  @csrf
+
   <ul class="navbar-nav nav-pills flex-row align-items-center ms-auto gap-2">
     <li class="nav-item">
       <button type="button" class="btn btn-sm text-gray border-0" data-bs-toggle="modal" data-bs-target="#swapModal">
@@ -82,11 +88,64 @@
             d="M12.75 6a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0zM7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0" />
         </svg>
       </button>
-      <span
-        class="badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary pt-50 position-absolute user-select-none"
-        style="pointer-events: none; top: -2px; right: 4px;">
-        3
-      </span>
+      @if ($notificationsCount > 0)
+        <span
+          class="notifications-count badge rounded-pill badge-center h-px-18 w-px-18 bg-label-primary pt-50 position-absolute user-select-none"
+          style="pointer-events: none; top: -2px; right: 4px;">
+          {{ $notificationsCount }}
+        </span>
+      @endif
+
+      <ul class="dropdown-menu dropdown-menu-end border border-light row-gap-2">
+        <div class="d-flex flex-column row-gap-2">
+          @if ($userNotifications->count() > 0)
+            <li class="d-flex align-items-center justify-content-between my-2">
+              <span class="h6 mb-0 ms-4">Notifications</span>
+              <div class="d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-sm" onclick="markAllAsRead()">
+                  <small class="text-muted me-2">Mark all as read</small>
+                </button>
+              </div>
+            </li>
+            @foreach ($userNotifications as $notification)
+              <li>
+                <a href="{{ $notification->link }}"
+                  class="d-flex align-items-start bg-light px-2 py-4 rounded gdz-notification-item"
+                  data-notification-id="{{ $notification->id }}">
+                  <span @class([
+                      'notification-icon',
+                      'me-2',
+                      'text-primary' => $notification->read == 0,
+                      'text-muted' => $notification->read == 1,
+                  ])>
+                    {!! $notification->icon !!}
+                  </span>
+                  <div class="d-flex flex-column">
+                    <span class="h6 mb-0">{{ $notification->title }}</span>
+                    <small class="text-muted">{{ $notification->text_content }}</small>
+                    <small class="text-muted mt-2"
+                      style="font-size: 11px">{{ $notification->created_at->diffForHumans() }}</small>
+                  </div>
+                </a>
+              </li>
+            @endforeach
+          @else
+            <div class="d-flex flex-column justify-content-center align-items-center py-4">
+              <div class="border bg-light p-2 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M18.75 9v.704c0 .845.24 1.671.692 2.374l1.108 1.723c1.011 1.574.239 3.713-1.52 4.21a25.8 25.8 0 0 1-14.06 0c-1.759-.497-2.531-2.636-1.52-4.21l1.108-1.723a4.4 4.4 0 0 0 .693-2.374V9c0-3.866 3.022-7 6.749-7s6.75 3.134 6.75 7"
+                    opacity=".5" />
+                  <path fill="currentColor"
+                    d="M7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0M9.349 9c0 .414.323.75.723.75h2.11L9.56 12.47a.77.77 0 0 0-.156.817c.112.28.375.463.668.463h3.856c.4 0 .723-.336.723-.75a.737.737 0 0 0-.723-.75h-2.11l2.622-2.72a.77.77 0 0 0 .157-.817a.72.72 0 0 0-.669-.463h-3.856c-.4 0-.723.336-.723.75" />
+                </svg>
+              </div>
+              <span class="h6 mb-0 text-center mt-4">No notifications yet.</span>
+              <small class="text-muted text-center mt-1">You will be notified when there are new notifications.</small>
+            </div>
+          @endif
+        </div>
+      </ul>
     </li>
 
     <li class="nav-item navbar-dropdown dropdown">
@@ -120,7 +179,7 @@
         </span>
       </button>
 
-      <ul class="dropdown-menu dropdown-menu-end dropdown-wallet">
+      <ul class="dropdown-menu dropdown-menu-end dropdown-wallet border border-light">
         <li>
           <div class="d-flex gap-2">
             <a href="{{ route('page-wallet') }}?tab=add-funds" class="btn btn-primary btn-sm w-50">Add Funds</a>
@@ -267,6 +326,65 @@
     <!--/ User -->
   </ul>
 </div>
+
+<script>
+  const notificationsCount = document.querySelector('.notifications-count');
+  const unreadNotifications = document.querySelectorAll('.notification-icon:not(.text-muted)');
+  const markAllAsRead = () => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch('/mark-all-notifications-as-read', {
+        method: 'GET',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken
+        }
+      })
+      .then(() => {
+        if (unreadNotifications.length > 0) {
+          unreadNotifications.forEach(notification => {
+            notification.classList.remove('text-primary');
+            notification.classList.add('text-muted');
+          });
+          notificationsCount.remove();
+        }
+      });
+  }
+
+  const gdzNotificationItem = document.querySelectorAll('.gdz-notification-item')
+
+  gdzNotificationItem.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      const notificationEl = e.target.closest('.gdz-notification-item');
+      const notificationIcon = notificationEl.querySelector('.notification-icon');
+      const notificationId = notificationEl.getAttribute('data-notification-id');
+      const notificationCount = document.querySelector('.notifications-count');
+
+      fetch('/mark-notification-as-read', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            notification_id: notificationId
+          })
+        })
+        .then(() => {
+          notificationIcon.classList.remove('text-primary');
+          notificationIcon.classList.add('text-muted');
+
+          newNotificationCount = parseInt(notificationCount.innerHTML) - 1;
+
+          if (newNotificationCount > 0) {
+            notificationCount.innerHTML = newNotificationCount;
+          } else {
+            notificationCount.remove();
+          }
+        });
+    })
+  })
+</script>
 
 @if (!isset($navbarDetached))
   </div>

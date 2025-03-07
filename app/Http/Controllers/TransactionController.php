@@ -10,7 +10,7 @@ class TransactionController extends Controller {
         $transaction = Transaction::create([
             'tnx_id'                     => $newTransaction['tnx_id'],
             'user_id'                    => $newTransaction['user_id'],
-            'ref_user_id'                => $newTransaction['ref_user_id'],
+            'ref_user_id'                => $newTransaction['ref_user_id'] ?? null,
             'type'                       => $newTransaction['type'],
             'swap_to_asset'              => $newTransaction['swap_to_asset'] ?? null,
             'amount_in_asset'            => $newTransaction['amount_in_asset'],
@@ -24,7 +24,7 @@ class TransactionController extends Controller {
             'locked_pack_id'             => $newTransaction['locked_pack_id'] ?? null,
             'status'                     => $newTransaction['status'],
             'hash_id'                    => $newTransaction['hash_id'] ?? null,
-            'trade_info'                 => $newTransaction['trade_info'] ?? [],
+            'trade_info'                 => $newTransaction['trade_info'] ?? json_encode([]),
         ]);
 
         return $transaction;

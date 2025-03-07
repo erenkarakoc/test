@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands\LockedPacks;
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Asset;
 use App\Models\LockedPack;
@@ -39,7 +40,7 @@ class CheckLockedPacks extends Command {
      * Execute the console command.
      */
     public function handle() {
-        $pendingPacks   = LockedPack::where('status', 'pending')->get();
+        $pendingPacks   = LockedPack::where('status', 'pending')->where('created_at', '<', Carbon::now()->subMinutes(30))->get();
         $executingPacks = LockedPack::where('status', 'executing')->get();
 
         foreach ($pendingPacks as $pendingPack) {
@@ -100,6 +101,14 @@ class CheckLockedPacks extends Command {
             ]);
             $pendingPack->status = 'executing';
             $pendingPack->save();
+
+            $notificationController = new NotificationController;
+            $notificationController->sendNotification(
+                $pendingPack->user_id,
+                'locked-pack', 'Locked Pack Executing',
+                'Your locked pack is now executing',
+                'Your locked pack is now executing',
+                null);
         }
 
         $transactionController = new TransactionController;

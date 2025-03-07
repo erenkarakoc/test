@@ -192,16 +192,41 @@
                         </div>
                       </div>
 
+                      @php
+                        $totalContributionRate = 0;
+                        foreach (json_decode($pack->chosen_algorithms, true) as $algorithm) {
+                            $totalContributionRate += $algorithm['contribution'];
+                        }
+                      @endphp
+
                       <div class="d-flex flex-column h-100">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                          <span class="h6 fw-medium mb-0">Algorithms</span>
+                          <span class="h6 fw-medium mb-0">
+                            Algorithms
+                          </span>
+                          <div class="d-flex align-items-center">
+                            <small class="text-muted">{{ $totalContributionRate }}%</small>
+                            <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
+                              data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
+                              data-bs-custom-class="popover-dark"
+                              data-bs-content="Total contribution rate of all bundled algorithms.">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                                  opacity=".3" />
+                                <path fill="currentColor"
+                                  d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
+                              </svg>
+                            </span>
+                          </div>
                           <div class="d-flex align-items-center">
                             <small class="text-muted">{{ @formatUsdBalance($pack->algorithms_cost) }}$</small>
                             <span class="popover-trigger text-light cursor-pointer ms-1" data-bs-html="true"
                               data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top"
                               data-bs-custom-class="popover-dark"
                               data-bs-content="The amount you've spent on algorithms.">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                   d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
                                   opacity=".3" />

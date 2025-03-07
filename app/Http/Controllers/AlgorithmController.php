@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LockedPack;
 use App\Models\UserBalances;
+use App\Services\UserBalancesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -120,7 +121,7 @@ class AlgorithmController extends Controller {
         ]);
     }
 
-    public function lockPack(Request $request) {
+    public function lockPack(Request $request, TransactionController $transactionController, UserBalancesService $userBalancesService) {
         $validated = $request->validate([
             'strategy_pack_id'  => 'nullable|numeric',
             'chosen_algorithms' => 'required|array',
@@ -128,26 +129,26 @@ class AlgorithmController extends Controller {
             'period'            => 'required|numeric',
         ]);
 
-        $strategyPackId   = $validated['strategy_pack_id'] ?? null;
-        $chosenAlgorithms = $validated['chosen_algorithms'];
-        $amount           = $validated['amount'];
-        $period           = $validated['period'];
+        $strategyPackId = $validated['strategy_pack_id'] ?? null;
+        $amount         = $validated['amount'];
+        $period         = $validated['period'];
 
+        // Process algorithms correctly
+        $chosenAlgorithms = $validated['chosen_algorithms'];
         if ($strategyPackId) {
-            foreach ($chosenAlgorithms as $algorithm) {
-                $chosenAlgorithms[] = [
+            $chosenAlgorithms = array_map(function ($algorithm) {
+                return [
                     'title'        => $algorithm['title'],
                     'contribution' => $algorithm['contribution'],
                     'icon'         => $algorithm['icon'],
                     'category'     => $algorithm['category'],
                 ];
-            }
+            }, $chosenAlgorithms);
         }
 
         $user              = Auth::user();
         $calculatedSummary = $this->calculateAlgorithmSummary($request)->getData(true);
-
-        $userUsdBalance = UserBalances::where('user_id', $user->id)->where('wallet', 'USD')->first();
+        $userUsdBalance    = UserBalances::where('user_id', $user->id)->where('wallet', 'USD')->first();
 
         if ($userUsdBalance->balance < $amount) {
             return response()->json([
@@ -156,9 +157,21 @@ class AlgorithmController extends Controller {
             ]);
         }
 
+        // Calculate new balances first
+        $newBalance       = $userUsdBalance->balance - $amount;
+        $newLockedBalance = $userUsdBalance->locked_balance + $amount;
+
+        // Update user balance
+        $userUsdBalance->balance        = $newBalance;
+        $userUsdBalance->locked_balance = $newLockedBalance;
+        $userUsdBalance->save();
+
+        // Get total balances
+        [$totalBalance, $totalLockedBalance] = $userBalancesService->calculateUserTotalBalance($user->id);
+
         $lockedPack = LockedPack::create([
             'user_id'               => $user->id,
-            'strategy_pack_id'      => $strategyPackId ?? null,
+            'strategy_pack_id'      => $strategyPackId,
             'chosen_algorithms'     => json_encode($chosenAlgorithms),
             'amount'                => $amount - $calculatedSummary['algorithmCost'],
             'period'                => $period,
@@ -168,10 +181,34 @@ class AlgorithmController extends Controller {
             'trade_info'            => null,
         ]);
 
-        $userUsdBalance->balance -= $amount;
-        $userUsdBalance->locked_balance += $amount;
-        $userUsdBalance->save();
+        $lockedPackTnxId       = mt_rand(10000000, 99999999);
+        $lockedPackTransaction = [
+            'tnx_id'                     => $lockedPackTnxId,
+            'user_id'                    => $user->id,
+            'type'                       => 'locked',
+            'amount_in_asset'            => $amount,
+            'amount_in_usd'              => $amount,
+            'asset'                      => 'USD',
+            'asset_price'                => 1,
+            'asset_balance_after'        => $newBalance,
+            'asset_locked_balance_after' => $newLockedBalance,
+            'total_balance_after'        => $totalBalance,
+            'total_locked_balance_after' => $totalLockedBalance,
+            'locked_pack_id'             => $lockedPack->id,
+            'status'                     => 'completed',
+        ];
+        $transactionController->createTransaction($lockedPackTransaction);
 
+        $notificationController = new NotificationController();
+        $notificationLink       = route('page-transactions') . '?tab=locked&tnx_id=' . $lockedPackTnxId;
+        $notificationController->sendNotification(
+            $user->id,
+            'bundled_pack_deployed',
+            'Deployed Pack ' . $lockedPack->id,
+            null, // will be added for mail
+            'Pack ' . $lockedPack->id . ' deployed successfully, it will start executing trades shortly!',
+            $notificationLink
+        );
         return response()->json([
             'status'      => 'success',
             'message'     => 'Pack locked successfully!',

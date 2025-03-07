@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Assets\AssetsController;
 use App\Http\Controllers\AlgorithmController;
 use App\Http\Controllers\Blockchains\TronApiController;
 use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\pages\PageAlgorithms;
 use App\Http\Controllers\pages\PageBundledPacks;
 use App\Http\Controllers\pages\PageDashboard;
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Functions
     Route::get('/get-new-trades', [PageBundledPacks::class, 'getNewTrades'])->name('get-new-trades');
+    Route::get('/mark-all-notifications-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-notifications-as-read');
+    Route::post('/mark-notification-as-read', [NotificationController::class, 'markAsRead'])->name('mark-notification-as-read');
 
     // /////////////////
     // / POST Routes ///

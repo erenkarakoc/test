@@ -133,6 +133,14 @@
   width: 100%;
 }
 
+.gdz-navbar .gdz-notification-item {
+  transition: all 0.15s ease-out;
+}
+
+.gdz-navbar .gdz-notification-item:hover {
+  background-color: #171717 !important;
+}
+
 .gdz-navbar .dropdown-wallet .card {
   border-top: none !important;
   overflow: hidden;

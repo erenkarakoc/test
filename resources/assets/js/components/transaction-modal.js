@@ -104,6 +104,16 @@
 
     transactionTypeText.innerHTML = transactionTypeText.getAttribute('data-' + transaction.type + '-text');
 
+    if (transaction.type === 'locked') {
+      transactionAmountInUsd.forEach(el => {
+        el.parentElement.parentElement.classList.add('d-none');
+      });
+    } else {
+      transactionAmountInUsd.forEach(el => {
+        el.parentElement.parentElement.classList.remove('d-none');
+      });
+    }
+
     transactionAssetPrice.forEach(
       el => (el.innerHTML = Number(transaction.asset_price).toFixed(2) + el.getAttribute('data-symbol'))
     );
@@ -137,7 +147,7 @@
           el.innerHTML = `<span class="text-danger">-${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
         }
       } else if (transaction.type === 'locked') {
-        el.innerHTML = `<span class="text-light">-${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
+        el.innerHTML = `<span class="text-light">${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
       } else {
         el.innerHTML = `<span class="text-success">+${formatBalance(transaction.amount_in_asset)} ${transaction.asset}</span>`;
       }
