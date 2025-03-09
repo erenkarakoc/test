@@ -23,7 +23,7 @@ class PageBundledPacks extends Controller {
             ->where('type', 'trade')
             ->get();
 
-        $recentTrades = $allTrades->sortByDesc('created_at')->take(10);
+        $recentTrades = $allTrades->sortByDesc('created_at')->take(1000);
 
         // Store the IDs of trades already sent to frontend
         $initialTradeIds = $recentTrades->pluck('id')->toArray();

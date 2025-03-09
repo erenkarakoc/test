@@ -199,16 +199,6 @@ class AlgorithmController extends Controller {
         ];
         $transactionController->createTransaction($lockedPackTransaction);
 
-        $notificationController = new NotificationController();
-        $notificationLink       = route('page-transactions') . '?tab=locked&tnx_id=' . $lockedPackTnxId;
-        $notificationController->sendNotification(
-            $user->id,
-            'bundled_pack_deployed',
-            'Deployed Pack ' . $lockedPack->id,
-            null, // will be added for mail
-            'Pack ' . $lockedPack->id . ' deployed successfully, it will start executing trades shortly!',
-            $notificationLink
-        );
         return response()->json([
             'status'      => 'success',
             'message'     => 'Pack locked successfully!',

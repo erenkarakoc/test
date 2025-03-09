@@ -15,8 +15,11 @@ if (! function_exists('formatBalance')) {
             return '0.00';
         }
 
+        // Convert to string first to handle scientific notation
+        $stringBalance = sprintf('%.8f', $balance);
+
         // Convert to string and split at decimal
-        $parts = explode('.', (string) $balance);
+        $parts = explode('.', $stringBalance);
 
         // Handle the decimal part
         $decimals = isset($parts[1]) ? substr($parts[1], 0, 8) : '00';
@@ -33,8 +36,7 @@ if (! function_exists('formatBalance')) {
 
 if (! function_exists('formatUsdBalance')) {
     /**
-     * Format the USD balance to a string with 2 decimal places,
-     * truncating after 2 decimals.
+     * Format the USD balance to a string with exactly 2 decimal places.
      *
      * @param  float  $balance
      * @return string
@@ -44,13 +46,16 @@ if (! function_exists('formatUsdBalance')) {
             return '0.00';
         }
 
+        // Convert to string first to handle scientific notation
+        $stringBalance = sprintf('%.2f', $balance);
+
         // Convert to string and split at decimal
-        $parts = explode('.', (string) $balance);
+        $parts = explode('.', $stringBalance);
 
         // Handle the decimal part
         $decimals = isset($parts[1]) ? substr($parts[1], 0, 2) : '00';
 
-        // Pad with zeros if necessary
+        // Ensure exactly 2 decimal places
         if (strlen($decimals) < 2) {
             $decimals .= str_repeat('0', 2 - strlen($decimals));
         }

@@ -218,6 +218,34 @@
   margin-top: 10px;
 }
 
+#gdzNotificationsDropdown div {
+  max-height: 60vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  --sb-track-color: #121212;
+  --sb-thumb-color: #252525;
+  --sb-size: 6px;
+}
+
+#gdzNotificationsDropdown div::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+#gdzNotificationsDropdown div::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 1px;
+}
+
+#gdzNotificationsDropdown div::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 1px;
+  border: 1px solid #121212;
+}
+
+#gdzNotificationsDropdown div::-webkit-scrollbar {
+  width: 8px;
+}
+
 .gdz-sidebar-trade-wrapper {
   position: fixed;
   bottom: 1rem;

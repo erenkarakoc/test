@@ -40,7 +40,7 @@ class CheckLockedPacks extends Command {
      * Execute the console command.
      */
     public function handle() {
-        $pendingPacks   = LockedPack::where('status', 'pending')->where('created_at', '<', Carbon::now()->subMinutes(30))->get();
+        $pendingPacks   = LockedPack::where('status', 'pending')->where('created_at', '<', Carbon::now()->subMinutes(10))->get();
         $executingPacks = LockedPack::where('status', 'executing')->get();
 
         foreach ($pendingPacks as $pendingPack) {
@@ -73,7 +73,7 @@ class CheckLockedPacks extends Command {
                 $negativePercent = mt_rand(40, 60) / 100; // Random value between 0.4 and 0.6
                 $negativeFactor  = (string) (-1 * bcmul($positiveFactor, $negativePercent, 8));
 
-                // Choose with 65% probability for positive values
+                // Choose with 55% probability for positive values
                 $factor = mt_rand(1, 100) <= 55 ? $positiveFactor : $negativeFactor;
 
                 $profitParts[] = bcmul($baseAmount, $factor, 8);
@@ -105,10 +105,11 @@ class CheckLockedPacks extends Command {
             $notificationController = new NotificationController;
             $notificationController->sendNotification(
                 $pendingPack->user_id,
-                'locked-pack', 'Locked Pack Executing',
-                'Your locked pack is now executing',
-                'Your locked pack is now executing',
-                null);
+                'locked_pack',
+                $pendingPack->id . ' is now running.',
+                'Pack ' . $pendingPack->id . ' started executing trades.',
+                'Pack ' . $pendingPack->id . ' started executing trades.',
+                route('page-bundled-packs') . '?pack_id=' . $pendingPack->id);
         }
 
         $transactionController = new TransactionController;
