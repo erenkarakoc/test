@@ -98,7 +98,7 @@
 
       <ul class="dropdown-menu dropdown-menu-end border border-light row-gap-2" id="gdzNotificationsDropdown">
         @if ($userNotifications->count() > 0)
-          <li class="d-flex align-items-center justify-content-between my-2">
+          <li class="d-flex align-items-center justify-content-between mb-2">
             <span class="h6 mb-0 ms-4">Notifications</span>
             <div class="d-flex align-items-center justify-content-end">
               <button type="button" class="btn btn-sm" onclick="markAllAsRead()">
