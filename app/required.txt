@@ -1,2 +1,2 @@
 extension=gd
-extension=gmpa
+extension=gmp
