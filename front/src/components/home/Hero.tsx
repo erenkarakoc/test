@@ -25,9 +25,16 @@ export default function Hero() {
       className="justify-items-center h-[200vh]"
       id="gdz-hero"
     >
-      <div className="flex justify-between items-center bg-black border border-black-200 w-full p-20 rounded-xl">
-        <div className="flex flex-col gap-4 ">
-          <h1 className="font-mono text-4xl font-black text-left mb-0">
+      <div className="relative overflow-hidden flex justify-between items-center bg-black border border-black-200 w-full p-20 rounded-xl">
+        <iframe
+          src="https://my.spline.design/boxeshover-8253465a9b82c63ccc6f65f50d2f5f79/"
+          className="absolute top-0 left-0 w-full h-full select-none z-1"
+          height={1000}
+          width={1000}
+        />
+
+        <div className="flex flex-col gap-4 relative z-10 pointer-events-none">
+          <h1 className="font-mono text-4xl font-black text-center mb-0">
             {firstLine.split("").map((char, index) => (
               <motion.span
                 key={`${char}-${index}`}
@@ -40,7 +47,6 @@ export default function Hero() {
                 {char}
               </motion.span>
             ))}
-            <br />
             {secondLine.split("").map((char, index) => (
               <motion.span
                 key={`${char}-${index}`}
@@ -54,28 +60,26 @@ export default function Hero() {
               </motion.span>
             ))}
           </h1>
-          <p className="font-sans text-gray-500 text-sm mt-6 mb-0">
+          <motion.p
+            className="font-sans text-gray-500 text-sm mt-6 mb-0"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+          >
             Experience latest algorithmic trading technologies
             <br />
             with a super simple user interface.
-          </p>
+          </motion.p>
 
-          <Button
-            link="#"
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4 }}
             className="mt-6"
           >
-            Explore
-          </Button>
+            <Button link="#">Explore</Button>
+          </motion.div>
         </div>
-
-        <Image
-          src="/assets/img/home/swift.png"
-          alt="Swift"
-          width={300}
-          height={300}
-          draggable={false}
-          className="select-none"
-        />
       </div>
     </div>
   )
