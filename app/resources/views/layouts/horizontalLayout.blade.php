@@ -306,10 +306,6 @@
     </div>
     <!-- / Layout Container -->
 
-
-    <div class="gdz-sidebar-trade-wrapper">
-    </div>
-
     @if ($isMenu)
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
