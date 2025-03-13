@@ -1,0 +1,6 @@
+#gdz-header {
+  background-color: #03030395;
+  backdrop-filter: saturate(180%) blur(4px);
+  -webkit-backdrop-filter: saturate(180%) blur(5px);
+  z-index: 1000;
+}
