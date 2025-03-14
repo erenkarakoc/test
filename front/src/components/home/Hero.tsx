@@ -34,7 +34,7 @@ export default function Hero() {
         />
 
         <div className="flex flex-col gap-4 relative z-10 pointer-events-none">
-          <h1 className="font-mono text-4xl font-black text-center mb-0">
+          <h1 className="font-mono text-4xl font-black text-left mb-0">
             {firstLine.split("").map((char, index) => (
               <motion.span
                 key={`${char}-${index}`}
@@ -47,6 +47,7 @@ export default function Hero() {
                 {char}
               </motion.span>
             ))}
+            <br />
             {secondLine.split("").map((char, index) => (
               <motion.span
                 key={`${char}-${index}`}
@@ -75,7 +76,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4 }}
-            className="mt-6"
+            className="mt-6 pointer-events-all"
           >
             <Button link="#">Explore</Button>
           </motion.div>
