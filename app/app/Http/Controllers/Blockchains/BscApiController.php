@@ -18,7 +18,7 @@ class BscApiController {
     protected $endpoint;
 
     public function __construct() {
-        $this->endpoint = 'https://bsc-testnet.core.chainstack.com/11d764ea62d85653c4fefa228b9120c8/';
+        $this->endpoint = 'https://bsc-testnet.core.chainstack.com/9a87b5cf44f5c2d0eed5d57a3d376843';
         $this->client   = new Client();
     }
 
@@ -143,6 +143,7 @@ class BscApiController {
                 'params'  => [$signedTxHex],
             ],
         ]);
+
         $sendBody = json_decode($responseSend->getBody(), true);
 
         $transactionHash = $sendBody['result'];
@@ -160,8 +161,6 @@ class BscApiController {
         $transactionController = new TransactionController;
 
         if (! isset($existingTransaction)) {
-            $type             = $type;
-            $amount           = $amount;
             $marketDataPrices = View::getShared()['marketDataPrices'];
             $tnx_id           = mt_rand(10000000, 99999999);
 
