@@ -321,7 +321,7 @@
                     </div>
                     <div class="d-flex justify-content-start w-100 text-start mt-3">
                       <small class="text-muted">
-                        Realized P&L: ${isProfit ? '+' : '-'}${tradeInfo.profit_rate}%
+                        Realized P&L: ${isProfit ? '+' : '-'}${window.formatUsdBalance(tradeInfo.profit_rate)}%
                       </small>
                     </div>
                   </div>`;
@@ -346,7 +346,7 @@
 
         const tradeItemHtml = `
             <div class="transaction-item trade-transaction-item${isCompleted ? ' trade-item-has-detail' : ''}"
-                 data-tnx-id="${trade.tnx_id}" 
+                 data-tnx-id="${trade.tnx_id}"
                  data-trade-info='${trade.trade_info}' data-pack-id='${trade.locked_pack_id}'>
               <div class="d-flex align-items-start">
                 <div class="transaction-item-icon">
@@ -532,6 +532,4 @@
       item.classList.remove('active');
     }
   });
-
-  console.log(window);
 })();

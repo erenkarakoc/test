@@ -537,7 +537,7 @@
                         <div class="d-flex justify-content-start w-100 text-start mt-3">
                           <small class="text-muted">
                             Realized P&L:
-                            {{ $trade->amount_in_usd > 0 ? '+' : '-' }}{{ json_decode($trade->trade_info, true)['profit_rate'] }}%
+                            {{ $trade->amount_in_usd > 0 ? '+' : '-' }}{{ formatUsdBalance(json_decode($trade->trade_info, true)['profit_rate']) }}%
                           </small>
                         </div>
                       </div>
