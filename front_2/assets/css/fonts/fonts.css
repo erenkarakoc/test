@@ -1,0 +1,53 @@
+:root {
+  --basier-circle: "Basier Circle", sans-serif;
+}
+
+@font-face {
+  font-family: "Basier Circle";
+  src: url("./basier-circle/BasierCircle-Regular.woff2") format("woff2"),
+    url("./basier-circle/BasierCircle-Regular.woff") format("woff"),
+    url("./basier-circle/BasierCircle-Regular.ttf") format("truetype"),
+    url("./basier-circle/BasierCircle-Regular.eot") format("embedded-opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle";
+  src: url("./basier-circle/BasierCircle-Italic.woff2") format("woff2"),
+    url("./basier-circle/BasierCircle-Italic.woff") format("woff"),
+    url("./basier-circle/BasierCircle-Italic.ttf") format("truetype"),
+    url("./basier-circle/BasierCircle-Italic.eot") format("embedded-opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle";
+  src: url("./basier-circle/BasierCircle-Medium.woff2") format("woff2"),
+    url("./basier-circle/BasierCircle-Medium.woff") format("woff"),
+    url("./basier-circle/BasierCircle-Medium.ttf") format("truetype"),
+    url("./basier-circle/BasierCircle-Medium.eot") format("embedded-opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle";
+  src: url("./basier-circle/BasierCircle-SemiBold.woff2") format("woff2"),
+    url("./basier-circle/BasierCircle-SemiBold.woff") format("woff"),
+    url("./basier-circle/BasierCircle-SemiBold.ttf") format("truetype"),
+    url("./basier-circle/BasierCircle-SemiBold.eot") format("embedded-opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle";
+  src: url("./basier-circle/BasierCircle-Bold.woff2") format("woff2"),
+    url("./basier-circle/BasierCircle-Bold.woff") format("woff"),
+    url("./basier-circle/BasierCircle-Bold.ttf") format("truetype"),
+    url("./basier-circle/BasierCircle-Bold.eot") format("embedded-opentype");
+  font-weight: 700;
+  font-style: normal;
+}
