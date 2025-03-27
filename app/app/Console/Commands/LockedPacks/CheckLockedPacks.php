@@ -132,6 +132,12 @@ class CheckLockedPacks extends Command
         $executingPack->status = 'completed';
         $executingPack->save();
 
+        $userUsdBalance = UserBalances::where('user_id', $executingPack->user_id)->where('wallet', 'USD')->first();
+
+        $userUsdBalance->balance += $executingPack->amount;
+        $userUsdBalance->locked_balance -= $executingPack->amount;
+        $userUsdBalance->save();
+
         continue;
       }
 
